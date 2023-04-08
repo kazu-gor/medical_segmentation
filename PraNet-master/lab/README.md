@@ -1,0 +1,12 @@
+code_count
+石灰化の数を数えたりなどのコード
+
+code_data_augment
+data_augment系のコード
+
+code_data_split
+実験のときのdataを分けるコード
+
+code_pratest
+旧型のテスト
+参考程度でおいてある
