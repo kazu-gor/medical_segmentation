@@ -9,6 +9,11 @@
 /TransFuse/fig/*
 /TransFuse/roc_curve/*
 
+/PraNet-master/dataset/*
+
+/mae/dataset/*
+/mae/dataset2/*
+
 __pycache__
 core
 .idea
