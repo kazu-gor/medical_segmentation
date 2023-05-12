@@ -202,6 +202,9 @@ if __name__ == '__main__':
     opt = parser.parse_args()
     print("Tuning:", opt.tuning)
     print('MTL:', opt.mtl)
+    print('train save:', opt.train_save)
+    print('train path:', opt.train_path)
+    print('val   path:', opt.val_path)
 
     # ---- build models ----
 

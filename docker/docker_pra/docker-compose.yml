@@ -1,0 +1,22 @@
+version: '2.3'
+services:
+  dev:
+    container_name: pra
+    image: pra/pytorch-py3:v1.0
+    runtime: nvidia
+    working_dir: /home/student/src2/プログラム/PraNet-master
+    volumes:
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        - /home/student/src2/プログラム/PraNet-master:/home/student/src2/プログラム/PraNet-master
+    environment:
+        - DISPLAY=unix$DISPLAY
+        - TERM=xterm-256color
+        - NB_UID:1002
+        - NB_GID:1002
+        - GRANT_SUDO:"yes"
+
+    ulimits:
+        memlock: -1
+        stack: 67108864
+    shm_size: 1g
+    tty: true

@@ -115,17 +115,17 @@ parser.add_argument('--pth_path2', type=str,
                     default='./snapshots/Transfuse_S/Discriminator-best.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best2.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/mtl/nash/Tuning/TransCaraNet/Discriminator-best.pth')
+parser.add_argument('--test_path1', type=str, default='./dataset/TestDataset', help='path to test dataset')
+parser.add_argument('--test_path2', type=str, default='./dataset/sekkai_TestDataset', help='path to test dataset')
+parser.add_argument('--save_path', type=str, default='./results/Transfuse_S/', help='path to result')
 
 
-data_path1 = './dataset/TestDataset/'
-# data_path = './dataset/ValDataset/'
-data_path2 = './dataset/sekkai_TestDataset/'
-# data_path = './dataset/sekkai_ValDataset/'
-
-
-save_path = './results/Transfuse_S/'
 opt = parser.parse_args()
 
+data_path1 = opt.test_path1
+data_path2 = opt.test_path2
+
+save_path = opt.save_path
 
 model = Trans_CaraNet_L()
 model.load_state_dict(torch.load(opt.pth_path))
