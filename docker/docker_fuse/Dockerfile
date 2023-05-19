@@ -16,9 +16,15 @@ ARG NUM_CPUS_FOR_BUILD=4
 
 #RUN sed -i.bak -e "s%http://archive.ubuntu.com/ubuntu/%http://ftp.jaist.ac.jp/pub/Linux/ubuntu/%g" /etc/apt/sources.list
 
+RUN apt-get update -y
+RUN apt-get install -y libgl1-mesa-dev
 
+RUN apt-get -y clean all
+RUN rm -rf /var/lib/apt/lists/*
 
 # Install some useful and machine/deep-learning-related packages for Python3.
+RUN pip install --upgrade pip
+RUN pip install --upgrade setuptools
 RUN pip install \
     opencv-python==4.6.0.66 \
 	opencv-python-headless==4.6.0.66 \
@@ -39,6 +45,7 @@ RUN pip install \
 ENV USER student 
 ENV HOME /home/${USER}
 ENV SHELL /bin/bash
+ENV DISPLAY :10
 #
 RUN groupadd -g 1002 student
 RUN useradd -g 1002 -u 1002 -m -s /bin/bash ${USER}
