@@ -6,11 +6,8 @@ import argparse
 from datetime import datetime
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
-
 from lib.Discriminator_ResNet import Discriminator
-
-
-# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+# TODO Add pre-processing model import
 
 from utils.weight_methods import WeightMethods
 from utils.mtl import extract_weight_method_parameters_from_args
