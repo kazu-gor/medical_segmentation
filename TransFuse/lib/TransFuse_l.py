@@ -6,11 +6,11 @@ from torch.nn import CrossEntropyLoss, Dropout, Softmax, Linear, Conv2d, LayerNo
 import torch.nn.functional as F
 import numpy as np
 import math
-from timm.models.layers import DropPath, to_2tuple, trunc_normal_
+from timm.models.layers import DropPath, set_layer_config, to_2tuple, trunc_normal_
 
 import timm
 
-assert timm.__version__ == "0.3.2" # version check
+# assert timm.__version__ == "0.3.2" # version check
 
 from lib.models_vit import vit_large_patch16 as vit_large
 

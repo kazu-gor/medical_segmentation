@@ -1,6 +1,7 @@
 import argparse
 import glob
 import os
+import json
 
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import roc_curve, roc_auc_score
@@ -28,9 +29,9 @@ from utils.dataloader import test_dataset
 from skimage import img_as_ubyte
 import glob
 
-import sys
-sys.path.append('../../git/laboratory/python/py/tools/')
-from slack_bot import Slack_bot
+# import sys
+# sys.path.append('../../git/laboratory/python/py/tools/')
+# from slack_bot import Slack_bot
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -103,24 +104,29 @@ parser.add_argument('--testsize', type=int, default=352, help='testing size')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-99.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-59.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-24.pth')
-parser.add_argument('--pth_path', type=str,
-                    default='./snapshots/Transfuse_S/Transfuse-best.pth')
+# parser.add_argument('--pth_path', type=str,
+#                     default='./snapshots/Transfuse_S/Transfuse-best.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-best2.pth')
-# parser.add_argument('--pth_path', type=str, default='./weights/修論/mtl/nash/Tuning/TransCaraNet/Transfuse-best.pth')
+parser.add_argument('--pth_path', type=str, default='./weights/修論/mtl/nash/Tuning/TransCaraNet/Transfuse-best.pth')
 
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-99.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-59.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-24.pth')
-parser.add_argument('--pth_path2', type=str,
-                    default='./snapshots/Transfuse_S/Discriminator-best.pth')
+# parser.add_argument('--pth_path2', type=str,
+#                     default='./snapshots/Transfuse_S/Discriminator-best.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best2.pth')
-# parser.add_argument('--pth_path2', type=str, default='./weights/修論/mtl/nash/Tuning/TransCaraNet/Discriminator-best.pth')
+parser.add_argument('--pth_path2', type=str, default='./weights/修論/mtl/nash/Tuning/TransCaraNet/Discriminator-best.pth')
+
 parser.add_argument('--test_path1', type=str, default='./dataset/TestDataset', help='path to test dataset')
 parser.add_argument('--test_path2', type=str, default='./dataset/sekkai_TestDataset', help='path to test dataset')
+
 parser.add_argument('--save_path', type=str, default='./results/Transfuse_S/', help='path to result')
 
 
 opt = parser.parse_args()
+
+for arg_name, value in vars(opt).items():
+    print(f'{arg_name}: {value}')
 
 data_path1 = opt.test_path1
 data_path2 = opt.test_path2
@@ -146,19 +152,19 @@ model2.cuda()
 model2.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob(f'{save_path}/*.png'):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TP/*.png'):
+os.makedirs(f'{save_path}/TP', exist_ok=True)
+for file in glob.glob(f'{save_path}/TP/*.png'):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FN/*.png'):
+os.makedirs(f'{save_path}/FN', exist_ok=True)
+for file in glob.glob(f'{save_path}/FN/*.png'):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FP/*.png'):
+os.makedirs(f'{save_path}/FP', exist_ok=True)
+for file in glob.glob(f'{save_path}/FP/*.png'):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TN/*.png'):
+os.makedirs(f'{save_path}/TN', exist_ok=True)
+for file in glob.glob(f'{save_path}/TN/*.png'):
     os.remove(file)
 image_root1 = '{}/images/'.format(data_path1)
 gt_root1 = '{}/masks/'.format(data_path1)
@@ -176,7 +182,9 @@ y_true = np.array([])
 y_score = np.array([])
 y_pred = np.array([])
 
+
 for i in range(test_loader1.size):
+    out_transcaranet = {}
     image, gt, name = test_loader1.load_data()
     label = transforms.functional.to_tensor(gt)
     label = torch.einsum("ijk->i", label) > 0
@@ -206,6 +214,10 @@ for i in range(test_loader1.size):
         # res = res.sigmoid()  #########################
         # res = 1. * (res > 0.5)  ############################
         # res = res * image
+
+        out_transcaranet[name] = res.tolist()
+        with open(save_path + 'out_transcaranet.json', 'a') as f:
+            json.dump(out_transcaranet, f)
 
         out = model2(res)
         # out = model2(res, image)
@@ -275,7 +287,7 @@ print("FN:", FN)
 print("FP:", FP)
 print("TN:", TN)
 
-slack = Slack_bot()
+# slack = Slack_bot()
 
 if TP != 0:
     accuracy = accuracy_score(y_true, y_pred)
@@ -292,14 +304,17 @@ if TP != 0:
 
     output_text_1 = f"----------discriminator-----------\nAccuracy: {accuracy}\nF-measuer: {F_measure}\n\n"
 
-fpr, tpr, thresholds = roc_curve(y_true, y_score)
+try:
+    fpr, tpr, thresholds = roc_curve(y_true, y_score)
 
-plt.plot(fpr, tpr)
+    plt.plot(fpr, tpr)
 
-plt.xlabel('FPR: False positive rate')
-plt.ylabel('TPR: True positive rate')
-plt.grid()
-plt.savefig('./fig/roc_curve.png')
+    plt.xlabel('FPR: False positive rate')
+    plt.ylabel('TPR: True positive rate')
+    plt.grid()
+    plt.savefig('./fig/roc_curve.png')
+except Exception as e:
+    print(e)
 
 AUC = roc_auc_score(y_true, y_score)
 print("AUC:", AUC)
@@ -332,7 +347,7 @@ if TP != 0:
     print("recall:", recall)
     print("specificity:", specificity)
 
-    slack(output_text_1 +
-          "----------cutoff-----------\n"
-          f"Accuracy: {accuracy}\n"
-          f"F-measuer: {F_measure}\n")
+    # slack(output_text_1 +
+          # "----------cutoff-----------\n"
+          # f"Accuracy: {accuracy}\n"
+          # f"F-measuer: {F_measure}\n")

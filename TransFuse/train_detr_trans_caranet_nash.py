@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 import torchvision.models as torch_model
 from utils.smooth_cross_entropy import SmoothCrossEntropy
 
-sys.path.append('../../laboratory/python/py')
-from detr.models import build_model
+# detr
+from models import build_model
 
 
 def structure_loss(pred, mask):
@@ -39,6 +39,13 @@ def structure_loss(pred, mask):
     union = ((pred + mask) * weit).sum(dim=(2, 3))
     wiou = 1 - (inter + 1) / (union - inter + 1)
     return (wbce + wiou).mean()
+
+
+def box_cxcywh_to_xyxy(x):
+    x_c, y_c, w, h = x.unbind(-1)
+    b = [(x_c - 0.5 * w), (y_c - 0.5 * h),
+         (x_c + 0.5 * w), (y_c + 0.5 * h)]
+    return torch.stack(b, dim=-1)
 
 
 def train(dataloaders_dict, models, optimizer, disc_criterion, detr_criterion,
@@ -61,7 +68,7 @@ def train(dataloaders_dict, models, optimizer, disc_criterion, detr_criterion,
             for rate in size_rates:
                 optimizer.zero_grad()
                 # d_optimizer.zero_grad()
-                images, gts = pack
+                images, gts, anno = pack
                 labels = torch.einsum("ijkl->i", gts) > 0
 
                 labels = torch.where(
@@ -71,6 +78,7 @@ def train(dataloaders_dict, models, optimizer, disc_criterion, detr_criterion,
 
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
+                anno = {k: Variable(v).cuda() for k, v in anno.items()}
                 labels = Variable(labels).cuda()
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
@@ -81,7 +89,22 @@ def train(dataloaders_dict, models, optimizer, disc_criterion, detr_criterion,
                         trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     ########################################
-                    # TODO preprocessing: Image cropping process
+                    # preprocessing: Image cropping process
+                    outputs = models['Preprocessor'](images)
+                    loss_dict = detr_criterion(outputs, anno)
+                    weight_dict = detr_criterion.weight_dict
+                    losses = sum(loss_dict[k] * weight_dict[k] for k in loss_dict.keys() if k in weight_dict)
+
+                    scores = torch.tensor(outputs['pred_logits']).softmax(-1)[..., :-1].max(-1)[0]
+                    keep = scores >= torch.max(scores)
+
+                    pred_bbox = box_cxcywh_to_xyxy(torch.tensor(outputs['pred_bbox'])) * height
+                    pred_bbox = pred_bbox[keep].to(torch.int64).clamp(min=0, max=img.shape[0])
+
+                    images = images[pred_bbox[1]: pred_bbox[3],
+                                    pred_bbox[0]: pred_bbox[2]]
+                    gts = gts[pred_bbox[1]: pred_bbox[3],
+                              pred_bbox[0]: pred_bbox[2]]
                     ########################################
 
                     # ---- forward ----
@@ -236,106 +259,104 @@ if __name__ == '__main__':
     # parser.add_argument('--mtl', type=str, default='rlw')
     # parser.add_argument('--mtl', type=str, default='stl')
 
-    opt = parser.parse_args()
     ##########################################################
     # Preprocessor
-    parser2 = argparse.ArgumentParser()
-    parser2.add_argument('--lr', default=1e-4, type=float)
-    parser2.add_argument('--lr_backbone', default=1e-5, type=float)
-    parser2.add_argument('--batch_size', default=2, type=int)
-    parser2.add_argument('--weight_decay', default=1e-4, type=float)
-    parser2.add_argument('--epochs', default=300, type=int)
-    parser2.add_argument('--lr_drop', default=200, type=int)
-    parser2.add_argument('--clip_max_norm', default=0.1, type=float,
+    parser.add_argument('--lr', default=1e-4, type=float)
+    parser.add_argument('--lr_backbone', default=1e-5, type=float)
+    parser.add_argument('--batch_size', default=2, type=int)
+    parser.add_argument('--weight_decay', default=1e-4, type=float)
+    parser.add_argument('--epochs', default=300, type=int)
+    parser.add_argument('--lr_drop', default=200, type=int)
+    parser.add_argument('--clip_max_norm', default=0.1, type=float,
                         help='gradient clipping max norm')
 
     # Model parameters
-    parser2.add_argument('--frozen_weights', type=str, default=None,
+    parser.add_argument('--frozen_weights', type=str, default=None,
                         help="Path to the pretrained model. If set, only the mask head will be trained")
     # * Backbone
-    parser2.add_argument('--backbone', default='resnet50', type=str,
+    parser.add_argument('--backbone', default='resnet50', type=str,
                         help="Name of the convolutional backbone to use")
-    parser2.add_argument('--dilation', action='store_true',
+    parser.add_argument('--dilation', action='store_true',
                         help="If true, we replace stride with dilation in the last convolutional block (DC5)")
-    parser2.add_argument('--position_embedding', default='sine', type=str, choices=('sine', 'learned'),
+    parser.add_argument('--position_embedding', default='sine', type=str, choices=('sine', 'learned'),
                         help="Type of positional embedding to use on top of the image features")
 
     # * Transformer
-    parser2.add_argument('--enc_layers', default=6, type=int,
+    parser.add_argument('--enc_layers', default=6, type=int,
                         help="Number of encoding layers in the transformer")
-    parser2.add_argument('--dec_layers', default=6, type=int,
+    parser.add_argument('--dec_layers', default=6, type=int,
                         help="Number of decoding layers in the transformer")
-    parser2.add_argument('--dim_feedforward', default=2048, type=int,
+    parser.add_argument('--dim_feedforward', default=2048, type=int,
                         help="Intermediate size of the feedforward layers in the transformer blocks")
-    parser2.add_argument('--hidden_dim', default=256, type=int,
+    parser.add_argument('--hidden_dim', default=256, type=int,
                         help="Size of the embeddings (dimension of the transformer)")
-    parser2.add_argument('--dropout', default=0.1, type=float,
+    parser.add_argument('--dropout', default=0.1, type=float,
                         help="Dropout applied in the transformer")
-    parser2.add_argument('--nheads', default=8, type=int,
+    parser.add_argument('--nheads', default=8, type=int,
                         help="Number of attention heads inside the transformer's attentions")
-    parser2.add_argument('--num_queries', default=100, type=int,
+    parser.add_argument('--num_queries', default=100, type=int,
                         help="Number of query slots")
-    parser2.add_argument('--pre_norm', action='store_true')
+    parser.add_argument('--pre_norm', action='store_true')
 
     # * Segmentation
-    parser2.add_argument('--masks', action='store_true',
+    parser.add_argument('--masks', action='store_true',
                         help="Train segmentation head if the flag is provided")
 
     # Loss
-    parser2.add_argument('--no_aux_loss', dest='aux_loss', action='store_false',
+    parser.add_argument('--no_aux_loss', dest='aux_loss', action='store_false',
                         help="Disables auxiliary decoding losses (loss at each layer)")
     # * Matcher
-    parser2.add_argument('--set_cost_class', default=1, type=float,
+    parser.add_argument('--set_cost_class', default=1, type=float,
                         help="Class coefficient in the matching cost")
-    parser2.add_argument('--set_cost_bbox', default=5, type=float,
+    parser.add_argument('--set_cost_bbox', default=5, type=float,
                         help="L1 box coefficient in the matching cost")
-    parser2.add_argument('--set_cost_giou', default=2, type=float,
+    parser.add_argument('--set_cost_giou', default=2, type=float,
                         help="giou box coefficient in the matching cost")
     # * Loss coefficients
-    parser2.add_argument('--mask_loss_coef', default=1, type=float)
-    parser2.add_argument('--dice_loss_coef', default=1, type=float)
-    parser2.add_argument('--bbox_loss_coef', default=5, type=float)
-    parser2.add_argument('--giou_loss_coef', default=2, type=float)
-    parser2.add_argument('--eos_coef', default=0.1, type=float,
+    parser.add_argument('--mask_loss_coef', default=1, type=float)
+    parser.add_argument('--dice_loss_coef', default=1, type=float)
+    parser.add_argument('--bbox_loss_coef', default=5, type=float)
+    parser.add_argument('--giou_loss_coef', default=2, type=float)
+    parser.add_argument('--eos_coef', default=0.1, type=float,
                         help="Relative classification weight of the no-object class")
 
     # dataset parameters
-    parser2.add_argument('--dataset_file', default='coco')
+    parser.add_argument('--dataset_file', default='coco')
     ##########################################
-    parser2.add_argument('--panorama_path', type=str)
-    parser2.add_argument('--sekkai', action='store_true',
+    parser.add_argument('--panorama_path', type=str)
+    parser.add_argument('--sekkai', action='store_true',
                         help='whether to use the data set with calcification only')
     ##########################################
-    parser2.add_argument('--coco_path', type=str)
-    parser2.add_argument('--coco_panoptic_path', type=str)
-    parser2.add_argument('--remove_difficult', action='store_true')
+    parser.add_argument('--coco_path', type=str)
+    parser.add_argument('--coco_panoptic_path', type=str)
+    parser.add_argument('--remove_difficult', action='store_true')
 
-    parser2.add_argument('--output_dir', default='',
+    parser.add_argument('--output_dir', default='',
                         help='path where to save, empty for no saving')
-    parser2.add_argument('--device', default='cuda',
+    parser.add_argument('--device', default='cuda',
                         help='device to use for training / testing')
-    parser2.add_argument('--seed', default=42, type=int)
-    parser2.add_argument('--resume', default='', help='resume from checkpoint')
-    parser2.add_argument('--start_epoch', default=0, type=int, metavar='N',
+    parser.add_argument('--seed', default=42, type=int)
+    parser.add_argument('--resume', default='', help='resume from checkpoint')
+    parser.add_argument('--start_epoch', default=0, type=int, metavar='N',
                         help='start epoch')
-    parser2.add_argument('--eval', action='store_true')
-    parser2.add_argument('--num_workers', default=2, type=int)
+    parser.add_argument('--eval', action='store_true')
+    parser.add_argument('--num_workers', default=2, type=int)
 
     # distributed training parameters
-    parser2.add_argument('--world_size', default=1, type=int,
+    parser.add_argument('--world_size', default=1, type=int,
                         help='number of distributed processes')
-    parser2.add_argument('--dist_url', default='env://',
+    parser.add_argument('--dist_url', default='env://',
                         help='url used to set up distributed training')
 
     # model weights
-    # parser2.add_argument('--model_weights_path', default=None, type=str)
+    # parser.add_argument('--model_weights_path', default=None, type=str)
 
     # kind of transformer
-    parser2.add_argument('--transformer', default='default', type=str,
+    parser.add_argument('--transformer', default='default', type=str,
                         choices=['default', 'cotr'],
                         help='choose cotr or default')
-    opt2 = parser.parse_args()
 
+    opt = parser.parse_args()
 
 
     print("Tuning:", opt.tuning)
@@ -363,7 +384,8 @@ if __name__ == '__main__':
 
     ##################################
     # model3
-    model3, detr_criterion, _ = build_model(opt2)
+    model3, detr_criterion, _ = build_model(opt)
+    model3.cuda()
     ##################################
 
     models = {
@@ -413,11 +435,13 @@ if __name__ == '__main__':
     gt_root_val = '{}/masks/'.format(opt.val_path)
 
     train_loader = get_loader(
-        image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+        image_root, gt_root, batchsize=opt.batchsize,
+        trainsize=opt.trainsize)
     total_step = len(train_loader)
 
-    val_loader = get_loader(image_root_val, gt_root_val,
-                            batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_loader(
+        image_root_val, gt_root_val, batchsize=opt.batchsize,
+        trainsize=opt.trainsize, phase='val')
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 

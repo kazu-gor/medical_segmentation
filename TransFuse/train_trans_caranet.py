@@ -57,8 +57,6 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
 
-
-
                     loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
                     # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
 

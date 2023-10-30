@@ -44,7 +44,8 @@ class WeightMethod:
         last_shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
-        representation: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
+        representation: Union[List[torch.nn.parameter.Parameter],
+                              torch.Tensor] = None,
         **kwargs,
     ) -> Tuple[Union[torch.Tensor, None], Union[dict, None]]:
         """
@@ -123,7 +124,8 @@ class NashMTL(WeightMethod):
             (self.alpha_param.value is None)
             or (np.linalg.norm(gtg @ alpha_t - 1 / (alpha_t + 1e-10)) < 1e-3)
             or (
-                np.linalg.norm(self.alpha_param.value - self.prvs_alpha_param.value)
+                np.linalg.norm(self.alpha_param.value -
+                               self.prvs_alpha_param.value)
                 < 1e-6
             )
         )
@@ -154,7 +156,8 @@ class NashMTL(WeightMethod):
 
     def _calc_phi_alpha_linearization(self):
         G_prvs_alpha = self.G_param @ self.prvs_alpha_param
-        prvs_phi_tag = 1 / self.prvs_alpha_param + (1 / G_prvs_alpha) @ self.G_param
+        prvs_phi_tag = 1 / self.prvs_alpha_param + \
+            (1 / G_prvs_alpha) @ self.G_param
         phi_alpha = prvs_phi_tag @ (self.alpha_param - self.prvs_alpha_param)
         return phi_alpha
 
@@ -230,6 +233,23 @@ class NashMTL(WeightMethod):
 
                 grads[i] = grad
 
+            #####################
+            # g1_g1 = torch.dot(grads[0].t(), grads[0])
+            # g2_g2 = torch.dot(grads[1].t(), grads[1])
+            # g1_g2 = torch.dot(grads[0].t(), grads[1])
+            # g2_g1 = torch.dot(grads[1].t(), grads[0])
+
+            # alpha_1 = torch.sqrt(
+            #     torch.sqrt(g2_g2) / (g1_g1 * torch.sqrt(g2_g2) +
+            #                          g1_g2 * torch.sqrt(g1_g1))
+            # )
+            # alpha_2 = torch.sqrt(
+            #     torch.sqrt(g1_g1) / (g2_g1 * torch.sqrt(g2_g2) +
+            #                          g2_g2 * torch.sqrt(g1_g1))
+            # )
+            # alpha = torch.tensor([alpha_1, alpha_2])
+            #####################
+
             G = torch.stack(tuple(v for v in grads.values()))
             GTG = torch.mm(G, G.t())
 
@@ -260,7 +280,8 @@ class NashMTL(WeightMethod):
         last_shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
-        representation: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
+        representation: Union[List[torch.nn.parameter.Parameter],
+                              torch.Tensor] = None,
         **kwargs,
     ) -> Tuple[Union[torch.Tensor, None], Union[Dict, None]]:
         loss, extra_outputs = self.get_weighted_loss(
@@ -424,7 +445,8 @@ class Uncertainty(WeightMethod):
 
     def __init__(self, n_tasks, device: torch.device):
         super().__init__(n_tasks, device=device)
-        self.logsigma = torch.tensor([0.0] * n_tasks, device=device, requires_grad=True)
+        self.logsigma = torch.tensor(
+            [0.0] * n_tasks, device=device, requires_grad=True)
 
     def get_weighted_loss(self, losses: torch.Tensor, **kwargs):
         loss = sum(
@@ -507,7 +529,8 @@ class PCGrad(WeightMethod):
                 )
                 if g_i_g_j < 0:
                     g_j_norm_square = (
-                        torch.norm(torch.cat([torch.flatten(g) for g in g_j])) ** 2
+                        torch.norm(torch.cat([torch.flatten(g)
+                                   for g in g_j])) ** 2
                     )
                     for grad_i, grad_j in zip(g_i, g_j):
                         grad_i -= g_i_g_j * grad_j / g_j_norm_square
@@ -521,7 +544,8 @@ class PCGrad(WeightMethod):
     def backward(
         self,
         losses: torch.Tensor,
-        parameters: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
+        parameters: Union[List[torch.nn.parameter.Parameter],
+                          torch.Tensor] = None,
         shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
@@ -586,10 +610,12 @@ class CAGrad(WeightMethod):
 
         def objfn(x):
             return (
-                x.reshape(1, self.n_tasks).dot(A).dot(b.reshape(self.n_tasks, 1))
+                x.reshape(1, self.n_tasks).dot(
+                    A).dot(b.reshape(self.n_tasks, 1))
                 + c
                 * np.sqrt(
-                    x.reshape(1, self.n_tasks).dot(A).dot(x.reshape(self.n_tasks, 1))
+                    x.reshape(1, self.n_tasks).dot(
+                        A).dot(x.reshape(self.n_tasks, 1))
                     + 1e-8
                 )
             ).sum()
@@ -641,7 +667,8 @@ class CAGrad(WeightMethod):
     def backward(
         self,
         losses: torch.Tensor,
-        parameters: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
+        parameters: Union[List[torch.nn.parameter.Parameter],
+                          torch.Tensor] = None,
         shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
@@ -772,7 +799,7 @@ class DynamicWeightAverage(WeightMethod):
         self.costs[-1, :] = cost
 
         if self.running_iterations > self.iteration_window:
-            ws = self.costs[self.iteration_window :, :].mean(0) / self.costs[
+            ws = self.costs[self.iteration_window:, :].mean(0) / self.costs[
                 : self.iteration_window, :
             ].mean(0)
             self.weights = (self.n_tasks * np.exp(ws / self.temp)) / (

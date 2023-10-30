@@ -26,7 +26,7 @@ from lib.TransFuse_l import TransFuse_L
 
 from lib.Discriminator_ResNet import Discriminator
 
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
 from utils.dataloader import test_dataset
 from skimage import img_as_ubyte
@@ -49,7 +49,8 @@ def mean_iou_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
+        np.sum(np.abs(y_pred), axis=axes)
     union = mask_sum - intersection
 
     smooth = .001
@@ -63,7 +64,8 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)  # W,H axes of each image
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
+        np.sum(np.abs(y_pred), axis=axes)
 
     smooth = .001
     dice = 2 * (intersection + smooth) / (mask_sum + smooth)
@@ -98,29 +100,36 @@ def imwrite(filename, img, params=None):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-99.pth')
-# parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-89.pth')
-# parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-best.pth')
+# parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-99.pth')
+# parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-59.pth')
+parser.add_argument('--pth_path', type=str,
+                    default='./snapshots/Transfuse_S/Transfuse-best.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-best2.pth')
 # parser.add_argument('--pth_path', type=str, default='./weights/修論/mtl/nash/NoTuning/TransFuse_discriminator/Transfuse-best.pth')
 # parser.add_argument('--pth_path', type=str, default='./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth')
 
-parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-99.pth')
-# parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-19.pth')
-# parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best.pth')
+# parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-99.pth')
+# parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-59.pth')
+parser.add_argument('--pth_path2', type=str,
+                    default='./snapshots/Transfuse_S/Discriminator-best.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best2.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/mtl/nash/NoTuning/TransFuse_discriminator/Discriminator-best.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/discriminator_nash/TransFuse_discriminator/ResNet/Discriminator-59.pth')
+parser.add_argument('--save_path', type=str,
+                    default='./results/Transfuse_S/', help='path to result')
+parser.add_argument('--data_path1', type=str,
+                    default='./dataset/TestDataset/', help='path to dataset')
+parser.add_argument('--data_path2', type=str,
+                    default='./dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
 
-data_path1 = './dataset/TestDataset/'
-# data_path = './dataset/ValDataset/'
-data_path2 = './dataset/sekkai_TestDataset/'
-# data_path = './dataset/sekkai_ValDataset/'
 
-
-save_path = './results/Transfuse_S/'
 opt = parser.parse_args()
-# for ep in range(opt.epoch):
+save_path = opt.save_path
+data_path1 = opt.data_path1
+data_path2 = opt.data_path2
+
+for arg_name, value in vars(opt).items():
+    print(f'{arg_name}: {value}')
 
 model = TransFuse_L()
 model.load_state_dict(torch.load(opt.pth_path))
@@ -140,6 +149,10 @@ model2.cuda()
 model2.eval()
 
 os.makedirs(save_path, exist_ok=True)
+os.makedirs(save_path + 'TP', exist_ok=True)
+os.makedirs(save_path + 'FN', exist_ok=True)
+os.makedirs(save_path + 'FP', exist_ok=True)
+os.makedirs(save_path + 'TN', exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/*.png'):
     os.remove(file)
 os.makedirs('./results/Transfuse_S/TP', exist_ok=True)
@@ -184,13 +197,14 @@ for i in range(test_loader1.size):
     with torch.no_grad():
         _, _, res = model(image)
 
-        res1 = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+        res1 = F.upsample(res, size=gt.shape,
+                          mode='bilinear', align_corners=False)
         res1 = res1.sigmoid().data.cpu().numpy().squeeze()
         # print(torch.max(res),torch.min(res),torch.mean(res))
         # print(res1.max(),res1.min(),res1.mean())
 
         # res1 = (res1 - res1.min()) / (res1.max() - res1.min() + 1e-8)  ############################
-        res1 = 1. * (res1 > 0.5)  ############################
+        res1 = 1. * (res1 > 0.5)
         # print(res1.max(),res1.min(),res1.mean())
 
         imageio.imsave(save_path + name, img_as_ubyte(res1))
@@ -217,15 +231,12 @@ for i in range(test_loader1.size):
         if predicted == 1:
             imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
 
-
         else:
             imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
-
 
     else:
         if predicted == 1:
             imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
-
 
         else:
             imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
@@ -234,7 +245,7 @@ for i in range(test_loader2.size):
     image, gt, name = test_loader2.load_data()
     gt = np.asarray(gt, np.float32)
 
-    gt = 1. * (gt > 0.5)  ########################
+    gt = 1. * (gt > 0.5)
 
     image = image.cuda()
 
@@ -244,7 +255,7 @@ for i in range(test_loader2.size):
     res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
     # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
-    res = 1. * (res > 0.5)  ############################
+    res = 1. * (res > 0.5)
 
     dice = mean_dice_np(gt, res)
     iou = mean_iou_np(gt, res)
@@ -281,14 +292,19 @@ if TP != 0:
     print("recall:", recall)
     print("specificity:", specificity)
 
-fpr, tpr, thresholds = roc_curve(y_true, y_score)
+try:
+    fpr, tpr, thresholds = roc_curve(y_true, y_score)
 
-plt.plot(fpr, tpr)
+    fig = plt.figure()
+    plt.ioff()
+    plt.plot(fpr, tpr)
+    plt.xlabel('FPR: False positive rate')
+    plt.ylabel('TPR: True positive rate')
+    plt.grid()
+    plt.savefig('./fig/roc_curve.png')
 
-plt.xlabel('FPR: False positive rate')
-plt.ylabel('TPR: True positive rate')
-plt.grid()
-plt.savefig('./fig/roc_curve.png')
+except Exception as e:
+    print(e)
 
 AUC = roc_auc_score(y_true, y_score)
 print("AUC:", AUC)

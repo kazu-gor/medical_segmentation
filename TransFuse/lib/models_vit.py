@@ -109,6 +109,7 @@ def vit_large_patch16(pretrained=False, **kwargs):
 
         # print(checkpoint_model.keys()) # pthファイルのすべての重みkeyを表示
 
+        print('ViT Large Patch16: Try load pre-trained parameter:')
         print(msg)
         # IncompatibleKeys(missing_keys=[], unexpected_keys=[])はパラメータをロードした際に、
         # missing_keysは読み込んだpthファイルのモデルには存在しないが、ロード先のモデルには存在するパラメータ名
@@ -153,7 +154,7 @@ def vit_huge_patch14(pretrained=False, **kwargs):
         # load_state_dict()のstrictをFalseにすると，ロード側のパラメータを設定する際，ロードされる側にしか存在しないものを無視する
 
         # print(checkpoint_model.keys()) # pthファイルのすべての重みkeyを表示
-
+        print('ViT Large Patch14: Try load pre-trained parameter:')
         print(msg)
         # IncompatibleKeys(missing_keys=[], unexpected_keys=[])はパラメータをロードした際に、
         # missing_keysは読み込んだpthファイルのモデルには存在しないが、ロード先のモデルには存在するパラメータ名

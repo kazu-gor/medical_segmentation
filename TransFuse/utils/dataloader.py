@@ -8,6 +8,10 @@ import numpy as np
 import cv2
 import random
 import torch
+import sys
+
+# tools
+# from data_preprocessing import Mask2oneBbox
 
 
 class ImageTransform():
@@ -55,33 +59,45 @@ class PolypDataset(data.Dataset):
         self.filter_files()
         self.size = len(self.images)
 
+        # self.transform_anno = Mask2oneBbox(is_path=False)
+
         self._alpha = 0.2
 
-        self.transform = ImageTransform()
-        self.transform2 = get_augmentation()
+        # self.transform = ImageTransform()
+        # self.transform2 = get_augmentation()
         self.phase = phase
 
-        self.augmentations = [
-            albu.Rotate(limit=[-10, 10], p=1.0),
-            albu.ShiftScaleRotate(shift_limit=[-0.0625, 0.0625], scale_limit=[-0.1, 0.1], rotate_limit=[-30, 30],
-                                  interpolation=1, border_mode=4, value=None, mask_value=None, p=1.0),
-            albu.RandomBrightness(limit=0.2, p=1.0),
-            albu.RandomContrast(limit=0.2, p=1.0),
-            # albu.RandomBrightnessContrast(brightness_limit=0.5, contrast_limit=0.5, brightness_by_max=True, p=1.0),
-            albu.RandomGamma(gamma_limit=[50, 150], p=1.0),
-            # albu.RandomGridShuffle(grid=(2, 2), p=1.0),
-            # albu.CLAHE(clip_limit=4.0, tile_grid_size=(8, 8), p=1.0),
-            albu.RandomSizedCrop([300, 400], 416, 416, p=1.0),
-            # albu.CoarseDropout(max_holes=16, max_height=32, max_width=32, min_holes=1, min_height=8,
-            #                    min_width=8, fill_value=0, p=1.0)
-        ]
+        # self.augmentations = [
+        #     albu.Rotate(limit=[-10, 10], p=1.0),
+        #     albu.ShiftScaleRotate(shift_limit=[-0.0625, 0.0625], scale_limit=[-0.1, 0.1], rotate_limit=[-30, 30],
+        #                           interpolation=1, border_mode=4, value=None, mask_value=None, p=1.0),
+        #     albu.RandomBrightness(limit=0.2, p=1.0),
+        #     albu.RandomContrast(limit=0.2, p=1.0),
+        #     # albu.RandomBrightnessContrast(brightness_limit=0.5, contrast_limit=0.5, brightness_by_max=True, p=1.0),
+        #     albu.RandomGamma(gamma_limit=[50, 150], p=1.0),
+        #     # albu.RandomGridShuffle(grid=(2, 2), p=1.0),
+        #     # albu.CLAHE(clip_limit=4.0, tile_grid_size=(8, 8), p=1.0),
+        #     albu.RandomSizedCrop([300, 400], 416, 416, p=1.0),
+        #     # albu.CoarseDropout(max_holes=16, max_height=32, max_width=32, min_holes=1, min_height=8,
+        #     #                    min_width=8, fill_value=0, p=1.0)
+        # ]
+
+        self.RandomSizedCrop = albu.RandomSizedCrop(
+                min_max_height=[
+                    int(trainsize/5),
+                    int(trainsize/3)
+                ],
+                height=trainsize,
+                width=trainsize,
+                w2h_ratio=3,
+                p=1.0),
 
         self.transform3 = albu.Compose(
             [
-                albu.ShiftScaleRotate(shift_limit=0.15, scale_limit=0.15, rotate_limit=25, p=0.5, border_mode=0),
+                albu.ShiftScaleRotate(shift_limit=0.15, scale_limit=0.15,
+                                      rotate_limit=25, p=0.5, border_mode=0),
                 albu.ColorJitter(),
                 albu.HorizontalFlip(),
-                # albu.VerticalFlip()
             ]
         )
 
@@ -90,6 +106,7 @@ class PolypDataset(data.Dataset):
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406],
                                  [0.229, 0.224, 0.225])])
+
         self.gt_transform = transforms.Compose([
             transforms.Resize((self.trainsize, self.trainsize)),
             transforms.ToTensor()])
@@ -98,29 +115,20 @@ class PolypDataset(data.Dataset):
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
         if self.phase == 'train':
-            # if random.random() < 1.0:
-            #     image, gt = self._apply_mixup(image, gt, index)
-
-            # if random.random() < 1.0:
-            #     image, gt = self.cutmix(image, gt, index)
 
             image = np.array(image)
             gt = np.array(gt)
 
-            # image, gt = self.augment_and_mix(image, gt)
-
-            # augmented = self.transform2(image=image, mask=gt)
             augmented = self.transform3(image=image, mask=gt)
-
             image, gt = augmented['image'], augmented['mask']
+
             image = Image.fromarray(image)
             gt = Image.fromarray(gt)
+
             image = image.convert('RGB')
             gt = gt.convert('L')
 
-        # image, gt = self.transform(image, gt, phase=self.phase)
         image = self.img_transform(image)
-
         gt = self.gt_transform(gt)
         return image, gt
 

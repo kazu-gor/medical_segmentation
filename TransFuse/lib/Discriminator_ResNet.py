@@ -21,7 +21,6 @@ class Discriminator(nn.Module):
 
         # self.conv_block1 = Conv_block(3, 32)
 
-
         self.l1 = nn.Linear(in_features=2048, out_features=2, bias=False)
         # self.l1 = nn.Linear(in_features=49, out_features=64, bias=False)
         # self.relu = nn.ReLU(inplace=True)
@@ -35,7 +34,6 @@ class Discriminator(nn.Module):
         self.av1 = nn.AdaptiveAvgPool2d((1, 1))
         # self.av2 = nn.AdaptiveAvgPool2d((1, 1))
         # self.av1 = nn.AvgPool2d(ih // 32, 1)
-
 
     def forward(self, x):
         x = self.resnet.conv1(x)  # torch.Size([16, 64, 192, 192])
@@ -89,6 +87,7 @@ class Conv_block(nn.Module):
 
         return x
 
+
 class Squeeze_Excite_block(nn.Module):
     def __init__(self, out_channels):
         super(Squeeze_Excite_block, self).__init__()
@@ -97,9 +96,11 @@ class Squeeze_Excite_block(nn.Module):
                                kernel_size=1, stride=1,
                                padding=0, dilation=1, bias=False)
         self.av1 = nn.AdaptiveAvgPool2d(1)
-        self.l1 = nn.Linear(in_features=out_channels, out_features=out_channels // 8, bias=False)
+        self.l1 = nn.Linear(in_features=out_channels,
+                            out_features=out_channels // 8, bias=False)
         self.relu_a = nn.ReLU(inplace=True)
-        self.l2 = nn.Linear(in_features=out_channels // 8, out_features=out_channels, bias=False)
+        self.l2 = nn.Linear(in_features=out_channels // 8,
+                            out_features=out_channels, bias=False)
         self.sigmoid1 = nn.Sigmoid()
 
         # nn.init.xavier_uniform_(self.l2.weight.data)
@@ -119,7 +120,6 @@ class Squeeze_Excite_block(nn.Module):
         se = se.reshape(batch_size, -1, 1, 1)
         x = torch.mul(x, se)
         return x
-
 
 
 class BasicConv2drelu(nn.Module):
@@ -143,6 +143,7 @@ class BasicConv2drelu(nn.Module):
         x = self.relu(x)
         return x
 
+
 class Conv2d_bn(nn.Module):
     def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1):
         super(Conv2d_bn, self).__init__()
@@ -161,11 +162,13 @@ class ResidualConv(nn.Module):
     def __init__(self, input_dim, output_dim, stride=1, padding=1):
         super(ResidualConv, self).__init__()
 
-        self.cbri = BasicConv2drelu(input_dim, output_dim, kernel_size=3, stride=1, padding=1)
-        self.cbrii = BasicConv2drelu(output_dim, output_dim, kernel_size=3, padding=1)
-        self.conv_skip = Conv2d_bn(input_dim, output_dim, kernel_size=1, stride=1, padding=0)
+        self.cbri = BasicConv2drelu(
+            input_dim, output_dim, kernel_size=3, stride=1, padding=1)
+        self.cbrii = BasicConv2drelu(
+            output_dim, output_dim, kernel_size=3, padding=1)
+        self.conv_skip = Conv2d_bn(
+            input_dim, output_dim, kernel_size=1, stride=1, padding=0)
         self.se = Squeeze_Excite_block(output_dim)
-
 
     def forward(self, x):
         x1 = self.cbri(x)

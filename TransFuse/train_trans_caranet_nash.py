@@ -1,9 +1,12 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
+
+import time
 import os
 import argparse
 from datetime import datetime
+import numpy as np
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
 from lib.Discriminator_ResNet import Discriminator
@@ -18,6 +21,112 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 import torchvision.models as torch_model
 from utils.smooth_cross_entropy import SmoothCrossEntropy
+
+
+def nash_analytic_v1(losses, shared_parameters, task_specific_parameters):
+    extra_outputs = dict()
+
+    grads = {}
+    for i, loss in enumerate(losses):
+        g = list(
+            torch.autograd.grad(
+                loss,
+                shared_parameters,
+                retain_graph=True,
+                allow_unused=True
+            )
+        )
+
+        grad = torch.cat([torch.flatten(grad) for grad in g])
+
+        grads[i] = grad
+
+    g1_g1 = torch.dot(grads[0].t(), grads[0])
+    g2_g2 = torch.dot(grads[1].t(), grads[1])
+    g1_g2 = torch.dot(grads[0].t(), grads[1])
+    g2_g1 = torch.dot(grads[1].t(), grads[0])
+
+    alpha_1 = torch.sqrt(
+        torch.sqrt(g2_g2) / (g1_g1 * torch.sqrt(g2_g2) +
+                             g1_g2 * torch.sqrt(g1_g1))
+    )
+    alpha_2 = torch.sqrt(
+        torch.sqrt(g1_g1) / (g2_g1 * torch.sqrt(g2_g2) +
+                             g2_g2 * torch.sqrt(g1_g1))
+    )
+    alpha = torch.tensor([alpha_1, alpha_2])
+
+    weighted_loss = sum([losses[i] * alpha[i] for i in range(len(alpha))])
+    extra_outputs["weights"] = alpha
+    return weighted_loss, extra_outputs
+
+
+def nash_analytic_v2(losses, shared_parameters, task_specific_parameters):
+    extra_outputs = dict()
+
+    grads = {}
+    for i, loss in enumerate(losses):
+        g = list(
+            torch.autograd.grad(
+                loss,
+                shared_parameters,
+                retain_graph=True,
+                allow_unused=True
+            )
+        )
+
+        grad = torch.cat([torch.flatten(grad) for grad in g])
+
+        grads[i] = grad
+
+    g1_g1 = torch.dot(grads[0].t(), grads[0])
+    g2_g2 = torch.dot(grads[1].t(), grads[1])
+    g1_g2 = torch.dot(grads[0].t(), grads[1])
+    # g2_g1 = torch.dot(grads[1].t(), grads[0])
+
+    cos_theta_g1g2 = g1_g2 / (torch.sqrt(g1_g1) * torch.sqrt(g2_g2))
+    # cos_theta_g2g1 = g2_g1 / (torch.sqrt(g1_g1) * torch.sqrt(g2_g2))
+    # assert cos_theta_g1g2 == cos_theta_g2g1, f"{cos_theta_g1g2} != {cos_theta_g2g1}"
+
+    alpha_1 = 1 / (torch.sqrt(g1_g1 * (1 + cos_theta_g1g2)))
+    alpha_2 = 1 / (torch.sqrt(g2_g2 * (1 + cos_theta_g1g2)))
+
+    alpha = torch.tensor([alpha_1, alpha_2])
+
+    weighted_loss = sum([losses[i] * alpha[i] for i in range(len(alpha))])
+    extra_outputs["weights"] = alpha
+    return weighted_loss, extra_outputs
+
+
+def nash_analytic_v3(losses, shared_parameters, task_specific_parameters):
+    extra_outputs = dict()
+
+    grads = {}
+    for i, loss in enumerate(losses):
+        g = list(
+            torch.autograd.grad(
+                loss,
+                shared_parameters,
+                retain_graph=True,
+                allow_unused=True
+            )
+        )
+
+        grad = torch.cat([torch.flatten(grad) for grad in g])
+
+        grads[i] = grad
+
+    g1_g1 = torch.dot(grads[0].t(), grads[0])
+    g2_g2 = torch.dot(grads[1].t(), grads[1])
+
+    alpha_1 = 1 / torch.sqrt(g1_g1)
+    alpha_2 = 1 / torch.sqrt(g2_g2)
+
+    alpha = torch.tensor([alpha_1, alpha_2])
+
+    weighted_loss = sum([losses[i] * alpha[i] for i in range(len(alpha))])
+    extra_outputs["weights"] = alpha
+    return weighted_loss, extra_outputs
 
 
 def structure_loss(pred, mask):
@@ -92,13 +201,37 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     losses = torch.stack((loss, d_loss))
                     # ---- backward ----
                     if phase == 'train':
-                        loss, extra_outputs = weight_method.backward(
-                            losses=losses,
-                            shared_parameters=shared_parameters,
-                            task_specific_parameters=task_specific_parameters,
-                            # last_shared_parameters=list(model.last_shared_parameters()),
-                            # representation=features,
-                        )
+                        if opt.mtl == 'nashmtl' and opt.analytic:
+                            if opt.analytic_version == 'v1':
+                                loss, _ = nash_analytic_v1(
+                                    losses=losses,
+                                    shared_parameters=shared_parameters,
+                                    task_specific_parameters=task_specific_parameters,
+                                )
+                            elif opt.analytic_version == 'v2':
+                                loss, _ = nash_analytic_v2(
+                                    losses=losses,
+                                    shared_parameters=shared_parameters,
+                                    task_specific_parameters=task_specific_parameters,
+                                )
+                            elif opt.analytic_version == 'v3':
+                                loss, _ = nash_analytic_v3(
+                                    losses=losses,
+                                    shared_parameters=shared_parameters,
+                                    task_specific_parameters=task_specific_parameters,
+                                )
+                            else:
+                                raise ValueError('Invalid value for analytic_version.')
+                            loss.backward()
+                            torch.nn.utils.clip_grad_norm_(shared_parameters, 1.0)
+                        else:
+                            loss, _ = weight_method.backward(
+                                losses=losses,
+                                shared_parameters=shared_parameters,
+                                task_specific_parameters=task_specific_parameters,
+                                # last_shared_parameters=list(model.last_shared_parameters()),
+                                # representation=features,
+                            )
                         # optimizer.pc_backward(losses)
                         clip_gradient(optimizer, opt.clip)
                         optimizer.step()
@@ -181,11 +314,11 @@ if __name__ == '__main__':
     parser.add_argument('--beta1', type=float, default=0.5, help='beta1 of adam optimizer')
     parser.add_argument('--beta2', type=float, default=0.999, help='beta2 of adam optimizer')
 
-    # parser.add_argument('--tuning', type=bool, default=True)
-    parser.add_argument('--tuning', type=bool, default=False)
+    parser.add_argument('--tuning', type=bool, default=True)
+    # parser.add_argument('--tuning', type=bool, default=False)
 
-    # parser.add_argument('--mtl', type=str, default='nashmtl')
-    parser.add_argument('--mtl', type=str, default='pcgrad')
+    parser.add_argument('--mtl', type=str, default='nashmtl')
+    # parser.add_argument('--mtl', type=str, default='pcgrad')
     # parser.add_argument('--mtl', type=str, default='cagrad')
     # parser.add_argument('--mtl', type=str, default='imtl')
     # parser.add_argument('--mtl', type=str, default='mgda')
@@ -196,12 +329,15 @@ if __name__ == '__main__':
     # parser.add_argument('--mtl', type=str, default='rlw')
     # parser.add_argument('--mtl', type=str, default='stl')
 
+    parser.add_argument('--analytic', type=bool, default=False)
+    parser.add_argument('--analytic_version', type=str, default='v1')
+
     opt = parser.parse_args()
-    print("Tuning:", opt.tuning)
-    print('MTL:', opt.mtl)
-    print('train save:', opt.train_save)
-    print('train path:', opt.train_path)
-    print('val   path:', opt.val_path)
+    os.makedirs('./config', exist_ok=True)
+    with open(f'./config/{opt.train_save}', 'w') as f:
+        for arg_name, value in vars(opt).items():
+            print(f'{arg_name}: {value}')
+            f.write(f'{arg_name}: {value}')
 
     # ---- build models ----
 
@@ -222,10 +358,11 @@ if __name__ == '__main__':
     models = {'Transfuse': model1,
               'Discriminator': model2}
 
-    weight_methods_parameters = extract_weight_method_parameters_from_args()
-    weight_method = WeightMethods(
-        opt.mtl, n_tasks=2, device='cuda:0', **weight_methods_parameters[opt.mtl]
-    )
+    if not opt.analytic:
+        weight_methods_parameters = extract_weight_method_parameters_from_args()
+        weight_method = WeightMethods(
+            opt.mtl, n_tasks=2, device='cuda:0', **weight_methods_parameters[opt.mtl]
+        )
 
     params = [p for v in models.values() for p in list(v.parameters())]
     # shared_parameters = [p for v in models.values() for p in list(v.parameters())]
@@ -239,20 +376,25 @@ if __name__ == '__main__':
         # if ("final_x" or 'final_1') in n:
         task_specific_parameters.append(p)
 
-
     # no=1
     # for n, p in model1.named_parameters():
     #     print(no)
     #     print(n)
     #     no+=1
 
-
-    optimizer = torch.optim.Adam(
-        [
-            dict(params=params, lr=opt.lr, betas=(opt.beta1, opt.beta2)),
-            dict(params=weight_method.parameters(), lr=0.025),
-        ],
-    )
+    if not opt.analytic:
+        optimizer = torch.optim.Adam(
+            [
+                dict(params=params, lr=opt.lr, betas=(opt.beta1, opt.beta2)),
+                dict(params=weight_method.parameters(), lr=0.025),
+            ],
+        )
+    else:
+        optimizer = torch.optim.Adam(
+            [
+                dict(params=params, lr=opt.lr, betas=(opt.beta1, opt.beta2)),
+            ],
+        )
 
     criterion = SmoothCrossEntropy()
 
@@ -279,14 +421,20 @@ if __name__ == '__main__':
     best_loss = 100000
     best2_loss = 100000
 
+    time_list = []
+
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)  ###################################
         # train(train_loader, model, optimizer, epoch)
+        start_time = time.time()
         epoch, train_loss, val_loss, train_d_loss, val_d_loss, best_loss, best2_loss = train(dataloaders_dict, models,
                                                                                              optimizer,
                                                                                              criterion,
                                                                                              epoch, best_loss,
                                                                                              best2_loss)
+        end_time = time.time()
+        print('epoch time: {:.2f} sec.'.format(end_time - start_time))
+        time_list.append(end_time - start_time)
         epoch_list.append(epoch)
         train_loss = train_loss.cpu().data.numpy()
         train_loss_list.append(train_loss)
@@ -297,21 +445,26 @@ if __name__ == '__main__':
         val_d_loss = val_d_loss.cpu().data.numpy()
         val_d_loss_list.append(val_d_loss)
 
-    fig = plt.figure()
-    plt.plot(epoch_list, train_loss_list, label='train_loss')
-    plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
-    plt.xlabel('epochs')
-    plt.ylabel('loss')
-    plt.xlim(left=0)
-    plt.legend(loc='upper right')
+    try:
+        fig = plt.figure()
+        plt.plot(epoch_list, train_loss_list, label='train_loss')
+        plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
+        plt.xlabel('epochs')
+        plt.ylabel('loss')
+        plt.xlim(left=0)
+        plt.legend(loc='upper right')
 
-    fig2 = plt.figure()
-    plt.plot(epoch_list, train_d_loss_list, label='train_d_loss', linestyle=":")
-    plt.plot(epoch_list, val_d_loss_list, label='val_d_loss', linestyle="-.")
-    plt.xlabel('epochs')
-    plt.ylabel('loss')
-    plt.xlim(left=0)
-    plt.legend(loc='upper right')
+        fig2 = plt.figure()
+        plt.plot(epoch_list, train_d_loss_list, label='train_d_loss', linestyle=":")
+        plt.plot(epoch_list, val_d_loss_list, label='val_d_loss', linestyle="-.")
+        plt.xlabel('epochs')
+        plt.ylabel('loss')
+        plt.xlim(left=0)
+        plt.legend(loc='upper right')
 
-    fig.savefig("fig/img.png")
-    fig2.savefig("fig/img2.png")
+        fig.savefig("fig/img.png")
+        fig2.savefig("fig/img2.png")
+    except:
+        print('matplot error')
+        
+    print('mean epoch time: {:.2f} sec.'.format(np.mean(time_list)))
