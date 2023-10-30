@@ -100,6 +100,15 @@ def imwrite(filename, img, params=None):
         return False
 
 
+def transform_norm(mean, std):
+    return transforms.Compose(
+        [
+            # transforms.ToTensor(),
+            transforms.Normalize(mean, std),
+        ]
+    )
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--pth_path', type=str,
@@ -112,6 +121,8 @@ parser.add_argument('--data_path1', type=str,
                     default='./dataset/TestDataset/', help='path to dataset')
 parser.add_argument('--data_path2', type=str,
                     default='./dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
+
+parser.add_argument('--fuse_weight', type=float, default=0.1)
 
 opt = parser.parse_args()
 save_path = opt.save_path
@@ -185,19 +196,21 @@ for i in range(test_loader1.size):
         res1 = res1.sigmoid().data.cpu().numpy().squeeze()
         res1 = 1. * (res1 > 0.5)
 
-        _image = image.data.cpu()
-        _image = _image.mul(torch.FloatTensor(IMAGENET_STD).view(3, 1, 1))
-        _image = _image.add(torch.FloatTensor(IMAGENET_MEAN).view(3, 1, 1)).detach().numpy()
-        # reshape from (B, C, H, W) to (H, W)
-        _image = _image.squeeze(0).transpose(1, 2, 0)
-        _image = _image[:, :, -1]
-
-        out_img = res1 * 0.1 + _image * 0.9
-        out_img = out_img / (out_img.max() + 1e-8)
-        imageio.imsave(save_path + name, img_as_ubyte(out_img))
         res = res.repeat(1, 3, 1, 1)
 
-        out = model2(res)
+        _image = image.data.cpu()
+        _image = _image.mul(torch.FloatTensor(
+            IMAGENET_STD).view(3, 1, 1))
+        _image = _image.add(torch.FloatTensor(
+            IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
+
+        assert res.shape == _image.shape
+        # TODO: weight
+        dis_input = res * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
+        dis_input = transform_norm(
+            IMAGENET_MEAN, IMAGENET_STD)(dis_input)
+
+        out = model2(dis_input)
 
         _, predicted = torch.max(out, dim=1)
         predicted = torch.Tensor.cpu(predicted).detach().numpy()

@@ -367,7 +367,7 @@ if __name__ == '__main__':
     parser.add_argument('--analytic', type=bool, default=False)
     parser.add_argument('--analytic_version', type=str, default='v1')
 
-    parser.add_argument('--fuse_weight', type=float, default=0.15)
+    parser.add_argument('--fuse_weight', type=float, default=0.1)
 
     opt = parser.parse_args()
     os.makedirs('./config', exist_ok=True)
