@@ -199,6 +199,10 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     loss2 = structure_loss(lateral_map_2, gts)
                     loss = 0.5 * loss2 + 0.3 * loss3 + 0.2 * loss4
 
+                    lateral_map_2 = F.upsample(lateral_map_2, size=gt.shape, mode='bilinear', align_corners=False)
+                    lateral_map_2 = lateral_map_2.sigmoid().data.cpu().numpy().squeeze()
+                    # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
+                    lateral_map_2 = 1. * (lateral_map_2 > 0.5)
                     lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
 
                     _image = images.data.cpu()
