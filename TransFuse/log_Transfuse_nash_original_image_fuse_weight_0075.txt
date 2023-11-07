@@ -1,0 +1,132 @@
+testsize: 352
+pth_path: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Transfuse-best.pth
+pth_path2: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Discriminator-best.pth
+save_path: ./results/Transfuse_S/
+data_path1: ./dataset/TestDataset/
+data_path2: ./dataset/sekkai_TestDataset/
+fuse_weight: 0.075
+Dice: 0.5108, IoU: 0.4137, Acc: 0.9925
+----------discriminator-----------
+TPR-FPR: 0.6011222819733458
+TP: 108
+FN: 33
+FP: 15
+TN: 76
+Accuracy: 0.7931034482758621
+F-measure: 0.8181818181818182
+precision: 0.8780487804878049
+recall: 0.7659574468085106
+specificity: 0.8351648351648352
+couldn't connect to display ":1:1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
+AUC: 0.8302548515314472
+-------------cutoff--------------
+TPR-FPR: 0.6011222819733458
+Threshold: 0.19268544018268585
+TP: 108
+FN: 33
+FP: 15
+TN: 76
+Accuracy: 0.7931034482758621
+F-measure: 0.8181818181818182
+precision: 0.8780487804878049
+recall: 0.7659574468085106
+specificity: 0.8351648351648352
+testsize: 352
+pth_path: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Transfuse-best2.pth
+pth_path2: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Discriminator-best2.pth
+save_path: ./results/Transfuse_S/
+data_path1: ./dataset/TestDataset/
+data_path2: ./dataset/sekkai_TestDataset/
+fuse_weight: 0.075
+Dice: 0.5533, IoU: 0.4301, Acc: 0.9911
+----------discriminator-----------
+TPR-FPR: 0.5426700958615853
+TP: 123
+FN: 18
+FP: 30
+TN: 61
+Accuracy: 0.7931034482758621
+F-measure: 0.8367346938775511
+precision: 0.803921568627451
+recall: 0.8723404255319149
+specificity: 0.6703296703296703
+couldn't connect to display ":1:1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
+AUC: 0.873899150494895
+-------------cutoff--------------
+TPR-FPR: 0.6135141454290391
+Threshold: 0.39156556129455566
+TP: 102
+FN: 39
+FP: 10
+TN: 81
+Accuracy: 0.7887931034482759
+F-measure: 0.8063241106719368
+precision: 0.9107142857142857
+recall: 0.723404255319149
+specificity: 0.8901098901098901
+testsize: 352
+pth_path: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Transfuse-59.pth
+pth_path2: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Discriminator-59.pth
+save_path: ./results/Transfuse_S/
+data_path1: ./dataset/TestDataset/
+data_path2: ./dataset/sekkai_TestDataset/
+fuse_weight: 0.075
+Dice: 0.4742, IoU: 0.3801, Acc: 0.9913
+----------discriminator-----------
+TPR-FPR: 0.6114098667290156
+TP: 111
+FN: 30
+FP: 16
+TN: 75
+Accuracy: 0.8017241379310345
+F-measure: 0.8283582089552238
+precision: 0.8740157480314961
+recall: 0.7872340425531915
+specificity: 0.8241758241758241
+couldn't connect to display ":1:1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
+AUC: 0.8526225547502142
+-------------cutoff--------------
+TPR-FPR: 0.6397786610552567
+Threshold: -0.3453698754310608
+TP: 115
+FN: 26
+FP: 16
+TN: 75
+Accuracy: 0.8189655172413793
+F-measure: 0.8455882352941176
+precision: 0.8778625954198473
+recall: 0.8156028368794326
+specificity: 0.8241758241758241
+testsize: 352
+pth_path: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Transfuse-99.pth
+pth_path2: ./snapshots/Transfuse_nash_original_image_fuse_weight_0075/Discriminator-99.pth
+save_path: ./results/Transfuse_S/
+data_path1: ./dataset/TestDataset/
+data_path2: ./dataset/sekkai_TestDataset/
+fuse_weight: 0.075
+Dice: 0.4475, IoU: 0.3584, Acc: 0.9910
+----------discriminator-----------
+TPR-FPR: 0.6128127191956979
+TP: 105
+FN: 36
+FP: 12
+TN: 79
+Accuracy: 0.7931034482758621
+F-measure: 0.813953488372093
+precision: 0.8974358974358975
+recall: 0.7446808510638298
+specificity: 0.8681318681318682
+couldn't connect to display ":1:1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
+AUC: 0.8516873197724262
+-------------cutoff--------------
+TPR-FPR: 0.629491076299587
+Threshold: -0.6969059705734253
+TP: 112
+FN: 29
+FP: 15
+TN: 76
+Accuracy: 0.8103448275862069
+F-measure: 0.8358208955223881
+precision: 0.8818897637795275
+recall: 0.7943262411347518
+specificity: 0.8351648351648352

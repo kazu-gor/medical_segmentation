@@ -1,0 +1,1320 @@
+Tuning: True
+MTL: stl
+Position interpolate from 22x22 to 14x14
+_IncompatibleKeys(missing_keys=['head.weight', 'head.bias'], unexpected_keys=['mask_token', 'decoder_pos_embed', 'decoder_embed.weight', 'decoder_embed.bias', 'decoder_blocks.0.norm1.weight', 'decoder_blocks.0.norm1.bias', 'decoder_blocks.0.attn.qkv.weight', 'decoder_blocks.0.attn.qkv.bias', 'decoder_blocks.0.attn.proj.weight', 'decoder_blocks.0.attn.proj.bias', 'decoder_blocks.0.norm2.weight', 'decoder_blocks.0.norm2.bias', 'decoder_blocks.0.mlp.fc1.weight', 'decoder_blocks.0.mlp.fc1.bias', 'decoder_blocks.0.mlp.fc2.weight', 'decoder_blocks.0.mlp.fc2.bias', 'decoder_blocks.1.norm1.weight', 'decoder_blocks.1.norm1.bias', 'decoder_blocks.1.attn.qkv.weight', 'decoder_blocks.1.attn.qkv.bias', 'decoder_blocks.1.attn.proj.weight', 'decoder_blocks.1.attn.proj.bias', 'decoder_blocks.1.norm2.weight', 'decoder_blocks.1.norm2.bias', 'decoder_blocks.1.mlp.fc1.weight', 'decoder_blocks.1.mlp.fc1.bias', 'decoder_blocks.1.mlp.fc2.weight', 'decoder_blocks.1.mlp.fc2.bias', 'decoder_blocks.2.norm1.weight', 'decoder_blocks.2.norm1.bias', 'decoder_blocks.2.attn.qkv.weight', 'decoder_blocks.2.attn.qkv.bias', 'decoder_blocks.2.attn.proj.weight', 'decoder_blocks.2.attn.proj.bias', 'decoder_blocks.2.norm2.weight', 'decoder_blocks.2.norm2.bias', 'decoder_blocks.2.mlp.fc1.weight', 'decoder_blocks.2.mlp.fc1.bias', 'decoder_blocks.2.mlp.fc2.weight', 'decoder_blocks.2.mlp.fc2.bias', 'decoder_blocks.3.norm1.weight', 'decoder_blocks.3.norm1.bias', 'decoder_blocks.3.attn.qkv.weight', 'decoder_blocks.3.attn.qkv.bias', 'decoder_blocks.3.attn.proj.weight', 'decoder_blocks.3.attn.proj.bias', 'decoder_blocks.3.norm2.weight', 'decoder_blocks.3.norm2.bias', 'decoder_blocks.3.mlp.fc1.weight', 'decoder_blocks.3.mlp.fc1.bias', 'decoder_blocks.3.mlp.fc2.weight', 'decoder_blocks.3.mlp.fc2.bias', 'decoder_blocks.4.norm1.weight', 'decoder_blocks.4.norm1.bias', 'decoder_blocks.4.attn.qkv.weight', 'decoder_blocks.4.attn.qkv.bias', 'decoder_blocks.4.attn.proj.weight', 'decoder_blocks.4.attn.proj.bias', 'decoder_blocks.4.norm2.weight', 'decoder_blocks.4.norm2.bias', 'decoder_blocks.4.mlp.fc1.weight', 'decoder_blocks.4.mlp.fc1.bias', 'decoder_blocks.4.mlp.fc2.weight', 'decoder_blocks.4.mlp.fc2.bias', 'decoder_blocks.5.norm1.weight', 'decoder_blocks.5.norm1.bias', 'decoder_blocks.5.attn.qkv.weight', 'decoder_blocks.5.attn.qkv.bias', 'decoder_blocks.5.attn.proj.weight', 'decoder_blocks.5.attn.proj.bias', 'decoder_blocks.5.norm2.weight', 'decoder_blocks.5.norm2.bias', 'decoder_blocks.5.mlp.fc1.weight', 'decoder_blocks.5.mlp.fc1.bias', 'decoder_blocks.5.mlp.fc2.weight', 'decoder_blocks.5.mlp.fc2.bias', 'decoder_blocks.6.norm1.weight', 'decoder_blocks.6.norm1.bias', 'decoder_blocks.6.attn.qkv.weight', 'decoder_blocks.6.attn.qkv.bias', 'decoder_blocks.6.attn.proj.weight', 'decoder_blocks.6.attn.proj.bias', 'decoder_blocks.6.norm2.weight', 'decoder_blocks.6.norm2.bias', 'decoder_blocks.6.mlp.fc1.weight', 'decoder_blocks.6.mlp.fc1.bias', 'decoder_blocks.6.mlp.fc2.weight', 'decoder_blocks.6.mlp.fc2.bias', 'decoder_blocks.7.norm1.weight', 'decoder_blocks.7.norm1.bias', 'decoder_blocks.7.attn.qkv.weight', 'decoder_blocks.7.attn.qkv.bias', 'decoder_blocks.7.attn.proj.weight', 'decoder_blocks.7.attn.proj.bias', 'decoder_blocks.7.norm2.weight', 'decoder_blocks.7.norm2.bias', 'decoder_blocks.7.mlp.fc1.weight', 'decoder_blocks.7.mlp.fc1.bias', 'decoder_blocks.7.mlp.fc2.weight', 'decoder_blocks.7.mlp.fc2.bias', 'decoder_norm.weight', 'decoder_norm.bias', 'decoder_pred.weight', 'decoder_pred.bias'])
+#################### Start Training ####################
+2023-05-17 00:21:30.222214 Epoch [001/100], Step [0020/0208], [lateral-2: 0.6290, lateral-3: 0.6508, lateral-4: 0.6608, d_loss: 0.6768
+2023-05-17 00:21:37.393406 Epoch [001/100], Step [0040/0208], [lateral-2: 0.6026, lateral-3: 0.6235, lateral-4: 0.6451, d_loss: 0.6812
+2023-05-17 00:21:44.613047 Epoch [001/100], Step [0060/0208], [lateral-2: 0.6041, lateral-3: 0.6273, lateral-4: 0.6544, d_loss: 0.6843
+2023-05-17 00:21:51.844550 Epoch [001/100], Step [0080/0208], [lateral-2: 0.6033, lateral-3: 0.6296, lateral-4: 0.6480, d_loss: 0.6632
+2023-05-17 00:21:59.097270 Epoch [001/100], Step [0100/0208], [lateral-2: 0.5645, lateral-3: 0.5855, lateral-4: 0.6040, d_loss: 0.6278
+2023-05-17 00:22:06.384812 Epoch [001/100], Step [0120/0208], [lateral-2: 0.5843, lateral-3: 0.6030, lateral-4: 0.6210, d_loss: 0.6389
+2023-05-17 00:22:13.642951 Epoch [001/100], Step [0140/0208], [lateral-2: 0.6208, lateral-3: 0.6432, lateral-4: 0.6567, d_loss: 0.6714
+2023-05-17 00:22:20.941912 Epoch [001/100], Step [0160/0208], [lateral-2: 0.6338, lateral-3: 0.6533, lateral-4: 0.6648, d_loss: 0.6655
+2023-05-17 00:22:28.318693 Epoch [001/100], Step [0180/0208], [lateral-2: 0.6292, lateral-3: 0.6557, lateral-4: 0.6705, d_loss: 0.6171
+2023-05-17 00:22:35.759306 Epoch [001/100], Step [0200/0208], [lateral-2: 0.6234, lateral-3: 0.6527, lateral-4: 0.6720, d_loss: 0.6314
+2023-05-17 00:22:38.439093 Epoch [001/100], Step [0208/0208], [lateral-2: 0.6318, lateral-3: 0.6588, lateral-4: 0.6770, d_loss: 0.6365
+[Saving best Snapshot:] snapshots/transfuse_stl/TransFuse-best.pth
+[Saving best Snapshot:] snapshots/transfuse_stl/Discriminator-best2.pth
+train_loss: 1.9676, val_loss: 2.1658
+train_d_loss: 0.6365, val_d_loss: 0.6013
+2023-05-17 00:22:55.862188 Epoch [002/100], Step [0020/0208], [lateral-2: 0.6124, lateral-3: 0.6366, lateral-4: 0.6552, d_loss: 0.5573
+2023-05-17 00:23:03.301349 Epoch [002/100], Step [0040/0208], [lateral-2: 0.6151, lateral-3: 0.6342, lateral-4: 0.6565, d_loss: 0.5929
+2023-05-17 00:23:10.673254 Epoch [002/100], Step [0060/0208], [lateral-2: 0.6270, lateral-3: 0.6435, lateral-4: 0.6625, d_loss: 0.6233
+2023-05-17 00:23:17.992404 Epoch [002/100], Step [0080/0208], [lateral-2: 0.6249, lateral-3: 0.6466, lateral-4: 0.6604, d_loss: 0.6521
+2023-05-17 00:23:25.288181 Epoch [002/100], Step [0100/0208], [lateral-2: 0.6137, lateral-3: 0.6378, lateral-4: 0.6569, d_loss: 0.6227
+2023-05-17 00:23:32.594402 Epoch [002/100], Step [0120/0208], [lateral-2: 0.5807, lateral-3: 0.6031, lateral-4: 0.6218, d_loss: 0.5762
+2023-05-17 00:23:39.923037 Epoch [002/100], Step [0140/0208], [lateral-2: 0.5628, lateral-3: 0.5876, lateral-4: 0.6085, d_loss: 0.6183
+2023-05-17 00:23:47.293720 Epoch [002/100], Step [0160/0208], [lateral-2: 0.6028, lateral-3: 0.6304, lateral-4: 0.6538, d_loss: 0.6249
+2023-05-17 00:23:54.656752 Epoch [002/100], Step [0180/0208], [lateral-2: 0.6559, lateral-3: 0.6765, lateral-4: 0.6925, d_loss: 0.5788
+2023-05-17 00:24:01.934250 Epoch [002/100], Step [0200/0208], [lateral-2: 0.6321, lateral-3: 0.6497, lateral-4: 0.6626, d_loss: 0.5906
+2023-05-17 00:24:04.663238 Epoch [002/100], Step [0208/0208], [lateral-2: 0.6378, lateral-3: 0.6582, lateral-4: 0.6722, d_loss: 0.6424
+train_loss: 1.9682, val_loss: 2.2051
+train_d_loss: 0.6424, val_d_loss: 0.6384
+2023-05-17 00:24:19.327626 Epoch [003/100], Step [0020/0208], [lateral-2: 0.6438, lateral-3: 0.6668, lateral-4: 0.6793, d_loss: 0.6049
+2023-05-17 00:24:26.662887 Epoch [003/100], Step [0040/0208], [lateral-2: 0.5817, lateral-3: 0.6058, lateral-4: 0.6257, d_loss: 0.5413
+2023-05-17 00:24:34.018284 Epoch [003/100], Step [0060/0208], [lateral-2: 0.5930, lateral-3: 0.6170, lateral-4: 0.6339, d_loss: 0.5457
+2023-05-17 00:24:41.376902 Epoch [003/100], Step [0080/0208], [lateral-2: 0.6555, lateral-3: 0.6745, lateral-4: 0.6900, d_loss: 0.6218
+2023-05-17 00:24:48.708510 Epoch [003/100], Step [0100/0208], [lateral-2: 0.6472, lateral-3: 0.6703, lateral-4: 0.6885, d_loss: 0.6055
+2023-05-17 00:24:55.949896 Epoch [003/100], Step [0120/0208], [lateral-2: 0.6384, lateral-3: 0.6676, lateral-4: 0.6790, d_loss: 0.5832
+2023-05-17 00:25:03.219177 Epoch [003/100], Step [0140/0208], [lateral-2: 0.6380, lateral-3: 0.6536, lateral-4: 0.6723, d_loss: 0.5611
+2023-05-17 00:25:10.632903 Epoch [003/100], Step [0160/0208], [lateral-2: 0.6192, lateral-3: 0.6338, lateral-4: 0.6628, d_loss: 0.5711
+2023-05-17 00:25:18.020597 Epoch [003/100], Step [0180/0208], [lateral-2: 0.6044, lateral-3: 0.6323, lateral-4: 0.6562, d_loss: 0.5863
+2023-05-17 00:25:25.474217 Epoch [003/100], Step [0200/0208], [lateral-2: 0.6055, lateral-3: 0.6378, lateral-4: 0.6652, d_loss: 0.5737
+2023-05-17 00:25:28.180759 Epoch [003/100], Step [0208/0208], [lateral-2: 0.6101, lateral-3: 0.6428, lateral-4: 0.6690, d_loss: 0.6011
+[Saving best Snapshot:] snapshots/transfuse_stl/TransFuse-best.pth
+train_loss: 1.9219, val_loss: 2.1601
+train_d_loss: 0.6011, val_d_loss: 0.6825
+2023-05-17 00:25:52.883219 Epoch [004/100], Step [0020/0208], [lateral-2: 0.6441, lateral-3: 0.6588, lateral-4: 0.6736, d_loss: 0.6217
+2023-05-17 00:26:00.196622 Epoch [004/100], Step [0040/0208], [lateral-2: 0.5936, lateral-3: 0.6175, lateral-4: 0.6330, d_loss: 0.5666
+2023-05-17 00:26:07.523643 Epoch [004/100], Step [0060/0208], [lateral-2: 0.5799, lateral-3: 0.6044, lateral-4: 0.6263, d_loss: 0.5547
+2023-05-17 00:26:14.918047 Epoch [004/100], Step [0080/0208], [lateral-2: 0.6056, lateral-3: 0.6237, lateral-4: 0.6492, d_loss: 0.5994
+2023-05-17 00:26:22.258624 Epoch [004/100], Step [0100/0208], [lateral-2: 0.6262, lateral-3: 0.6450, lateral-4: 0.6687, d_loss: 0.5873
+2023-05-17 00:26:29.609161 Epoch [004/100], Step [0120/0208], [lateral-2: 0.6359, lateral-3: 0.6562, lateral-4: 0.6774, d_loss: 0.5687
+2023-05-17 00:26:36.952102 Epoch [004/100], Step [0140/0208], [lateral-2: 0.5767, lateral-3: 0.6072, lateral-4: 0.6239, d_loss: 0.5546
+2023-05-17 00:26:44.348267 Epoch [004/100], Step [0160/0208], [lateral-2: 0.5777, lateral-3: 0.6063, lateral-4: 0.6213, d_loss: 0.5718
+2023-05-17 00:26:51.736066 Epoch [004/100], Step [0180/0208], [lateral-2: 0.5886, lateral-3: 0.6056, lateral-4: 0.6276, d_loss: 0.5748
+2023-05-17 00:26:59.062560 Epoch [004/100], Step [0200/0208], [lateral-2: 0.6075, lateral-3: 0.6266, lateral-4: 0.6482, d_loss: 0.5562
+2023-05-17 00:27:01.752968 Epoch [004/100], Step [0208/0208], [lateral-2: 0.6246, lateral-3: 0.6446, lateral-4: 0.6636, d_loss: 0.5733
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-4.pth
+train_loss: 1.9328, val_loss: 2.2014
+train_d_loss: 0.5733, val_d_loss: 0.6377
+2023-05-17 00:27:17.886428 Epoch [005/100], Step [0020/0208], [lateral-2: 0.5477, lateral-3: 0.5836, lateral-4: 0.6028, d_loss: 0.5269
+2023-05-17 00:27:25.202573 Epoch [005/100], Step [0040/0208], [lateral-2: 0.5870, lateral-3: 0.6164, lateral-4: 0.6342, d_loss: 0.6053
+2023-05-17 00:27:32.576119 Epoch [005/100], Step [0060/0208], [lateral-2: 0.5936, lateral-3: 0.6143, lateral-4: 0.6315, d_loss: 0.6315
+2023-05-17 00:27:39.959168 Epoch [005/100], Step [0080/0208], [lateral-2: 0.6070, lateral-3: 0.6246, lateral-4: 0.6475, d_loss: 0.5736
+2023-05-17 00:27:47.395482 Epoch [005/100], Step [0100/0208], [lateral-2: 0.6334, lateral-3: 0.6550, lateral-4: 0.6843, d_loss: 0.5818
+2023-05-17 00:27:54.702013 Epoch [005/100], Step [0120/0208], [lateral-2: 0.5831, lateral-3: 0.6057, lateral-4: 0.6364, d_loss: 0.5503
+2023-05-17 00:28:02.081013 Epoch [005/100], Step [0140/0208], [lateral-2: 0.5645, lateral-3: 0.5864, lateral-4: 0.6112, d_loss: 0.5349
+2023-05-17 00:28:09.501577 Epoch [005/100], Step [0160/0208], [lateral-2: 0.6186, lateral-3: 0.6458, lateral-4: 0.6676, d_loss: 0.5881
+2023-05-17 00:28:16.821853 Epoch [005/100], Step [0180/0208], [lateral-2: 0.6677, lateral-3: 0.6916, lateral-4: 0.7181, d_loss: 0.5909
+2023-05-17 00:28:24.100824 Epoch [005/100], Step [0200/0208], [lateral-2: 0.6473, lateral-3: 0.6730, lateral-4: 0.6972, d_loss: 0.5688
+2023-05-17 00:28:26.800737 Epoch [005/100], Step [0208/0208], [lateral-2: 0.6362, lateral-3: 0.6614, lateral-4: 0.6853, d_loss: 0.5428
+[Saving best Snapshot:] snapshots/transfuse_stl/TransFuse-best.pth
+train_loss: 1.9829, val_loss: 2.1369
+train_d_loss: 0.5428, val_d_loss: 0.6591
+2023-05-17 00:28:51.567087 Epoch [006/100], Step [0020/0208], [lateral-2: 0.5901, lateral-3: 0.6121, lateral-4: 0.6237, d_loss: 0.5292
+2023-05-17 00:28:58.766213 Epoch [006/100], Step [0040/0208], [lateral-2: 0.6143, lateral-3: 0.6420, lateral-4: 0.6589, d_loss: 0.5374
+2023-05-17 00:29:06.135698 Epoch [006/100], Step [0060/0208], [lateral-2: 0.6247, lateral-3: 0.6508, lateral-4: 0.6729, d_loss: 0.5281
+2023-05-17 00:29:13.421637 Epoch [006/100], Step [0080/0208], [lateral-2: 0.5989, lateral-3: 0.6223, lateral-4: 0.6490, d_loss: 0.5254
+2023-05-17 00:29:20.762021 Epoch [006/100], Step [0100/0208], [lateral-2: 0.5926, lateral-3: 0.6227, lateral-4: 0.6488, d_loss: 0.5458
+2023-05-17 00:29:28.069966 Epoch [006/100], Step [0120/0208], [lateral-2: 0.6171, lateral-3: 0.6514, lateral-4: 0.6715, d_loss: 0.5892
+2023-05-17 00:29:35.330004 Epoch [006/100], Step [0140/0208], [lateral-2: 0.5769, lateral-3: 0.6134, lateral-4: 0.6312, d_loss: 0.5845
+2023-05-17 00:29:42.623430 Epoch [006/100], Step [0160/0208], [lateral-2: 0.5554, lateral-3: 0.5922, lateral-4: 0.6083, d_loss: 0.5371
+2023-05-17 00:29:49.926177 Epoch [006/100], Step [0180/0208], [lateral-2: 0.6169, lateral-3: 0.6435, lateral-4: 0.6680, d_loss: 0.5272
+2023-05-17 00:29:57.289688 Epoch [006/100], Step [0200/0208], [lateral-2: 0.6509, lateral-3: 0.6742, lateral-4: 0.6938, d_loss: 0.6083
+2023-05-17 00:29:59.981051 Epoch [006/100], Step [0208/0208], [lateral-2: 0.6075, lateral-3: 0.6353, lateral-4: 0.6546, d_loss: 0.6093
+train_loss: 1.8974, val_loss: 2.1701
+train_d_loss: 0.6093, val_d_loss: 0.6373
+2023-05-17 00:30:14.754297 Epoch [007/100], Step [0020/0208], [lateral-2: 0.6448, lateral-3: 0.6548, lateral-4: 0.6735, d_loss: 0.5978
+2023-05-17 00:30:22.109781 Epoch [007/100], Step [0040/0208], [lateral-2: 0.6034, lateral-3: 0.6225, lateral-4: 0.6399, d_loss: 0.5464
+2023-05-17 00:30:29.489341 Epoch [007/100], Step [0060/0208], [lateral-2: 0.5795, lateral-3: 0.6088, lateral-4: 0.6269, d_loss: 0.5452
+2023-05-17 00:30:36.821154 Epoch [007/100], Step [0080/0208], [lateral-2: 0.5875, lateral-3: 0.6135, lateral-4: 0.6331, d_loss: 0.5843
+2023-05-17 00:30:44.119770 Epoch [007/100], Step [0100/0208], [lateral-2: 0.5988, lateral-3: 0.6171, lateral-4: 0.6414, d_loss: 0.5528
+2023-05-17 00:30:51.460946 Epoch [007/100], Step [0120/0208], [lateral-2: 0.6054, lateral-3: 0.6247, lateral-4: 0.6469, d_loss: 0.5410
+2023-05-17 00:30:58.854489 Epoch [007/100], Step [0140/0208], [lateral-2: 0.6516, lateral-3: 0.6754, lateral-4: 0.6853, d_loss: 0.5763
+2023-05-17 00:31:06.181571 Epoch [007/100], Step [0160/0208], [lateral-2: 0.6835, lateral-3: 0.7053, lateral-4: 0.7222, d_loss: 0.5906
+2023-05-17 00:31:13.505765 Epoch [007/100], Step [0180/0208], [lateral-2: 0.6370, lateral-3: 0.6534, lateral-4: 0.6844, d_loss: 0.5905
+2023-05-17 00:31:20.759345 Epoch [007/100], Step [0200/0208], [lateral-2: 0.5971, lateral-3: 0.6166, lateral-4: 0.6371, d_loss: 0.5580
+2023-05-17 00:31:23.464591 Epoch [007/100], Step [0208/0208], [lateral-2: 0.5705, lateral-3: 0.5913, lateral-4: 0.6142, d_loss: 0.5396
+train_loss: 1.7760, val_loss: 2.2062
+train_d_loss: 0.5396, val_d_loss: 0.6606
+2023-05-17 00:31:38.188257 Epoch [008/100], Step [0020/0208], [lateral-2: 0.6225, lateral-3: 0.6512, lateral-4: 0.6704, d_loss: 0.5501
+2023-05-17 00:31:45.589174 Epoch [008/100], Step [0040/0208], [lateral-2: 0.6119, lateral-3: 0.6397, lateral-4: 0.6622, d_loss: 0.5741
+2023-05-17 00:31:52.981451 Epoch [008/100], Step [0060/0208], [lateral-2: 0.6253, lateral-3: 0.6536, lateral-4: 0.6778, d_loss: 0.5865
+2023-05-17 00:32:00.325456 Epoch [008/100], Step [0080/0208], [lateral-2: 0.6116, lateral-3: 0.6322, lateral-4: 0.6560, d_loss: 0.5689
+2023-05-17 00:32:07.651356 Epoch [008/100], Step [0100/0208], [lateral-2: 0.5906, lateral-3: 0.6045, lateral-4: 0.6256, d_loss: 0.6177
+2023-05-17 00:32:14.927297 Epoch [008/100], Step [0120/0208], [lateral-2: 0.6049, lateral-3: 0.6200, lateral-4: 0.6416, d_loss: 0.6244
+2023-05-17 00:32:22.287783 Epoch [008/100], Step [0140/0208], [lateral-2: 0.6246, lateral-3: 0.6443, lateral-4: 0.6623, d_loss: 0.5486
+2023-05-17 00:32:29.564266 Epoch [008/100], Step [0160/0208], [lateral-2: 0.6210, lateral-3: 0.6420, lateral-4: 0.6557, d_loss: 0.5482
+2023-05-17 00:32:36.874913 Epoch [008/100], Step [0180/0208], [lateral-2: 0.6089, lateral-3: 0.6359, lateral-4: 0.6575, d_loss: 0.5495
+2023-05-17 00:32:44.200438 Epoch [008/100], Step [0200/0208], [lateral-2: 0.5741, lateral-3: 0.6096, lateral-4: 0.6322, d_loss: 0.4893
+2023-05-17 00:32:46.896716 Epoch [008/100], Step [0208/0208], [lateral-2: 0.5699, lateral-3: 0.6066, lateral-4: 0.6339, d_loss: 0.5224
+train_loss: 1.8104, val_loss: 2.1498
+train_d_loss: 0.5224, val_d_loss: 0.6253
+2023-05-17 00:33:01.680625 Epoch [009/100], Step [0020/0208], [lateral-2: 0.6186, lateral-3: 0.6325, lateral-4: 0.6658, d_loss: 0.6019
+2023-05-17 00:33:09.060428 Epoch [009/100], Step [0040/0208], [lateral-2: 0.5934, lateral-3: 0.6115, lateral-4: 0.6387, d_loss: 0.5535
+2023-05-17 00:33:16.436084 Epoch [009/100], Step [0060/0208], [lateral-2: 0.5916, lateral-3: 0.6090, lateral-4: 0.6326, d_loss: 0.5653
+2023-05-17 00:33:23.796204 Epoch [009/100], Step [0080/0208], [lateral-2: 0.6235, lateral-3: 0.6423, lateral-4: 0.6652, d_loss: 0.5580
+2023-05-17 00:33:31.107286 Epoch [009/100], Step [0100/0208], [lateral-2: 0.6209, lateral-3: 0.6485, lateral-4: 0.6730, d_loss: 0.5232
+2023-05-17 00:33:38.491031 Epoch [009/100], Step [0120/0208], [lateral-2: 0.6209, lateral-3: 0.6481, lateral-4: 0.6692, d_loss: 0.5843
+2023-05-17 00:33:45.808546 Epoch [009/100], Step [0140/0208], [lateral-2: 0.6620, lateral-3: 0.6847, lateral-4: 0.6970, d_loss: 0.6372
+2023-05-17 00:33:53.125254 Epoch [009/100], Step [0160/0208], [lateral-2: 0.6577, lateral-3: 0.6815, lateral-4: 0.6898, d_loss: 0.5871
+2023-05-17 00:34:00.457957 Epoch [009/100], Step [0180/0208], [lateral-2: 0.5866, lateral-3: 0.6080, lateral-4: 0.6217, d_loss: 0.5559
+2023-05-17 00:34:07.911289 Epoch [009/100], Step [0200/0208], [lateral-2: 0.5572, lateral-3: 0.5801, lateral-4: 0.6022, d_loss: 0.5526
+2023-05-17 00:34:10.610537 Epoch [009/100], Step [0208/0208], [lateral-2: 0.5833, lateral-3: 0.6046, lateral-4: 0.6289, d_loss: 0.5632
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-9.pth
+train_loss: 1.8168, val_loss: 2.2196
+train_d_loss: 0.5632, val_d_loss: 0.6548
+2023-05-17 00:34:26.584707 Epoch [010/100], Step [0020/0208], [lateral-2: 0.6870, lateral-3: 0.7187, lateral-4: 0.7299, d_loss: 0.6324
+2023-05-17 00:34:33.932193 Epoch [010/100], Step [0040/0208], [lateral-2: 0.6377, lateral-3: 0.6638, lateral-4: 0.6783, d_loss: 0.5970
+2023-05-17 00:34:41.298855 Epoch [010/100], Step [0060/0208], [lateral-2: 0.6252, lateral-3: 0.6468, lateral-4: 0.6682, d_loss: 0.6005
+2023-05-17 00:34:48.603343 Epoch [010/100], Step [0080/0208], [lateral-2: 0.6638, lateral-3: 0.6853, lateral-4: 0.7043, d_loss: 0.6021
+2023-05-17 00:34:55.958007 Epoch [010/100], Step [0100/0208], [lateral-2: 0.6497, lateral-3: 0.6636, lateral-4: 0.6855, d_loss: 0.5347
+2023-05-17 00:35:03.282668 Epoch [010/100], Step [0120/0208], [lateral-2: 0.5991, lateral-3: 0.6167, lateral-4: 0.6370, d_loss: 0.5052
+2023-05-17 00:35:10.641428 Epoch [010/100], Step [0140/0208], [lateral-2: 0.5892, lateral-3: 0.6134, lateral-4: 0.6287, d_loss: 0.5098
+2023-05-17 00:35:18.045683 Epoch [010/100], Step [0160/0208], [lateral-2: 0.6045, lateral-3: 0.6298, lateral-4: 0.6482, d_loss: 0.5498
+2023-05-17 00:35:25.410404 Epoch [010/100], Step [0180/0208], [lateral-2: 0.5678, lateral-3: 0.5951, lateral-4: 0.6181, d_loss: 0.5445
+2023-05-17 00:35:32.782711 Epoch [010/100], Step [0200/0208], [lateral-2: 0.5558, lateral-3: 0.5806, lateral-4: 0.6061, d_loss: 0.5363
+2023-05-17 00:35:35.492818 Epoch [010/100], Step [0208/0208], [lateral-2: 0.5806, lateral-3: 0.6073, lateral-4: 0.6251, d_loss: 0.5369
+train_loss: 1.8130, val_loss: 2.1973
+train_d_loss: 0.5369, val_d_loss: 0.8062
+2023-05-17 00:35:50.127888 Epoch [011/100], Step [0020/0208], [lateral-2: 0.5689, lateral-3: 0.5809, lateral-4: 0.6047, d_loss: 0.6017
+2023-05-17 00:35:57.467707 Epoch [011/100], Step [0040/0208], [lateral-2: 0.5934, lateral-3: 0.6086, lateral-4: 0.6286, d_loss: 0.5520
+2023-05-17 00:36:04.856733 Epoch [011/100], Step [0060/0208], [lateral-2: 0.6076, lateral-3: 0.6259, lateral-4: 0.6472, d_loss: 0.5372
+2023-05-17 00:36:12.225616 Epoch [011/100], Step [0080/0208], [lateral-2: 0.5694, lateral-3: 0.5942, lateral-4: 0.6210, d_loss: 0.5538
+2023-05-17 00:36:19.557240 Epoch [011/100], Step [0100/0208], [lateral-2: 0.5504, lateral-3: 0.5775, lateral-4: 0.6073, d_loss: 0.5328
+2023-05-17 00:36:26.877860 Epoch [011/100], Step [0120/0208], [lateral-2: 0.5946, lateral-3: 0.6149, lateral-4: 0.6459, d_loss: 0.4807
+2023-05-17 00:36:34.273887 Epoch [011/100], Step [0140/0208], [lateral-2: 0.6016, lateral-3: 0.6209, lateral-4: 0.6475, d_loss: 0.4657
+2023-05-17 00:36:41.557044 Epoch [011/100], Step [0160/0208], [lateral-2: 0.6219, lateral-3: 0.6381, lateral-4: 0.6637, d_loss: 0.5422
+2023-05-17 00:36:48.941643 Epoch [011/100], Step [0180/0208], [lateral-2: 0.6551, lateral-3: 0.6753, lateral-4: 0.6973, d_loss: 0.5747
+2023-05-17 00:36:56.369024 Epoch [011/100], Step [0200/0208], [lateral-2: 0.6572, lateral-3: 0.6831, lateral-4: 0.6966, d_loss: 0.5454
+2023-05-17 00:36:59.071075 Epoch [011/100], Step [0208/0208], [lateral-2: 0.6243, lateral-3: 0.6490, lateral-4: 0.6662, d_loss: 0.5194
+train_loss: 1.9395, val_loss: 2.2079
+train_d_loss: 0.5194, val_d_loss: 0.6051
+2023-05-17 00:37:13.704595 Epoch [012/100], Step [0020/0208], [lateral-2: 0.5746, lateral-3: 0.5922, lateral-4: 0.6163, d_loss: 0.5178
+2023-05-17 00:37:21.001389 Epoch [012/100], Step [0040/0208], [lateral-2: 0.5985, lateral-3: 0.6191, lateral-4: 0.6380, d_loss: 0.5422
+2023-05-17 00:37:28.363129 Epoch [012/100], Step [0060/0208], [lateral-2: 0.6085, lateral-3: 0.6321, lateral-4: 0.6519, d_loss: 0.5561
+2023-05-17 00:37:35.717786 Epoch [012/100], Step [0080/0208], [lateral-2: 0.5940, lateral-3: 0.6212, lateral-4: 0.6461, d_loss: 0.5468
+2023-05-17 00:37:42.959005 Epoch [012/100], Step [0100/0208], [lateral-2: 0.6050, lateral-3: 0.6322, lateral-4: 0.6548, d_loss: 0.5572
+2023-05-17 00:37:50.296650 Epoch [012/100], Step [0120/0208], [lateral-2: 0.6252, lateral-3: 0.6465, lateral-4: 0.6633, d_loss: 0.5705
+2023-05-17 00:37:57.670662 Epoch [012/100], Step [0140/0208], [lateral-2: 0.6247, lateral-3: 0.6445, lateral-4: 0.6614, d_loss: 0.5018
+2023-05-17 00:38:05.016123 Epoch [012/100], Step [0160/0208], [lateral-2: 0.5866, lateral-3: 0.6084, lateral-4: 0.6329, d_loss: 0.4557
+2023-05-17 00:38:12.219767 Epoch [012/100], Step [0180/0208], [lateral-2: 0.5851, lateral-3: 0.6102, lateral-4: 0.6314, d_loss: 0.5157
+2023-05-17 00:38:19.629735 Epoch [012/100], Step [0200/0208], [lateral-2: 0.6104, lateral-3: 0.6386, lateral-4: 0.6522, d_loss: 0.5488
+2023-05-17 00:38:22.328890 Epoch [012/100], Step [0208/0208], [lateral-2: 0.5881, lateral-3: 0.6182, lateral-4: 0.6353, d_loss: 0.5323
+train_loss: 1.8417, val_loss: 2.1593
+train_d_loss: 0.5323, val_d_loss: 0.7448
+2023-05-17 00:38:37.165863 Epoch [013/100], Step [0020/0208], [lateral-2: 0.6738, lateral-3: 0.6890, lateral-4: 0.7085, d_loss: 0.5473
+2023-05-17 00:38:44.554920 Epoch [013/100], Step [0040/0208], [lateral-2: 0.6215, lateral-3: 0.6422, lateral-4: 0.6642, d_loss: 0.5353
+2023-05-17 00:38:52.008961 Epoch [013/100], Step [0060/0208], [lateral-2: 0.5708, lateral-3: 0.5974, lateral-4: 0.6236, d_loss: 0.5408
+2023-05-17 00:38:59.243344 Epoch [013/100], Step [0080/0208], [lateral-2: 0.6121, lateral-3: 0.6379, lateral-4: 0.6555, d_loss: 0.5281
+2023-05-17 00:39:06.636603 Epoch [013/100], Step [0100/0208], [lateral-2: 0.6413, lateral-3: 0.6648, lateral-4: 0.6815, d_loss: 0.5593
+2023-05-17 00:39:13.914266 Epoch [013/100], Step [0120/0208], [lateral-2: 0.5923, lateral-3: 0.6154, lateral-4: 0.6416, d_loss: 0.5584
+2023-05-17 00:39:21.181388 Epoch [013/100], Step [0140/0208], [lateral-2: 0.5952, lateral-3: 0.6108, lateral-4: 0.6311, d_loss: 0.5350
+2023-05-17 00:39:28.538579 Epoch [013/100], Step [0160/0208], [lateral-2: 0.6251, lateral-3: 0.6392, lateral-4: 0.6587, d_loss: 0.5408
+2023-05-17 00:39:35.903569 Epoch [013/100], Step [0180/0208], [lateral-2: 0.6060, lateral-3: 0.6255, lateral-4: 0.6467, d_loss: 0.5480
+2023-05-17 00:39:43.261709 Epoch [013/100], Step [0200/0208], [lateral-2: 0.5841, lateral-3: 0.6081, lateral-4: 0.6236, d_loss: 0.5684
+2023-05-17 00:39:45.935760 Epoch [013/100], Step [0208/0208], [lateral-2: 0.5882, lateral-3: 0.6168, lateral-4: 0.6327, d_loss: 0.5661
+train_loss: 1.8378, val_loss: 2.1566
+train_d_loss: 0.5661, val_d_loss: 0.6547
+2023-05-17 00:40:00.629585 Epoch [014/100], Step [0020/0208], [lateral-2: 0.6932, lateral-3: 0.7184, lateral-4: 0.7400, d_loss: 0.4657
+2023-05-17 00:40:07.984682 Epoch [014/100], Step [0040/0208], [lateral-2: 0.6588, lateral-3: 0.6796, lateral-4: 0.6969, d_loss: 0.5116
+2023-05-17 00:40:15.329753 Epoch [014/100], Step [0060/0208], [lateral-2: 0.6637, lateral-3: 0.6820, lateral-4: 0.6978, d_loss: 0.5897
+2023-05-17 00:40:22.787506 Epoch [014/100], Step [0080/0208], [lateral-2: 0.6598, lateral-3: 0.6845, lateral-4: 0.7052, d_loss: 0.5622
+2023-05-17 00:40:30.169781 Epoch [014/100], Step [0100/0208], [lateral-2: 0.6135, lateral-3: 0.6412, lateral-4: 0.6620, d_loss: 0.5640
+2023-05-17 00:40:37.637076 Epoch [014/100], Step [0120/0208], [lateral-2: 0.5979, lateral-3: 0.6218, lateral-4: 0.6454, d_loss: 0.6052
+2023-05-17 00:40:44.827946 Epoch [014/100], Step [0140/0208], [lateral-2: 0.5777, lateral-3: 0.5986, lateral-4: 0.6243, d_loss: 0.5803
+2023-05-17 00:40:52.123048 Epoch [014/100], Step [0160/0208], [lateral-2: 0.5671, lateral-3: 0.5889, lateral-4: 0.6148, d_loss: 0.5406
+2023-05-17 00:40:59.491795 Epoch [014/100], Step [0180/0208], [lateral-2: 0.5608, lateral-3: 0.5880, lateral-4: 0.6133, d_loss: 0.5112
+2023-05-17 00:41:06.784890 Epoch [014/100], Step [0200/0208], [lateral-2: 0.5812, lateral-3: 0.6058, lateral-4: 0.6270, d_loss: 0.5404
+2023-05-17 00:41:09.458701 Epoch [014/100], Step [0208/0208], [lateral-2: 0.5782, lateral-3: 0.6023, lateral-4: 0.6215, d_loss: 0.5074
+[Saving best Snapshot:] snapshots/transfuse_stl/Discriminator-best2.pth
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-14.pth
+train_loss: 1.8020, val_loss: 2.1584
+train_d_loss: 0.5074, val_d_loss: 0.5776
+2023-05-17 00:41:35.424036 Epoch [015/100], Step [0020/0208], [lateral-2: 0.6227, lateral-3: 0.6392, lateral-4: 0.6554, d_loss: 0.5673
+2023-05-17 00:41:42.687599 Epoch [015/100], Step [0040/0208], [lateral-2: 0.6148, lateral-3: 0.6304, lateral-4: 0.6477, d_loss: 0.5519
+2023-05-17 00:41:49.990758 Epoch [015/100], Step [0060/0208], [lateral-2: 0.5985, lateral-3: 0.6138, lateral-4: 0.6353, d_loss: 0.5316
+2023-05-17 00:41:57.242795 Epoch [015/100], Step [0080/0208], [lateral-2: 0.5927, lateral-3: 0.6190, lateral-4: 0.6339, d_loss: 0.5700
+2023-05-17 00:42:04.554501 Epoch [015/100], Step [0100/0208], [lateral-2: 0.5840, lateral-3: 0.6195, lateral-4: 0.6300, d_loss: 0.5954
+2023-05-17 00:42:11.801364 Epoch [015/100], Step [0120/0208], [lateral-2: 0.6102, lateral-3: 0.6362, lateral-4: 0.6566, d_loss: 0.5577
+2023-05-17 00:42:19.088012 Epoch [015/100], Step [0140/0208], [lateral-2: 0.6102, lateral-3: 0.6261, lateral-4: 0.6517, d_loss: 0.5122
+2023-05-17 00:42:26.373075 Epoch [015/100], Step [0160/0208], [lateral-2: 0.5655, lateral-3: 0.5807, lateral-4: 0.6055, d_loss: 0.5137
+2023-05-17 00:42:33.624259 Epoch [015/100], Step [0180/0208], [lateral-2: 0.5839, lateral-3: 0.6001, lateral-4: 0.6268, d_loss: 0.5337
+2023-05-17 00:42:41.051874 Epoch [015/100], Step [0200/0208], [lateral-2: 0.5843, lateral-3: 0.6072, lateral-4: 0.6329, d_loss: 0.5447
+2023-05-17 00:42:43.727832 Epoch [015/100], Step [0208/0208], [lateral-2: 0.5969, lateral-3: 0.6145, lateral-4: 0.6453, d_loss: 0.5473
+train_loss: 1.8567, val_loss: 2.2068
+train_d_loss: 0.5473, val_d_loss: 0.6300
+2023-05-17 00:42:58.360121 Epoch [016/100], Step [0020/0208], [lateral-2: 0.6812, lateral-3: 0.7079, lateral-4: 0.7192, d_loss: 0.6013
+2023-05-17 00:43:05.690437 Epoch [016/100], Step [0040/0208], [lateral-2: 0.6376, lateral-3: 0.6626, lateral-4: 0.6744, d_loss: 0.5593
+2023-05-17 00:43:13.053686 Epoch [016/100], Step [0060/0208], [lateral-2: 0.5984, lateral-3: 0.6194, lateral-4: 0.6375, d_loss: 0.5354
+2023-05-17 00:43:20.352284 Epoch [016/100], Step [0080/0208], [lateral-2: 0.6233, lateral-3: 0.6436, lateral-4: 0.6634, d_loss: 0.5651
+2023-05-17 00:43:27.707355 Epoch [016/100], Step [0100/0208], [lateral-2: 0.5841, lateral-3: 0.6116, lateral-4: 0.6286, d_loss: 0.5681
+2023-05-17 00:43:35.032786 Epoch [016/100], Step [0120/0208], [lateral-2: 0.5408, lateral-3: 0.5713, lateral-4: 0.5918, d_loss: 0.5259
+2023-05-17 00:43:42.453734 Epoch [016/100], Step [0140/0208], [lateral-2: 0.5799, lateral-3: 0.6069, lateral-4: 0.6295, d_loss: 0.4798
+2023-05-17 00:43:49.792322 Epoch [016/100], Step [0160/0208], [lateral-2: 0.5950, lateral-3: 0.6216, lateral-4: 0.6441, d_loss: 0.4969
+2023-05-17 00:43:56.995109 Epoch [016/100], Step [0180/0208], [lateral-2: 0.6065, lateral-3: 0.6313, lateral-4: 0.6517, d_loss: 0.5410
+2023-05-17 00:44:04.316360 Epoch [016/100], Step [0200/0208], [lateral-2: 0.6069, lateral-3: 0.6327, lateral-4: 0.6509, d_loss: 0.5410
+2023-05-17 00:44:06.980440 Epoch [016/100], Step [0208/0208], [lateral-2: 0.6338, lateral-3: 0.6608, lateral-4: 0.6815, d_loss: 0.5541
+train_loss: 1.9760, val_loss: 2.2302
+train_d_loss: 0.5541, val_d_loss: 0.6720
+2023-05-17 00:44:21.622299 Epoch [017/100], Step [0020/0208], [lateral-2: 0.6178, lateral-3: 0.6466, lateral-4: 0.6695, d_loss: 0.4823
+2023-05-17 00:44:28.857331 Epoch [017/100], Step [0040/0208], [lateral-2: 0.5740, lateral-3: 0.6003, lateral-4: 0.6251, d_loss: 0.4546
+2023-05-17 00:44:36.249434 Epoch [017/100], Step [0060/0208], [lateral-2: 0.5914, lateral-3: 0.6109, lateral-4: 0.6289, d_loss: 0.4642
+2023-05-17 00:44:43.612596 Epoch [017/100], Step [0080/0208], [lateral-2: 0.6111, lateral-3: 0.6339, lateral-4: 0.6520, d_loss: 0.5043
+2023-05-17 00:44:50.908785 Epoch [017/100], Step [0100/0208], [lateral-2: 0.6082, lateral-3: 0.6303, lateral-4: 0.6529, d_loss: 0.5259
+2023-05-17 00:44:58.247133 Epoch [017/100], Step [0120/0208], [lateral-2: 0.6540, lateral-3: 0.6690, lateral-4: 0.6855, d_loss: 0.5794
+2023-05-17 00:45:05.627227 Epoch [017/100], Step [0140/0208], [lateral-2: 0.6585, lateral-3: 0.6779, lateral-4: 0.6975, d_loss: 0.5543
+2023-05-17 00:45:12.986810 Epoch [017/100], Step [0160/0208], [lateral-2: 0.6222, lateral-3: 0.6488, lateral-4: 0.6696, d_loss: 0.4914
+2023-05-17 00:45:20.287886 Epoch [017/100], Step [0180/0208], [lateral-2: 0.5598, lateral-3: 0.5859, lateral-4: 0.6148, d_loss: 0.5428
+2023-05-17 00:45:27.522263 Epoch [017/100], Step [0200/0208], [lateral-2: 0.6120, lateral-3: 0.6355, lateral-4: 0.6566, d_loss: 0.6040
+2023-05-17 00:45:30.233462 Epoch [017/100], Step [0208/0208], [lateral-2: 0.6324, lateral-3: 0.6574, lateral-4: 0.6791, d_loss: 0.6139
+train_loss: 1.9689, val_loss: 2.1528
+train_d_loss: 0.6139, val_d_loss: 0.6082
+2023-05-17 00:45:44.860338 Epoch [018/100], Step [0020/0208], [lateral-2: 0.4761, lateral-3: 0.4945, lateral-4: 0.5270, d_loss: 0.4755
+2023-05-17 00:45:52.210698 Epoch [018/100], Step [0040/0208], [lateral-2: 0.5702, lateral-3: 0.5918, lateral-4: 0.6177, d_loss: 0.5255
+2023-05-17 00:45:59.528395 Epoch [018/100], Step [0060/0208], [lateral-2: 0.6309, lateral-3: 0.6531, lateral-4: 0.6721, d_loss: 0.5810
+2023-05-17 00:46:06.904744 Epoch [018/100], Step [0080/0208], [lateral-2: 0.5937, lateral-3: 0.6190, lateral-4: 0.6381, d_loss: 0.5437
+2023-05-17 00:46:14.163373 Epoch [018/100], Step [0100/0208], [lateral-2: 0.6172, lateral-3: 0.6461, lateral-4: 0.6681, d_loss: 0.5247
+2023-05-17 00:46:21.489276 Epoch [018/100], Step [0120/0208], [lateral-2: 0.6303, lateral-3: 0.6561, lateral-4: 0.6783, d_loss: 0.5424
+2023-05-17 00:46:28.665390 Epoch [018/100], Step [0140/0208], [lateral-2: 0.6014, lateral-3: 0.6197, lateral-4: 0.6436, d_loss: 0.5029
+2023-05-17 00:46:35.919970 Epoch [018/100], Step [0160/0208], [lateral-2: 0.6150, lateral-3: 0.6324, lateral-4: 0.6563, d_loss: 0.4952
+2023-05-17 00:46:43.230814 Epoch [018/100], Step [0180/0208], [lateral-2: 0.6611, lateral-3: 0.6832, lateral-4: 0.7020, d_loss: 0.5192
+2023-05-17 00:46:50.572171 Epoch [018/100], Step [0200/0208], [lateral-2: 0.6315, lateral-3: 0.6525, lateral-4: 0.6699, d_loss: 0.5215
+2023-05-17 00:46:53.266196 Epoch [018/100], Step [0208/0208], [lateral-2: 0.6315, lateral-3: 0.6500, lateral-4: 0.6635, d_loss: 0.5102
+train_loss: 1.9450, val_loss: 2.1788
+train_d_loss: 0.5102, val_d_loss: 0.7645
+2023-05-17 00:47:07.893864 Epoch [019/100], Step [0020/0208], [lateral-2: 0.6472, lateral-3: 0.6660, lateral-4: 0.6767, d_loss: 0.5661
+2023-05-17 00:47:15.121627 Epoch [019/100], Step [0040/0208], [lateral-2: 0.6105, lateral-3: 0.6246, lateral-4: 0.6480, d_loss: 0.5315
+2023-05-17 00:47:22.371346 Epoch [019/100], Step [0060/0208], [lateral-2: 0.5967, lateral-3: 0.6166, lateral-4: 0.6430, d_loss: 0.4969
+2023-05-17 00:47:29.682497 Epoch [019/100], Step [0080/0208], [lateral-2: 0.5546, lateral-3: 0.5888, lateral-4: 0.6105, d_loss: 0.4988
+2023-05-17 00:47:37.054243 Epoch [019/100], Step [0100/0208], [lateral-2: 0.5661, lateral-3: 0.5957, lateral-4: 0.6194, d_loss: 0.5125
+2023-05-17 00:47:44.386588 Epoch [019/100], Step [0120/0208], [lateral-2: 0.6304, lateral-3: 0.6541, lateral-4: 0.6735, d_loss: 0.5363
+2023-05-17 00:47:51.646292 Epoch [019/100], Step [0140/0208], [lateral-2: 0.5947, lateral-3: 0.6249, lateral-4: 0.6398, d_loss: 0.5593
+2023-05-17 00:47:58.973953 Epoch [019/100], Step [0160/0208], [lateral-2: 0.5944, lateral-3: 0.6234, lateral-4: 0.6430, d_loss: 0.5551
+2023-05-17 00:48:06.206706 Epoch [019/100], Step [0180/0208], [lateral-2: 0.6013, lateral-3: 0.6278, lateral-4: 0.6560, d_loss: 0.4980
+2023-05-17 00:48:13.413924 Epoch [019/100], Step [0200/0208], [lateral-2: 0.5922, lateral-3: 0.6175, lateral-4: 0.6435, d_loss: 0.4962
+2023-05-17 00:48:16.077275 Epoch [019/100], Step [0208/0208], [lateral-2: 0.5937, lateral-3: 0.6176, lateral-4: 0.6468, d_loss: 0.5018
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-19.pth
+train_loss: 1.8581, val_loss: 2.1523
+train_d_loss: 0.5018, val_d_loss: 0.6297
+2023-05-17 00:48:32.012890 Epoch [020/100], Step [0020/0208], [lateral-2: 0.6111, lateral-3: 0.6262, lateral-4: 0.6476, d_loss: 0.5509
+2023-05-17 00:48:39.251382 Epoch [020/100], Step [0040/0208], [lateral-2: 0.6297, lateral-3: 0.6518, lateral-4: 0.6691, d_loss: 0.5545
+2023-05-17 00:48:46.574961 Epoch [020/100], Step [0060/0208], [lateral-2: 0.6336, lateral-3: 0.6600, lateral-4: 0.6785, d_loss: 0.5425
+2023-05-17 00:48:53.931928 Epoch [020/100], Step [0080/0208], [lateral-2: 0.6048, lateral-3: 0.6279, lateral-4: 0.6500, d_loss: 0.5488
+2023-05-17 00:49:01.271602 Epoch [020/100], Step [0100/0208], [lateral-2: 0.6000, lateral-3: 0.6221, lateral-4: 0.6416, d_loss: 0.5678
+2023-05-17 00:49:08.596497 Epoch [020/100], Step [0120/0208], [lateral-2: 0.6248, lateral-3: 0.6387, lateral-4: 0.6641, d_loss: 0.5335
+2023-05-17 00:49:15.914792 Epoch [020/100], Step [0140/0208], [lateral-2: 0.5745, lateral-3: 0.6001, lateral-4: 0.6248, d_loss: 0.4686
+2023-05-17 00:49:23.255774 Epoch [020/100], Step [0160/0208], [lateral-2: 0.5588, lateral-3: 0.5964, lateral-4: 0.6168, d_loss: 0.4691
+2023-05-17 00:49:30.431662 Epoch [020/100], Step [0180/0208], [lateral-2: 0.5943, lateral-3: 0.6197, lateral-4: 0.6406, d_loss: 0.5008
+2023-05-17 00:49:37.669743 Epoch [020/100], Step [0200/0208], [lateral-2: 0.5999, lateral-3: 0.6183, lateral-4: 0.6391, d_loss: 0.5287
+2023-05-17 00:49:40.334341 Epoch [020/100], Step [0208/0208], [lateral-2: 0.6195, lateral-3: 0.6383, lateral-4: 0.6538, d_loss: 0.5447
+train_loss: 1.9116, val_loss: 2.2350
+train_d_loss: 0.5447, val_d_loss: 0.6989
+2023-05-17 00:49:54.940679 Epoch [021/100], Step [0020/0208], [lateral-2: 0.6042, lateral-3: 0.6249, lateral-4: 0.6329, d_loss: 0.4364
+2023-05-17 00:50:02.257351 Epoch [021/100], Step [0040/0208], [lateral-2: 0.6178, lateral-3: 0.6396, lateral-4: 0.6526, d_loss: 0.4978
+2023-05-17 00:50:09.535660 Epoch [021/100], Step [0060/0208], [lateral-2: 0.6128, lateral-3: 0.6355, lateral-4: 0.6546, d_loss: 0.5285
+2023-05-17 00:50:16.834630 Epoch [021/100], Step [0080/0208], [lateral-2: 0.5858, lateral-3: 0.6096, lateral-4: 0.6284, d_loss: 0.5066
+2023-05-17 00:50:24.170131 Epoch [021/100], Step [0100/0208], [lateral-2: 0.6155, lateral-3: 0.6446, lateral-4: 0.6567, d_loss: 0.5503
+2023-05-17 00:50:31.395971 Epoch [021/100], Step [0120/0208], [lateral-2: 0.6556, lateral-3: 0.6775, lateral-4: 0.6943, d_loss: 0.5586
+2023-05-17 00:50:38.756722 Epoch [021/100], Step [0140/0208], [lateral-2: 0.6201, lateral-3: 0.6375, lateral-4: 0.6644, d_loss: 0.5088
+2023-05-17 00:50:46.074736 Epoch [021/100], Step [0160/0208], [lateral-2: 0.5851, lateral-3: 0.6087, lateral-4: 0.6347, d_loss: 0.5358
+2023-05-17 00:50:53.366215 Epoch [021/100], Step [0180/0208], [lateral-2: 0.5881, lateral-3: 0.6126, lateral-4: 0.6327, d_loss: 0.5881
+2023-05-17 00:51:00.670151 Epoch [021/100], Step [0200/0208], [lateral-2: 0.6148, lateral-3: 0.6371, lateral-4: 0.6578, d_loss: 0.5681
+2023-05-17 00:51:03.314300 Epoch [021/100], Step [0208/0208], [lateral-2: 0.6342, lateral-3: 0.6584, lateral-4: 0.6812, d_loss: 0.5645
+train_loss: 1.9738, val_loss: 2.1550
+train_d_loss: 0.5645, val_d_loss: 0.7900
+2023-05-17 00:51:17.944808 Epoch [022/100], Step [0020/0208], [lateral-2: 0.6114, lateral-3: 0.6305, lateral-4: 0.6459, d_loss: 0.5676
+2023-05-17 00:51:25.181538 Epoch [022/100], Step [0040/0208], [lateral-2: 0.6492, lateral-3: 0.6692, lateral-4: 0.6822, d_loss: 0.5389
+2023-05-17 00:51:32.555967 Epoch [022/100], Step [0060/0208], [lateral-2: 0.6383, lateral-3: 0.6605, lateral-4: 0.6770, d_loss: 0.4948
+2023-05-17 00:51:39.778802 Epoch [022/100], Step [0080/0208], [lateral-2: 0.5889, lateral-3: 0.6130, lateral-4: 0.6356, d_loss: 0.5129
+2023-05-17 00:51:47.064470 Epoch [022/100], Step [0100/0208], [lateral-2: 0.6258, lateral-3: 0.6494, lateral-4: 0.6713, d_loss: 0.5140
+2023-05-17 00:51:54.375558 Epoch [022/100], Step [0120/0208], [lateral-2: 0.6068, lateral-3: 0.6323, lateral-4: 0.6534, d_loss: 0.4845
+2023-05-17 00:52:01.753158 Epoch [022/100], Step [0140/0208], [lateral-2: 0.5640, lateral-3: 0.5940, lateral-4: 0.6155, d_loss: 0.4796
+2023-05-17 00:52:09.058626 Epoch [022/100], Step [0160/0208], [lateral-2: 0.6167, lateral-3: 0.6393, lateral-4: 0.6561, d_loss: 0.5028
+2023-05-17 00:52:16.378839 Epoch [022/100], Step [0180/0208], [lateral-2: 0.6252, lateral-3: 0.6481, lateral-4: 0.6696, d_loss: 0.5185
+2023-05-17 00:52:23.653156 Epoch [022/100], Step [0200/0208], [lateral-2: 0.5804, lateral-3: 0.6116, lateral-4: 0.6417, d_loss: 0.5009
+2023-05-17 00:52:26.307347 Epoch [022/100], Step [0208/0208], [lateral-2: 0.5863, lateral-3: 0.6179, lateral-4: 0.6468, d_loss: 0.5150
+train_loss: 1.8509, val_loss: 2.1732
+train_d_loss: 0.5150, val_d_loss: 0.8541
+2023-05-17 00:52:40.915344 Epoch [023/100], Step [0020/0208], [lateral-2: 0.6070, lateral-3: 0.6266, lateral-4: 0.6484, d_loss: 0.4809
+2023-05-17 00:52:48.213460 Epoch [023/100], Step [0040/0208], [lateral-2: 0.6207, lateral-3: 0.6352, lateral-4: 0.6598, d_loss: 0.5120
+2023-05-17 00:52:55.528579 Epoch [023/100], Step [0060/0208], [lateral-2: 0.6317, lateral-3: 0.6550, lateral-4: 0.6768, d_loss: 0.5334
+2023-05-17 00:53:02.782461 Epoch [023/100], Step [0080/0208], [lateral-2: 0.6282, lateral-3: 0.6578, lateral-4: 0.6829, d_loss: 0.5268
+2023-05-17 00:53:10.041334 Epoch [023/100], Step [0100/0208], [lateral-2: 0.5961, lateral-3: 0.6207, lateral-4: 0.6443, d_loss: 0.5214
+2023-05-17 00:53:17.319564 Epoch [023/100], Step [0120/0208], [lateral-2: 0.5307, lateral-3: 0.5601, lateral-4: 0.5773, d_loss: 0.4981
+2023-05-17 00:53:24.636087 Epoch [023/100], Step [0140/0208], [lateral-2: 0.5325, lateral-3: 0.5616, lateral-4: 0.5896, d_loss: 0.4714
+2023-05-17 00:53:31.924674 Epoch [023/100], Step [0160/0208], [lateral-2: 0.6080, lateral-3: 0.6356, lateral-4: 0.6638, d_loss: 0.5076
+2023-05-17 00:53:39.258363 Epoch [023/100], Step [0180/0208], [lateral-2: 0.6056, lateral-3: 0.6316, lateral-4: 0.6513, d_loss: 0.5537
+2023-05-17 00:53:46.596757 Epoch [023/100], Step [0200/0208], [lateral-2: 0.6015, lateral-3: 0.6217, lateral-4: 0.6438, d_loss: 0.5304
+2023-05-17 00:53:49.276558 Epoch [023/100], Step [0208/0208], [lateral-2: 0.6276, lateral-3: 0.6440, lateral-4: 0.6697, d_loss: 0.5399
+[Saving best Snapshot:] snapshots/transfuse_stl/TransFuse-best.pth
+train_loss: 1.9414, val_loss: 2.1233
+train_d_loss: 0.5399, val_d_loss: 0.6839
+2023-05-17 00:54:13.889963 Epoch [024/100], Step [0020/0208], [lateral-2: 0.7071, lateral-3: 0.7134, lateral-4: 0.7456, d_loss: 0.5845
+2023-05-17 00:54:21.184605 Epoch [024/100], Step [0040/0208], [lateral-2: 0.6482, lateral-3: 0.6677, lateral-4: 0.6898, d_loss: 0.5003
+2023-05-17 00:54:28.562808 Epoch [024/100], Step [0060/0208], [lateral-2: 0.5600, lateral-3: 0.5887, lateral-4: 0.6062, d_loss: 0.4778
+2023-05-17 00:54:35.835060 Epoch [024/100], Step [0080/0208], [lateral-2: 0.5864, lateral-3: 0.6084, lateral-4: 0.6273, d_loss: 0.5195
+2023-05-17 00:54:43.062585 Epoch [024/100], Step [0100/0208], [lateral-2: 0.6267, lateral-3: 0.6491, lateral-4: 0.6686, d_loss: 0.5409
+2023-05-17 00:54:50.371444 Epoch [024/100], Step [0120/0208], [lateral-2: 0.6121, lateral-3: 0.6304, lateral-4: 0.6493, d_loss: 0.5493
+2023-05-17 00:54:57.646837 Epoch [024/100], Step [0140/0208], [lateral-2: 0.6371, lateral-3: 0.6538, lateral-4: 0.6697, d_loss: 0.5282
+2023-05-17 00:55:04.886294 Epoch [024/100], Step [0160/0208], [lateral-2: 0.6442, lateral-3: 0.6658, lateral-4: 0.6883, d_loss: 0.5456
+2023-05-17 00:55:12.214660 Epoch [024/100], Step [0180/0208], [lateral-2: 0.5810, lateral-3: 0.6033, lateral-4: 0.6345, d_loss: 0.5109
+2023-05-17 00:55:19.430487 Epoch [024/100], Step [0200/0208], [lateral-2: 0.6106, lateral-3: 0.6293, lateral-4: 0.6545, d_loss: 0.4848
+2023-05-17 00:55:22.111127 Epoch [024/100], Step [0208/0208], [lateral-2: 0.5803, lateral-3: 0.6018, lateral-4: 0.6219, d_loss: 0.5140
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-24.pth
+train_loss: 1.8040, val_loss: 2.1300
+train_d_loss: 0.5140, val_d_loss: 0.5864
+2023-05-17 00:55:38.147320 Epoch [025/100], Step [0020/0208], [lateral-2: 0.5720, lateral-3: 0.6025, lateral-4: 0.6274, d_loss: 0.4391
+2023-05-17 00:55:45.449894 Epoch [025/100], Step [0040/0208], [lateral-2: 0.5837, lateral-3: 0.6059, lateral-4: 0.6287, d_loss: 0.4816
+2023-05-17 00:55:52.842024 Epoch [025/100], Step [0060/0208], [lateral-2: 0.5923, lateral-3: 0.6145, lateral-4: 0.6363, d_loss: 0.5412
+2023-05-17 00:56:00.219263 Epoch [025/100], Step [0080/0208], [lateral-2: 0.5867, lateral-3: 0.6133, lateral-4: 0.6336, d_loss: 0.5258
+2023-05-17 00:56:07.506216 Epoch [025/100], Step [0100/0208], [lateral-2: 0.5954, lateral-3: 0.6165, lateral-4: 0.6341, d_loss: 0.5261
+2023-05-17 00:56:14.896212 Epoch [025/100], Step [0120/0208], [lateral-2: 0.6132, lateral-3: 0.6299, lateral-4: 0.6465, d_loss: 0.5495
+2023-05-17 00:56:22.199947 Epoch [025/100], Step [0140/0208], [lateral-2: 0.6079, lateral-3: 0.6287, lateral-4: 0.6451, d_loss: 0.5379
+2023-05-17 00:56:29.450547 Epoch [025/100], Step [0160/0208], [lateral-2: 0.6078, lateral-3: 0.6357, lateral-4: 0.6573, d_loss: 0.5486
+2023-05-17 00:56:36.795425 Epoch [025/100], Step [0180/0208], [lateral-2: 0.5886, lateral-3: 0.6162, lateral-4: 0.6419, d_loss: 0.5260
+2023-05-17 00:56:44.162626 Epoch [025/100], Step [0200/0208], [lateral-2: 0.6055, lateral-3: 0.6242, lateral-4: 0.6409, d_loss: 0.4605
+2023-05-17 00:56:46.841704 Epoch [025/100], Step [0208/0208], [lateral-2: 0.6233, lateral-3: 0.6396, lateral-4: 0.6555, d_loss: 0.4908
+train_loss: 1.9184, val_loss: 2.1681
+train_d_loss: 0.4908, val_d_loss: 0.6212
+2023-05-17 00:57:01.418183 Epoch [026/100], Step [0020/0208], [lateral-2: 0.5723, lateral-3: 0.5884, lateral-4: 0.6098, d_loss: 0.5363
+2023-05-17 00:57:08.738763 Epoch [026/100], Step [0040/0208], [lateral-2: 0.5789, lateral-3: 0.5963, lateral-4: 0.6284, d_loss: 0.5245
+2023-05-17 00:57:16.086762 Epoch [026/100], Step [0060/0208], [lateral-2: 0.5934, lateral-3: 0.6144, lateral-4: 0.6403, d_loss: 0.5129
+2023-05-17 00:57:23.294948 Epoch [026/100], Step [0080/0208], [lateral-2: 0.5998, lateral-3: 0.6269, lateral-4: 0.6376, d_loss: 0.5286
+2023-05-17 00:57:30.561233 Epoch [026/100], Step [0100/0208], [lateral-2: 0.6134, lateral-3: 0.6377, lateral-4: 0.6567, d_loss: 0.5106
+2023-05-17 00:57:37.770029 Epoch [026/100], Step [0120/0208], [lateral-2: 0.5878, lateral-3: 0.6098, lateral-4: 0.6363, d_loss: 0.5228
+2023-05-17 00:57:45.124426 Epoch [026/100], Step [0140/0208], [lateral-2: 0.5813, lateral-3: 0.6117, lateral-4: 0.6351, d_loss: 0.5523
+2023-05-17 00:57:52.520546 Epoch [026/100], Step [0160/0208], [lateral-2: 0.6479, lateral-3: 0.6789, lateral-4: 0.6966, d_loss: 0.5253
+2023-05-17 00:57:59.877815 Epoch [026/100], Step [0180/0208], [lateral-2: 0.6452, lateral-3: 0.6668, lateral-4: 0.6799, d_loss: 0.5359
+2023-05-17 00:58:07.225469 Epoch [026/100], Step [0200/0208], [lateral-2: 0.6264, lateral-3: 0.6460, lateral-4: 0.6571, d_loss: 0.5501
+2023-05-17 00:58:09.909336 Epoch [026/100], Step [0208/0208], [lateral-2: 0.6391, lateral-3: 0.6603, lateral-4: 0.6725, d_loss: 0.5420
+train_loss: 1.9719, val_loss: 2.1626
+train_d_loss: 0.5420, val_d_loss: 0.6342
+2023-05-17 00:58:24.610956 Epoch [027/100], Step [0020/0208], [lateral-2: 0.6492, lateral-3: 0.6566, lateral-4: 0.6784, d_loss: 0.4643
+2023-05-17 00:58:31.955226 Epoch [027/100], Step [0040/0208], [lateral-2: 0.6373, lateral-3: 0.6484, lateral-4: 0.6700, d_loss: 0.4509
+2023-05-17 00:58:39.255466 Epoch [027/100], Step [0060/0208], [lateral-2: 0.5894, lateral-3: 0.6093, lateral-4: 0.6280, d_loss: 0.4720
+2023-05-17 00:58:46.565551 Epoch [027/100], Step [0080/0208], [lateral-2: 0.5716, lateral-3: 0.5964, lateral-4: 0.6127, d_loss: 0.5450
+2023-05-17 00:58:53.765556 Epoch [027/100], Step [0100/0208], [lateral-2: 0.5879, lateral-3: 0.6105, lateral-4: 0.6271, d_loss: 0.5237
+2023-05-17 00:59:01.098793 Epoch [027/100], Step [0120/0208], [lateral-2: 0.5904, lateral-3: 0.6110, lateral-4: 0.6287, d_loss: 0.4825
+2023-05-17 00:59:08.408095 Epoch [027/100], Step [0140/0208], [lateral-2: 0.5891, lateral-3: 0.6139, lateral-4: 0.6371, d_loss: 0.5007
+2023-05-17 00:59:15.814121 Epoch [027/100], Step [0160/0208], [lateral-2: 0.6141, lateral-3: 0.6365, lateral-4: 0.6584, d_loss: 0.5352
+2023-05-17 00:59:23.184717 Epoch [027/100], Step [0180/0208], [lateral-2: 0.6434, lateral-3: 0.6656, lateral-4: 0.6810, d_loss: 0.5314
+2023-05-17 00:59:30.490974 Epoch [027/100], Step [0200/0208], [lateral-2: 0.6187, lateral-3: 0.6487, lateral-4: 0.6695, d_loss: 0.5112
+2023-05-17 00:59:33.171284 Epoch [027/100], Step [0208/0208], [lateral-2: 0.6113, lateral-3: 0.6394, lateral-4: 0.6614, d_loss: 0.5104
+train_loss: 1.9121, val_loss: 2.1849
+train_d_loss: 0.5104, val_d_loss: 0.6204
+2023-05-17 00:59:47.819768 Epoch [028/100], Step [0020/0208], [lateral-2: 0.7089, lateral-3: 0.7264, lateral-4: 0.7455, d_loss: 0.5728
+2023-05-17 00:59:55.118042 Epoch [028/100], Step [0040/0208], [lateral-2: 0.6451, lateral-3: 0.6630, lateral-4: 0.6781, d_loss: 0.5758
+2023-05-17 01:00:02.469745 Epoch [028/100], Step [0060/0208], [lateral-2: 0.5743, lateral-3: 0.5969, lateral-4: 0.6115, d_loss: 0.5522
+2023-05-17 01:00:09.771571 Epoch [028/100], Step [0080/0208], [lateral-2: 0.5575, lateral-3: 0.5833, lateral-4: 0.6041, d_loss: 0.5334
+2023-05-17 01:00:17.036238 Epoch [028/100], Step [0100/0208], [lateral-2: 0.5333, lateral-3: 0.5616, lateral-4: 0.5938, d_loss: 0.5230
+2023-05-17 01:00:24.404163 Epoch [028/100], Step [0120/0208], [lateral-2: 0.6032, lateral-3: 0.6262, lateral-4: 0.6512, d_loss: 0.5189
+2023-05-17 01:00:31.718008 Epoch [028/100], Step [0140/0208], [lateral-2: 0.6574, lateral-3: 0.6800, lateral-4: 0.6887, d_loss: 0.5410
+2023-05-17 01:00:38.955378 Epoch [028/100], Step [0160/0208], [lateral-2: 0.6428, lateral-3: 0.6668, lateral-4: 0.6822, d_loss: 0.5388
+2023-05-17 01:00:46.269070 Epoch [028/100], Step [0180/0208], [lateral-2: 0.6325, lateral-3: 0.6516, lateral-4: 0.6702, d_loss: 0.5472
+2023-05-17 01:00:53.634478 Epoch [028/100], Step [0200/0208], [lateral-2: 0.6033, lateral-3: 0.6298, lateral-4: 0.6505, d_loss: 0.5184
+2023-05-17 01:00:56.275705 Epoch [028/100], Step [0208/0208], [lateral-2: 0.5840, lateral-3: 0.6101, lateral-4: 0.6327, d_loss: 0.4753
+train_loss: 1.8269, val_loss: 2.1630
+train_d_loss: 0.4753, val_d_loss: 0.6007
+2023-05-17 01:01:10.804553 Epoch [029/100], Step [0020/0208], [lateral-2: 0.6208, lateral-3: 0.6278, lateral-4: 0.6513, d_loss: 0.5921
+2023-05-17 01:01:18.059557 Epoch [029/100], Step [0040/0208], [lateral-2: 0.6227, lateral-3: 0.6376, lateral-4: 0.6563, d_loss: 0.5553
+2023-05-17 01:01:25.400459 Epoch [029/100], Step [0060/0208], [lateral-2: 0.6304, lateral-3: 0.6513, lateral-4: 0.6667, d_loss: 0.5349
+2023-05-17 01:01:32.640870 Epoch [029/100], Step [0080/0208], [lateral-2: 0.6216, lateral-3: 0.6384, lateral-4: 0.6587, d_loss: 0.5146
+2023-05-17 01:01:39.924879 Epoch [029/100], Step [0100/0208], [lateral-2: 0.6304, lateral-3: 0.6485, lateral-4: 0.6720, d_loss: 0.5340
+2023-05-17 01:01:47.319025 Epoch [029/100], Step [0120/0208], [lateral-2: 0.6255, lateral-3: 0.6476, lateral-4: 0.6745, d_loss: 0.5745
+2023-05-17 01:01:54.674161 Epoch [029/100], Step [0140/0208], [lateral-2: 0.6168, lateral-3: 0.6424, lateral-4: 0.6688, d_loss: 0.5459
+2023-05-17 01:02:01.982400 Epoch [029/100], Step [0160/0208], [lateral-2: 0.5857, lateral-3: 0.6185, lateral-4: 0.6388, d_loss: 0.5010
+2023-05-17 01:02:09.271178 Epoch [029/100], Step [0180/0208], [lateral-2: 0.5930, lateral-3: 0.6217, lateral-4: 0.6366, d_loss: 0.4922
+2023-05-17 01:02:16.538447 Epoch [029/100], Step [0200/0208], [lateral-2: 0.6195, lateral-3: 0.6414, lateral-4: 0.6588, d_loss: 0.5005
+2023-05-17 01:02:19.208016 Epoch [029/100], Step [0208/0208], [lateral-2: 0.5924, lateral-3: 0.6206, lateral-4: 0.6390, d_loss: 0.4741
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-29.pth
+train_loss: 1.8520, val_loss: 2.1704
+train_d_loss: 0.4741, val_d_loss: 0.7373
+2023-05-17 01:02:35.237188 Epoch [030/100], Step [0020/0208], [lateral-2: 0.6585, lateral-3: 0.6818, lateral-4: 0.6966, d_loss: 0.4670
+2023-05-17 01:02:42.527114 Epoch [030/100], Step [0040/0208], [lateral-2: 0.6336, lateral-3: 0.6552, lateral-4: 0.6692, d_loss: 0.4534
+2023-05-17 01:02:49.826825 Epoch [030/100], Step [0060/0208], [lateral-2: 0.6521, lateral-3: 0.6707, lateral-4: 0.6856, d_loss: 0.4896
+2023-05-17 01:02:57.121001 Epoch [030/100], Step [0080/0208], [lateral-2: 0.6484, lateral-3: 0.6740, lateral-4: 0.6943, d_loss: 0.5596
+2023-05-17 01:03:04.379279 Epoch [030/100], Step [0100/0208], [lateral-2: 0.5803, lateral-3: 0.6076, lateral-4: 0.6296, d_loss: 0.5250
+2023-05-17 01:03:11.732358 Epoch [030/100], Step [0120/0208], [lateral-2: 0.5907, lateral-3: 0.6139, lateral-4: 0.6374, d_loss: 0.5139
+2023-05-17 01:03:19.029652 Epoch [030/100], Step [0140/0208], [lateral-2: 0.6168, lateral-3: 0.6441, lateral-4: 0.6671, d_loss: 0.5357
+2023-05-17 01:03:26.329850 Epoch [030/100], Step [0160/0208], [lateral-2: 0.5962, lateral-3: 0.6204, lateral-4: 0.6438, d_loss: 0.5189
+2023-05-17 01:03:33.659695 Epoch [030/100], Step [0180/0208], [lateral-2: 0.5919, lateral-3: 0.6153, lateral-4: 0.6356, d_loss: 0.5282
+2023-05-17 01:03:41.013138 Epoch [030/100], Step [0200/0208], [lateral-2: 0.5413, lateral-3: 0.5748, lateral-4: 0.5919, d_loss: 0.5194
+2023-05-17 01:03:43.668536 Epoch [030/100], Step [0208/0208], [lateral-2: 0.5463, lateral-3: 0.5764, lateral-4: 0.5953, d_loss: 0.5505
+train_loss: 1.7180, val_loss: 2.1975
+train_d_loss: 0.5505, val_d_loss: 0.6625
+2023-05-17 01:03:58.327171 Epoch [031/100], Step [0020/0208], [lateral-2: 0.5878, lateral-3: 0.6081, lateral-4: 0.6120, d_loss: 0.4942
+2023-05-17 01:04:05.719521 Epoch [031/100], Step [0040/0208], [lateral-2: 0.6132, lateral-3: 0.6324, lateral-4: 0.6437, d_loss: 0.5048
+2023-05-17 01:04:13.043176 Epoch [031/100], Step [0060/0208], [lateral-2: 0.6166, lateral-3: 0.6297, lateral-4: 0.6609, d_loss: 0.5264
+2023-05-17 01:04:20.490211 Epoch [031/100], Step [0080/0208], [lateral-2: 0.6027, lateral-3: 0.6107, lateral-4: 0.6442, d_loss: 0.4914
+2023-05-17 01:04:27.837445 Epoch [031/100], Step [0100/0208], [lateral-2: 0.6169, lateral-3: 0.6343, lateral-4: 0.6553, d_loss: 0.5414
+2023-05-17 01:04:35.165940 Epoch [031/100], Step [0120/0208], [lateral-2: 0.6146, lateral-3: 0.6386, lateral-4: 0.6575, d_loss: 0.5535
+2023-05-17 01:04:42.410799 Epoch [031/100], Step [0140/0208], [lateral-2: 0.6256, lateral-3: 0.6463, lateral-4: 0.6682, d_loss: 0.5097
+2023-05-17 01:04:49.625940 Epoch [031/100], Step [0160/0208], [lateral-2: 0.6426, lateral-3: 0.6601, lateral-4: 0.6829, d_loss: 0.5494
+2023-05-17 01:04:57.081656 Epoch [031/100], Step [0180/0208], [lateral-2: 0.6143, lateral-3: 0.6321, lateral-4: 0.6516, d_loss: 0.4828
+2023-05-17 01:05:04.431694 Epoch [031/100], Step [0200/0208], [lateral-2: 0.5879, lateral-3: 0.6100, lateral-4: 0.6329, d_loss: 0.4566
+2023-05-17 01:05:07.107265 Epoch [031/100], Step [0208/0208], [lateral-2: 0.5645, lateral-3: 0.5877, lateral-4: 0.6175, d_loss: 0.4598
+train_loss: 1.7698, val_loss: 2.2104
+train_d_loss: 0.4598, val_d_loss: 0.6900
+2023-05-17 01:05:21.777735 Epoch [032/100], Step [0020/0208], [lateral-2: 0.5283, lateral-3: 0.5520, lateral-4: 0.5761, d_loss: 0.4264
+2023-05-17 01:05:29.133925 Epoch [032/100], Step [0040/0208], [lateral-2: 0.5563, lateral-3: 0.5773, lateral-4: 0.6016, d_loss: 0.4781
+2023-05-17 01:05:36.471977 Epoch [032/100], Step [0060/0208], [lateral-2: 0.6163, lateral-3: 0.6379, lateral-4: 0.6661, d_loss: 0.5375
+2023-05-17 01:05:43.805734 Epoch [032/100], Step [0080/0208], [lateral-2: 0.6364, lateral-3: 0.6608, lateral-4: 0.6902, d_loss: 0.5626
+2023-05-17 01:05:51.047093 Epoch [032/100], Step [0100/0208], [lateral-2: 0.6402, lateral-3: 0.6657, lateral-4: 0.6870, d_loss: 0.5306
+2023-05-17 01:05:58.304317 Epoch [032/100], Step [0120/0208], [lateral-2: 0.6356, lateral-3: 0.6653, lateral-4: 0.6813, d_loss: 0.5185
+2023-05-17 01:06:05.594869 Epoch [032/100], Step [0140/0208], [lateral-2: 0.6045, lateral-3: 0.6382, lateral-4: 0.6545, d_loss: 0.5304
+2023-05-17 01:06:13.035097 Epoch [032/100], Step [0160/0208], [lateral-2: 0.6173, lateral-3: 0.6474, lateral-4: 0.6729, d_loss: 0.5185
+2023-05-17 01:06:20.358008 Epoch [032/100], Step [0180/0208], [lateral-2: 0.5925, lateral-3: 0.6197, lateral-4: 0.6448, d_loss: 0.4766
+2023-05-17 01:06:27.544084 Epoch [032/100], Step [0200/0208], [lateral-2: 0.5756, lateral-3: 0.6000, lateral-4: 0.6207, d_loss: 0.4752
+2023-05-17 01:06:30.207933 Epoch [032/100], Step [0208/0208], [lateral-2: 0.5796, lateral-3: 0.6041, lateral-4: 0.6246, d_loss: 0.5100
+train_loss: 1.8084, val_loss: 2.2148
+train_d_loss: 0.5100, val_d_loss: 0.6729
+2023-05-17 01:06:44.847737 Epoch [033/100], Step [0020/0208], [lateral-2: 0.6307, lateral-3: 0.6511, lateral-4: 0.6690, d_loss: 0.5728
+2023-05-17 01:06:52.224178 Epoch [033/100], Step [0040/0208], [lateral-2: 0.6378, lateral-3: 0.6621, lateral-4: 0.6811, d_loss: 0.5207
+2023-05-17 01:06:59.544558 Epoch [033/100], Step [0060/0208], [lateral-2: 0.6123, lateral-3: 0.6402, lateral-4: 0.6604, d_loss: 0.5123
+2023-05-17 01:07:06.870395 Epoch [033/100], Step [0080/0208], [lateral-2: 0.5972, lateral-3: 0.6173, lateral-4: 0.6356, d_loss: 0.5202
+2023-05-17 01:07:14.144795 Epoch [033/100], Step [0100/0208], [lateral-2: 0.6201, lateral-3: 0.6396, lateral-4: 0.6569, d_loss: 0.5209
+2023-05-17 01:07:21.454303 Epoch [033/100], Step [0120/0208], [lateral-2: 0.6000, lateral-3: 0.6238, lateral-4: 0.6428, d_loss: 0.5255
+2023-05-17 01:07:28.809366 Epoch [033/100], Step [0140/0208], [lateral-2: 0.5854, lateral-3: 0.6117, lateral-4: 0.6336, d_loss: 0.4949
+2023-05-17 01:07:36.191154 Epoch [033/100], Step [0160/0208], [lateral-2: 0.6345, lateral-3: 0.6666, lateral-4: 0.6874, d_loss: 0.4873
+2023-05-17 01:07:43.545139 Epoch [033/100], Step [0180/0208], [lateral-2: 0.6609, lateral-3: 0.6883, lateral-4: 0.7100, d_loss: 0.5317
+2023-05-17 01:07:50.891573 Epoch [033/100], Step [0200/0208], [lateral-2: 0.5909, lateral-3: 0.6176, lateral-4: 0.6431, d_loss: 0.5567
+2023-05-17 01:07:53.551367 Epoch [033/100], Step [0208/0208], [lateral-2: 0.5844, lateral-3: 0.6095, lateral-4: 0.6356, d_loss: 0.5340
+train_loss: 1.8296, val_loss: 2.1448
+train_d_loss: 0.5340, val_d_loss: 0.6920
+2023-05-17 01:08:08.336316 Epoch [034/100], Step [0020/0208], [lateral-2: 0.5675, lateral-3: 0.5904, lateral-4: 0.6260, d_loss: 0.5030
+2023-05-17 01:08:15.744876 Epoch [034/100], Step [0040/0208], [lateral-2: 0.5689, lateral-3: 0.5921, lateral-4: 0.6232, d_loss: 0.5146
+2023-05-17 01:08:23.062636 Epoch [034/100], Step [0060/0208], [lateral-2: 0.5736, lateral-3: 0.5986, lateral-4: 0.6203, d_loss: 0.4873
+2023-05-17 01:08:30.390299 Epoch [034/100], Step [0080/0208], [lateral-2: 0.6195, lateral-3: 0.6456, lateral-4: 0.6657, d_loss: 0.4748
+2023-05-17 01:08:37.704775 Epoch [034/100], Step [0100/0208], [lateral-2: 0.6437, lateral-3: 0.6691, lateral-4: 0.6897, d_loss: 0.4935
+2023-05-17 01:08:45.067671 Epoch [034/100], Step [0120/0208], [lateral-2: 0.6063, lateral-3: 0.6267, lateral-4: 0.6499, d_loss: 0.4868
+2023-05-17 01:08:52.350639 Epoch [034/100], Step [0140/0208], [lateral-2: 0.5940, lateral-3: 0.6216, lateral-4: 0.6422, d_loss: 0.4928
+2023-05-17 01:08:59.662725 Epoch [034/100], Step [0160/0208], [lateral-2: 0.6119, lateral-3: 0.6497, lateral-4: 0.6619, d_loss: 0.5257
+2023-05-17 01:09:07.030909 Epoch [034/100], Step [0180/0208], [lateral-2: 0.6136, lateral-3: 0.6365, lateral-4: 0.6505, d_loss: 0.5332
+2023-05-17 01:09:14.385230 Epoch [034/100], Step [0200/0208], [lateral-2: 0.6207, lateral-3: 0.6405, lateral-4: 0.6570, d_loss: 0.5005
+2023-05-17 01:09:17.059055 Epoch [034/100], Step [0208/0208], [lateral-2: 0.6099, lateral-3: 0.6293, lateral-4: 0.6467, d_loss: 0.4836
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-34.pth
+train_loss: 1.8859, val_loss: 2.1907
+train_d_loss: 0.4836, val_d_loss: 0.6214
+2023-05-17 01:09:32.940785 Epoch [035/100], Step [0020/0208], [lateral-2: 0.5712, lateral-3: 0.6022, lateral-4: 0.6201, d_loss: 0.4977
+2023-05-17 01:09:40.329136 Epoch [035/100], Step [0040/0208], [lateral-2: 0.5972, lateral-3: 0.6264, lateral-4: 0.6434, d_loss: 0.4937
+2023-05-17 01:09:47.657763 Epoch [035/100], Step [0060/0208], [lateral-2: 0.5983, lateral-3: 0.6187, lateral-4: 0.6403, d_loss: 0.4787
+2023-05-17 01:09:54.961585 Epoch [035/100], Step [0080/0208], [lateral-2: 0.5598, lateral-3: 0.5778, lateral-4: 0.6016, d_loss: 0.4764
+2023-05-17 01:10:02.240657 Epoch [035/100], Step [0100/0208], [lateral-2: 0.5889, lateral-3: 0.6115, lateral-4: 0.6315, d_loss: 0.5007
+2023-05-17 01:10:09.500656 Epoch [035/100], Step [0120/0208], [lateral-2: 0.6485, lateral-3: 0.6715, lateral-4: 0.6885, d_loss: 0.5098
+2023-05-17 01:10:16.847234 Epoch [035/100], Step [0140/0208], [lateral-2: 0.6291, lateral-3: 0.6509, lateral-4: 0.6688, d_loss: 0.5224
+2023-05-17 01:10:24.180101 Epoch [035/100], Step [0160/0208], [lateral-2: 0.6059, lateral-3: 0.6269, lateral-4: 0.6456, d_loss: 0.5118
+2023-05-17 01:10:31.540343 Epoch [035/100], Step [0180/0208], [lateral-2: 0.5963, lateral-3: 0.6175, lateral-4: 0.6377, d_loss: 0.4760
+2023-05-17 01:10:38.869525 Epoch [035/100], Step [0200/0208], [lateral-2: 0.6133, lateral-3: 0.6377, lateral-4: 0.6561, d_loss: 0.4697
+2023-05-17 01:10:41.561063 Epoch [035/100], Step [0208/0208], [lateral-2: 0.6389, lateral-3: 0.6584, lateral-4: 0.6763, d_loss: 0.4842
+train_loss: 1.9736, val_loss: 2.1702
+train_d_loss: 0.4842, val_d_loss: 0.6843
+2023-05-17 01:10:56.241265 Epoch [036/100], Step [0020/0208], [lateral-2: 0.5437, lateral-3: 0.5637, lateral-4: 0.5862, d_loss: 0.5319
+2023-05-17 01:11:03.634087 Epoch [036/100], Step [0040/0208], [lateral-2: 0.5948, lateral-3: 0.6173, lateral-4: 0.6333, d_loss: 0.5661
+2023-05-17 01:11:11.058857 Epoch [036/100], Step [0060/0208], [lateral-2: 0.6341, lateral-3: 0.6581, lateral-4: 0.6688, d_loss: 0.5399
+2023-05-17 01:11:18.425193 Epoch [036/100], Step [0080/0208], [lateral-2: 0.6013, lateral-3: 0.6272, lateral-4: 0.6401, d_loss: 0.4597
+2023-05-17 01:11:25.770305 Epoch [036/100], Step [0100/0208], [lateral-2: 0.6178, lateral-3: 0.6436, lateral-4: 0.6588, d_loss: 0.4805
+2023-05-17 01:11:33.038428 Epoch [036/100], Step [0120/0208], [lateral-2: 0.6494, lateral-3: 0.6658, lateral-4: 0.6850, d_loss: 0.5342
+2023-05-17 01:11:40.320841 Epoch [036/100], Step [0140/0208], [lateral-2: 0.6801, lateral-3: 0.6959, lateral-4: 0.7174, d_loss: 0.5261
+2023-05-17 01:11:47.612053 Epoch [036/100], Step [0160/0208], [lateral-2: 0.6330, lateral-3: 0.6563, lateral-4: 0.6858, d_loss: 0.4789
+2023-05-17 01:11:54.848863 Epoch [036/100], Step [0180/0208], [lateral-2: 0.5158, lateral-3: 0.5477, lateral-4: 0.5857, d_loss: 0.4773
+2023-05-17 01:12:02.234655 Epoch [036/100], Step [0200/0208], [lateral-2: 0.5284, lateral-3: 0.5633, lateral-4: 0.5886, d_loss: 0.5381
+2023-05-17 01:12:04.894704 Epoch [036/100], Step [0208/0208], [lateral-2: 0.5509, lateral-3: 0.5847, lateral-4: 0.6003, d_loss: 0.5371
+train_loss: 1.7359, val_loss: 2.2083
+train_d_loss: 0.5371, val_d_loss: 0.6638
+2023-05-17 01:12:19.609629 Epoch [037/100], Step [0020/0208], [lateral-2: 0.5705, lateral-3: 0.5978, lateral-4: 0.6213, d_loss: 0.3993
+2023-05-17 01:12:26.953909 Epoch [037/100], Step [0040/0208], [lateral-2: 0.5751, lateral-3: 0.6062, lateral-4: 0.6239, d_loss: 0.4711
+2023-05-17 01:12:34.320911 Epoch [037/100], Step [0060/0208], [lateral-2: 0.6004, lateral-3: 0.6319, lateral-4: 0.6452, d_loss: 0.5419
+2023-05-17 01:12:41.716718 Epoch [037/100], Step [0080/0208], [lateral-2: 0.6275, lateral-3: 0.6505, lateral-4: 0.6704, d_loss: 0.5482
+2023-05-17 01:12:49.116845 Epoch [037/100], Step [0100/0208], [lateral-2: 0.5981, lateral-3: 0.6217, lateral-4: 0.6452, d_loss: 0.5084
+2023-05-17 01:12:56.425179 Epoch [037/100], Step [0120/0208], [lateral-2: 0.5782, lateral-3: 0.6038, lateral-4: 0.6292, d_loss: 0.4402
+2023-05-17 01:13:03.821656 Epoch [037/100], Step [0140/0208], [lateral-2: 0.5787, lateral-3: 0.6079, lateral-4: 0.6266, d_loss: 0.4808
+2023-05-17 01:13:11.207142 Epoch [037/100], Step [0160/0208], [lateral-2: 0.5995, lateral-3: 0.6293, lateral-4: 0.6385, d_loss: 0.5013
+2023-05-17 01:13:18.563143 Epoch [037/100], Step [0180/0208], [lateral-2: 0.6430, lateral-3: 0.6669, lateral-4: 0.6780, d_loss: 0.4590
+2023-05-17 01:13:25.933507 Epoch [037/100], Step [0200/0208], [lateral-2: 0.6201, lateral-3: 0.6455, lateral-4: 0.6606, d_loss: 0.4704
+2023-05-17 01:13:28.625403 Epoch [037/100], Step [0208/0208], [lateral-2: 0.6499, lateral-3: 0.6727, lateral-4: 0.6852, d_loss: 0.4839
+train_loss: 2.0077, val_loss: 2.2225
+train_d_loss: 0.4839, val_d_loss: 0.6587
+2023-05-17 01:13:43.313754 Epoch [038/100], Step [0020/0208], [lateral-2: 0.5689, lateral-3: 0.5853, lateral-4: 0.5974, d_loss: 0.4668
+2023-05-17 01:13:50.652245 Epoch [038/100], Step [0040/0208], [lateral-2: 0.6112, lateral-3: 0.6295, lateral-4: 0.6458, d_loss: 0.5009
+2023-05-17 01:13:58.045971 Epoch [038/100], Step [0060/0208], [lateral-2: 0.6114, lateral-3: 0.6357, lateral-4: 0.6557, d_loss: 0.5051
+2023-05-17 01:14:05.261284 Epoch [038/100], Step [0080/0208], [lateral-2: 0.5522, lateral-3: 0.5839, lateral-4: 0.6023, d_loss: 0.4897
+2023-05-17 01:14:12.610531 Epoch [038/100], Step [0100/0208], [lateral-2: 0.5704, lateral-3: 0.6065, lateral-4: 0.6236, d_loss: 0.4977
+2023-05-17 01:14:19.844440 Epoch [038/100], Step [0120/0208], [lateral-2: 0.6604, lateral-3: 0.6882, lateral-4: 0.7052, d_loss: 0.5211
+2023-05-17 01:14:27.097887 Epoch [038/100], Step [0140/0208], [lateral-2: 0.6671, lateral-3: 0.6940, lateral-4: 0.7116, d_loss: 0.5052
+2023-05-17 01:14:34.404743 Epoch [038/100], Step [0160/0208], [lateral-2: 0.5962, lateral-3: 0.6293, lateral-4: 0.6499, d_loss: 0.4874
+2023-05-17 01:14:41.807131 Epoch [038/100], Step [0180/0208], [lateral-2: 0.5984, lateral-3: 0.6221, lateral-4: 0.6434, d_loss: 0.4860
+2023-05-17 01:14:49.093938 Epoch [038/100], Step [0200/0208], [lateral-2: 0.6213, lateral-3: 0.6406, lateral-4: 0.6601, d_loss: 0.4555
+2023-05-17 01:14:51.787865 Epoch [038/100], Step [0208/0208], [lateral-2: 0.6196, lateral-3: 0.6401, lateral-4: 0.6581, d_loss: 0.4706
+train_loss: 1.9179, val_loss: 2.2128
+train_d_loss: 0.4706, val_d_loss: 0.7063
+2023-05-17 01:15:06.411000 Epoch [039/100], Step [0020/0208], [lateral-2: 0.6590, lateral-3: 0.6859, lateral-4: 0.6968, d_loss: 0.4980
+2023-05-17 01:15:13.709237 Epoch [039/100], Step [0040/0208], [lateral-2: 0.6263, lateral-3: 0.6451, lateral-4: 0.6598, d_loss: 0.4907
+2023-05-17 01:15:21.055150 Epoch [039/100], Step [0060/0208], [lateral-2: 0.5552, lateral-3: 0.5763, lateral-4: 0.6052, d_loss: 0.4481
+2023-05-17 01:15:28.425569 Epoch [039/100], Step [0080/0208], [lateral-2: 0.5502, lateral-3: 0.5781, lateral-4: 0.6086, d_loss: 0.4564
+2023-05-17 01:15:35.790482 Epoch [039/100], Step [0100/0208], [lateral-2: 0.6210, lateral-3: 0.6432, lateral-4: 0.6713, d_loss: 0.5004
+2023-05-17 01:15:43.129231 Epoch [039/100], Step [0120/0208], [lateral-2: 0.6510, lateral-3: 0.6717, lateral-4: 0.6973, d_loss: 0.4852
+2023-05-17 01:15:50.338219 Epoch [039/100], Step [0140/0208], [lateral-2: 0.6047, lateral-3: 0.6276, lateral-4: 0.6483, d_loss: 0.4654
+2023-05-17 01:15:57.748410 Epoch [039/100], Step [0160/0208], [lateral-2: 0.5957, lateral-3: 0.6206, lateral-4: 0.6410, d_loss: 0.4866
+2023-05-17 01:16:05.167301 Epoch [039/100], Step [0180/0208], [lateral-2: 0.6195, lateral-3: 0.6499, lateral-4: 0.6670, d_loss: 0.5215
+2023-05-17 01:16:12.512005 Epoch [039/100], Step [0200/0208], [lateral-2: 0.5538, lateral-3: 0.5888, lateral-4: 0.6103, d_loss: 0.5292
+2023-05-17 01:16:15.197574 Epoch [039/100], Step [0208/0208], [lateral-2: 0.5595, lateral-3: 0.5898, lateral-4: 0.6173, d_loss: 0.5010
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-39.pth
+train_loss: 1.7665, val_loss: 2.1578
+train_d_loss: 0.5010, val_d_loss: 0.6457
+2023-05-17 01:16:31.224023 Epoch [040/100], Step [0020/0208], [lateral-2: 0.6006, lateral-3: 0.6263, lateral-4: 0.6366, d_loss: 0.4764
+2023-05-17 01:16:38.520414 Epoch [040/100], Step [0040/0208], [lateral-2: 0.5884, lateral-3: 0.6139, lateral-4: 0.6330, d_loss: 0.4240
+2023-05-17 01:16:45.891794 Epoch [040/100], Step [0060/0208], [lateral-2: 0.5926, lateral-3: 0.6147, lateral-4: 0.6401, d_loss: 0.4389
+2023-05-17 01:16:53.220100 Epoch [040/100], Step [0080/0208], [lateral-2: 0.5898, lateral-3: 0.6126, lateral-4: 0.6334, d_loss: 0.5170
+2023-05-17 01:17:00.598522 Epoch [040/100], Step [0100/0208], [lateral-2: 0.5895, lateral-3: 0.6159, lateral-4: 0.6337, d_loss: 0.5253
+2023-05-17 01:17:07.926118 Epoch [040/100], Step [0120/0208], [lateral-2: 0.6118, lateral-3: 0.6321, lateral-4: 0.6506, d_loss: 0.5648
+2023-05-17 01:17:15.194727 Epoch [040/100], Step [0140/0208], [lateral-2: 0.5796, lateral-3: 0.6030, lateral-4: 0.6219, d_loss: 0.5628
+2023-05-17 01:17:22.483661 Epoch [040/100], Step [0160/0208], [lateral-2: 0.6131, lateral-3: 0.6412, lateral-4: 0.6571, d_loss: 0.5113
+2023-05-17 01:17:29.848275 Epoch [040/100], Step [0180/0208], [lateral-2: 0.6514, lateral-3: 0.6758, lateral-4: 0.6906, d_loss: 0.4905
+2023-05-17 01:17:37.205896 Epoch [040/100], Step [0200/0208], [lateral-2: 0.6252, lateral-3: 0.6544, lateral-4: 0.6745, d_loss: 0.4901
+2023-05-17 01:17:39.913313 Epoch [040/100], Step [0208/0208], [lateral-2: 0.6250, lateral-3: 0.6552, lateral-4: 0.6754, d_loss: 0.4705
+train_loss: 1.9555, val_loss: 2.1864
+train_d_loss: 0.4705, val_d_loss: 0.6178
+2023-05-17 01:17:54.649778 Epoch [041/100], Step [0020/0208], [lateral-2: 0.6447, lateral-3: 0.6543, lateral-4: 0.6852, d_loss: 0.4776
+2023-05-17 01:18:01.864752 Epoch [041/100], Step [0040/0208], [lateral-2: 0.6577, lateral-3: 0.6713, lateral-4: 0.6928, d_loss: 0.5034
+2023-05-17 01:18:09.193784 Epoch [041/100], Step [0060/0208], [lateral-2: 0.6238, lateral-3: 0.6484, lateral-4: 0.6686, d_loss: 0.5154
+2023-05-17 01:18:16.592268 Epoch [041/100], Step [0080/0208], [lateral-2: 0.5929, lateral-3: 0.6192, lateral-4: 0.6449, d_loss: 0.5283
+2023-05-17 01:18:24.000494 Epoch [041/100], Step [0100/0208], [lateral-2: 0.6015, lateral-3: 0.6249, lateral-4: 0.6447, d_loss: 0.5058
+2023-05-17 01:18:31.398608 Epoch [041/100], Step [0120/0208], [lateral-2: 0.5785, lateral-3: 0.6071, lateral-4: 0.6265, d_loss: 0.5063
+2023-05-17 01:18:38.716922 Epoch [041/100], Step [0140/0208], [lateral-2: 0.5984, lateral-3: 0.6283, lateral-4: 0.6491, d_loss: 0.5568
+2023-05-17 01:18:46.023520 Epoch [041/100], Step [0160/0208], [lateral-2: 0.6135, lateral-3: 0.6514, lateral-4: 0.6668, d_loss: 0.5146
+2023-05-17 01:18:53.423039 Epoch [041/100], Step [0180/0208], [lateral-2: 0.5761, lateral-3: 0.6134, lateral-4: 0.6318, d_loss: 0.4311
+2023-05-17 01:19:00.682089 Epoch [041/100], Step [0200/0208], [lateral-2: 0.5935, lateral-3: 0.6199, lateral-4: 0.6422, d_loss: 0.4226
+2023-05-17 01:19:03.371657 Epoch [041/100], Step [0208/0208], [lateral-2: 0.5817, lateral-3: 0.6078, lateral-4: 0.6347, d_loss: 0.4468
+train_loss: 1.8242, val_loss: 2.2106
+train_d_loss: 0.4468, val_d_loss: 0.6354
+2023-05-17 01:19:18.129162 Epoch [042/100], Step [0020/0208], [lateral-2: 0.6340, lateral-3: 0.6520, lateral-4: 0.6737, d_loss: 0.5608
+2023-05-17 01:19:25.453251 Epoch [042/100], Step [0040/0208], [lateral-2: 0.5997, lateral-3: 0.6199, lateral-4: 0.6421, d_loss: 0.5570
+2023-05-17 01:19:32.700691 Epoch [042/100], Step [0060/0208], [lateral-2: 0.5797, lateral-3: 0.6069, lateral-4: 0.6261, d_loss: 0.5151
+2023-05-17 01:19:40.134938 Epoch [042/100], Step [0080/0208], [lateral-2: 0.6070, lateral-3: 0.6325, lateral-4: 0.6465, d_loss: 0.5117
+2023-05-17 01:19:47.451900 Epoch [042/100], Step [0100/0208], [lateral-2: 0.6110, lateral-3: 0.6311, lateral-4: 0.6439, d_loss: 0.4975
+2023-05-17 01:19:54.781737 Epoch [042/100], Step [0120/0208], [lateral-2: 0.6025, lateral-3: 0.6259, lateral-4: 0.6438, d_loss: 0.4500
+2023-05-17 01:20:02.181192 Epoch [042/100], Step [0140/0208], [lateral-2: 0.6181, lateral-3: 0.6357, lateral-4: 0.6643, d_loss: 0.4777
+2023-05-17 01:20:09.476155 Epoch [042/100], Step [0160/0208], [lateral-2: 0.6612, lateral-3: 0.6755, lateral-4: 0.7012, d_loss: 0.5174
+2023-05-17 01:20:16.738167 Epoch [042/100], Step [0180/0208], [lateral-2: 0.6244, lateral-3: 0.6455, lateral-4: 0.6684, d_loss: 0.5113
+2023-05-17 01:20:24.044487 Epoch [042/100], Step [0200/0208], [lateral-2: 0.5778, lateral-3: 0.6020, lateral-4: 0.6202, d_loss: 0.4723
+2023-05-17 01:20:26.733833 Epoch [042/100], Step [0208/0208], [lateral-2: 0.5727, lateral-3: 0.5980, lateral-4: 0.6134, d_loss: 0.4765
+train_loss: 1.7841, val_loss: 2.2084
+train_d_loss: 0.4765, val_d_loss: 0.6197
+2023-05-17 01:20:41.504844 Epoch [043/100], Step [0020/0208], [lateral-2: 0.5681, lateral-3: 0.5955, lateral-4: 0.6178, d_loss: 0.4878
+2023-05-17 01:20:48.856729 Epoch [043/100], Step [0040/0208], [lateral-2: 0.5936, lateral-3: 0.6112, lateral-4: 0.6351, d_loss: 0.4963
+2023-05-17 01:20:56.245752 Epoch [043/100], Step [0060/0208], [lateral-2: 0.6133, lateral-3: 0.6299, lateral-4: 0.6503, d_loss: 0.4886
+2023-05-17 01:21:03.609908 Epoch [043/100], Step [0080/0208], [lateral-2: 0.6220, lateral-3: 0.6470, lateral-4: 0.6614, d_loss: 0.4739
+2023-05-17 01:21:11.005510 Epoch [043/100], Step [0100/0208], [lateral-2: 0.6114, lateral-3: 0.6366, lateral-4: 0.6551, d_loss: 0.5269
+2023-05-17 01:21:18.340960 Epoch [043/100], Step [0120/0208], [lateral-2: 0.5850, lateral-3: 0.6003, lateral-4: 0.6240, d_loss: 0.5536
+2023-05-17 01:21:25.766529 Epoch [043/100], Step [0140/0208], [lateral-2: 0.6030, lateral-3: 0.6186, lateral-4: 0.6362, d_loss: 0.4950
+2023-05-17 01:21:33.165429 Epoch [043/100], Step [0160/0208], [lateral-2: 0.6519, lateral-3: 0.6725, lateral-4: 0.6858, d_loss: 0.4741
+2023-05-17 01:21:40.532984 Epoch [043/100], Step [0180/0208], [lateral-2: 0.6286, lateral-3: 0.6534, lateral-4: 0.6691, d_loss: 0.5136
+2023-05-17 01:21:47.892295 Epoch [043/100], Step [0200/0208], [lateral-2: 0.5963, lateral-3: 0.6242, lateral-4: 0.6407, d_loss: 0.5698
+2023-05-17 01:21:50.563921 Epoch [043/100], Step [0208/0208], [lateral-2: 0.5839, lateral-3: 0.6078, lateral-4: 0.6273, d_loss: 0.5422
+train_loss: 1.8190, val_loss: 2.1645
+train_d_loss: 0.5422, val_d_loss: 0.6046
+2023-05-17 01:22:05.296027 Epoch [044/100], Step [0020/0208], [lateral-2: 0.6505, lateral-3: 0.6656, lateral-4: 0.6825, d_loss: 0.5487
+2023-05-17 01:22:12.678004 Epoch [044/100], Step [0040/0208], [lateral-2: 0.6196, lateral-3: 0.6403, lateral-4: 0.6544, d_loss: 0.5316
+2023-05-17 01:22:20.066806 Epoch [044/100], Step [0060/0208], [lateral-2: 0.5440, lateral-3: 0.5722, lateral-4: 0.5956, d_loss: 0.4789
+2023-05-17 01:22:27.405237 Epoch [044/100], Step [0080/0208], [lateral-2: 0.5012, lateral-3: 0.5270, lateral-4: 0.5574, d_loss: 0.4212
+2023-05-17 01:22:34.705457 Epoch [044/100], Step [0100/0208], [lateral-2: 0.5641, lateral-3: 0.5782, lateral-4: 0.6039, d_loss: 0.4451
+2023-05-17 01:22:42.083825 Epoch [044/100], Step [0120/0208], [lateral-2: 0.6543, lateral-3: 0.6664, lateral-4: 0.6903, d_loss: 0.5308
+2023-05-17 01:22:49.490633 Epoch [044/100], Step [0140/0208], [lateral-2: 0.6532, lateral-3: 0.6760, lateral-4: 0.6931, d_loss: 0.5197
+2023-05-17 01:22:56.834870 Epoch [044/100], Step [0160/0208], [lateral-2: 0.5954, lateral-3: 0.6212, lateral-4: 0.6401, d_loss: 0.4862
+2023-05-17 01:23:04.198822 Epoch [044/100], Step [0180/0208], [lateral-2: 0.5927, lateral-3: 0.6151, lateral-4: 0.6390, d_loss: 0.4875
+2023-05-17 01:23:11.533895 Epoch [044/100], Step [0200/0208], [lateral-2: 0.6319, lateral-3: 0.6555, lateral-4: 0.6755, d_loss: 0.4714
+2023-05-17 01:23:14.234399 Epoch [044/100], Step [0208/0208], [lateral-2: 0.6347, lateral-3: 0.6596, lateral-4: 0.6829, d_loss: 0.4461
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-44.pth
+train_loss: 1.9771, val_loss: 2.1966
+train_d_loss: 0.4461, val_d_loss: 0.6921
+2023-05-17 01:23:30.313648 Epoch [045/100], Step [0020/0208], [lateral-2: 0.6169, lateral-3: 0.6404, lateral-4: 0.6587, d_loss: 0.6008
+2023-05-17 01:23:37.659919 Epoch [045/100], Step [0040/0208], [lateral-2: 0.5560, lateral-3: 0.5857, lateral-4: 0.6036, d_loss: 0.5260
+2023-05-17 01:23:44.922085 Epoch [045/100], Step [0060/0208], [lateral-2: 0.6138, lateral-3: 0.6348, lateral-4: 0.6607, d_loss: 0.4843
+2023-05-17 01:23:52.295928 Epoch [045/100], Step [0080/0208], [lateral-2: 0.6444, lateral-3: 0.6658, lateral-4: 0.6967, d_loss: 0.4780
+2023-05-17 01:23:59.606592 Epoch [045/100], Step [0100/0208], [lateral-2: 0.5927, lateral-3: 0.6213, lateral-4: 0.6456, d_loss: 0.4904
+2023-05-17 01:24:06.907232 Epoch [045/100], Step [0120/0208], [lateral-2: 0.6079, lateral-3: 0.6262, lateral-4: 0.6535, d_loss: 0.5284
+2023-05-17 01:24:14.236229 Epoch [045/100], Step [0140/0208], [lateral-2: 0.5958, lateral-3: 0.6131, lateral-4: 0.6403, d_loss: 0.5095
+2023-05-17 01:24:21.435973 Epoch [045/100], Step [0160/0208], [lateral-2: 0.5937, lateral-3: 0.6144, lateral-4: 0.6350, d_loss: 0.5129
+2023-05-17 01:24:28.740615 Epoch [045/100], Step [0180/0208], [lateral-2: 0.5974, lateral-3: 0.6196, lateral-4: 0.6405, d_loss: 0.5131
+2023-05-17 01:24:36.023843 Epoch [045/100], Step [0200/0208], [lateral-2: 0.6242, lateral-3: 0.6446, lateral-4: 0.6598, d_loss: 0.5216
+2023-05-17 01:24:38.703620 Epoch [045/100], Step [0208/0208], [lateral-2: 0.6315, lateral-3: 0.6419, lateral-4: 0.6618, d_loss: 0.5135
+train_loss: 1.9352, val_loss: 2.1454
+train_d_loss: 0.5135, val_d_loss: 0.6094
+2023-05-17 01:24:53.381274 Epoch [046/100], Step [0020/0208], [lateral-2: 0.5453, lateral-3: 0.5796, lateral-4: 0.5923, d_loss: 0.4426
+2023-05-17 01:25:00.791650 Epoch [046/100], Step [0040/0208], [lateral-2: 0.5634, lateral-3: 0.5943, lateral-4: 0.6187, d_loss: 0.4549
+2023-05-17 01:25:08.160440 Epoch [046/100], Step [0060/0208], [lateral-2: 0.6064, lateral-3: 0.6328, lateral-4: 0.6597, d_loss: 0.4884
+2023-05-17 01:25:15.407502 Epoch [046/100], Step [0080/0208], [lateral-2: 0.6178, lateral-3: 0.6423, lateral-4: 0.6625, d_loss: 0.4958
+2023-05-17 01:25:22.650567 Epoch [046/100], Step [0100/0208], [lateral-2: 0.5767, lateral-3: 0.5969, lateral-4: 0.6213, d_loss: 0.4632
+2023-05-17 01:25:29.878019 Epoch [046/100], Step [0120/0208], [lateral-2: 0.5472, lateral-3: 0.5656, lateral-4: 0.5925, d_loss: 0.4510
+2023-05-17 01:25:37.276525 Epoch [046/100], Step [0140/0208], [lateral-2: 0.6048, lateral-3: 0.6251, lateral-4: 0.6480, d_loss: 0.4695
+2023-05-17 01:25:44.626955 Epoch [046/100], Step [0160/0208], [lateral-2: 0.6381, lateral-3: 0.6638, lateral-4: 0.6791, d_loss: 0.4747
+2023-05-17 01:25:51.961365 Epoch [046/100], Step [0180/0208], [lateral-2: 0.6059, lateral-3: 0.6314, lateral-4: 0.6496, d_loss: 0.4769
+2023-05-17 01:25:59.337070 Epoch [046/100], Step [0200/0208], [lateral-2: 0.6569, lateral-3: 0.6760, lateral-4: 0.6941, d_loss: 0.4874
+2023-05-17 01:26:02.029043 Epoch [046/100], Step [0208/0208], [lateral-2: 0.6602, lateral-3: 0.6785, lateral-4: 0.6937, d_loss: 0.4854
+train_loss: 2.0324, val_loss: 2.1536
+train_d_loss: 0.4854, val_d_loss: 0.6341
+2023-05-17 01:26:16.605980 Epoch [047/100], Step [0020/0208], [lateral-2: 0.5622, lateral-3: 0.5838, lateral-4: 0.6105, d_loss: 0.4771
+2023-05-17 01:26:24.011508 Epoch [047/100], Step [0040/0208], [lateral-2: 0.6063, lateral-3: 0.6240, lateral-4: 0.6461, d_loss: 0.5168
+2023-05-17 01:26:31.403036 Epoch [047/100], Step [0060/0208], [lateral-2: 0.6021, lateral-3: 0.6265, lateral-4: 0.6457, d_loss: 0.5459
+2023-05-17 01:26:38.693101 Epoch [047/100], Step [0080/0208], [lateral-2: 0.5949, lateral-3: 0.6217, lateral-4: 0.6464, d_loss: 0.4810
+2023-05-17 01:26:46.087489 Epoch [047/100], Step [0100/0208], [lateral-2: 0.6161, lateral-3: 0.6408, lateral-4: 0.6636, d_loss: 0.4288
+2023-05-17 01:26:53.451224 Epoch [047/100], Step [0120/0208], [lateral-2: 0.5947, lateral-3: 0.6221, lateral-4: 0.6411, d_loss: 0.5157
+2023-05-17 01:27:00.890668 Epoch [047/100], Step [0140/0208], [lateral-2: 0.6428, lateral-3: 0.6638, lateral-4: 0.6828, d_loss: 0.5733
+2023-05-17 01:27:08.159802 Epoch [047/100], Step [0160/0208], [lateral-2: 0.6282, lateral-3: 0.6440, lateral-4: 0.6669, d_loss: 0.5066
+2023-05-17 01:27:15.497594 Epoch [047/100], Step [0180/0208], [lateral-2: 0.5858, lateral-3: 0.6055, lateral-4: 0.6305, d_loss: 0.4465
+2023-05-17 01:27:22.874814 Epoch [047/100], Step [0200/0208], [lateral-2: 0.6149, lateral-3: 0.6384, lateral-4: 0.6618, d_loss: 0.4448
+2023-05-17 01:27:25.563565 Epoch [047/100], Step [0208/0208], [lateral-2: 0.6392, lateral-3: 0.6619, lateral-4: 0.6803, d_loss: 0.4246
+train_loss: 1.9813, val_loss: 2.2185
+train_d_loss: 0.4246, val_d_loss: 0.6736
+2023-05-17 01:27:40.262104 Epoch [048/100], Step [0020/0208], [lateral-2: 0.6495, lateral-3: 0.6621, lateral-4: 0.6791, d_loss: 0.5776
+2023-05-17 01:27:47.576915 Epoch [048/100], Step [0040/0208], [lateral-2: 0.6438, lateral-3: 0.6578, lateral-4: 0.6848, d_loss: 0.5383
+2023-05-17 01:27:54.991306 Epoch [048/100], Step [0060/0208], [lateral-2: 0.6273, lateral-3: 0.6479, lateral-4: 0.6791, d_loss: 0.5076
+2023-05-17 01:28:02.301808 Epoch [048/100], Step [0080/0208], [lateral-2: 0.5767, lateral-3: 0.5986, lateral-4: 0.6264, d_loss: 0.4727
+2023-05-17 01:28:09.596304 Epoch [048/100], Step [0100/0208], [lateral-2: 0.5681, lateral-3: 0.5860, lateral-4: 0.6098, d_loss: 0.4706
+2023-05-17 01:28:16.963569 Epoch [048/100], Step [0120/0208], [lateral-2: 0.6018, lateral-3: 0.6202, lateral-4: 0.6385, d_loss: 0.5127
+2023-05-17 01:28:24.307897 Epoch [048/100], Step [0140/0208], [lateral-2: 0.5702, lateral-3: 0.5918, lateral-4: 0.6126, d_loss: 0.4886
+2023-05-17 01:28:31.730357 Epoch [048/100], Step [0160/0208], [lateral-2: 0.5741, lateral-3: 0.6009, lateral-4: 0.6195, d_loss: 0.4532
+2023-05-17 01:28:39.088309 Epoch [048/100], Step [0180/0208], [lateral-2: 0.6025, lateral-3: 0.6244, lateral-4: 0.6369, d_loss: 0.4873
+2023-05-17 01:28:46.438771 Epoch [048/100], Step [0200/0208], [lateral-2: 0.6084, lateral-3: 0.6295, lateral-4: 0.6427, d_loss: 0.4948
+2023-05-17 01:28:49.125087 Epoch [048/100], Step [0208/0208], [lateral-2: 0.5770, lateral-3: 0.6058, lateral-4: 0.6236, d_loss: 0.4616
+train_loss: 1.8064, val_loss: 2.2159
+train_d_loss: 0.4616, val_d_loss: 0.6329
+2023-05-17 01:29:03.836029 Epoch [049/100], Step [0020/0208], [lateral-2: 0.6266, lateral-3: 0.6558, lateral-4: 0.6705, d_loss: 0.4615
+2023-05-17 01:29:11.207715 Epoch [049/100], Step [0040/0208], [lateral-2: 0.6608, lateral-3: 0.6829, lateral-4: 0.6961, d_loss: 0.4986
+2023-05-17 01:29:18.520053 Epoch [049/100], Step [0060/0208], [lateral-2: 0.6486, lateral-3: 0.6733, lateral-4: 0.6871, d_loss: 0.4955
+2023-05-17 01:29:25.881769 Epoch [049/100], Step [0080/0208], [lateral-2: 0.5972, lateral-3: 0.6248, lateral-4: 0.6488, d_loss: 0.4495
+2023-05-17 01:29:33.182430 Epoch [049/100], Step [0100/0208], [lateral-2: 0.6120, lateral-3: 0.6331, lateral-4: 0.6605, d_loss: 0.4254
+2023-05-17 01:29:40.522342 Epoch [049/100], Step [0120/0208], [lateral-2: 0.5731, lateral-3: 0.5950, lateral-4: 0.6121, d_loss: 0.4579
+2023-05-17 01:29:47.888375 Epoch [049/100], Step [0140/0208], [lateral-2: 0.5844, lateral-3: 0.6030, lateral-4: 0.6188, d_loss: 0.5345
+2023-05-17 01:29:55.303212 Epoch [049/100], Step [0160/0208], [lateral-2: 0.6382, lateral-3: 0.6530, lateral-4: 0.6747, d_loss: 0.5350
+2023-05-17 01:30:02.643054 Epoch [049/100], Step [0180/0208], [lateral-2: 0.5767, lateral-3: 0.5988, lateral-4: 0.6259, d_loss: 0.4849
+2023-05-17 01:30:09.934506 Epoch [049/100], Step [0200/0208], [lateral-2: 0.5811, lateral-3: 0.6040, lateral-4: 0.6314, d_loss: 0.4723
+2023-05-17 01:30:12.609436 Epoch [049/100], Step [0208/0208], [lateral-2: 0.6058, lateral-3: 0.6240, lateral-4: 0.6521, d_loss: 0.4613
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-49.pth
+train_loss: 1.8818, val_loss: 2.1348
+train_d_loss: 0.4613, val_d_loss: 0.7058
+2023-05-17 01:30:28.699737 Epoch [050/100], Step [0020/0208], [lateral-2: 0.5499, lateral-3: 0.5720, lateral-4: 0.5986, d_loss: 0.5632
+2023-05-17 01:30:36.072190 Epoch [050/100], Step [0040/0208], [lateral-2: 0.5467, lateral-3: 0.5774, lateral-4: 0.6007, d_loss: 0.4767
+2023-05-17 01:30:43.456787 Epoch [050/100], Step [0060/0208], [lateral-2: 0.5850, lateral-3: 0.6194, lateral-4: 0.6430, d_loss: 0.4427
+2023-05-17 01:30:50.746644 Epoch [050/100], Step [0080/0208], [lateral-2: 0.6245, lateral-3: 0.6547, lateral-4: 0.6754, d_loss: 0.4821
+2023-05-17 01:30:58.082495 Epoch [050/100], Step [0100/0208], [lateral-2: 0.6771, lateral-3: 0.6996, lateral-4: 0.7121, d_loss: 0.4698
+2023-05-17 01:31:05.410090 Epoch [050/100], Step [0120/0208], [lateral-2: 0.6442, lateral-3: 0.6629, lateral-4: 0.6799, d_loss: 0.4541
+2023-05-17 01:31:12.771771 Epoch [050/100], Step [0140/0208], [lateral-2: 0.5489, lateral-3: 0.5734, lateral-4: 0.5905, d_loss: 0.4259
+2023-05-17 01:31:20.151920 Epoch [050/100], Step [0160/0208], [lateral-2: 0.6059, lateral-3: 0.6248, lateral-4: 0.6373, d_loss: 0.4689
+2023-05-17 01:31:27.498599 Epoch [050/100], Step [0180/0208], [lateral-2: 0.6549, lateral-3: 0.6744, lateral-4: 0.6942, d_loss: 0.5210
+2023-05-17 01:31:34.847763 Epoch [050/100], Step [0200/0208], [lateral-2: 0.6148, lateral-3: 0.6459, lateral-4: 0.6678, d_loss: 0.4655
+2023-05-17 01:31:37.565426 Epoch [050/100], Step [0208/0208], [lateral-2: 0.5924, lateral-3: 0.6247, lateral-4: 0.6454, d_loss: 0.4488
+train_loss: 1.8626, val_loss: 2.1600
+train_d_loss: 0.4488, val_d_loss: 0.6413
+2023-05-17 01:31:52.167434 Epoch [051/100], Step [0020/0208], [lateral-2: 0.6284, lateral-3: 0.6493, lateral-4: 0.6631, d_loss: 0.4871
+2023-05-17 01:31:59.440864 Epoch [051/100], Step [0040/0208], [lateral-2: 0.6182, lateral-3: 0.6333, lateral-4: 0.6488, d_loss: 0.4722
+2023-05-17 01:32:06.864980 Epoch [051/100], Step [0060/0208], [lateral-2: 0.5985, lateral-3: 0.6144, lateral-4: 0.6364, d_loss: 0.4258
+2023-05-17 01:32:14.228169 Epoch [051/100], Step [0080/0208], [lateral-2: 0.6076, lateral-3: 0.6329, lateral-4: 0.6557, d_loss: 0.4546
+2023-05-17 01:32:21.635488 Epoch [051/100], Step [0100/0208], [lateral-2: 0.6127, lateral-3: 0.6427, lateral-4: 0.6645, d_loss: 0.4821
+2023-05-17 01:32:28.993175 Epoch [051/100], Step [0120/0208], [lateral-2: 0.6011, lateral-3: 0.6281, lateral-4: 0.6507, d_loss: 0.4435
+2023-05-17 01:32:36.401683 Epoch [051/100], Step [0140/0208], [lateral-2: 0.5640, lateral-3: 0.5903, lateral-4: 0.6088, d_loss: 0.4231
+2023-05-17 01:32:43.810129 Epoch [051/100], Step [0160/0208], [lateral-2: 0.5328, lateral-3: 0.5569, lateral-4: 0.5794, d_loss: 0.3996
+2023-05-17 01:32:51.203679 Epoch [051/100], Step [0180/0208], [lateral-2: 0.5866, lateral-3: 0.6084, lateral-4: 0.6333, d_loss: 0.4220
+2023-05-17 01:32:58.484939 Epoch [051/100], Step [0200/0208], [lateral-2: 0.6396, lateral-3: 0.6612, lateral-4: 0.6799, d_loss: 0.4447
+2023-05-17 01:33:01.161642 Epoch [051/100], Step [0208/0208], [lateral-2: 0.6346, lateral-3: 0.6488, lateral-4: 0.6726, d_loss: 0.4262
+train_loss: 1.9561, val_loss: 2.2078
+train_d_loss: 0.4262, val_d_loss: 0.6524
+2023-05-17 01:33:15.975950 Epoch [052/100], Step [0020/0208], [lateral-2: 0.5863, lateral-3: 0.6148, lateral-4: 0.6314, d_loss: 0.4419
+2023-05-17 01:33:23.364636 Epoch [052/100], Step [0040/0208], [lateral-2: 0.6105, lateral-3: 0.6349, lateral-4: 0.6478, d_loss: 0.4397
+2023-05-17 01:33:30.812067 Epoch [052/100], Step [0060/0208], [lateral-2: 0.6603, lateral-3: 0.6821, lateral-4: 0.6921, d_loss: 0.4374
+2023-05-17 01:33:38.164967 Epoch [052/100], Step [0080/0208], [lateral-2: 0.6249, lateral-3: 0.6475, lateral-4: 0.6628, d_loss: 0.4513
+2023-05-17 01:33:45.463483 Epoch [052/100], Step [0100/0208], [lateral-2: 0.6211, lateral-3: 0.6405, lateral-4: 0.6601, d_loss: 0.4669
+2023-05-17 01:33:52.878055 Epoch [052/100], Step [0120/0208], [lateral-2: 0.6248, lateral-3: 0.6439, lateral-4: 0.6609, d_loss: 0.4322
+2023-05-17 01:34:00.249249 Epoch [052/100], Step [0140/0208], [lateral-2: 0.5920, lateral-3: 0.6113, lateral-4: 0.6359, d_loss: 0.4443
+2023-05-17 01:34:07.618166 Epoch [052/100], Step [0160/0208], [lateral-2: 0.5835, lateral-3: 0.6031, lateral-4: 0.6307, d_loss: 0.4587
+2023-05-17 01:34:14.891948 Epoch [052/100], Step [0180/0208], [lateral-2: 0.5411, lateral-3: 0.5641, lateral-4: 0.5892, d_loss: 0.4521
+2023-05-17 01:34:22.219813 Epoch [052/100], Step [0200/0208], [lateral-2: 0.5520, lateral-3: 0.5677, lateral-4: 0.5995, d_loss: 0.4767
+2023-05-17 01:34:24.912734 Epoch [052/100], Step [0208/0208], [lateral-2: 0.5723, lateral-3: 0.5834, lateral-4: 0.6153, d_loss: 0.4601
+train_loss: 1.7709, val_loss: 2.2224
+train_d_loss: 0.4601, val_d_loss: 0.6333
+2023-05-17 01:34:39.592827 Epoch [053/100], Step [0020/0208], [lateral-2: 0.6308, lateral-3: 0.6519, lateral-4: 0.6671, d_loss: 0.4650
+2023-05-17 01:34:46.985732 Epoch [053/100], Step [0040/0208], [lateral-2: 0.5984, lateral-3: 0.6190, lateral-4: 0.6380, d_loss: 0.4579
+2023-05-17 01:34:54.353071 Epoch [053/100], Step [0060/0208], [lateral-2: 0.5783, lateral-3: 0.5993, lateral-4: 0.6190, d_loss: 0.4127
+2023-05-17 01:35:01.646525 Epoch [053/100], Step [0080/0208], [lateral-2: 0.5816, lateral-3: 0.6009, lateral-4: 0.6204, d_loss: 0.3795
+2023-05-17 01:35:08.938283 Epoch [053/100], Step [0100/0208], [lateral-2: 0.5570, lateral-3: 0.5828, lateral-4: 0.6030, d_loss: 0.4005
+2023-05-17 01:35:16.386381 Epoch [053/100], Step [0120/0208], [lateral-2: 0.5995, lateral-3: 0.6268, lateral-4: 0.6483, d_loss: 0.4397
+2023-05-17 01:35:23.798543 Epoch [053/100], Step [0140/0208], [lateral-2: 0.6590, lateral-3: 0.6811, lateral-4: 0.7047, d_loss: 0.4581
+2023-05-17 01:35:31.122197 Epoch [053/100], Step [0160/0208], [lateral-2: 0.6450, lateral-3: 0.6689, lateral-4: 0.6886, d_loss: 0.4973
+2023-05-17 01:35:38.401373 Epoch [053/100], Step [0180/0208], [lateral-2: 0.6501, lateral-3: 0.6676, lateral-4: 0.6869, d_loss: 0.4877
+2023-05-17 01:35:45.744954 Epoch [053/100], Step [0200/0208], [lateral-2: 0.6353, lateral-3: 0.6514, lateral-4: 0.6735, d_loss: 0.4566
+2023-05-17 01:35:48.457847 Epoch [053/100], Step [0208/0208], [lateral-2: 0.5982, lateral-3: 0.6161, lateral-4: 0.6374, d_loss: 0.4606
+train_loss: 1.8517, val_loss: 2.2014
+train_d_loss: 0.4606, val_d_loss: 0.6732
+2023-05-17 01:36:03.325962 Epoch [054/100], Step [0020/0208], [lateral-2: 0.5830, lateral-3: 0.6050, lateral-4: 0.6419, d_loss: 0.4447
+2023-05-17 01:36:10.705536 Epoch [054/100], Step [0040/0208], [lateral-2: 0.5796, lateral-3: 0.6068, lateral-4: 0.6318, d_loss: 0.4330
+2023-05-17 01:36:18.189134 Epoch [054/100], Step [0060/0208], [lateral-2: 0.5757, lateral-3: 0.6082, lateral-4: 0.6253, d_loss: 0.4607
+2023-05-17 01:36:25.578895 Epoch [054/100], Step [0080/0208], [lateral-2: 0.6249, lateral-3: 0.6520, lateral-4: 0.6717, d_loss: 0.4637
+2023-05-17 01:36:32.969264 Epoch [054/100], Step [0100/0208], [lateral-2: 0.6521, lateral-3: 0.6772, lateral-4: 0.6952, d_loss: 0.4596
+2023-05-17 01:36:40.386937 Epoch [054/100], Step [0120/0208], [lateral-2: 0.6063, lateral-3: 0.6329, lateral-4: 0.6515, d_loss: 0.4639
+2023-05-17 01:36:47.752790 Epoch [054/100], Step [0140/0208], [lateral-2: 0.5631, lateral-3: 0.5916, lateral-4: 0.6099, d_loss: 0.4484
+2023-05-17 01:36:55.095261 Epoch [054/100], Step [0160/0208], [lateral-2: 0.5877, lateral-3: 0.6118, lateral-4: 0.6266, d_loss: 0.4376
+2023-05-17 01:37:02.482741 Epoch [054/100], Step [0180/0208], [lateral-2: 0.6100, lateral-3: 0.6321, lateral-4: 0.6493, d_loss: 0.4227
+2023-05-17 01:37:09.858680 Epoch [054/100], Step [0200/0208], [lateral-2: 0.5906, lateral-3: 0.6194, lateral-4: 0.6388, d_loss: 0.4343
+2023-05-17 01:37:12.552996 Epoch [054/100], Step [0208/0208], [lateral-2: 0.5807, lateral-3: 0.6117, lateral-4: 0.6267, d_loss: 0.4381
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-54.pth
+train_loss: 1.8191, val_loss: 2.2168
+train_d_loss: 0.4381, val_d_loss: 0.6283
+2023-05-17 01:37:28.426145 Epoch [055/100], Step [0020/0208], [lateral-2: 0.6347, lateral-3: 0.6520, lateral-4: 0.6724, d_loss: 0.4343
+2023-05-17 01:37:35.748745 Epoch [055/100], Step [0040/0208], [lateral-2: 0.6115, lateral-3: 0.6287, lateral-4: 0.6484, d_loss: 0.4754
+2023-05-17 01:37:43.187762 Epoch [055/100], Step [0060/0208], [lateral-2: 0.6035, lateral-3: 0.6229, lateral-4: 0.6405, d_loss: 0.4877
+2023-05-17 01:37:50.472157 Epoch [055/100], Step [0080/0208], [lateral-2: 0.6203, lateral-3: 0.6399, lateral-4: 0.6527, d_loss: 0.4566
+2023-05-17 01:37:57.869508 Epoch [055/100], Step [0100/0208], [lateral-2: 0.6354, lateral-3: 0.6579, lateral-4: 0.6729, d_loss: 0.4589
+2023-05-17 01:38:05.183685 Epoch [055/100], Step [0120/0208], [lateral-2: 0.6345, lateral-3: 0.6615, lateral-4: 0.6836, d_loss: 0.4615
+2023-05-17 01:38:12.508256 Epoch [055/100], Step [0140/0208], [lateral-2: 0.5826, lateral-3: 0.6091, lateral-4: 0.6330, d_loss: 0.4301
+2023-05-17 01:38:19.809891 Epoch [055/100], Step [0160/0208], [lateral-2: 0.5955, lateral-3: 0.6189, lateral-4: 0.6432, d_loss: 0.4711
+2023-05-17 01:38:27.220411 Epoch [055/100], Step [0180/0208], [lateral-2: 0.6167, lateral-3: 0.6437, lateral-4: 0.6631, d_loss: 0.4711
+2023-05-17 01:38:34.562514 Epoch [055/100], Step [0200/0208], [lateral-2: 0.5958, lateral-3: 0.6251, lateral-4: 0.6436, d_loss: 0.4382
+2023-05-17 01:38:37.257313 Epoch [055/100], Step [0208/0208], [lateral-2: 0.6046, lateral-3: 0.6332, lateral-4: 0.6510, d_loss: 0.4790
+train_loss: 1.8888, val_loss: 2.1440
+train_d_loss: 0.4790, val_d_loss: 0.6188
+2023-05-17 01:38:51.977617 Epoch [056/100], Step [0020/0208], [lateral-2: 0.5388, lateral-3: 0.5556, lateral-4: 0.5836, d_loss: 0.4199
+2023-05-17 01:38:59.415969 Epoch [056/100], Step [0040/0208], [lateral-2: 0.5863, lateral-3: 0.6090, lateral-4: 0.6301, d_loss: 0.4168
+2023-05-17 01:39:06.763098 Epoch [056/100], Step [0060/0208], [lateral-2: 0.6554, lateral-3: 0.6778, lateral-4: 0.6993, d_loss: 0.4498
+2023-05-17 01:39:14.091681 Epoch [056/100], Step [0080/0208], [lateral-2: 0.6422, lateral-3: 0.6617, lateral-4: 0.6886, d_loss: 0.4881
+2023-05-17 01:39:21.459767 Epoch [056/100], Step [0100/0208], [lateral-2: 0.6216, lateral-3: 0.6408, lateral-4: 0.6629, d_loss: 0.4628
+2023-05-17 01:39:28.801955 Epoch [056/100], Step [0120/0208], [lateral-2: 0.6083, lateral-3: 0.6284, lateral-4: 0.6517, d_loss: 0.4691
+2023-05-17 01:39:36.085874 Epoch [056/100], Step [0140/0208], [lateral-2: 0.5748, lateral-3: 0.6013, lateral-4: 0.6268, d_loss: 0.4744
+2023-05-17 01:39:43.426281 Epoch [056/100], Step [0160/0208], [lateral-2: 0.5787, lateral-3: 0.6099, lateral-4: 0.6259, d_loss: 0.4559
+2023-05-17 01:39:50.835318 Epoch [056/100], Step [0180/0208], [lateral-2: 0.6367, lateral-3: 0.6658, lateral-4: 0.6792, d_loss: 0.5037
+2023-05-17 01:39:58.239226 Epoch [056/100], Step [0200/0208], [lateral-2: 0.6350, lateral-3: 0.6631, lateral-4: 0.6799, d_loss: 0.5343
+2023-05-17 01:40:00.970227 Epoch [056/100], Step [0208/0208], [lateral-2: 0.6122, lateral-3: 0.6342, lateral-4: 0.6579, d_loss: 0.5067
+train_loss: 1.9043, val_loss: 2.1541
+train_d_loss: 0.5067, val_d_loss: 0.6352
+2023-05-17 01:40:15.732027 Epoch [057/100], Step [0020/0208], [lateral-2: 0.5476, lateral-3: 0.5763, lateral-4: 0.5965, d_loss: 0.4228
+2023-05-17 01:40:23.122763 Epoch [057/100], Step [0040/0208], [lateral-2: 0.5921, lateral-3: 0.6129, lateral-4: 0.6357, d_loss: 0.4383
+2023-05-17 01:40:30.458924 Epoch [057/100], Step [0060/0208], [lateral-2: 0.6130, lateral-3: 0.6289, lateral-4: 0.6488, d_loss: 0.4950
+2023-05-17 01:40:37.809344 Epoch [057/100], Step [0080/0208], [lateral-2: 0.5945, lateral-3: 0.6191, lateral-4: 0.6377, d_loss: 0.4942
+2023-05-17 01:40:45.237887 Epoch [057/100], Step [0100/0208], [lateral-2: 0.6317, lateral-3: 0.6594, lateral-4: 0.6784, d_loss: 0.4767
+2023-05-17 01:40:52.583321 Epoch [057/100], Step [0120/0208], [lateral-2: 0.6149, lateral-3: 0.6399, lateral-4: 0.6596, d_loss: 0.4800
+2023-05-17 01:40:59.853183 Epoch [057/100], Step [0140/0208], [lateral-2: 0.6069, lateral-3: 0.6246, lateral-4: 0.6468, d_loss: 0.4573
+2023-05-17 01:41:07.336209 Epoch [057/100], Step [0160/0208], [lateral-2: 0.6118, lateral-3: 0.6305, lateral-4: 0.6546, d_loss: 0.4408
+2023-05-17 01:41:14.786671 Epoch [057/100], Step [0180/0208], [lateral-2: 0.6190, lateral-3: 0.6445, lateral-4: 0.6636, d_loss: 0.4363
+2023-05-17 01:41:22.212049 Epoch [057/100], Step [0200/0208], [lateral-2: 0.6418, lateral-3: 0.6634, lateral-4: 0.6868, d_loss: 0.4589
+2023-05-17 01:41:24.949431 Epoch [057/100], Step [0208/0208], [lateral-2: 0.6174, lateral-3: 0.6406, lateral-4: 0.6690, d_loss: 0.4532
+train_loss: 1.9270, val_loss: 2.1378
+train_d_loss: 0.4532, val_d_loss: 0.6384
+2023-05-17 01:41:39.753379 Epoch [058/100], Step [0020/0208], [lateral-2: 0.5735, lateral-3: 0.5942, lateral-4: 0.6260, d_loss: 0.3248
+2023-05-17 01:41:47.013038 Epoch [058/100], Step [0040/0208], [lateral-2: 0.6097, lateral-3: 0.6295, lateral-4: 0.6572, d_loss: 0.4030
+2023-05-17 01:41:54.540937 Epoch [058/100], Step [0060/0208], [lateral-2: 0.6332, lateral-3: 0.6580, lateral-4: 0.6867, d_loss: 0.4834
+2023-05-17 01:42:01.911384 Epoch [058/100], Step [0080/0208], [lateral-2: 0.6297, lateral-3: 0.6556, lateral-4: 0.6806, d_loss: 0.4914
+2023-05-17 01:42:09.138165 Epoch [058/100], Step [0100/0208], [lateral-2: 0.6102, lateral-3: 0.6323, lateral-4: 0.6518, d_loss: 0.4587
+2023-05-17 01:42:16.594571 Epoch [058/100], Step [0120/0208], [lateral-2: 0.5989, lateral-3: 0.6244, lateral-4: 0.6430, d_loss: 0.4412
+2023-05-17 01:42:23.885033 Epoch [058/100], Step [0140/0208], [lateral-2: 0.5930, lateral-3: 0.6249, lateral-4: 0.6430, d_loss: 0.4698
+2023-05-17 01:42:31.256976 Epoch [058/100], Step [0160/0208], [lateral-2: 0.6019, lateral-3: 0.6278, lateral-4: 0.6524, d_loss: 0.5068
+2023-05-17 01:42:38.695795 Epoch [058/100], Step [0180/0208], [lateral-2: 0.6095, lateral-3: 0.6274, lateral-4: 0.6480, d_loss: 0.4844
+2023-05-17 01:42:46.118949 Epoch [058/100], Step [0200/0208], [lateral-2: 0.5935, lateral-3: 0.6157, lateral-4: 0.6387, d_loss: 0.4230
+2023-05-17 01:42:48.832305 Epoch [058/100], Step [0208/0208], [lateral-2: 0.5784, lateral-3: 0.6026, lateral-4: 0.6299, d_loss: 0.4269
+train_loss: 1.8109, val_loss: 2.1486
+train_d_loss: 0.4269, val_d_loss: 0.7014
+2023-05-17 01:43:03.570072 Epoch [059/100], Step [0020/0208], [lateral-2: 0.5886, lateral-3: 0.6147, lateral-4: 0.6312, d_loss: 0.4319
+2023-05-17 01:43:10.931638 Epoch [059/100], Step [0040/0208], [lateral-2: 0.5605, lateral-3: 0.5861, lateral-4: 0.6114, d_loss: 0.4582
+2023-05-17 01:43:18.337409 Epoch [059/100], Step [0060/0208], [lateral-2: 0.5610, lateral-3: 0.5830, lateral-4: 0.6088, d_loss: 0.4999
+2023-05-17 01:43:25.758740 Epoch [059/100], Step [0080/0208], [lateral-2: 0.6157, lateral-3: 0.6396, lateral-4: 0.6542, d_loss: 0.5158
+2023-05-17 01:43:33.103485 Epoch [059/100], Step [0100/0208], [lateral-2: 0.6268, lateral-3: 0.6490, lateral-4: 0.6705, d_loss: 0.4781
+2023-05-17 01:43:40.457079 Epoch [059/100], Step [0120/0208], [lateral-2: 0.6349, lateral-3: 0.6534, lateral-4: 0.6776, d_loss: 0.4363
+2023-05-17 01:43:47.888195 Epoch [059/100], Step [0140/0208], [lateral-2: 0.6399, lateral-3: 0.6615, lateral-4: 0.6829, d_loss: 0.4353
+2023-05-17 01:43:55.304030 Epoch [059/100], Step [0160/0208], [lateral-2: 0.6332, lateral-3: 0.6554, lateral-4: 0.6784, d_loss: 0.4460
+2023-05-17 01:44:02.628904 Epoch [059/100], Step [0180/0208], [lateral-2: 0.6143, lateral-3: 0.6404, lateral-4: 0.6573, d_loss: 0.4201
+2023-05-17 01:44:10.017391 Epoch [059/100], Step [0200/0208], [lateral-2: 0.5809, lateral-3: 0.6100, lateral-4: 0.6265, d_loss: 0.4276
+2023-05-17 01:44:12.709355 Epoch [059/100], Step [0208/0208], [lateral-2: 0.6154, lateral-3: 0.6429, lateral-4: 0.6570, d_loss: 0.4504
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-59.pth
+train_loss: 1.9154, val_loss: 2.2158
+train_d_loss: 0.4504, val_d_loss: 0.6406
+2023-05-17 01:44:28.817977 Epoch [060/100], Step [0020/0208], [lateral-2: 0.6143, lateral-3: 0.6398, lateral-4: 0.6604, d_loss: 0.4241
+2023-05-17 01:44:36.102520 Epoch [060/100], Step [0040/0208], [lateral-2: 0.6181, lateral-3: 0.6424, lateral-4: 0.6575, d_loss: 0.4103
+2023-05-17 01:44:43.458659 Epoch [060/100], Step [0060/0208], [lateral-2: 0.6238, lateral-3: 0.6514, lateral-4: 0.6613, d_loss: 0.4436
+2023-05-17 01:44:50.809521 Epoch [060/100], Step [0080/0208], [lateral-2: 0.5998, lateral-3: 0.6274, lateral-4: 0.6449, d_loss: 0.5133
+2023-05-17 01:44:58.231036 Epoch [060/100], Step [0100/0208], [lateral-2: 0.6108, lateral-3: 0.6365, lateral-4: 0.6547, d_loss: 0.5096
+2023-05-17 01:45:05.545938 Epoch [060/100], Step [0120/0208], [lateral-2: 0.6596, lateral-3: 0.6843, lateral-4: 0.6957, d_loss: 0.5068
+2023-05-17 01:45:13.000278 Epoch [060/100], Step [0140/0208], [lateral-2: 0.6438, lateral-3: 0.6581, lateral-4: 0.6740, d_loss: 0.5083
+2023-05-17 01:45:20.384457 Epoch [060/100], Step [0160/0208], [lateral-2: 0.5779, lateral-3: 0.5928, lateral-4: 0.6214, d_loss: 0.4594
+2023-05-17 01:45:27.829976 Epoch [060/100], Step [0180/0208], [lateral-2: 0.5478, lateral-3: 0.5743, lateral-4: 0.6033, d_loss: 0.4054
+2023-05-17 01:45:35.169051 Epoch [060/100], Step [0200/0208], [lateral-2: 0.5803, lateral-3: 0.6114, lateral-4: 0.6322, d_loss: 0.4415
+2023-05-17 01:45:37.860668 Epoch [060/100], Step [0208/0208], [lateral-2: 0.6053, lateral-3: 0.6319, lateral-4: 0.6494, d_loss: 0.4752
+train_loss: 1.8866, val_loss: 2.2156
+train_d_loss: 0.4752, val_d_loss: 0.6183
+2023-05-17 01:45:52.531011 Epoch [061/100], Step [0020/0208], [lateral-2: 0.6479, lateral-3: 0.6776, lateral-4: 0.6941, d_loss: 0.4324
+2023-05-17 01:45:59.983526 Epoch [061/100], Step [0040/0208], [lateral-2: 0.6211, lateral-3: 0.6548, lateral-4: 0.6729, d_loss: 0.4665
+2023-05-17 01:46:07.398773 Epoch [061/100], Step [0060/0208], [lateral-2: 0.6260, lateral-3: 0.6513, lateral-4: 0.6711, d_loss: 0.5025
+2023-05-17 01:46:14.740397 Epoch [061/100], Step [0080/0208], [lateral-2: 0.6411, lateral-3: 0.6561, lateral-4: 0.6724, d_loss: 0.4648
+2023-05-17 01:46:22.156937 Epoch [061/100], Step [0100/0208], [lateral-2: 0.5891, lateral-3: 0.6157, lateral-4: 0.6263, d_loss: 0.4791
+2023-05-17 01:46:29.545306 Epoch [061/100], Step [0120/0208], [lateral-2: 0.5438, lateral-3: 0.5754, lateral-4: 0.5932, d_loss: 0.5081
+2023-05-17 01:46:37.009509 Epoch [061/100], Step [0140/0208], [lateral-2: 0.6007, lateral-3: 0.6275, lateral-4: 0.6510, d_loss: 0.4306
+2023-05-17 01:46:44.397618 Epoch [061/100], Step [0160/0208], [lateral-2: 0.6423, lateral-3: 0.6673, lateral-4: 0.6837, d_loss: 0.4525
+2023-05-17 01:46:51.628083 Epoch [061/100], Step [0180/0208], [lateral-2: 0.6202, lateral-3: 0.6400, lateral-4: 0.6616, d_loss: 0.5052
+2023-05-17 01:46:59.043357 Epoch [061/100], Step [0200/0208], [lateral-2: 0.5839, lateral-3: 0.6041, lateral-4: 0.6295, d_loss: 0.4458
+2023-05-17 01:47:01.735029 Epoch [061/100], Step [0208/0208], [lateral-2: 0.5581, lateral-3: 0.5728, lateral-4: 0.6002, d_loss: 0.4309
+train_loss: 1.7311, val_loss: 2.1521
+train_d_loss: 0.4309, val_d_loss: 0.6772
+2023-05-17 01:47:16.485559 Epoch [062/100], Step [0020/0208], [lateral-2: 0.6078, lateral-3: 0.6314, lateral-4: 0.6549, d_loss: 0.4926
+2023-05-17 01:47:23.916251 Epoch [062/100], Step [0040/0208], [lateral-2: 0.6057, lateral-3: 0.6303, lateral-4: 0.6503, d_loss: 0.4746
+2023-05-17 01:47:31.335720 Epoch [062/100], Step [0060/0208], [lateral-2: 0.5978, lateral-3: 0.6212, lateral-4: 0.6412, d_loss: 0.4603
+2023-05-17 01:47:38.692925 Epoch [062/100], Step [0080/0208], [lateral-2: 0.5932, lateral-3: 0.6178, lateral-4: 0.6426, d_loss: 0.4534
+2023-05-17 01:47:46.053925 Epoch [062/100], Step [0100/0208], [lateral-2: 0.5867, lateral-3: 0.6135, lateral-4: 0.6327, d_loss: 0.3902
+2023-05-17 01:47:53.363208 Epoch [062/100], Step [0120/0208], [lateral-2: 0.5678, lateral-3: 0.5922, lateral-4: 0.6064, d_loss: 0.3989
+2023-05-17 01:48:00.689873 Epoch [062/100], Step [0140/0208], [lateral-2: 0.6015, lateral-3: 0.6248, lateral-4: 0.6471, d_loss: 0.4877
+2023-05-17 01:48:08.082200 Epoch [062/100], Step [0160/0208], [lateral-2: 0.6392, lateral-3: 0.6678, lateral-4: 0.6891, d_loss: 0.4841
+2023-05-17 01:48:15.512097 Epoch [062/100], Step [0180/0208], [lateral-2: 0.6400, lateral-3: 0.6618, lateral-4: 0.6755, d_loss: 0.4372
+2023-05-17 01:48:22.865550 Epoch [062/100], Step [0200/0208], [lateral-2: 0.6588, lateral-3: 0.6772, lateral-4: 0.6894, d_loss: 0.4282
+2023-05-17 01:48:25.588039 Epoch [062/100], Step [0208/0208], [lateral-2: 0.6736, lateral-3: 0.6959, lateral-4: 0.7095, d_loss: 0.4554
+train_loss: 2.0790, val_loss: 2.1525
+train_d_loss: 0.4554, val_d_loss: 0.6263
+2023-05-17 01:48:40.338777 Epoch [063/100], Step [0020/0208], [lateral-2: 0.6102, lateral-3: 0.6374, lateral-4: 0.6516, d_loss: 0.4569
+2023-05-17 01:48:47.723327 Epoch [063/100], Step [0040/0208], [lateral-2: 0.5583, lateral-3: 0.5856, lateral-4: 0.5978, d_loss: 0.4463
+2023-05-17 01:48:55.066931 Epoch [063/100], Step [0060/0208], [lateral-2: 0.5792, lateral-3: 0.6038, lateral-4: 0.6087, d_loss: 0.4239
+2023-05-17 01:49:02.405515 Epoch [063/100], Step [0080/0208], [lateral-2: 0.6376, lateral-3: 0.6594, lateral-4: 0.6663, d_loss: 0.4338
+2023-05-17 01:49:09.783852 Epoch [063/100], Step [0100/0208], [lateral-2: 0.6012, lateral-3: 0.6226, lateral-4: 0.6407, d_loss: 0.4428
+2023-05-17 01:49:17.217329 Epoch [063/100], Step [0120/0208], [lateral-2: 0.6546, lateral-3: 0.6689, lateral-4: 0.6890, d_loss: 0.4556
+2023-05-17 01:49:24.620805 Epoch [063/100], Step [0140/0208], [lateral-2: 0.6600, lateral-3: 0.6746, lateral-4: 0.6903, d_loss: 0.4471
+2023-05-17 01:49:32.082315 Epoch [063/100], Step [0160/0208], [lateral-2: 0.6012, lateral-3: 0.6294, lateral-4: 0.6482, d_loss: 0.4221
+2023-05-17 01:49:39.448498 Epoch [063/100], Step [0180/0208], [lateral-2: 0.6003, lateral-3: 0.6319, lateral-4: 0.6552, d_loss: 0.4690
+2023-05-17 01:49:46.851085 Epoch [063/100], Step [0200/0208], [lateral-2: 0.6040, lateral-3: 0.6288, lateral-4: 0.6462, d_loss: 0.4721
+2023-05-17 01:49:49.549586 Epoch [063/100], Step [0208/0208], [lateral-2: 0.5842, lateral-3: 0.6113, lateral-4: 0.6255, d_loss: 0.4439
+train_loss: 1.8211, val_loss: 2.1669
+train_d_loss: 0.4439, val_d_loss: 0.6631
+2023-05-17 01:50:04.397056 Epoch [064/100], Step [0020/0208], [lateral-2: 0.6141, lateral-3: 0.6313, lateral-4: 0.6519, d_loss: 0.4646
+2023-05-17 01:50:11.822800 Epoch [064/100], Step [0040/0208], [lateral-2: 0.5790, lateral-3: 0.6007, lateral-4: 0.6191, d_loss: 0.4439
+2023-05-17 01:50:19.211490 Epoch [064/100], Step [0060/0208], [lateral-2: 0.6123, lateral-3: 0.6257, lateral-4: 0.6476, d_loss: 0.4816
+2023-05-17 01:50:26.587370 Epoch [064/100], Step [0080/0208], [lateral-2: 0.6319, lateral-3: 0.6450, lateral-4: 0.6681, d_loss: 0.4765
+2023-05-17 01:50:33.959697 Epoch [064/100], Step [0100/0208], [lateral-2: 0.5857, lateral-3: 0.6130, lateral-4: 0.6267, d_loss: 0.4481
+2023-05-17 01:50:41.308200 Epoch [064/100], Step [0120/0208], [lateral-2: 0.5809, lateral-3: 0.6071, lateral-4: 0.6229, d_loss: 0.4578
+2023-05-17 01:50:48.702644 Epoch [064/100], Step [0140/0208], [lateral-2: 0.5749, lateral-3: 0.5983, lateral-4: 0.6243, d_loss: 0.4520
+2023-05-17 01:50:56.035166 Epoch [064/100], Step [0160/0208], [lateral-2: 0.5618, lateral-3: 0.5848, lateral-4: 0.6133, d_loss: 0.4323
+2023-05-17 01:51:03.434292 Epoch [064/100], Step [0180/0208], [lateral-2: 0.5952, lateral-3: 0.6197, lateral-4: 0.6397, d_loss: 0.3930
+2023-05-17 01:51:10.773177 Epoch [064/100], Step [0200/0208], [lateral-2: 0.6319, lateral-3: 0.6622, lateral-4: 0.6725, d_loss: 0.4709
+2023-05-17 01:51:13.456916 Epoch [064/100], Step [0208/0208], [lateral-2: 0.6257, lateral-3: 0.6540, lateral-4: 0.6676, d_loss: 0.4780
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-64.pth
+train_loss: 1.9473, val_loss: 2.2325
+train_d_loss: 0.4780, val_d_loss: 0.6306
+2023-05-17 01:51:29.843903 Epoch [065/100], Step [0020/0208], [lateral-2: 0.6697, lateral-3: 0.6824, lateral-4: 0.7091, d_loss: 0.4176
+2023-05-17 01:51:37.265647 Epoch [065/100], Step [0040/0208], [lateral-2: 0.6319, lateral-3: 0.6526, lateral-4: 0.6757, d_loss: 0.4223
+2023-05-17 01:51:44.641063 Epoch [065/100], Step [0060/0208], [lateral-2: 0.6006, lateral-3: 0.6288, lateral-4: 0.6463, d_loss: 0.4539
+2023-05-17 01:51:52.077335 Epoch [065/100], Step [0080/0208], [lateral-2: 0.5764, lateral-3: 0.6052, lateral-4: 0.6241, d_loss: 0.4357
+2023-05-17 01:51:59.497981 Epoch [065/100], Step [0100/0208], [lateral-2: 0.5556, lateral-3: 0.5846, lateral-4: 0.6093, d_loss: 0.4026
+2023-05-17 01:52:06.964710 Epoch [065/100], Step [0120/0208], [lateral-2: 0.5729, lateral-3: 0.6012, lateral-4: 0.6233, d_loss: 0.4186
+2023-05-17 01:52:14.292200 Epoch [065/100], Step [0140/0208], [lateral-2: 0.5830, lateral-3: 0.6047, lateral-4: 0.6343, d_loss: 0.4517
+2023-05-17 01:52:21.700628 Epoch [065/100], Step [0160/0208], [lateral-2: 0.5996, lateral-3: 0.6238, lateral-4: 0.6475, d_loss: 0.5171
+2023-05-17 01:52:29.100412 Epoch [065/100], Step [0180/0208], [lateral-2: 0.6317, lateral-3: 0.6565, lateral-4: 0.6685, d_loss: 0.5199
+2023-05-17 01:52:36.371599 Epoch [065/100], Step [0200/0208], [lateral-2: 0.6153, lateral-3: 0.6407, lateral-4: 0.6581, d_loss: 0.4238
+2023-05-17 01:52:39.048192 Epoch [065/100], Step [0208/0208], [lateral-2: 0.5990, lateral-3: 0.6238, lateral-4: 0.6436, d_loss: 0.4222
+train_loss: 1.8664, val_loss: 2.2055
+train_d_loss: 0.4222, val_d_loss: 0.6510
+2023-05-17 01:52:53.899201 Epoch [066/100], Step [0020/0208], [lateral-2: 0.6237, lateral-3: 0.6312, lateral-4: 0.6576, d_loss: 0.4312
+2023-05-17 01:53:01.317156 Epoch [066/100], Step [0040/0208], [lateral-2: 0.6295, lateral-3: 0.6533, lateral-4: 0.6753, d_loss: 0.4400
+2023-05-17 01:53:08.688502 Epoch [066/100], Step [0060/0208], [lateral-2: 0.6451, lateral-3: 0.6835, lateral-4: 0.6962, d_loss: 0.4488
+2023-05-17 01:53:16.025352 Epoch [066/100], Step [0080/0208], [lateral-2: 0.6411, lateral-3: 0.6715, lateral-4: 0.6828, d_loss: 0.4380
+2023-05-17 01:53:23.380268 Epoch [066/100], Step [0100/0208], [lateral-2: 0.6065, lateral-3: 0.6225, lateral-4: 0.6405, d_loss: 0.4371
+2023-05-17 01:53:30.784349 Epoch [066/100], Step [0120/0208], [lateral-2: 0.5879, lateral-3: 0.6010, lateral-4: 0.6169, d_loss: 0.4785
+2023-05-17 01:53:38.164004 Epoch [066/100], Step [0140/0208], [lateral-2: 0.6084, lateral-3: 0.6288, lateral-4: 0.6454, d_loss: 0.4780
+2023-05-17 01:53:45.481003 Epoch [066/100], Step [0160/0208], [lateral-2: 0.5754, lateral-3: 0.6006, lateral-4: 0.6230, d_loss: 0.4345
+2023-05-17 01:53:52.941003 Epoch [066/100], Step [0180/0208], [lateral-2: 0.5544, lateral-3: 0.5798, lateral-4: 0.6016, d_loss: 0.4268
+2023-05-17 01:54:00.307195 Epoch [066/100], Step [0200/0208], [lateral-2: 0.5741, lateral-3: 0.5994, lateral-4: 0.6218, d_loss: 0.4489
+2023-05-17 01:54:03.060161 Epoch [066/100], Step [0208/0208], [lateral-2: 0.5980, lateral-3: 0.6196, lateral-4: 0.6449, d_loss: 0.4567
+train_loss: 1.8625, val_loss: 2.2333
+train_d_loss: 0.4567, val_d_loss: 0.6319
+2023-05-17 01:54:17.881592 Epoch [067/100], Step [0020/0208], [lateral-2: 0.6335, lateral-3: 0.6469, lateral-4: 0.6552, d_loss: 0.4811
+2023-05-17 01:54:25.259803 Epoch [067/100], Step [0040/0208], [lateral-2: 0.5880, lateral-3: 0.6089, lateral-4: 0.6197, d_loss: 0.4530
+2023-05-17 01:54:32.659751 Epoch [067/100], Step [0060/0208], [lateral-2: 0.5864, lateral-3: 0.6108, lateral-4: 0.6298, d_loss: 0.4592
+2023-05-17 01:54:39.973192 Epoch [067/100], Step [0080/0208], [lateral-2: 0.6031, lateral-3: 0.6284, lateral-4: 0.6488, d_loss: 0.4522
+2023-05-17 01:54:47.415530 Epoch [067/100], Step [0100/0208], [lateral-2: 0.5601, lateral-3: 0.5933, lateral-4: 0.6183, d_loss: 0.4271
+2023-05-17 01:54:54.828658 Epoch [067/100], Step [0120/0208], [lateral-2: 0.6058, lateral-3: 0.6362, lateral-4: 0.6612, d_loss: 0.4448
+2023-05-17 01:55:02.280139 Epoch [067/100], Step [0140/0208], [lateral-2: 0.6785, lateral-3: 0.7060, lateral-4: 0.7208, d_loss: 0.5043
+2023-05-17 01:55:09.613828 Epoch [067/100], Step [0160/0208], [lateral-2: 0.6670, lateral-3: 0.6947, lateral-4: 0.7104, d_loss: 0.5110
+2023-05-17 01:55:17.033198 Epoch [067/100], Step [0180/0208], [lateral-2: 0.6044, lateral-3: 0.6288, lateral-4: 0.6552, d_loss: 0.4622
+2023-05-17 01:55:24.435927 Epoch [067/100], Step [0200/0208], [lateral-2: 0.5671, lateral-3: 0.5907, lateral-4: 0.6171, d_loss: 0.4141
+2023-05-17 01:55:27.159882 Epoch [067/100], Step [0208/0208], [lateral-2: 0.5903, lateral-3: 0.6101, lateral-4: 0.6302, d_loss: 0.4007
+train_loss: 1.8305, val_loss: 2.1844
+train_d_loss: 0.4007, val_d_loss: 0.6630
+2023-05-17 01:55:41.982632 Epoch [068/100], Step [0020/0208], [lateral-2: 0.6522, lateral-3: 0.6769, lateral-4: 0.6975, d_loss: 0.4286
+2023-05-17 01:55:49.305522 Epoch [068/100], Step [0040/0208], [lateral-2: 0.6299, lateral-3: 0.6566, lateral-4: 0.6759, d_loss: 0.4450
+2023-05-17 01:55:56.764903 Epoch [068/100], Step [0060/0208], [lateral-2: 0.6513, lateral-3: 0.6732, lateral-4: 0.6897, d_loss: 0.4842
+2023-05-17 01:56:04.210793 Epoch [068/100], Step [0080/0208], [lateral-2: 0.6631, lateral-3: 0.6812, lateral-4: 0.7012, d_loss: 0.4919
+2023-05-17 01:56:11.569001 Epoch [068/100], Step [0100/0208], [lateral-2: 0.5900, lateral-3: 0.6050, lateral-4: 0.6382, d_loss: 0.4677
+2023-05-17 01:56:19.017306 Epoch [068/100], Step [0120/0208], [lateral-2: 0.5653, lateral-3: 0.5842, lateral-4: 0.6190, d_loss: 0.4635
+2023-05-17 01:56:26.439504 Epoch [068/100], Step [0140/0208], [lateral-2: 0.5757, lateral-3: 0.6062, lateral-4: 0.6300, d_loss: 0.4382
+2023-05-17 01:56:33.888502 Epoch [068/100], Step [0160/0208], [lateral-2: 0.5681, lateral-3: 0.6018, lateral-4: 0.6221, d_loss: 0.4587
+2023-05-17 01:56:41.346762 Epoch [068/100], Step [0180/0208], [lateral-2: 0.5920, lateral-3: 0.6156, lateral-4: 0.6387, d_loss: 0.4619
+2023-05-17 01:56:48.794482 Epoch [068/100], Step [0200/0208], [lateral-2: 0.6048, lateral-3: 0.6209, lateral-4: 0.6430, d_loss: 0.4322
+2023-05-17 01:56:51.513656 Epoch [068/100], Step [0208/0208], [lateral-2: 0.5633, lateral-3: 0.5820, lateral-4: 0.6043, d_loss: 0.4549
+train_loss: 1.7495, val_loss: 2.1686
+train_d_loss: 0.4549, val_d_loss: 0.7264
+2023-05-17 01:57:06.321661 Epoch [069/100], Step [0020/0208], [lateral-2: 0.5643, lateral-3: 0.5924, lateral-4: 0.6200, d_loss: 0.4025
+2023-05-17 01:57:13.727365 Epoch [069/100], Step [0040/0208], [lateral-2: 0.5917, lateral-3: 0.6174, lateral-4: 0.6352, d_loss: 0.4567
+2023-05-17 01:57:21.127402 Epoch [069/100], Step [0060/0208], [lateral-2: 0.6202, lateral-3: 0.6424, lateral-4: 0.6567, d_loss: 0.4862
+2023-05-17 01:57:28.555021 Epoch [069/100], Step [0080/0208], [lateral-2: 0.6483, lateral-3: 0.6640, lateral-4: 0.6869, d_loss: 0.4760
+2023-05-17 01:57:35.963944 Epoch [069/100], Step [0100/0208], [lateral-2: 0.6265, lateral-3: 0.6463, lateral-4: 0.6706, d_loss: 0.4363
+2023-05-17 01:57:43.377588 Epoch [069/100], Step [0120/0208], [lateral-2: 0.6001, lateral-3: 0.6252, lateral-4: 0.6431, d_loss: 0.3974
+2023-05-17 01:57:50.792069 Epoch [069/100], Step [0140/0208], [lateral-2: 0.5823, lateral-3: 0.6083, lateral-4: 0.6286, d_loss: 0.4163
+2023-05-17 01:57:58.187350 Epoch [069/100], Step [0160/0208], [lateral-2: 0.5843, lateral-3: 0.6091, lateral-4: 0.6358, d_loss: 0.4905
+2023-05-17 01:58:05.491927 Epoch [069/100], Step [0180/0208], [lateral-2: 0.6343, lateral-3: 0.6505, lateral-4: 0.6759, d_loss: 0.5000
+2023-05-17 01:58:12.815848 Epoch [069/100], Step [0200/0208], [lateral-2: 0.6272, lateral-3: 0.6448, lateral-4: 0.6691, d_loss: 0.4418
+2023-05-17 01:58:15.511881 Epoch [069/100], Step [0208/0208], [lateral-2: 0.6199, lateral-3: 0.6433, lateral-4: 0.6667, d_loss: 0.4518
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-69.pth
+train_loss: 1.9299, val_loss: 2.1750
+train_d_loss: 0.4518, val_d_loss: 0.6501
+2023-05-17 01:58:31.738926 Epoch [070/100], Step [0020/0208], [lateral-2: 0.6208, lateral-3: 0.6492, lateral-4: 0.6634, d_loss: 0.5094
+2023-05-17 01:58:39.115415 Epoch [070/100], Step [0040/0208], [lateral-2: 0.6036, lateral-3: 0.6315, lateral-4: 0.6507, d_loss: 0.5010
+2023-05-17 01:58:46.434162 Epoch [070/100], Step [0060/0208], [lateral-2: 0.5870, lateral-3: 0.6125, lateral-4: 0.6379, d_loss: 0.4624
+2023-05-17 01:58:53.821392 Epoch [070/100], Step [0080/0208], [lateral-2: 0.6208, lateral-3: 0.6459, lateral-4: 0.6709, d_loss: 0.4762
+2023-05-17 01:59:01.178882 Epoch [070/100], Step [0100/0208], [lateral-2: 0.6324, lateral-3: 0.6559, lateral-4: 0.6766, d_loss: 0.4999
+2023-05-17 01:59:08.477473 Epoch [070/100], Step [0120/0208], [lateral-2: 0.5942, lateral-3: 0.6142, lateral-4: 0.6375, d_loss: 0.4522
+2023-05-17 01:59:15.828903 Epoch [070/100], Step [0140/0208], [lateral-2: 0.6213, lateral-3: 0.6422, lateral-4: 0.6664, d_loss: 0.4440
+2023-05-17 01:59:23.259206 Epoch [070/100], Step [0160/0208], [lateral-2: 0.5896, lateral-3: 0.6154, lateral-4: 0.6327, d_loss: 0.4457
+2023-05-17 01:59:30.731757 Epoch [070/100], Step [0180/0208], [lateral-2: 0.5508, lateral-3: 0.5731, lateral-4: 0.5904, d_loss: 0.4515
+2023-05-17 01:59:38.142192 Epoch [070/100], Step [0200/0208], [lateral-2: 0.6164, lateral-3: 0.6365, lateral-4: 0.6608, d_loss: 0.4679
+2023-05-17 01:59:40.827162 Epoch [070/100], Step [0208/0208], [lateral-2: 0.6279, lateral-3: 0.6496, lateral-4: 0.6690, d_loss: 0.4696
+train_loss: 1.9464, val_loss: 2.1414
+train_d_loss: 0.4696, val_d_loss: 0.6270
+2023-05-17 01:59:55.580528 Epoch [071/100], Step [0020/0208], [lateral-2: 0.6326, lateral-3: 0.6518, lateral-4: 0.6695, d_loss: 0.4435
+2023-05-17 02:00:03.010952 Epoch [071/100], Step [0040/0208], [lateral-2: 0.6053, lateral-3: 0.6337, lateral-4: 0.6491, d_loss: 0.4780
+2023-05-17 02:00:10.372289 Epoch [071/100], Step [0060/0208], [lateral-2: 0.5900, lateral-3: 0.6215, lateral-4: 0.6321, d_loss: 0.4484
+2023-05-17 02:00:17.768356 Epoch [071/100], Step [0080/0208], [lateral-2: 0.6093, lateral-3: 0.6419, lateral-4: 0.6561, d_loss: 0.4268
+2023-05-17 02:00:25.019031 Epoch [071/100], Step [0100/0208], [lateral-2: 0.5976, lateral-3: 0.6340, lateral-4: 0.6506, d_loss: 0.4488
+2023-05-17 02:00:32.424463 Epoch [071/100], Step [0120/0208], [lateral-2: 0.5701, lateral-3: 0.5963, lateral-4: 0.6256, d_loss: 0.4345
+2023-05-17 02:00:39.822972 Epoch [071/100], Step [0140/0208], [lateral-2: 0.5781, lateral-3: 0.6011, lateral-4: 0.6316, d_loss: 0.4285
+2023-05-17 02:00:47.265363 Epoch [071/100], Step [0160/0208], [lateral-2: 0.6313, lateral-3: 0.6532, lateral-4: 0.6701, d_loss: 0.4350
+2023-05-17 02:00:54.549193 Epoch [071/100], Step [0180/0208], [lateral-2: 0.6458, lateral-3: 0.6608, lateral-4: 0.6892, d_loss: 0.5199
+2023-05-17 02:01:01.947108 Epoch [071/100], Step [0200/0208], [lateral-2: 0.5951, lateral-3: 0.6135, lateral-4: 0.6417, d_loss: 0.5123
+2023-05-17 02:01:04.625720 Epoch [071/100], Step [0208/0208], [lateral-2: 0.6054, lateral-3: 0.6225, lateral-4: 0.6460, d_loss: 0.4601
+train_loss: 1.8739, val_loss: 2.1944
+train_d_loss: 0.4601, val_d_loss: 0.6196
+2023-05-17 02:01:19.477536 Epoch [072/100], Step [0020/0208], [lateral-2: 0.6128, lateral-3: 0.6321, lateral-4: 0.6522, d_loss: 0.4774
+2023-05-17 02:01:26.925361 Epoch [072/100], Step [0040/0208], [lateral-2: 0.5799, lateral-3: 0.5987, lateral-4: 0.6248, d_loss: 0.4474
+2023-05-17 02:01:34.288744 Epoch [072/100], Step [0060/0208], [lateral-2: 0.5769, lateral-3: 0.5977, lateral-4: 0.6202, d_loss: 0.4560
+2023-05-17 02:01:41.643576 Epoch [072/100], Step [0080/0208], [lateral-2: 0.6160, lateral-3: 0.6413, lateral-4: 0.6587, d_loss: 0.4938
+2023-05-17 02:01:49.098524 Epoch [072/100], Step [0100/0208], [lateral-2: 0.6097, lateral-3: 0.6309, lateral-4: 0.6565, d_loss: 0.4538
+2023-05-17 02:01:56.506624 Epoch [072/100], Step [0120/0208], [lateral-2: 0.6288, lateral-3: 0.6438, lateral-4: 0.6633, d_loss: 0.4255
+2023-05-17 02:02:03.884383 Epoch [072/100], Step [0140/0208], [lateral-2: 0.6229, lateral-3: 0.6391, lateral-4: 0.6635, d_loss: 0.4391
+2023-05-17 02:02:11.191659 Epoch [072/100], Step [0160/0208], [lateral-2: 0.6213, lateral-3: 0.6400, lateral-4: 0.6697, d_loss: 0.4327
+2023-05-17 02:02:18.521693 Epoch [072/100], Step [0180/0208], [lateral-2: 0.6118, lateral-3: 0.6332, lateral-4: 0.6565, d_loss: 0.4155
+2023-05-17 02:02:25.968079 Epoch [072/100], Step [0200/0208], [lateral-2: 0.5943, lateral-3: 0.6113, lateral-4: 0.6350, d_loss: 0.4594
+2023-05-17 02:02:28.681104 Epoch [072/100], Step [0208/0208], [lateral-2: 0.5924, lateral-3: 0.6104, lateral-4: 0.6336, d_loss: 0.4511
+train_loss: 1.8364, val_loss: 2.1676
+train_d_loss: 0.4511, val_d_loss: 0.6127
+2023-05-17 02:02:43.456524 Epoch [073/100], Step [0020/0208], [lateral-2: 0.6103, lateral-3: 0.6256, lateral-4: 0.6462, d_loss: 0.4562
+2023-05-17 02:02:50.873070 Epoch [073/100], Step [0040/0208], [lateral-2: 0.5929, lateral-3: 0.6011, lateral-4: 0.6271, d_loss: 0.4413
+2023-05-17 02:02:58.189225 Epoch [073/100], Step [0060/0208], [lateral-2: 0.6001, lateral-3: 0.6116, lateral-4: 0.6415, d_loss: 0.4423
+2023-05-17 02:03:05.465678 Epoch [073/100], Step [0080/0208], [lateral-2: 0.6151, lateral-3: 0.6347, lateral-4: 0.6597, d_loss: 0.4881
+2023-05-17 02:03:12.788437 Epoch [073/100], Step [0100/0208], [lateral-2: 0.6121, lateral-3: 0.6315, lateral-4: 0.6518, d_loss: 0.4827
+2023-05-17 02:03:20.199520 Epoch [073/100], Step [0120/0208], [lateral-2: 0.6130, lateral-3: 0.6360, lateral-4: 0.6536, d_loss: 0.4690
+2023-05-17 02:03:27.518710 Epoch [073/100], Step [0140/0208], [lateral-2: 0.5893, lateral-3: 0.6160, lateral-4: 0.6372, d_loss: 0.4935
+2023-05-17 02:03:34.912240 Epoch [073/100], Step [0160/0208], [lateral-2: 0.5636, lateral-3: 0.5903, lateral-4: 0.6138, d_loss: 0.4639
+2023-05-17 02:03:42.254688 Epoch [073/100], Step [0180/0208], [lateral-2: 0.5727, lateral-3: 0.5992, lateral-4: 0.6215, d_loss: 0.4398
+2023-05-17 02:03:49.644070 Epoch [073/100], Step [0200/0208], [lateral-2: 0.6181, lateral-3: 0.6420, lateral-4: 0.6606, d_loss: 0.4354
+2023-05-17 02:03:52.361242 Epoch [073/100], Step [0208/0208], [lateral-2: 0.6210, lateral-3: 0.6449, lateral-4: 0.6615, d_loss: 0.4105
+train_loss: 1.9274, val_loss: 2.1344
+train_d_loss: 0.4105, val_d_loss: 0.6149
+2023-05-17 02:04:07.089784 Epoch [074/100], Step [0020/0208], [lateral-2: 0.5952, lateral-3: 0.6121, lateral-4: 0.6398, d_loss: 0.4676
+2023-05-17 02:04:14.485325 Epoch [074/100], Step [0040/0208], [lateral-2: 0.6136, lateral-3: 0.6330, lateral-4: 0.6575, d_loss: 0.4880
+2023-05-17 02:04:21.903204 Epoch [074/100], Step [0060/0208], [lateral-2: 0.6281, lateral-3: 0.6484, lateral-4: 0.6711, d_loss: 0.5069
+2023-05-17 02:04:29.321509 Epoch [074/100], Step [0080/0208], [lateral-2: 0.5973, lateral-3: 0.6192, lateral-4: 0.6421, d_loss: 0.4876
+2023-05-17 02:04:36.740092 Epoch [074/100], Step [0100/0208], [lateral-2: 0.5915, lateral-3: 0.6131, lateral-4: 0.6356, d_loss: 0.4522
+2023-05-17 02:04:44.092738 Epoch [074/100], Step [0120/0208], [lateral-2: 0.5741, lateral-3: 0.5963, lateral-4: 0.6228, d_loss: 0.4370
+2023-05-17 02:04:51.386546 Epoch [074/100], Step [0140/0208], [lateral-2: 0.6036, lateral-3: 0.6233, lateral-4: 0.6552, d_loss: 0.4335
+2023-05-17 02:04:58.674133 Epoch [074/100], Step [0160/0208], [lateral-2: 0.6620, lateral-3: 0.6779, lateral-4: 0.7008, d_loss: 0.4629
+2023-05-17 02:05:06.097592 Epoch [074/100], Step [0180/0208], [lateral-2: 0.5892, lateral-3: 0.6158, lateral-4: 0.6324, d_loss: 0.4550
+2023-05-17 02:05:13.528688 Epoch [074/100], Step [0200/0208], [lateral-2: 0.5451, lateral-3: 0.5769, lateral-4: 0.5944, d_loss: 0.4322
+2023-05-17 02:05:16.213833 Epoch [074/100], Step [0208/0208], [lateral-2: 0.5653, lateral-3: 0.5935, lateral-4: 0.6114, d_loss: 0.4609
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-74.pth
+train_loss: 1.7702, val_loss: 2.2059
+train_d_loss: 0.4609, val_d_loss: 0.6835
+2023-05-17 02:05:32.366786 Epoch [075/100], Step [0020/0208], [lateral-2: 0.5955, lateral-3: 0.6245, lateral-4: 0.6444, d_loss: 0.4083
+2023-05-17 02:05:39.654402 Epoch [075/100], Step [0040/0208], [lateral-2: 0.6070, lateral-3: 0.6323, lateral-4: 0.6476, d_loss: 0.4381
+2023-05-17 02:05:47.093172 Epoch [075/100], Step [0060/0208], [lateral-2: 0.5881, lateral-3: 0.6092, lateral-4: 0.6210, d_loss: 0.4311
+2023-05-17 02:05:54.543920 Epoch [075/100], Step [0080/0208], [lateral-2: 0.5682, lateral-3: 0.5884, lateral-4: 0.6129, d_loss: 0.4019
+2023-05-17 02:06:01.929195 Epoch [075/100], Step [0100/0208], [lateral-2: 0.5715, lateral-3: 0.5970, lateral-4: 0.6298, d_loss: 0.4699
+2023-05-17 02:06:09.239264 Epoch [075/100], Step [0120/0208], [lateral-2: 0.6048, lateral-3: 0.6367, lateral-4: 0.6630, d_loss: 0.5090
+2023-05-17 02:06:16.677379 Epoch [075/100], Step [0140/0208], [lateral-2: 0.5985, lateral-3: 0.6284, lateral-4: 0.6549, d_loss: 0.5347
+2023-05-17 02:06:23.976405 Epoch [075/100], Step [0160/0208], [lateral-2: 0.6234, lateral-3: 0.6476, lateral-4: 0.6725, d_loss: 0.5460
+2023-05-17 02:06:31.400294 Epoch [075/100], Step [0180/0208], [lateral-2: 0.6626, lateral-3: 0.6886, lateral-4: 0.7022, d_loss: 0.4994
+2023-05-17 02:06:38.850445 Epoch [075/100], Step [0200/0208], [lateral-2: 0.6323, lateral-3: 0.6590, lateral-4: 0.6767, d_loss: 0.4993
+2023-05-17 02:06:41.530393 Epoch [075/100], Step [0208/0208], [lateral-2: 0.6603, lateral-3: 0.6902, lateral-4: 0.7135, d_loss: 0.5035
+train_loss: 2.0639, val_loss: 2.1631
+train_d_loss: 0.5035, val_d_loss: 0.6759
+2023-05-17 02:06:56.271593 Epoch [076/100], Step [0020/0208], [lateral-2: 0.6141, lateral-3: 0.6232, lateral-4: 0.6496, d_loss: 0.4350
+2023-05-17 02:07:03.643526 Epoch [076/100], Step [0040/0208], [lateral-2: 0.6173, lateral-3: 0.6312, lateral-4: 0.6547, d_loss: 0.4590
+2023-05-17 02:07:10.991815 Epoch [076/100], Step [0060/0208], [lateral-2: 0.6273, lateral-3: 0.6490, lateral-4: 0.6638, d_loss: 0.4628
+2023-05-17 02:07:18.456546 Epoch [076/100], Step [0080/0208], [lateral-2: 0.5954, lateral-3: 0.6212, lateral-4: 0.6356, d_loss: 0.4597
+2023-05-17 02:07:25.818950 Epoch [076/100], Step [0100/0208], [lateral-2: 0.5872, lateral-3: 0.6196, lateral-4: 0.6434, d_loss: 0.4406
+2023-05-17 02:07:33.096937 Epoch [076/100], Step [0120/0208], [lateral-2: 0.5686, lateral-3: 0.6002, lateral-4: 0.6261, d_loss: 0.4116
+2023-05-17 02:07:40.458629 Epoch [076/100], Step [0140/0208], [lateral-2: 0.5797, lateral-3: 0.6066, lateral-4: 0.6274, d_loss: 0.4521
+2023-05-17 02:07:47.842171 Epoch [076/100], Step [0160/0208], [lateral-2: 0.6092, lateral-3: 0.6363, lateral-4: 0.6560, d_loss: 0.4619
+2023-05-17 02:07:55.214003 Epoch [076/100], Step [0180/0208], [lateral-2: 0.5695, lateral-3: 0.5940, lateral-4: 0.6160, d_loss: 0.4192
+2023-05-17 02:08:02.605819 Epoch [076/100], Step [0200/0208], [lateral-2: 0.6280, lateral-3: 0.6462, lateral-4: 0.6650, d_loss: 0.4451
+2023-05-17 02:08:05.307168 Epoch [076/100], Step [0208/0208], [lateral-2: 0.6316, lateral-3: 0.6519, lateral-4: 0.6708, d_loss: 0.4428
+train_loss: 1.9543, val_loss: 2.1638
+train_d_loss: 0.4428, val_d_loss: 0.6347
+2023-05-17 02:08:19.988322 Epoch [077/100], Step [0020/0208], [lateral-2: 0.5865, lateral-3: 0.6111, lateral-4: 0.6316, d_loss: 0.4518
+2023-05-17 02:08:27.447116 Epoch [077/100], Step [0040/0208], [lateral-2: 0.5925, lateral-3: 0.6194, lateral-4: 0.6390, d_loss: 0.4619
+2023-05-17 02:08:34.881391 Epoch [077/100], Step [0060/0208], [lateral-2: 0.5963, lateral-3: 0.6214, lateral-4: 0.6425, d_loss: 0.4811
+2023-05-17 02:08:42.275004 Epoch [077/100], Step [0080/0208], [lateral-2: 0.5726, lateral-3: 0.5928, lateral-4: 0.6131, d_loss: 0.4817
+2023-05-17 02:08:49.640030 Epoch [077/100], Step [0100/0208], [lateral-2: 0.5885, lateral-3: 0.6035, lateral-4: 0.6153, d_loss: 0.4695
+2023-05-17 02:08:57.038459 Epoch [077/100], Step [0120/0208], [lateral-2: 0.6057, lateral-3: 0.6259, lateral-4: 0.6399, d_loss: 0.4477
+2023-05-17 02:09:04.428163 Epoch [077/100], Step [0140/0208], [lateral-2: 0.6147, lateral-3: 0.6427, lateral-4: 0.6646, d_loss: 0.4225
+2023-05-17 02:09:11.859576 Epoch [077/100], Step [0160/0208], [lateral-2: 0.6289, lateral-3: 0.6544, lateral-4: 0.6797, d_loss: 0.4112
+2023-05-17 02:09:19.267189 Epoch [077/100], Step [0180/0208], [lateral-2: 0.6325, lateral-3: 0.6552, lateral-4: 0.6758, d_loss: 0.4661
+2023-05-17 02:09:26.604552 Epoch [077/100], Step [0200/0208], [lateral-2: 0.6372, lateral-3: 0.6566, lateral-4: 0.6705, d_loss: 0.4694
+2023-05-17 02:09:29.325960 Epoch [077/100], Step [0208/0208], [lateral-2: 0.6323, lateral-3: 0.6503, lateral-4: 0.6642, d_loss: 0.4513
+train_loss: 1.9468, val_loss: 2.1301
+train_d_loss: 0.4513, val_d_loss: 0.6094
+2023-05-17 02:09:44.303590 Epoch [078/100], Step [0020/0208], [lateral-2: 0.6863, lateral-3: 0.6994, lateral-4: 0.7142, d_loss: 0.4862
+2023-05-17 02:09:51.748995 Epoch [078/100], Step [0040/0208], [lateral-2: 0.6622, lateral-3: 0.6832, lateral-4: 0.6951, d_loss: 0.4369
+2023-05-17 02:09:59.156543 Epoch [078/100], Step [0060/0208], [lateral-2: 0.6185, lateral-3: 0.6510, lateral-4: 0.6641, d_loss: 0.4158
+2023-05-17 02:10:06.545934 Epoch [078/100], Step [0080/0208], [lateral-2: 0.6140, lateral-3: 0.6463, lateral-4: 0.6604, d_loss: 0.4715
+2023-05-17 02:10:13.951474 Epoch [078/100], Step [0100/0208], [lateral-2: 0.6249, lateral-3: 0.6488, lateral-4: 0.6727, d_loss: 0.5007
+2023-05-17 02:10:21.365218 Epoch [078/100], Step [0120/0208], [lateral-2: 0.6080, lateral-3: 0.6325, lateral-4: 0.6580, d_loss: 0.4873
+2023-05-17 02:10:28.761907 Epoch [078/100], Step [0140/0208], [lateral-2: 0.6050, lateral-3: 0.6267, lateral-4: 0.6439, d_loss: 0.4762
+2023-05-17 02:10:36.182492 Epoch [078/100], Step [0160/0208], [lateral-2: 0.6214, lateral-3: 0.6422, lateral-4: 0.6590, d_loss: 0.4733
+2023-05-17 02:10:43.529766 Epoch [078/100], Step [0180/0208], [lateral-2: 0.5869, lateral-3: 0.6205, lateral-4: 0.6364, d_loss: 0.4882
+2023-05-17 02:10:50.960322 Epoch [078/100], Step [0200/0208], [lateral-2: 0.5399, lateral-3: 0.5720, lateral-4: 0.5891, d_loss: 0.4587
+2023-05-17 02:10:53.674976 Epoch [078/100], Step [0208/0208], [lateral-2: 0.5609, lateral-3: 0.5837, lateral-4: 0.6034, d_loss: 0.4548
+train_loss: 1.7480, val_loss: 2.1630
+train_d_loss: 0.4548, val_d_loss: 0.6747
+2023-05-17 02:11:08.351589 Epoch [079/100], Step [0020/0208], [lateral-2: 0.5773, lateral-3: 0.5949, lateral-4: 0.6293, d_loss: 0.4474
+2023-05-17 02:11:15.682539 Epoch [079/100], Step [0040/0208], [lateral-2: 0.5680, lateral-3: 0.5937, lateral-4: 0.6243, d_loss: 0.4384
+2023-05-17 02:11:23.030047 Epoch [079/100], Step [0060/0208], [lateral-2: 0.6022, lateral-3: 0.6298, lateral-4: 0.6530, d_loss: 0.4586
+2023-05-17 02:11:30.489593 Epoch [079/100], Step [0080/0208], [lateral-2: 0.6022, lateral-3: 0.6230, lateral-4: 0.6457, d_loss: 0.4818
+2023-05-17 02:11:37.875461 Epoch [079/100], Step [0100/0208], [lateral-2: 0.6184, lateral-3: 0.6423, lateral-4: 0.6607, d_loss: 0.5103
+2023-05-17 02:11:45.233315 Epoch [079/100], Step [0120/0208], [lateral-2: 0.6119, lateral-3: 0.6423, lateral-4: 0.6600, d_loss: 0.5092
+2023-05-17 02:11:52.639649 Epoch [079/100], Step [0140/0208], [lateral-2: 0.5608, lateral-3: 0.5799, lateral-4: 0.6119, d_loss: 0.4872
+2023-05-17 02:12:00.168224 Epoch [079/100], Step [0160/0208], [lateral-2: 0.5848, lateral-3: 0.5973, lateral-4: 0.6317, d_loss: 0.4543
+2023-05-17 02:12:07.530612 Epoch [079/100], Step [0180/0208], [lateral-2: 0.5951, lateral-3: 0.6201, lateral-4: 0.6453, d_loss: 0.3855
+2023-05-17 02:12:14.928144 Epoch [079/100], Step [0200/0208], [lateral-2: 0.5941, lateral-3: 0.6229, lateral-4: 0.6442, d_loss: 0.4123
+2023-05-17 02:12:17.636950 Epoch [079/100], Step [0208/0208], [lateral-2: 0.5894, lateral-3: 0.6121, lateral-4: 0.6339, d_loss: 0.4126
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-79.pth
+train_loss: 1.8355, val_loss: 2.1448
+train_d_loss: 0.4126, val_d_loss: 0.6255
+2023-05-17 02:12:33.709581 Epoch [080/100], Step [0020/0208], [lateral-2: 0.5829, lateral-3: 0.6197, lateral-4: 0.6521, d_loss: 0.4384
+2023-05-17 02:12:41.107552 Epoch [080/100], Step [0040/0208], [lateral-2: 0.5744, lateral-3: 0.6058, lateral-4: 0.6339, d_loss: 0.4102
+2023-05-17 02:12:48.453209 Epoch [080/100], Step [0060/0208], [lateral-2: 0.5845, lateral-3: 0.6094, lateral-4: 0.6318, d_loss: 0.4014
+2023-05-17 02:12:55.822564 Epoch [080/100], Step [0080/0208], [lateral-2: 0.6450, lateral-3: 0.6656, lateral-4: 0.6870, d_loss: 0.4339
+2023-05-17 02:13:03.309860 Epoch [080/100], Step [0100/0208], [lateral-2: 0.6558, lateral-3: 0.6786, lateral-4: 0.6978, d_loss: 0.4853
+2023-05-17 02:13:10.710552 Epoch [080/100], Step [0120/0208], [lateral-2: 0.6327, lateral-3: 0.6553, lateral-4: 0.6739, d_loss: 0.5145
+2023-05-17 02:13:18.055673 Epoch [080/100], Step [0140/0208], [lateral-2: 0.6222, lateral-3: 0.6466, lateral-4: 0.6626, d_loss: 0.5272
+2023-05-17 02:13:25.536678 Epoch [080/100], Step [0160/0208], [lateral-2: 0.5860, lateral-3: 0.6078, lateral-4: 0.6299, d_loss: 0.4870
+2023-05-17 02:13:32.895558 Epoch [080/100], Step [0180/0208], [lateral-2: 0.5399, lateral-3: 0.5614, lateral-4: 0.5962, d_loss: 0.4635
+2023-05-17 02:13:40.371122 Epoch [080/100], Step [0200/0208], [lateral-2: 0.5853, lateral-3: 0.6115, lateral-4: 0.6381, d_loss: 0.4504
+2023-05-17 02:13:43.078946 Epoch [080/100], Step [0208/0208], [lateral-2: 0.5994, lateral-3: 0.6250, lateral-4: 0.6445, d_loss: 0.4924
+train_loss: 1.8690, val_loss: 2.2111
+train_d_loss: 0.4924, val_d_loss: 0.6140
+2023-05-17 02:13:57.917603 Epoch [081/100], Step [0020/0208], [lateral-2: 0.5479, lateral-3: 0.5800, lateral-4: 0.6050, d_loss: 0.4465
+2023-05-17 02:14:05.313770 Epoch [081/100], Step [0040/0208], [lateral-2: 0.5432, lateral-3: 0.5711, lateral-4: 0.5954, d_loss: 0.4315
+2023-05-17 02:14:12.750553 Epoch [081/100], Step [0060/0208], [lateral-2: 0.5807, lateral-3: 0.6076, lateral-4: 0.6312, d_loss: 0.4704
+2023-05-17 02:14:20.069009 Epoch [081/100], Step [0080/0208], [lateral-2: 0.6323, lateral-3: 0.6575, lateral-4: 0.6770, d_loss: 0.4849
+2023-05-17 02:14:27.421291 Epoch [081/100], Step [0100/0208], [lateral-2: 0.6306, lateral-3: 0.6539, lateral-4: 0.6689, d_loss: 0.4336
+2023-05-17 02:14:34.816668 Epoch [081/100], Step [0120/0208], [lateral-2: 0.6198, lateral-3: 0.6424, lateral-4: 0.6597, d_loss: 0.4482
+2023-05-17 02:14:42.229934 Epoch [081/100], Step [0140/0208], [lateral-2: 0.6254, lateral-3: 0.6492, lateral-4: 0.6702, d_loss: 0.4510
+2023-05-17 02:14:49.561779 Epoch [081/100], Step [0160/0208], [lateral-2: 0.6092, lateral-3: 0.6372, lateral-4: 0.6579, d_loss: 0.4769
+2023-05-17 02:14:56.904559 Epoch [081/100], Step [0180/0208], [lateral-2: 0.5982, lateral-3: 0.6266, lateral-4: 0.6443, d_loss: 0.5001
+2023-05-17 02:15:04.349326 Epoch [081/100], Step [0200/0208], [lateral-2: 0.5878, lateral-3: 0.6090, lateral-4: 0.6301, d_loss: 0.4185
+2023-05-17 02:15:07.056675 Epoch [081/100], Step [0208/0208], [lateral-2: 0.5965, lateral-3: 0.6134, lateral-4: 0.6324, d_loss: 0.4059
+[Saving best Snapshot:] snapshots/transfuse_stl/TransFuse-best.pth
+train_loss: 1.8424, val_loss: 2.1214
+train_d_loss: 0.4059, val_d_loss: 0.6443
+2023-05-17 02:15:31.837690 Epoch [082/100], Step [0020/0208], [lateral-2: 0.6040, lateral-3: 0.6217, lateral-4: 0.6493, d_loss: 0.4579
+2023-05-17 02:15:39.164138 Epoch [082/100], Step [0040/0208], [lateral-2: 0.5836, lateral-3: 0.6057, lateral-4: 0.6332, d_loss: 0.4368
+2023-05-17 02:15:46.510305 Epoch [082/100], Step [0060/0208], [lateral-2: 0.6365, lateral-3: 0.6612, lateral-4: 0.6813, d_loss: 0.4418
+2023-05-17 02:15:53.799677 Epoch [082/100], Step [0080/0208], [lateral-2: 0.6198, lateral-3: 0.6394, lateral-4: 0.6744, d_loss: 0.4338
+2023-05-17 02:16:01.063023 Epoch [082/100], Step [0100/0208], [lateral-2: 0.5808, lateral-3: 0.6008, lateral-4: 0.6371, d_loss: 0.4157
+2023-05-17 02:16:08.544216 Epoch [082/100], Step [0120/0208], [lateral-2: 0.6089, lateral-3: 0.6316, lateral-4: 0.6473, d_loss: 0.4416
+2023-05-17 02:16:15.731850 Epoch [082/100], Step [0140/0208], [lateral-2: 0.6292, lateral-3: 0.6538, lateral-4: 0.6657, d_loss: 0.4786
+2023-05-17 02:16:23.019694 Epoch [082/100], Step [0160/0208], [lateral-2: 0.6164, lateral-3: 0.6436, lateral-4: 0.6572, d_loss: 0.4846
+2023-05-17 02:16:30.381945 Epoch [082/100], Step [0180/0208], [lateral-2: 0.5941, lateral-3: 0.6157, lateral-4: 0.6335, d_loss: 0.4840
+2023-05-17 02:16:37.718867 Epoch [082/100], Step [0200/0208], [lateral-2: 0.6005, lateral-3: 0.6196, lateral-4: 0.6380, d_loss: 0.4829
+2023-05-17 02:16:40.415326 Epoch [082/100], Step [0208/0208], [lateral-2: 0.6028, lateral-3: 0.6230, lateral-4: 0.6392, d_loss: 0.4731
+train_loss: 1.8650, val_loss: 2.1955
+train_d_loss: 0.4731, val_d_loss: 0.6445
+2023-05-17 02:16:55.213026 Epoch [083/100], Step [0020/0208], [lateral-2: 0.5632, lateral-3: 0.5848, lateral-4: 0.6116, d_loss: 0.5197
+2023-05-17 02:17:02.480598 Epoch [083/100], Step [0040/0208], [lateral-2: 0.6023, lateral-3: 0.6205, lateral-4: 0.6406, d_loss: 0.4970
+2023-05-17 02:17:09.854667 Epoch [083/100], Step [0060/0208], [lateral-2: 0.6017, lateral-3: 0.6203, lateral-4: 0.6394, d_loss: 0.4274
+2023-05-17 02:17:17.182476 Epoch [083/100], Step [0080/0208], [lateral-2: 0.5836, lateral-3: 0.6075, lateral-4: 0.6275, d_loss: 0.4017
+2023-05-17 02:17:24.627855 Epoch [083/100], Step [0100/0208], [lateral-2: 0.6227, lateral-3: 0.6452, lateral-4: 0.6563, d_loss: 0.4494
+2023-05-17 02:17:32.044090 Epoch [083/100], Step [0120/0208], [lateral-2: 0.6540, lateral-3: 0.6744, lateral-4: 0.6848, d_loss: 0.4852
+2023-05-17 02:17:39.368085 Epoch [083/100], Step [0140/0208], [lateral-2: 0.6095, lateral-3: 0.6368, lateral-4: 0.6527, d_loss: 0.4688
+2023-05-17 02:17:46.777522 Epoch [083/100], Step [0160/0208], [lateral-2: 0.5841, lateral-3: 0.6134, lateral-4: 0.6337, d_loss: 0.4558
+2023-05-17 02:17:54.150245 Epoch [083/100], Step [0180/0208], [lateral-2: 0.6384, lateral-3: 0.6624, lateral-4: 0.6863, d_loss: 0.4810
+2023-05-17 02:18:01.573513 Epoch [083/100], Step [0200/0208], [lateral-2: 0.6322, lateral-3: 0.6496, lateral-4: 0.6755, d_loss: 0.4717
+2023-05-17 02:18:04.274834 Epoch [083/100], Step [0208/0208], [lateral-2: 0.6454, lateral-3: 0.6586, lateral-4: 0.6861, d_loss: 0.4839
+train_loss: 1.9901, val_loss: 2.1510
+train_d_loss: 0.4839, val_d_loss: 0.6542
+2023-05-17 02:18:18.951259 Epoch [084/100], Step [0020/0208], [lateral-2: 0.6233, lateral-3: 0.6494, lateral-4: 0.6805, d_loss: 0.4784
+2023-05-17 02:18:26.343803 Epoch [084/100], Step [0040/0208], [lateral-2: 0.6175, lateral-3: 0.6420, lateral-4: 0.6715, d_loss: 0.5114
+2023-05-17 02:18:33.742077 Epoch [084/100], Step [0060/0208], [lateral-2: 0.6103, lateral-3: 0.6318, lateral-4: 0.6525, d_loss: 0.4812
+2023-05-17 02:18:41.206637 Epoch [084/100], Step [0080/0208], [lateral-2: 0.6264, lateral-3: 0.6463, lateral-4: 0.6576, d_loss: 0.4220
+2023-05-17 02:18:48.607910 Epoch [084/100], Step [0100/0208], [lateral-2: 0.5980, lateral-3: 0.6213, lateral-4: 0.6360, d_loss: 0.4480
+2023-05-17 02:18:55.975505 Epoch [084/100], Step [0120/0208], [lateral-2: 0.5673, lateral-3: 0.5909, lateral-4: 0.6137, d_loss: 0.4357
+2023-05-17 02:19:03.360243 Epoch [084/100], Step [0140/0208], [lateral-2: 0.5897, lateral-3: 0.6023, lateral-4: 0.6245, d_loss: 0.4097
+2023-05-17 02:19:10.792684 Epoch [084/100], Step [0160/0208], [lateral-2: 0.6153, lateral-3: 0.6323, lateral-4: 0.6523, d_loss: 0.4204
+2023-05-17 02:19:18.109929 Epoch [084/100], Step [0180/0208], [lateral-2: 0.5981, lateral-3: 0.6208, lateral-4: 0.6486, d_loss: 0.4240
+2023-05-17 02:19:25.471464 Epoch [084/100], Step [0200/0208], [lateral-2: 0.5933, lateral-3: 0.6123, lateral-4: 0.6437, d_loss: 0.4293
+2023-05-17 02:19:28.196237 Epoch [084/100], Step [0208/0208], [lateral-2: 0.5968, lateral-3: 0.6211, lateral-4: 0.6530, d_loss: 0.4461
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-84.pth
+train_loss: 1.8710, val_loss: 2.2024
+train_d_loss: 0.4461, val_d_loss: 0.6691
+2023-05-17 02:19:44.466185 Epoch [085/100], Step [0020/0208], [lateral-2: 0.6186, lateral-3: 0.6243, lateral-4: 0.6500, d_loss: 0.4257
+2023-05-17 02:19:51.829733 Epoch [085/100], Step [0040/0208], [lateral-2: 0.6007, lateral-3: 0.6211, lateral-4: 0.6409, d_loss: 0.4521
+2023-05-17 02:19:59.234834 Epoch [085/100], Step [0060/0208], [lateral-2: 0.5876, lateral-3: 0.6181, lateral-4: 0.6320, d_loss: 0.4493
+2023-05-17 02:20:06.632395 Epoch [085/100], Step [0080/0208], [lateral-2: 0.6370, lateral-3: 0.6608, lateral-4: 0.6757, d_loss: 0.4465
+2023-05-17 02:20:13.962195 Epoch [085/100], Step [0100/0208], [lateral-2: 0.6596, lateral-3: 0.6780, lateral-4: 0.6948, d_loss: 0.4745
+2023-05-17 02:20:21.352545 Epoch [085/100], Step [0120/0208], [lateral-2: 0.6513, lateral-3: 0.6711, lateral-4: 0.6853, d_loss: 0.4907
+2023-05-17 02:20:28.743062 Epoch [085/100], Step [0140/0208], [lateral-2: 0.6097, lateral-3: 0.6340, lateral-4: 0.6556, d_loss: 0.4506
+2023-05-17 02:20:36.034378 Epoch [085/100], Step [0160/0208], [lateral-2: 0.5737, lateral-3: 0.5969, lateral-4: 0.6294, d_loss: 0.4177
+2023-05-17 02:20:43.362138 Epoch [085/100], Step [0180/0208], [lateral-2: 0.5879, lateral-3: 0.6164, lateral-4: 0.6408, d_loss: 0.4611
+2023-05-17 02:20:50.689535 Epoch [085/100], Step [0200/0208], [lateral-2: 0.5410, lateral-3: 0.5730, lateral-4: 0.5923, d_loss: 0.4545
+2023-05-17 02:20:53.422558 Epoch [085/100], Step [0208/0208], [lateral-2: 0.5511, lateral-3: 0.5889, lateral-4: 0.6067, d_loss: 0.4732
+train_loss: 1.7466, val_loss: 2.2116
+train_d_loss: 0.4732, val_d_loss: 0.6244
+2023-05-17 02:21:08.196151 Epoch [086/100], Step [0020/0208], [lateral-2: 0.6478, lateral-3: 0.6629, lateral-4: 0.6825, d_loss: 0.4579
+2023-05-17 02:21:15.590071 Epoch [086/100], Step [0040/0208], [lateral-2: 0.6218, lateral-3: 0.6432, lateral-4: 0.6647, d_loss: 0.4633
+2023-05-17 02:21:22.885803 Epoch [086/100], Step [0060/0208], [lateral-2: 0.5719, lateral-3: 0.6024, lateral-4: 0.6195, d_loss: 0.4528
+2023-05-17 02:21:30.299793 Epoch [086/100], Step [0080/0208], [lateral-2: 0.5872, lateral-3: 0.6155, lateral-4: 0.6305, d_loss: 0.4354
+2023-05-17 02:21:37.600457 Epoch [086/100], Step [0100/0208], [lateral-2: 0.6044, lateral-3: 0.6261, lateral-4: 0.6461, d_loss: 0.4316
+2023-05-17 02:21:45.000863 Epoch [086/100], Step [0120/0208], [lateral-2: 0.5841, lateral-3: 0.6063, lateral-4: 0.6246, d_loss: 0.4544
+2023-05-17 02:21:52.425825 Epoch [086/100], Step [0140/0208], [lateral-2: 0.6135, lateral-3: 0.6369, lateral-4: 0.6649, d_loss: 0.4877
+2023-05-17 02:21:59.861941 Epoch [086/100], Step [0160/0208], [lateral-2: 0.6124, lateral-3: 0.6324, lateral-4: 0.6653, d_loss: 0.4564
+2023-05-17 02:22:07.286055 Epoch [086/100], Step [0180/0208], [lateral-2: 0.5895, lateral-3: 0.6067, lateral-4: 0.6299, d_loss: 0.4270
+2023-05-17 02:22:14.729255 Epoch [086/100], Step [0200/0208], [lateral-2: 0.6300, lateral-3: 0.6436, lateral-4: 0.6648, d_loss: 0.4426
+2023-05-17 02:22:17.438034 Epoch [086/100], Step [0208/0208], [lateral-2: 0.6352, lateral-3: 0.6526, lateral-4: 0.6727, d_loss: 0.4586
+train_loss: 1.9605, val_loss: 2.1955
+train_d_loss: 0.4586, val_d_loss: 0.6007
+2023-05-17 02:22:32.203711 Epoch [087/100], Step [0020/0208], [lateral-2: 0.6647, lateral-3: 0.6900, lateral-4: 0.7134, d_loss: 0.5235
+2023-05-17 02:22:39.611495 Epoch [087/100], Step [0040/0208], [lateral-2: 0.6408, lateral-3: 0.6634, lateral-4: 0.6861, d_loss: 0.4929
+2023-05-17 02:22:46.952003 Epoch [087/100], Step [0060/0208], [lateral-2: 0.5725, lateral-3: 0.5972, lateral-4: 0.6193, d_loss: 0.4648
+2023-05-17 02:22:54.296302 Epoch [087/100], Step [0080/0208], [lateral-2: 0.5712, lateral-3: 0.5943, lateral-4: 0.6182, d_loss: 0.4357
+2023-05-17 02:23:01.723138 Epoch [087/100], Step [0100/0208], [lateral-2: 0.6172, lateral-3: 0.6353, lateral-4: 0.6573, d_loss: 0.4613
+2023-05-17 02:23:09.125623 Epoch [087/100], Step [0120/0208], [lateral-2: 0.6477, lateral-3: 0.6621, lateral-4: 0.6782, d_loss: 0.4742
+2023-05-17 02:23:16.530401 Epoch [087/100], Step [0140/0208], [lateral-2: 0.6539, lateral-3: 0.6725, lateral-4: 0.6860, d_loss: 0.4397
+2023-05-17 02:23:23.952372 Epoch [087/100], Step [0160/0208], [lateral-2: 0.6554, lateral-3: 0.6764, lateral-4: 0.6880, d_loss: 0.5003
+2023-05-17 02:23:31.278968 Epoch [087/100], Step [0180/0208], [lateral-2: 0.6178, lateral-3: 0.6468, lateral-4: 0.6600, d_loss: 0.5286
+2023-05-17 02:23:38.648432 Epoch [087/100], Step [0200/0208], [lateral-2: 0.5633, lateral-3: 0.5965, lateral-4: 0.6206, d_loss: 0.5074
+2023-05-17 02:23:41.373290 Epoch [087/100], Step [0208/0208], [lateral-2: 0.5317, lateral-3: 0.5673, lateral-4: 0.5956, d_loss: 0.4818
+train_loss: 1.6946, val_loss: 2.1578
+train_d_loss: 0.4818, val_d_loss: 0.6803
+2023-05-17 02:23:56.202556 Epoch [088/100], Step [0020/0208], [lateral-2: 0.5338, lateral-3: 0.5653, lateral-4: 0.5834, d_loss: 0.3864
+2023-05-17 02:24:03.506367 Epoch [088/100], Step [0040/0208], [lateral-2: 0.5458, lateral-3: 0.5726, lateral-4: 0.5915, d_loss: 0.4462
+2023-05-17 02:24:10.888239 Epoch [088/100], Step [0060/0208], [lateral-2: 0.5852, lateral-3: 0.6123, lateral-4: 0.6317, d_loss: 0.4902
+2023-05-17 02:24:18.242364 Epoch [088/100], Step [0080/0208], [lateral-2: 0.5974, lateral-3: 0.6338, lateral-4: 0.6571, d_loss: 0.4987
+2023-05-17 02:24:25.554412 Epoch [088/100], Step [0100/0208], [lateral-2: 0.5705, lateral-3: 0.6012, lateral-4: 0.6282, d_loss: 0.4444
+2023-05-17 02:24:32.928202 Epoch [088/100], Step [0120/0208], [lateral-2: 0.5802, lateral-3: 0.6046, lateral-4: 0.6222, d_loss: 0.3988
+2023-05-17 02:24:40.367226 Epoch [088/100], Step [0140/0208], [lateral-2: 0.6175, lateral-3: 0.6420, lateral-4: 0.6521, d_loss: 0.4641
+2023-05-17 02:24:47.609131 Epoch [088/100], Step [0160/0208], [lateral-2: 0.6429, lateral-3: 0.6669, lateral-4: 0.6867, d_loss: 0.4955
+2023-05-17 02:24:54.989078 Epoch [088/100], Step [0180/0208], [lateral-2: 0.6857, lateral-3: 0.7071, lateral-4: 0.7268, d_loss: 0.4751
+2023-05-17 02:25:02.373913 Epoch [088/100], Step [0200/0208], [lateral-2: 0.6448, lateral-3: 0.6643, lateral-4: 0.6872, d_loss: 0.4639
+2023-05-17 02:25:05.064265 Epoch [088/100], Step [0208/0208], [lateral-2: 0.6136, lateral-3: 0.6339, lateral-4: 0.6589, d_loss: 0.4607
+train_loss: 1.9065, val_loss: 2.2088
+train_d_loss: 0.4607, val_d_loss: 0.6440
+2023-05-17 02:25:19.865981 Epoch [089/100], Step [0020/0208], [lateral-2: 0.6054, lateral-3: 0.6221, lateral-4: 0.6455, d_loss: 0.5024
+2023-05-17 02:25:27.325345 Epoch [089/100], Step [0040/0208], [lateral-2: 0.5633, lateral-3: 0.5836, lateral-4: 0.6033, d_loss: 0.4794
+2023-05-17 02:25:34.757807 Epoch [089/100], Step [0060/0208], [lateral-2: 0.5712, lateral-3: 0.5935, lateral-4: 0.6127, d_loss: 0.4845
+2023-05-17 02:25:42.168827 Epoch [089/100], Step [0080/0208], [lateral-2: 0.6114, lateral-3: 0.6368, lateral-4: 0.6495, d_loss: 0.4746
+2023-05-17 02:25:49.576337 Epoch [089/100], Step [0100/0208], [lateral-2: 0.6154, lateral-3: 0.6387, lateral-4: 0.6504, d_loss: 0.4441
+2023-05-17 02:25:56.868718 Epoch [089/100], Step [0120/0208], [lateral-2: 0.6106, lateral-3: 0.6334, lateral-4: 0.6516, d_loss: 0.4386
+2023-05-17 02:26:04.297634 Epoch [089/100], Step [0140/0208], [lateral-2: 0.5910, lateral-3: 0.6147, lateral-4: 0.6301, d_loss: 0.4447
+2023-05-17 02:26:11.729232 Epoch [089/100], Step [0160/0208], [lateral-2: 0.6213, lateral-3: 0.6388, lateral-4: 0.6548, d_loss: 0.4403
+2023-05-17 02:26:19.182411 Epoch [089/100], Step [0180/0208], [lateral-2: 0.6552, lateral-3: 0.6780, lateral-4: 0.6961, d_loss: 0.4949
+2023-05-17 02:26:26.615552 Epoch [089/100], Step [0200/0208], [lateral-2: 0.6416, lateral-3: 0.6663, lateral-4: 0.6865, d_loss: 0.5079
+2023-05-17 02:26:29.337507 Epoch [089/100], Step [0208/0208], [lateral-2: 0.6378, lateral-3: 0.6592, lateral-4: 0.6793, d_loss: 0.4978
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-89.pth
+train_loss: 1.9764, val_loss: 2.1526
+train_d_loss: 0.4978, val_d_loss: 0.6220
+2023-05-17 02:26:45.475803 Epoch [090/100], Step [0020/0208], [lateral-2: 0.6433, lateral-3: 0.6663, lateral-4: 0.6777, d_loss: 0.5194
+2023-05-17 02:26:52.812221 Epoch [090/100], Step [0040/0208], [lateral-2: 0.6217, lateral-3: 0.6495, lateral-4: 0.6620, d_loss: 0.4539
+2023-05-17 02:27:00.190436 Epoch [090/100], Step [0060/0208], [lateral-2: 0.5770, lateral-3: 0.6033, lateral-4: 0.6328, d_loss: 0.4190
+2023-05-17 02:27:07.563822 Epoch [090/100], Step [0080/0208], [lateral-2: 0.5714, lateral-3: 0.5873, lateral-4: 0.6215, d_loss: 0.4580
+2023-05-17 02:27:14.797662 Epoch [090/100], Step [0100/0208], [lateral-2: 0.5923, lateral-3: 0.6149, lateral-4: 0.6354, d_loss: 0.4451
+2023-05-17 02:27:22.120359 Epoch [090/100], Step [0120/0208], [lateral-2: 0.6005, lateral-3: 0.6236, lateral-4: 0.6448, d_loss: 0.4166
+2023-05-17 02:27:29.468431 Epoch [090/100], Step [0140/0208], [lateral-2: 0.6079, lateral-3: 0.6309, lateral-4: 0.6463, d_loss: 0.4488
+2023-05-17 02:27:36.856522 Epoch [090/100], Step [0160/0208], [lateral-2: 0.6069, lateral-3: 0.6368, lateral-4: 0.6504, d_loss: 0.5377
+2023-05-17 02:27:44.226755 Epoch [090/100], Step [0180/0208], [lateral-2: 0.6313, lateral-3: 0.6546, lateral-4: 0.6726, d_loss: 0.5153
+2023-05-17 02:27:51.551299 Epoch [090/100], Step [0200/0208], [lateral-2: 0.6440, lateral-3: 0.6624, lateral-4: 0.6816, d_loss: 0.4573
+2023-05-17 02:27:54.310041 Epoch [090/100], Step [0208/0208], [lateral-2: 0.6606, lateral-3: 0.6740, lateral-4: 0.6924, d_loss: 0.4629
+train_loss: 2.0270, val_loss: 2.1236
+train_d_loss: 0.4629, val_d_loss: 0.6303
+2023-05-17 02:28:09.078262 Epoch [091/100], Step [0020/0208], [lateral-2: 0.6147, lateral-3: 0.6290, lateral-4: 0.6566, d_loss: 0.4568
+2023-05-17 02:28:16.421593 Epoch [091/100], Step [0040/0208], [lateral-2: 0.6168, lateral-3: 0.6381, lateral-4: 0.6603, d_loss: 0.4359
+2023-05-17 02:28:23.724959 Epoch [091/100], Step [0060/0208], [lateral-2: 0.6393, lateral-3: 0.6636, lateral-4: 0.6784, d_loss: 0.4400
+2023-05-17 02:28:31.065509 Epoch [091/100], Step [0080/0208], [lateral-2: 0.6262, lateral-3: 0.6448, lateral-4: 0.6603, d_loss: 0.4477
+2023-05-17 02:28:38.428171 Epoch [091/100], Step [0100/0208], [lateral-2: 0.5716, lateral-3: 0.5910, lateral-4: 0.6076, d_loss: 0.4284
+2023-05-17 02:28:45.869313 Epoch [091/100], Step [0120/0208], [lateral-2: 0.5737, lateral-3: 0.5923, lateral-4: 0.6159, d_loss: 0.4394
+2023-05-17 02:28:53.311538 Epoch [091/100], Step [0140/0208], [lateral-2: 0.5889, lateral-3: 0.6061, lateral-4: 0.6342, d_loss: 0.4558
+2023-05-17 02:29:00.662474 Epoch [091/100], Step [0160/0208], [lateral-2: 0.5639, lateral-3: 0.5841, lateral-4: 0.6111, d_loss: 0.4750
+2023-05-17 02:29:08.019941 Epoch [091/100], Step [0180/0208], [lateral-2: 0.5970, lateral-3: 0.6178, lateral-4: 0.6414, d_loss: 0.4911
+2023-05-17 02:29:15.467777 Epoch [091/100], Step [0200/0208], [lateral-2: 0.6317, lateral-3: 0.6558, lateral-4: 0.6730, d_loss: 0.4624
+2023-05-17 02:29:18.179633 Epoch [091/100], Step [0208/0208], [lateral-2: 0.6349, lateral-3: 0.6561, lateral-4: 0.6774, d_loss: 0.4566
+train_loss: 1.9684, val_loss: 2.1555
+train_d_loss: 0.4566, val_d_loss: 0.6127
+2023-05-17 02:29:33.056840 Epoch [092/100], Step [0020/0208], [lateral-2: 0.6474, lateral-3: 0.6715, lateral-4: 0.6960, d_loss: 0.4468
+2023-05-17 02:29:40.485203 Epoch [092/100], Step [0040/0208], [lateral-2: 0.5909, lateral-3: 0.6167, lateral-4: 0.6386, d_loss: 0.4311
+2023-05-17 02:29:47.843799 Epoch [092/100], Step [0060/0208], [lateral-2: 0.5858, lateral-3: 0.6103, lateral-4: 0.6250, d_loss: 0.4286
+2023-05-17 02:29:55.279906 Epoch [092/100], Step [0080/0208], [lateral-2: 0.6465, lateral-3: 0.6728, lateral-4: 0.6916, d_loss: 0.4534
+2023-05-17 02:30:02.556518 Epoch [092/100], Step [0100/0208], [lateral-2: 0.6386, lateral-3: 0.6636, lateral-4: 0.6877, d_loss: 0.4615
+2023-05-17 02:30:09.923815 Epoch [092/100], Step [0120/0208], [lateral-2: 0.6353, lateral-3: 0.6586, lateral-4: 0.6708, d_loss: 0.4872
+2023-05-17 02:30:17.383818 Epoch [092/100], Step [0140/0208], [lateral-2: 0.6388, lateral-3: 0.6635, lateral-4: 0.6725, d_loss: 0.4728
+2023-05-17 02:30:24.739569 Epoch [092/100], Step [0160/0208], [lateral-2: 0.5812, lateral-3: 0.6108, lateral-4: 0.6335, d_loss: 0.4001
+2023-05-17 02:30:32.055900 Epoch [092/100], Step [0180/0208], [lateral-2: 0.5665, lateral-3: 0.5953, lateral-4: 0.6254, d_loss: 0.4575
+2023-05-17 02:30:39.415600 Epoch [092/100], Step [0200/0208], [lateral-2: 0.5844, lateral-3: 0.6062, lateral-4: 0.6294, d_loss: 0.4755
+2023-05-17 02:30:42.113062 Epoch [092/100], Step [0208/0208], [lateral-2: 0.5776, lateral-3: 0.5999, lateral-4: 0.6226, d_loss: 0.4429
+train_loss: 1.8000, val_loss: 2.1944
+train_d_loss: 0.4429, val_d_loss: 0.6303
+2023-05-17 02:30:56.907287 Epoch [093/100], Step [0020/0208], [lateral-2: 0.5679, lateral-3: 0.5962, lateral-4: 0.6089, d_loss: 0.4598
+2023-05-17 02:31:04.302962 Epoch [093/100], Step [0040/0208], [lateral-2: 0.5945, lateral-3: 0.6153, lateral-4: 0.6339, d_loss: 0.4463
+2023-05-17 02:31:11.683730 Epoch [093/100], Step [0060/0208], [lateral-2: 0.5964, lateral-3: 0.6153, lateral-4: 0.6368, d_loss: 0.4526
+2023-05-17 02:31:19.086817 Epoch [093/100], Step [0080/0208], [lateral-2: 0.5874, lateral-3: 0.6076, lateral-4: 0.6278, d_loss: 0.4385
+2023-05-17 02:31:26.457678 Epoch [093/100], Step [0100/0208], [lateral-2: 0.5556, lateral-3: 0.5806, lateral-4: 0.6048, d_loss: 0.4291
+2023-05-17 02:31:33.836047 Epoch [093/100], Step [0120/0208], [lateral-2: 0.5511, lateral-3: 0.5832, lateral-4: 0.6064, d_loss: 0.4706
+2023-05-17 02:31:41.237050 Epoch [093/100], Step [0140/0208], [lateral-2: 0.6320, lateral-3: 0.6606, lateral-4: 0.6754, d_loss: 0.5021
+2023-05-17 02:31:48.689297 Epoch [093/100], Step [0160/0208], [lateral-2: 0.6648, lateral-3: 0.6841, lateral-4: 0.6958, d_loss: 0.5262
+2023-05-17 02:31:56.057139 Epoch [093/100], Step [0180/0208], [lateral-2: 0.6257, lateral-3: 0.6398, lateral-4: 0.6553, d_loss: 0.4650
+2023-05-17 02:32:03.451135 Epoch [093/100], Step [0200/0208], [lateral-2: 0.6056, lateral-3: 0.6246, lateral-4: 0.6439, d_loss: 0.4281
+2023-05-17 02:32:06.136192 Epoch [093/100], Step [0208/0208], [lateral-2: 0.6184, lateral-3: 0.6374, lateral-4: 0.6589, d_loss: 0.4608
+train_loss: 1.9147, val_loss: 2.2169
+train_d_loss: 0.4608, val_d_loss: 0.6539
+2023-05-17 02:32:20.957742 Epoch [094/100], Step [0020/0208], [lateral-2: 0.6500, lateral-3: 0.6766, lateral-4: 0.6849, d_loss: 0.3990
+2023-05-17 02:32:28.391564 Epoch [094/100], Step [0040/0208], [lateral-2: 0.6468, lateral-3: 0.6682, lateral-4: 0.6783, d_loss: 0.4123
+2023-05-17 02:32:35.774464 Epoch [094/100], Step [0060/0208], [lateral-2: 0.6388, lateral-3: 0.6606, lateral-4: 0.6756, d_loss: 0.4729
+2023-05-17 02:32:43.169156 Epoch [094/100], Step [0080/0208], [lateral-2: 0.6433, lateral-3: 0.6698, lateral-4: 0.6879, d_loss: 0.5225
+2023-05-17 02:32:50.668191 Epoch [094/100], Step [0100/0208], [lateral-2: 0.6197, lateral-3: 0.6372, lateral-4: 0.6583, d_loss: 0.4873
+2023-05-17 02:32:58.100870 Epoch [094/100], Step [0120/0208], [lateral-2: 0.6147, lateral-3: 0.6286, lateral-4: 0.6499, d_loss: 0.4379
+2023-05-17 02:33:05.445517 Epoch [094/100], Step [0140/0208], [lateral-2: 0.6200, lateral-3: 0.6432, lateral-4: 0.6619, d_loss: 0.4416
+2023-05-17 02:33:12.786506 Epoch [094/100], Step [0160/0208], [lateral-2: 0.5886, lateral-3: 0.6177, lateral-4: 0.6360, d_loss: 0.4648
+2023-05-17 02:33:20.190828 Epoch [094/100], Step [0180/0208], [lateral-2: 0.5834, lateral-3: 0.6120, lateral-4: 0.6318, d_loss: 0.4865
+2023-05-17 02:33:27.556365 Epoch [094/100], Step [0200/0208], [lateral-2: 0.5768, lateral-3: 0.6027, lateral-4: 0.6219, d_loss: 0.4573
+2023-05-17 02:33:30.278726 Epoch [094/100], Step [0208/0208], [lateral-2: 0.5843, lateral-3: 0.6097, lateral-4: 0.6249, d_loss: 0.4573
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-94.pth
+train_loss: 1.8189, val_loss: 2.1956
+train_d_loss: 0.4573, val_d_loss: 0.6953
+2023-05-17 02:33:46.541559 Epoch [095/100], Step [0020/0208], [lateral-2: 0.6471, lateral-3: 0.6774, lateral-4: 0.6862, d_loss: 0.4130
+2023-05-17 02:33:53.990622 Epoch [095/100], Step [0040/0208], [lateral-2: 0.6736, lateral-3: 0.6983, lateral-4: 0.7118, d_loss: 0.4402
+2023-05-17 02:34:01.395569 Epoch [095/100], Step [0060/0208], [lateral-2: 0.6412, lateral-3: 0.6627, lateral-4: 0.6820, d_loss: 0.4646
+2023-05-17 02:34:08.830127 Epoch [095/100], Step [0080/0208], [lateral-2: 0.5949, lateral-3: 0.6168, lateral-4: 0.6347, d_loss: 0.4685
+2023-05-17 02:34:16.204697 Epoch [095/100], Step [0100/0208], [lateral-2: 0.6076, lateral-3: 0.6276, lateral-4: 0.6427, d_loss: 0.4807
+2023-05-17 02:34:23.621802 Epoch [095/100], Step [0120/0208], [lateral-2: 0.6140, lateral-3: 0.6351, lateral-4: 0.6561, d_loss: 0.4901
+2023-05-17 02:34:31.027378 Epoch [095/100], Step [0140/0208], [lateral-2: 0.5817, lateral-3: 0.6100, lateral-4: 0.6378, d_loss: 0.4366
+2023-05-17 02:34:38.395335 Epoch [095/100], Step [0160/0208], [lateral-2: 0.5599, lateral-3: 0.5879, lateral-4: 0.6159, d_loss: 0.4471
+2023-05-17 02:34:45.787244 Epoch [095/100], Step [0180/0208], [lateral-2: 0.5817, lateral-3: 0.6059, lateral-4: 0.6253, d_loss: 0.4424
+2023-05-17 02:34:53.197182 Epoch [095/100], Step [0200/0208], [lateral-2: 0.5850, lateral-3: 0.6163, lateral-4: 0.6358, d_loss: 0.4085
+2023-05-17 02:34:55.911455 Epoch [095/100], Step [0208/0208], [lateral-2: 0.5945, lateral-3: 0.6206, lateral-4: 0.6416, d_loss: 0.4069
+train_loss: 1.8567, val_loss: 2.1730
+train_d_loss: 0.4069, val_d_loss: 0.6288
+2023-05-17 02:35:10.740461 Epoch [096/100], Step [0020/0208], [lateral-2: 0.6288, lateral-3: 0.6448, lateral-4: 0.6585, d_loss: 0.4533
+2023-05-17 02:35:18.150578 Epoch [096/100], Step [0040/0208], [lateral-2: 0.5969, lateral-3: 0.6276, lateral-4: 0.6466, d_loss: 0.4787
+2023-05-17 02:35:25.524502 Epoch [096/100], Step [0060/0208], [lateral-2: 0.5753, lateral-3: 0.6104, lateral-4: 0.6359, d_loss: 0.4488
+2023-05-17 02:35:32.849671 Epoch [096/100], Step [0080/0208], [lateral-2: 0.5966, lateral-3: 0.6216, lateral-4: 0.6443, d_loss: 0.3945
+2023-05-17 02:35:40.265266 Epoch [096/100], Step [0100/0208], [lateral-2: 0.6201, lateral-3: 0.6421, lateral-4: 0.6597, d_loss: 0.4246
+2023-05-17 02:35:47.661419 Epoch [096/100], Step [0120/0208], [lateral-2: 0.6332, lateral-3: 0.6547, lateral-4: 0.6688, d_loss: 0.4475
+2023-05-17 02:35:55.019734 Epoch [096/100], Step [0140/0208], [lateral-2: 0.6042, lateral-3: 0.6339, lateral-4: 0.6498, d_loss: 0.4809
+2023-05-17 02:36:02.494992 Epoch [096/100], Step [0160/0208], [lateral-2: 0.5774, lateral-3: 0.6065, lateral-4: 0.6291, d_loss: 0.4631
+2023-05-17 02:36:09.886354 Epoch [096/100], Step [0180/0208], [lateral-2: 0.5721, lateral-3: 0.5984, lateral-4: 0.6223, d_loss: 0.4270
+2023-05-17 02:36:17.195023 Epoch [096/100], Step [0200/0208], [lateral-2: 0.6355, lateral-3: 0.6547, lateral-4: 0.6756, d_loss: 0.4958
+2023-05-17 02:36:19.916067 Epoch [096/100], Step [0208/0208], [lateral-2: 0.6426, lateral-3: 0.6601, lateral-4: 0.6800, d_loss: 0.5007
+train_loss: 1.9827, val_loss: 2.1291
+train_d_loss: 0.5007, val_d_loss: 0.6284
+2023-05-17 02:36:34.865930 Epoch [097/100], Step [0020/0208], [lateral-2: 0.5539, lateral-3: 0.5800, lateral-4: 0.6057, d_loss: 0.4258
+2023-05-17 02:36:42.271055 Epoch [097/100], Step [0040/0208], [lateral-2: 0.5574, lateral-3: 0.5831, lateral-4: 0.6158, d_loss: 0.3984
+2023-05-17 02:36:49.478241 Epoch [097/100], Step [0060/0208], [lateral-2: 0.5822, lateral-3: 0.6077, lateral-4: 0.6359, d_loss: 0.4108
+2023-05-17 02:36:56.866512 Epoch [097/100], Step [0080/0208], [lateral-2: 0.6231, lateral-3: 0.6429, lateral-4: 0.6607, d_loss: 0.4281
+2023-05-17 02:37:04.275112 Epoch [097/100], Step [0100/0208], [lateral-2: 0.5782, lateral-3: 0.5923, lateral-4: 0.6151, d_loss: 0.4090
+2023-05-17 02:37:11.542134 Epoch [097/100], Step [0120/0208], [lateral-2: 0.5588, lateral-3: 0.5773, lateral-4: 0.6008, d_loss: 0.4617
+2023-05-17 02:37:18.947273 Epoch [097/100], Step [0140/0208], [lateral-2: 0.6021, lateral-3: 0.6273, lateral-4: 0.6446, d_loss: 0.4838
+2023-05-17 02:37:26.368461 Epoch [097/100], Step [0160/0208], [lateral-2: 0.6336, lateral-3: 0.6595, lateral-4: 0.6735, d_loss: 0.4576
+2023-05-17 02:37:33.800138 Epoch [097/100], Step [0180/0208], [lateral-2: 0.6523, lateral-3: 0.6750, lateral-4: 0.6936, d_loss: 0.5181
+2023-05-17 02:37:41.137488 Epoch [097/100], Step [0200/0208], [lateral-2: 0.6020, lateral-3: 0.6294, lateral-4: 0.6474, d_loss: 0.5231
+2023-05-17 02:37:43.886625 Epoch [097/100], Step [0208/0208], [lateral-2: 0.5991, lateral-3: 0.6238, lateral-4: 0.6428, d_loss: 0.4883
+train_loss: 1.8657, val_loss: 2.1297
+train_d_loss: 0.4883, val_d_loss: 0.6363
+2023-05-17 02:37:58.721924 Epoch [098/100], Step [0020/0208], [lateral-2: 0.5957, lateral-3: 0.6131, lateral-4: 0.6264, d_loss: 0.4850
+2023-05-17 02:38:06.126815 Epoch [098/100], Step [0040/0208], [lateral-2: 0.6527, lateral-3: 0.6739, lateral-4: 0.6835, d_loss: 0.5070
+2023-05-17 02:38:13.568460 Epoch [098/100], Step [0060/0208], [lateral-2: 0.6582, lateral-3: 0.6828, lateral-4: 0.6948, d_loss: 0.4671
+2023-05-17 02:38:20.925838 Epoch [098/100], Step [0080/0208], [lateral-2: 0.5608, lateral-3: 0.5839, lateral-4: 0.6056, d_loss: 0.4181
+2023-05-17 02:38:28.393798 Epoch [098/100], Step [0100/0208], [lateral-2: 0.5584, lateral-3: 0.5786, lateral-4: 0.6070, d_loss: 0.4240
+2023-05-17 02:38:35.697566 Epoch [098/100], Step [0120/0208], [lateral-2: 0.6049, lateral-3: 0.6282, lateral-4: 0.6567, d_loss: 0.4690
+2023-05-17 02:38:43.098231 Epoch [098/100], Step [0140/0208], [lateral-2: 0.5999, lateral-3: 0.6255, lateral-4: 0.6507, d_loss: 0.4465
+2023-05-17 02:38:50.363253 Epoch [098/100], Step [0160/0208], [lateral-2: 0.5600, lateral-3: 0.5819, lateral-4: 0.6063, d_loss: 0.4385
+2023-05-17 02:38:57.598685 Epoch [098/100], Step [0180/0208], [lateral-2: 0.5890, lateral-3: 0.6061, lateral-4: 0.6256, d_loss: 0.4997
+2023-05-17 02:39:04.957117 Epoch [098/100], Step [0200/0208], [lateral-2: 0.6495, lateral-3: 0.6628, lateral-4: 0.6831, d_loss: 0.4802
+2023-05-17 02:39:07.661067 Epoch [098/100], Step [0208/0208], [lateral-2: 0.6118, lateral-3: 0.6294, lateral-4: 0.6512, d_loss: 0.4585
+train_loss: 1.8924, val_loss: 2.2229
+train_d_loss: 0.4585, val_d_loss: 0.6367
+2023-05-17 02:39:22.571479 Epoch [099/100], Step [0020/0208], [lateral-2: 0.6051, lateral-3: 0.6240, lateral-4: 0.6382, d_loss: 0.4541
+2023-05-17 02:39:29.968367 Epoch [099/100], Step [0040/0208], [lateral-2: 0.6254, lateral-3: 0.6416, lateral-4: 0.6586, d_loss: 0.5022
+2023-05-17 02:39:37.366751 Epoch [099/100], Step [0060/0208], [lateral-2: 0.6326, lateral-3: 0.6543, lateral-4: 0.6713, d_loss: 0.5069
+2023-05-17 02:39:44.757028 Epoch [099/100], Step [0080/0208], [lateral-2: 0.6151, lateral-3: 0.6377, lateral-4: 0.6536, d_loss: 0.4340
+2023-05-17 02:39:52.057546 Epoch [099/100], Step [0100/0208], [lateral-2: 0.6007, lateral-3: 0.6174, lateral-4: 0.6335, d_loss: 0.3876
+2023-05-17 02:39:59.485806 Epoch [099/100], Step [0120/0208], [lateral-2: 0.6226, lateral-3: 0.6388, lateral-4: 0.6582, d_loss: 0.4312
+2023-05-17 02:40:06.927867 Epoch [099/100], Step [0140/0208], [lateral-2: 0.6239, lateral-3: 0.6462, lateral-4: 0.6730, d_loss: 0.4694
+2023-05-17 02:40:14.308197 Epoch [099/100], Step [0160/0208], [lateral-2: 0.5772, lateral-3: 0.6035, lateral-4: 0.6305, d_loss: 0.4288
+2023-05-17 02:40:21.725653 Epoch [099/100], Step [0180/0208], [lateral-2: 0.5538, lateral-3: 0.5844, lateral-4: 0.6126, d_loss: 0.4504
+2023-05-17 02:40:29.084011 Epoch [099/100], Step [0200/0208], [lateral-2: 0.5635, lateral-3: 0.5962, lateral-4: 0.6190, d_loss: 0.4913
+2023-05-17 02:40:31.785534 Epoch [099/100], Step [0208/0208], [lateral-2: 0.5847, lateral-3: 0.6122, lateral-4: 0.6390, d_loss: 0.4942
+[Saving Snapshot:] snapshots/transfuse_stl/Transfuse-99.pth
+train_loss: 1.8359, val_loss: 2.2118
+train_d_loss: 0.4942, val_d_loss: 0.6722
+matplot processing failed
