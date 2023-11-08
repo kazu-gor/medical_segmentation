@@ -8,11 +8,11 @@ decay_rate: 0.1
 decay_epoch: 50
 train_path: ./dataset/TrainDataset
 val_path: ./dataset/ValDataset
-train_save: Transfuse_nashv2_original_image_fuse_weight_01125
+train_save: Transfuse_nash_multiplication_original_image
 beta1: 0.5
 beta2: 0.999
 tuning: True
 mtl: nashmtl
 analytic: False
 analytic_version: v1
-fuse_weight: 0.5
+fuse_weight: 0.0
