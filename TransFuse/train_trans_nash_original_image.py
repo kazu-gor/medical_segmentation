@@ -5,8 +5,9 @@ import os
 import argparse
 import time
 from datetime import datetime
-from lib.TransFuse_l import TransFuse_L
+import numpy as np
 
+from lib.TransFuse_l import TransFuse_L
 from lib.Discriminator_ResNet import Discriminator
 
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
@@ -180,6 +181,12 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                 gts = Variable(gts).cuda()
                 labels = Variable(labels).cuda()
 
+                _image = images.data.cpu()
+                _image = _image.mul(torch.FloatTensor(
+                    IMAGENET_STD).view(3, 1, 1))
+                _image = _image.add(torch.FloatTensor(
+                    IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
+
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
@@ -199,24 +206,19 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     loss2 = structure_loss(lateral_map_2, gts)
                     loss = 0.5 * loss2 + 0.3 * loss3 + 0.2 * loss4
 
-                    lateral_map_2 = F.upsample(lateral_map_2, size=gt.shape, mode='bilinear', align_corners=False)
-                    lateral_map_2 = lateral_map_2.sigmoid().data.cpu().numpy().squeeze()
-                    # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
-                    lateral_map_2 = 1. * (lateral_map_2 > 0.5)
+                    lateral_map_2 = F.upsample(lateral_map_2, size=trainsize, mode='bilinear', align_corners=False)
+                    lateral_map_2 = lateral_map_2.sigmoid()
                     lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
-
-                    _image = images.data.cpu()
-                    _image = _image.mul(torch.FloatTensor(
-                        IMAGENET_STD).view(3, 1, 1))
-                    _image = _image.add(torch.FloatTensor(
-                        IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
 
                     assert lateral_map_2.shape == _image.shape
                     # TODO: weight
-                    dis_input = lateral_map_2 * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
-                    dis_input = transform_norm(
-                        IMAGENET_MEAN, IMAGENET_STD)(dis_input)
+                    # dis_input = lateral_map_2 * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
+                    dis_input = lateral_map_2 * _image
+                    # dis_input = lateral_map_2
+                    # dis_input = transform_norm(
+                    #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
 
+                    # d_out = models['Discriminator'](dis_input.type(torch.cuda.FloatTensor))
                     d_out = models['Discriminator'](dis_input)
 
                     d_loss = criterion(d_out, labels)
