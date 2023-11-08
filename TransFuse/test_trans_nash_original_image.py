@@ -191,11 +191,11 @@ for i in range(test_loader1.size):
     with torch.no_grad():
         _, _, res = model(image)
 
-        res1 = F.upsample(res, size=gt.shape,
+        res = F.upsample(res, size=gt.shape,
                           mode='bilinear', align_corners=False)
-        res1 = res1.sigmoid().data.cpu().numpy().squeeze()
-        res1 = 1. * (res1 > 0.5)
-
+        # res1 = res1.sigmoid().data.cpu().numpy().squeeze()
+        # res1 = 1. * (res1 > 0.5)
+        res = res.sigmoid()
         res = res.repeat(1, 3, 1, 1)
 
         _image = image.data.cpu()
@@ -206,9 +206,10 @@ for i in range(test_loader1.size):
 
         assert res.shape == _image.shape
         # TODO: weight
-        dis_input = res * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
-        dis_input = transform_norm(
-            IMAGENET_MEAN, IMAGENET_STD)(dis_input)
+        # dis_input = res * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
+        # dis_input = transform_norm(
+        #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
+        dis_input = res * _image
 
         out = model2(dis_input)
 
@@ -223,17 +224,17 @@ for i in range(test_loader1.size):
 
     if label == 1:
         if predicted == 1:
-            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res))
 
         else:
-            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res))
 
     else:
         if predicted == 1:
-            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res))
 
         else:
-            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res))
 
 for i in range(test_loader2.size):
     image, gt, name = test_loader2.load_data()
