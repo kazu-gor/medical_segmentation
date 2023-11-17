@@ -193,10 +193,13 @@ for i in range(test_loader1.size):
 
         res = F.upsample(res, size=gt.shape,
                           mode='bilinear', align_corners=False)
-        # res1 = res1.sigmoid().data.cpu().numpy().squeeze()
-        # res1 = 1. * (res1 > 0.5)
+
+        res1 = res.sigmoid().data.cpu().numpy().squeeze()
+
         res = res.sigmoid()
         res = res.repeat(1, 3, 1, 1)
+
+        res1 = 1. * (res1 > 0.5)
 
         _image = image.data.cpu()
         _image = _image.mul(torch.FloatTensor(
@@ -224,17 +227,17 @@ for i in range(test_loader1.size):
 
     if label == 1:
         if predicted == 1:
-            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res))
+            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
 
         else:
-            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res))
+            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
 
     else:
         if predicted == 1:
-            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res))
+            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
 
         else:
-            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res))
+            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
 
 for i in range(test_loader2.size):
     image, gt, name = test_loader2.load_data()

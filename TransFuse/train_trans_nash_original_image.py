@@ -167,6 +167,8 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
         loss_record2, loss_record3, loss_record4, d_loss_record = AvgMeter(
         ), AvgMeter(), AvgMeter(), AvgMeter()
 
+        conv1x1 = nn.Conv2d(3, 3, kernel_size=1, padding=0).cuda()
+
         for i, pack in enumerate(dataloaders_dict[phase], start=1):
             for rate in size_rates:
                 optimizer.zero_grad()
@@ -209,11 +211,12 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     lateral_map_2 = F.upsample(lateral_map_2, size=trainsize, mode='bilinear', align_corners=False)
                     lateral_map_2 = lateral_map_2.sigmoid()
                     lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
+                    lateral_map_2 = conv1x1(lateral_map_2)
 
                     assert lateral_map_2.shape == _image.shape
                     # TODO: weight
                     # dis_input = lateral_map_2 * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
-                    dis_input = lateral_map_2 * _image
+                    dis_input = lateral_map_2 + _image
                     # dis_input = lateral_map_2
                     # dis_input = transform_norm(
                     #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
