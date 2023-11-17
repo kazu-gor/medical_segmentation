@@ -7,7 +7,8 @@ import time
 from datetime import datetime
 import numpy as np
 
-from lib.TransFuse_l import TransFuse_L
+# from lib.TransFuse_l import TransFuse_L
+from lib.TransFuse_l_conv1x1 import TransFuse_L
 from lib.Discriminator_ResNet import Discriminator
 
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
@@ -199,7 +200,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
 
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
-                    lateral_map_4, lateral_map_3, lateral_map_2 = models['Transfuse'](
+                    lateral_map_4, lateral_map_3, lateral_map_2, dis_in = models['Transfuse'](
                         images)
 
                     # ---- loss function ----
@@ -208,21 +209,20 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     loss2 = structure_loss(lateral_map_2, gts)
                     loss = 0.5 * loss2 + 0.3 * loss3 + 0.2 * loss4
 
-                    lateral_map_2 = F.upsample(lateral_map_2, size=trainsize, mode='bilinear', align_corners=False)
-                    lateral_map_2 = lateral_map_2.sigmoid()
-                    lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
-                    lateral_map_2 = conv1x1(lateral_map_2)
+                    # lateral_map_2 = F.upsample(lateral_map_2, size=trainsize, mode='bilinear', align_corners=False)
+                    # lateral_map_2 = lateral_map_2.sigmoid()
+                    # lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
+                    # lateral_map_2 = conv1x1(lateral_map_2)
 
-                    assert lateral_map_2.shape == _image.shape
+                    assert dis_in.shape == _image.shape
                     # TODO: weight
                     # dis_input = lateral_map_2 * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
-                    dis_input = lateral_map_2 + _image
-                    # dis_input = lateral_map_2
-                    # dis_input = transform_norm(
-                    #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
+                    dis_in = dis_in + _image
+                    dis_in = transform_norm(
+                        IMAGENET_MEAN, IMAGENET_STD)(dis_in)
 
-                    # d_out = models['Discriminator'](dis_input.type(torch.cuda.FloatTensor))
-                    d_out = models['Discriminator'](dis_input)
+                    d_out = models['Discriminator'](dis_in.type(torch.cuda.FloatTensor))
+                    # d_out = models['Discriminator'](dis_in)
 
                     d_loss = criterion(d_out, labels)
                     losses = torch.stack((loss, d_loss))

@@ -189,15 +189,15 @@ for i in range(test_loader1.size):
     image = image.cuda()
 
     with torch.no_grad():
-        _, _, res = model(image)
+        _, _, res, dis_in = model(image)
 
         res = F.upsample(res, size=gt.shape,
                           mode='bilinear', align_corners=False)
 
         res1 = res.sigmoid().data.cpu().numpy().squeeze()
 
-        res = res.sigmoid()
-        res = res.repeat(1, 3, 1, 1)
+        # res = res.sigmoid()
+        # res = res.repeat(1, 3, 1, 1)
 
         res1 = 1. * (res1 > 0.5)
 
@@ -207,14 +207,16 @@ for i in range(test_loader1.size):
         _image = _image.add(torch.FloatTensor(
             IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
 
-        assert res.shape == _image.shape
+        assert dis_in.shape == _image.shape
         # TODO: weight
         # dis_input = res * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
         # dis_input = transform_norm(
         #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
-        dis_input = res * _image
+        dis_in = dis_in + _image
+        dis_in = transform_norm(
+            IMAGENET_MEAN, IMAGENET_STD)(dis_in)
 
-        out = model2(dis_input)
+        out = model2(dis_in.type(torch.cuda.FloatTensor))
 
         _, predicted = torch.max(out, dim=1)
         predicted = torch.Tensor.cpu(predicted).detach().numpy()
