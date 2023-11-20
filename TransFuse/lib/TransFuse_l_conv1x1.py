@@ -179,6 +179,19 @@ class TransFuse_L(nn.Module):
         return map_x, map_1, map_2, dis_in
         ######################################################
 
+        ###########  Upsample -> Conv1x1 -> Sigmoid  ##########
+        #dis_in = F.upsample(map_2, size=352, mode='bilinear', align_corners=False)
+        #dis_in = self.conv1x1(dis_in)
+        #dis_in = dis_in.sigmoid().repeat(1, 3, 1, 1)
+        #return map_x, map_1, map_2, dis_in
+        #######################################################
+
+        ###########  Upsample -> Conv1x1  ##########
+        #dis_in = F.upsample(map_2, size=352, mode='bilinear', align_corners=False)
+        #dis_in = self.conv1x1(dis_in)
+        #return map_x, map_1, map_2, dis_in
+        #######################################################
+
     def init_weights(self):
         self.up1.apply(init_weights)
         self.up2.apply(init_weights)
