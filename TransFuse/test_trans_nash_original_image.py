@@ -18,7 +18,8 @@ import imageio
 from torchvision import transforms
 import torchvision.models as torch_model
 
-from lib.TransFuse_l import TransFuse_L
+# from lib.TransFuse_l import TransFuse_L
+from lib.TransFuse_l_conv1x1 import TransFuse_L
 
 # from lib.Discriminator_v1 import Discriminator
 # from lib.Discriminator_v2 import Discriminator
@@ -250,7 +251,7 @@ for i in range(test_loader2.size):
     image = image.cuda()
 
     with torch.no_grad():
-        _, _, res = model(image)
+        _, _, res, dis_in = model(image)
 
     res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()

@@ -400,7 +400,7 @@ if __name__ == '__main__':
     model1 = TransFuse_L(pretrained=True)
     if opt.tuning:
         model1.load_state_dict(torch.load(
-            './weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'))
+            './weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'), strict=False)
 
     if opt.tuning and opt.mtl == 'stl':
         for param in model1.parameters():
