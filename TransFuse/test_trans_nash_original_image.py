@@ -213,7 +213,7 @@ for i in range(test_loader1.size):
         # dis_input = res * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
         # dis_input = transform_norm(
         #     IMAGENET_MEAN, IMAGENET_STD)(dis_input)
-        dis_in = dis_in + _image
+        dis_in = dis_in * _image
         dis_in = transform_norm(
             IMAGENET_MEAN, IMAGENET_STD)(dis_in)
 

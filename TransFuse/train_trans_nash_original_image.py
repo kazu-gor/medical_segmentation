@@ -217,7 +217,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     assert dis_in.shape == _image.shape
                     # TODO: weight
                     # dis_input = lateral_map_2 * opt.fuse_weight + _image * (1.0 - opt.fuse_weight)
-                    dis_in = dis_in + _image
+                    dis_in = dis_in * _image
                     dis_in = transform_norm(
                         IMAGENET_MEAN, IMAGENET_STD)(dis_in)
 
