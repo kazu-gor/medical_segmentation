@@ -179,20 +179,10 @@ class TransFuse_L(nn.Module):
         # return map_x, map_1, map_2, dis_in
         ######################################################
 
-        ###########  Conv1x1 -> Upsample -> Sigmoid  ##########
+        ###########  Conv1x1 -> Sigmoid  ##########
         # dis_in = self.conv1x1(map_2.repeat(1, 3, 1, 1))
-
-        # print('pre conv')
-        # print(f"{dis_in.shape = }")
-        # print(f"{dis_in.min() = }, {dis_in.max() = }")
-
-        # dis_in = F.upsample(dis_in, size=352, mode='bilinear', align_corners=False)
+        # dis_in = normalization(dis_in)
         # dis_in = dis_in.sigmoid()
-
-        # print('after sigmoid')
-        # print(f"{dis_in.shape = }")
-        # print(f"{dis_in.min() = }, {dis_in.max() = }")
-
         # return map_x, map_1, map_2, dis_in
         #######################################################
 
@@ -212,6 +202,15 @@ class TransFuse_L(nn.Module):
         self.up_c_1_2.apply(init_weights)
         self.up_c_2_1.apply(init_weights)
         self.up_c_2_2.apply(init_weights)
+
+
+def normalization(images: torch.Tensor) -> torch.Tensor:
+    """
+    Normalize the input images
+    :param images: Input images
+    :return: Normalized images
+    """
+    return (images - images.min()) / (images.max() - images.min())
 
 
 def init_weights(m):
