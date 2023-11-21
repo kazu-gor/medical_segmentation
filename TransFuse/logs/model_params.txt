@@ -293,6 +293,7 @@ blocks.23.mlp.fc2.weight
 blocks.23.mlp.fc2.bias
 norm.weight
 norm.bias
+
 ResNetのパラメータ
 conv1.weight
 bn1.weight
