@@ -1,26 +1,23 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
 import os
 import argparse
 import time
+import sys
 from datetime import datetime
-import numpy as np
 
-# from lib.TransFuse_l import TransFuse_L
-from lib.TransFuse_l_conv1x1 import TransFuse_L
-from lib.Discriminator_ResNet import Discriminator
-
-# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
-
-from utils.weight_methods import WeightMethods
-from utils.mtl import extract_weight_method_parameters_from_args
-
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
+import torch
+import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
+from torch.autograd import Variable
+
+sys.path.append('../../')
+from lib.TransFuse_l_conv1x1 import TransFuse_L
+from lib.Discriminator_ResNet import Discriminator
+from utils.weight_methods import WeightMethods
+from utils.mtl import extract_weight_method_parameters_from_args
+from utils.dataloader import get_loader
+from utils.utils import clip_gradient, adjust_lr, AvgMeter
 from utils.smooth_cross_entropy import SmoothCrossEntropy
 
 
