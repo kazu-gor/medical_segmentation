@@ -3,27 +3,8 @@ from PIL import Image
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import albumentations as albu
-from data_augumentation import Compose, Scale, RandomRotation, RandomMirror, Resize, Normalize_Tensor
 import numpy as np
-import cv2
 import random
-import torch
-import sys
-
-# tools
-# from data_preprocessing import Mask2oneBbox
-
-
-class ImageTransform():
-    def __init__(self):
-        self.data_transform = {'train': Compose([
-            # Scale(scale=[0.5, 1.5]),
-            # RandomRotation(angle=[-10, 10]),
-        ]),
-            'val': Compose([])}
-
-    def __call__(self, img, mask, phase='train'):
-        return self.data_transform[phase](img, mask)
 
 
 def get_augmentation():
