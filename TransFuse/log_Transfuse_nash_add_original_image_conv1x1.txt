@@ -5,32 +5,6 @@ save_path: ./results/Transfuse_S/
 data_path1: ./dataset/TestDataset/
 data_path2: ./dataset/sekkai_TestDataset/
 fuse_weight: 0.0
-Dice: 0.5726, IoU: 0.4638, Acc: 0.9913
-----------discriminator-----------
-TPR-FPR: 0.5536591068505963
-TP: 123
-FN: 18
-FP: 29
-TN: 62
-Accuracy: 0.7974137931034483
-F-measure: 0.8395904436860069
-precision: 0.8092105263157895
-recall: 0.8723404255319149
-specificity: 0.6813186813186813
-couldn't connect to display ":1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
-AUC: 0.8353207076611332
--------------cutoff--------------
-TPR-FPR: 0.6312836100070143
-Threshold: 1.914379596710205
-TP: 120
-FN: 21
-FP: 20
-TN: 71
-Accuracy: 0.8232758620689655
-F-measure: 0.8540925266903915
-precision: 0.8571428571428571
-recall: 0.851063829787234
-specificity: 0.7802197802197802
 testsize: 352
 pth_path: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Transfuse-best2.pth
 pth_path2: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Discriminator-best2.pth
@@ -38,32 +12,6 @@ save_path: ./results/Transfuse_S/
 data_path1: ./dataset/TestDataset/
 data_path2: ./dataset/sekkai_TestDataset/
 fuse_weight: 0.0
-Dice: 0.5458, IoU: 0.4271, Acc: 0.9914
-----------discriminator-----------
-TPR-FPR: 0.5256020575169512
-TP: 102
-FN: 39
-FP: 18
-TN: 73
-Accuracy: 0.7543103448275862
-F-measure: 0.7816091954022989
-precision: 0.85
-recall: 0.723404255319149
-specificity: 0.8021978021978022
-couldn't connect to display ":1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
-AUC: 0.8692229756059544
--------------cutoff--------------
-TPR-FPR: 0.640869768529343
-Threshold: -0.7658673524856567
-TP: 126
-FN: 15
-FP: 23
-TN: 68
-Accuracy: 0.8362068965517241
-F-measure: 0.8689655172413793
-precision: 0.8456375838926175
-recall: 0.8936170212765957
-specificity: 0.7472527472527473
 testsize: 352
 pth_path: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Transfuse-59.pth
 pth_path2: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Discriminator-59.pth
@@ -71,32 +19,6 @@ save_path: ./results/Transfuse_S/
 data_path1: ./dataset/TestDataset/
 data_path2: ./dataset/sekkai_TestDataset/
 fuse_weight: 0.0
-Dice: 0.5726, IoU: 0.4636, Acc: 0.9913
-----------discriminator-----------
-TPR-FPR: 0.5646481178396072
-TP: 123
-FN: 18
-FP: 28
-TN: 63
-Accuracy: 0.8017241379310345
-F-measure: 0.8424657534246576
-precision: 0.8145695364238411
-recall: 0.8723404255319149
-specificity: 0.6923076923076923
-couldn't connect to display ":1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
-AUC: 0.8388668069519134
--------------cutoff--------------
-TPR-FPR: 0.6351804224144649
-Threshold: 1.7200223207473755
-TP: 119
-FN: 22
-FP: 19
-TN: 72
-Accuracy: 0.8232758620689655
-F-measure: 0.8530465949820788
-precision: 0.8623188405797102
-recall: 0.8439716312056738
-specificity: 0.7912087912087912
 testsize: 352
 pth_path: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Transfuse-99.pth
 pth_path2: ./snapshots/Transfuse_nash_add_original_image_conv1x1/Discriminator-99.pth
@@ -104,29 +26,3 @@ save_path: ./results/Transfuse_S/
 data_path1: ./dataset/TestDataset/
 data_path2: ./dataset/sekkai_TestDataset/
 fuse_weight: 0.0
-Dice: 0.5682, IoU: 0.4591, Acc: 0.9913
-----------discriminator-----------
-TPR-FPR: 0.5504637206764866
-TP: 121
-FN: 20
-FP: 28
-TN: 63
-Accuracy: 0.7931034482758621
-F-measure: 0.8344827586206897
-precision: 0.8120805369127517
-recall: 0.8581560283687943
-specificity: 0.6923076923076923
-couldn't connect to display ":1 - TERM=xterm-256color - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/ - NO_PROXY=localhost,127.0.0.0/8,::1"
-AUC: 0.838827838827839
--------------cutoff--------------
-TPR-FPR: 0.6178006390772348
-Threshold: 1.887267827987671
-TP: 115
-FN: 26
-FP: 18
-TN: 73
-Accuracy: 0.8103448275862069
-F-measure: 0.8394160583941607
-precision: 0.8646616541353384
-recall: 0.8156028368794326
-specificity: 0.8021978021978022
