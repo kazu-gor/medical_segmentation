@@ -48,11 +48,14 @@ class VisionTransformer(ViT):
         x = x + pe
         x = self.pos_drop(x)
 
+        attn_weights = []
         for blk in self.blocks:
-            x = blk(x)
+            x, weights = blk(x)
+            if self.viz:
+                attn_weights.append(weights)
 
         x = self.norm(x)
-        return x
+        return x, attn_weights
 
 
 def interpolate_pos_embed(model, checkpoint_model):

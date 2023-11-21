@@ -83,7 +83,7 @@ class TransFuse_L(nn.Module):
         self.Resnet.layer4 = nn.Identity()
 
         # self.transformer = deit_base(pretrained=pretrained)
-        self.transformer = vit_large(pretrained=pretrained)
+        self.transformer = vit_large(pretrained=pretrained, viz=True)
         # self.transformer = vit_large(pretrained=False)
 
     #############################################################################################
@@ -128,7 +128,7 @@ class TransFuse_L(nn.Module):
 
     def forward(self, imgs, labels=None):
         # bottom-up path
-        x_b, _ = self.transformer(imgs) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
+        x_b, attn_weights = self.transformer(imgs) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
         x_b = torch.transpose(x_b, 1, 2) # torch.Size([16, 1024, 196])
         # x_b = x_b.view(x_b.shape[0], -1, 14, 14)  # t0 # torch.Size([16, 1024, 14, 14]) # 224*224
         x_b = x_b.view(x_b.shape[0], -1, 22, 22)  # t0 # torch.Size([16, 1024, 14, 14]) # 352*352
@@ -166,7 +166,7 @@ class TransFuse_L(nn.Module):
         map_x = F.interpolate(self.final_x(x_c), scale_factor=16, mode='bilinear')  # BiFusion pred map
         map_1 = F.interpolate(self.final_1(x_b_2), scale_factor=4, mode='bilinear')  # Transformer pred map
         map_2 = F.interpolate(self.final_2(x_c_2), scale_factor=4, mode='bilinear')  # Joint pred map
-        return map_x, map_1, map_2
+        return map_x, map_1, map_2, attn_weights
 
     def init_weights(self):
         self.up1.apply(init_weights)
