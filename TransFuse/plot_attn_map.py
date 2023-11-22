@@ -183,16 +183,14 @@ for i in range(test_loader1.size):
         # mask = v[0, 1:].reshape(grid_size, grid_size).detach().numpy()
         mask = v[0, :].reshape(grid_size, grid_size).detach().numpy()
         mask = cv2.resize(mask / mask.max(), _image.shape[2:])[..., np.newaxis]
-        print(f"{mask.min() = }, {mask.max() = }")
-        print(f"{_image.min() = }, {_image.max() = }")
-        result = (mask * (_image.numpy().transpose(0, 2, 3, 1)[0] * 255)).astype(np.uint8)
-        print(f"{result.min() = }, {result.max() = }")
+        # result = (mask * (_image.numpy().transpose(0, 2, 3, 1)[0] * 255)).astype(np.uint8)
+        result = (mask * 255).astype(np.uint8)
 
         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16, 16))
         ax1.set_title('Original')
         ax2.set_title('Attention Map')
         _ = ax1.imshow(((_image.numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
-        _ = ax2.imshow(result)
+        _ = ax2.imshow(result, cmap="hot")
         #########################################
 
         res1 = F.upsample(res, size=gt.shape,
