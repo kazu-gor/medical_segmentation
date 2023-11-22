@@ -1,6 +1,6 @@
-*.png
-*.jpg
 *.pth
+*.jpg
+*.png
 
 /TransFuse/snapshots/*
 /TransFuse/weights/*
@@ -10,6 +10,8 @@
 /TransFuse/roc_curve/*
 
 /PraNet-master/dataset/*
+/PraNet-master/**/*.jpg
+/PraNet-master/**/*.png
 
 /mae/dataset/*
 /mae/dataset2/*
