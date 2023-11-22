@@ -78,7 +78,7 @@ class TransFuse_L(nn.Module):
 
         self.Resnet = Resnet()
         if pretrained:
-            self.Resnet.load_state_dict(torch.load('resnet50_a1_0-14fe96d1.pth'))
+            self.Resnet.load_state_dict(torch.load('../../weights/resnet50_a1_0-14fe96d1.pth'))
         self.Resnet.fc = nn.Identity()
         self.Resnet.layer4 = nn.Identity()
 
@@ -132,7 +132,7 @@ class TransFuse_L(nn.Module):
 
     def forward(self, imgs, labels=None):
         # bottom-up path
-        x_b = self.transformer(imgs) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
+        x_b, _ = self.transformer(imgs) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
         x_b = torch.transpose(x_b, 1, 2) # torch.Size([16, 1024, 196])
         # x_b = x_b.view(x_b.shape[0], -1, 14, 14)  # t0 # torch.Size([16, 1024, 14, 14]) # 224*224
         x_b = x_b.view(x_b.shape[0], -1, 22, 22)  # t0 # torch.Size([16, 1024, 14, 14]) # 352*352
@@ -180,15 +180,15 @@ class TransFuse_L(nn.Module):
         ######################################################
 
         ###########  Conv1x1 -> Sigmoid  ##########
-        # dis_in = self.conv1x1(map_2.repeat(1, 3, 1, 1))
-        # dis_in = normalization(dis_in)
-        # dis_in = dis_in.sigmoid()
-        # return map_x, map_1, map_2, dis_in
+        dis_in = self.conv1x1(map_2.repeat(1, 3, 1, 1))
+        dis_in = normalization(dis_in)
+        dis_in = dis_in.sigmoid()
+        return map_x, map_1, map_2, dis_in
         #######################################################
 
         ###########  Conv1x1  ##########
-        dis_in = self.conv1x1(map_2.repeat(1, 3, 1, 1))
-        return map_x, map_1, map_2, dis_in
+        # dis_in = self.conv1x1(map_2.repeat(1, 3, 1, 1))
+        # return map_x, map_1, map_2, dis_in
         #######################################################
 
     def init_weights(self):
