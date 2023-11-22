@@ -193,8 +193,6 @@ for i in range(test_loader1.size):
         ax2.set_title('Attention Map')
         _ = ax1.imshow(((_image.numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
         _ = ax2.imshow(result)
-        plt.savefig(f'./attention_map/attention_map_{name}.png')
-        plt.close()
         #########################################
 
         res1 = F.upsample(res, size=gt.shape,
@@ -219,16 +217,28 @@ for i in range(test_loader1.size):
     if label == 1:
         if predicted == 1:
             imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
-
+            #########################################
+            plt.savefig(f'./attention_map/TP/attention_map_{name}.png')
+            #########################################
         else:
             imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
+            #########################################
+            plt.savefig(f'./attention_map/FN/attention_map_{name}.png')
+            #########################################
 
     else:
         if predicted == 1:
             imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
+            #########################################
+            plt.savefig(f'./attention_map/FP/attention_map_{name}.png')
+            #########################################
 
         else:
             imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
+            #########################################
+            plt.savefig(f'./attention_map/TN/attention_map_{name}.png')
+    plt.close()
+    #########################################
 
 # for i in range(test_loader2.size):
 #     image, gt, name = test_loader2.load_data()
