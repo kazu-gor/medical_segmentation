@@ -4,6 +4,7 @@ import os
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import roc_curve, roc_auc_score
 
+import matplotlib
 import matplotlib.pyplot as plt
 
 import cv2
@@ -20,6 +21,8 @@ from lib.Discriminator_ResNet import Discriminator
 
 from utils.dataloader import test_dataset
 from skimage import img_as_ubyte
+
+matplotlib.use("Agg")
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -90,9 +93,9 @@ def imwrite(filename, img, params=None):
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--pth_path', type=str,
-                    default='./snapshots/Transfuse_S/Transfuse-best.pth')
+                    default='./snapshots/TransFuse_nash_mtl_b8/Transfuse-99.pth')
 parser.add_argument('--pth_path2', type=str,
-                    default='./snapshots/Transfuse_S/Discriminator-best.pth')
+                    default='./snapshots/TransFuse_nash_mtl_b8/Discriminator-99.pth')
 parser.add_argument('--save_path', type=str,
                     default='./results/Transfuse_S/', help='path to result')
 parser.add_argument('--data_path1', type=str,
@@ -170,16 +173,17 @@ for i in range(test_loader1.size):
 
         # 入力から出力までのattention map
         # for i, v in enumerate(joint_attentions):
-        mask = v[0, 1:].reshape(grid_size, grid_size).detach().numpy()
+        # mask = v[0, 1:].reshape(grid_size, grid_size).detach().numpy()
+        mask = v[0, :].reshape(grid_size, grid_size).detach().numpy()
         mask = cv2.resize(mask / mask.max(), image.shape[2:])[..., np.newaxis]
-        result = (mask * image.cpu().numpy().transpose(0, 2, 3, 1)).astype(np.uint8)
+        result = (mask * image.cpu().numpy().transpose(0, 2, 3, 1)[0]).astype(np.uint8)
 
         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16, 16))
         ax1.set_title('Original')
         ax2.set_title('Attention Map')
-        _ = ax1.imshow(image.cpu().numpy().transpose(0, 2, 3, 1))
+        _ = ax1.imshow(((image.cpu().numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
         _ = ax2.imshow(result)
-        plt.savefig(f'./fig/attention_map_{name.split("/")[-2]}.png')
+        plt.savefig(f'./fig/attention_map_{name}.png')
         plt.close()
         #########################################
 

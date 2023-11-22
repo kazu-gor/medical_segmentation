@@ -95,7 +95,7 @@ def vit_large_patch16(pretrained=False, **kwargs):
         norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     if pretrained:
         ############################################################################################
-        checkpoint = torch.load('checkpoint-399_vit_l_352.pth')
+        checkpoint = torch.load('../weights/checkpoint-399_vit_l_352.pth')
         # checkpoint = torch.load('checkpoint-399_vit_l_352_491.pth')
         # checkpoint = torch.load('mae_pretrain_vit_large.pth')
         # checkpoint = torch.load('checkpoint-399_vit_l_352_kvasir.pth')
