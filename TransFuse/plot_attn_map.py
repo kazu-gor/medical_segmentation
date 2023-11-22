@@ -149,6 +149,11 @@ for i in range(test_loader1.size):
 
     # gt /= (gt.max() + 1e-8)  ##########################
 
+    _image = image.mul(torch.FloatTensor(
+        IMAGENET_STD).view(3, 1, 1))
+    _image = _image.add(torch.FloatTensor(
+        IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
+
     image = image.cuda()
 
     with torch.no_grad():
@@ -175,15 +180,15 @@ for i in range(test_loader1.size):
         # for i, v in enumerate(joint_attentions):
         # mask = v[0, 1:].reshape(grid_size, grid_size).detach().numpy()
         mask = v[0, :].reshape(grid_size, grid_size).detach().numpy()
-        mask = cv2.resize(mask / mask.max(), image.shape[2:])[..., np.newaxis]
-        result = (mask * image.cpu().numpy().transpose(0, 2, 3, 1)[0]).astype(np.uint8)
+        mask = cv2.resize(mask / mask.max(), _image.shape[2:])[..., np.newaxis]
+        result = (mask * _image.numpy().transpose(0, 2, 3, 1)[0]).astype(np.uint8)
 
         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16, 16))
         ax1.set_title('Original')
         ax2.set_title('Attention Map')
-        _ = ax1.imshow(((image.cpu().numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
+        _ = ax1.imshow(((_image.numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
         _ = ax2.imshow(result)
-        plt.savefig(f'./fig/attention_map_{name}.png')
+        plt.savefig(f'./attention_map/attention_map_{name}.png')
         plt.close()
         #########################################
 
