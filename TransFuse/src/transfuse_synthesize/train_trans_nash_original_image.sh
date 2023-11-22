@@ -141,7 +141,7 @@
 # echo '---------------------------------------------------'
 # echo `cat -A log_$SAVE_PATH.txt` | xargs -d '$' -IXXX python3 ../../tools/slack_bot.py --text XXX
 
-SAVE_PATH='Transfuse_nash_add_original_image_conv1x1'
+SAVE_PATH='Transfuse_nash_original_image_conv1x1_sigmoid'
 FUSE_WEIGHT=0.0
 python3 ./train_trans_nash_original_image.py --train_save $SAVE_PATH --batchsize 8 --fuse_weight $FUSE_WEIGHT
 python3 ./test_trans_nash_original_image.py --pth_path "./snapshots/$SAVE_PATH/Transfuse-best.pth" --pth_path2 "./snapshots/$SAVE_PATH/Discriminator-best.pth" --fuse_weight $FUSE_WEIGHT | tee log_$SAVE_PATH.txt

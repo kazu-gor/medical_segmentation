@@ -1,37 +1,23 @@
+import os
+import sys
 import argparse
 import glob
-import os
 
+import cv2
+import imageio
+import numpy as np
+import matplotlib.pyplot as plt
+import torch
+import torch.nn.functional as F
+from skimage import img_as_ubyte
+from torchvision import transforms
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import roc_curve, roc_auc_score
 
-import matplotlib.pyplot as plt
-
-import cv2
-import numpy as np
-import torch
-import torch.nn.functional as F
-import torch.nn as nn
-from scipy import misc
-
-import imageio
-from torchvision import transforms
-import torchvision.models as torch_model
-
-# from lib.TransFuse_l import TransFuse_L
+sys.path.append('../../')
 from lib.TransFuse_l_conv1x1 import TransFuse_L
-
-# from lib.Discriminator_v1 import Discriminator
-# from lib.Discriminator_v2 import Discriminator
-# from lib.Discriminator_v3 import Discriminator
-
 from lib.Discriminator_ResNet import Discriminator
-
-# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
-
 from utils.dataloader import test_dataset
-from skimage import img_as_ubyte
-import glob
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -45,6 +31,7 @@ correct = 0
 
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD = [0.229, 0.224, 0.225]
+
 
 def mean_iou_np(y_true, y_pred, **kwargs):
     """
@@ -119,9 +106,9 @@ parser.add_argument('--pth_path2', type=str,
 parser.add_argument('--save_path', type=str,
                     default='./results/Transfuse_S/', help='path to result')
 parser.add_argument('--data_path1', type=str,
-                    default='./dataset/TestDataset/', help='path to dataset')
+                    default='../../dataset/TestDataset/', help='path to dataset')
 parser.add_argument('--data_path2', type=str,
-                    default='./dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
+                    default='../../dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
 
 parser.add_argument('--fuse_weight', type=float, default=0.1)
 

@@ -1,0 +1,7 @@
+testsize: 352
+pth_path: ./snapshots/Transfuse_nash_original_image_conv1x1_sigmoid/Transfuse-best.pth
+pth_path2: ./snapshots/Transfuse_nash_original_image_conv1x1_sigmoid/Discriminator-best.pth
+save_path: ./results/Transfuse_S/
+data_path1: ../../dataset/TestDataset/
+data_path2: ../../dataset/sekkai_TestDataset/
+fuse_weight: 0.0

@@ -344,9 +344,9 @@ if __name__ == '__main__':
     parser.add_argument('--decay_epoch', type=int, default=50,
                         help='every n epochs decay learning rate')
     parser.add_argument('--train_path', type=str,
-                        default='./dataset/TrainDataset', help='path to train dataset')
+                        default='../../dataset/TrainDataset', help='path to train dataset')
     parser.add_argument('--val_path', type=str,
-                        default='./dataset/ValDataset', help='path to val dataset')
+                        default='../../dataset/ValDataset', help='path to val dataset')
     # parser.add_argument('--train_path', type=str, default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     # parser.add_argument('--val_path', type=str, default='./dataset/sekkai_ValDataset', help='path to val dataset')
     parser.add_argument('--train_save', type=str, default='Transfuse_S')
@@ -397,7 +397,7 @@ if __name__ == '__main__':
     model1 = TransFuse_L(pretrained=True)
     if opt.tuning:
         model1.load_state_dict(torch.load(
-            './weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'), strict=False)
+            '../../weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'), strict=False)
 
     if opt.tuning and opt.mtl == 'stl':
         for param in model1.parameters():
