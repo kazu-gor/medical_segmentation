@@ -154,7 +154,7 @@ for i in range(test_loader1.size):
     _image = image.mul(torch.FloatTensor(
         IMAGENET_STD).view(3, 1, 1))
     _image = _image.add(torch.FloatTensor(
-        IMAGENET_MEAN).view(3, 1, 1)).detach().cuda()
+        IMAGENET_MEAN).view(3, 1, 1)).detach()
 
     image = image.cuda()
 
