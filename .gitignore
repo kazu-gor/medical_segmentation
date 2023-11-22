@@ -8,6 +8,7 @@
 /TransFuse/dataset/*
 /TransFuse/fig/*
 /TransFuse/roc_curve/*
+/TransFuse/attention_map/*
 
 /PraNet-master/dataset/*
 /PraNet-master/**/*.jpg
