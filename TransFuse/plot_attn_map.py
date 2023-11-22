@@ -184,6 +184,7 @@ for i in range(test_loader1.size):
         mask = v[0, :].reshape(grid_size, grid_size).detach().numpy()
         mask = cv2.resize(mask / mask.max(), _image.shape[2:])[..., np.newaxis]
         result = (mask * _image.numpy().transpose(0, 2, 3, 1)[0]).astype(np.uint8)
+        print(f"{result.min() = }, {result.max() = }")
 
         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16, 16))
         ax1.set_title('Original')
