@@ -33,6 +33,8 @@ lower_size = 300
 upper_size = 43264
 total = 0
 correct = 0
+IMAGENET_MEAN = [0.485, 0.456, 0.406]
+IMAGENET_STD = [0.229, 0.224, 0.225]
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
