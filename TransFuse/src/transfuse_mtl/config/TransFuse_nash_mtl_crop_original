@@ -1,0 +1,1 @@
+epoch: 100lr: 0.0001batchsize: 8trainsize: 352clip: 0.5grad_norm: 2.0decay_rate: 0.1decay_epoch: 50train_path: ../../dataset/clipping_20231212_original/TrainDatasetval_path: ../../dataset/clipping_20231212_original/ValDatasettrain_save: TransFuse_nash_mtl_crop_originalbeta1: 0.5beta2: 0.999tuning: Truemtl: nashmtlanalytic: Falseanalytic_version: v1
