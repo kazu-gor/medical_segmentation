@@ -201,7 +201,7 @@ class Trans_CaraNet_L(nn.Module):
 
     def forward(self, x):
     	####### ViTの特徴を抽出 #######
-        x_b = self.transformer(x)
+        x_b, _ = self.transformer(x)
         x_b = torch.transpose(x_b, 1, 2)
         x_b = x_b.view(x_b.shape[0], -1, 22, 22)
         x_b = self.drop(x_b)
