@@ -343,7 +343,7 @@ if __name__ == '__main__':
 
     model1 = Trans_CaraNet_L(pretrained=True)
     if opt.tuning:
-        model1.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
+        model1.load_state_dict(torch.load('../../weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
 
     if opt.tuning and opt.mtl == 'stl':
         for param in model1.parameters():
