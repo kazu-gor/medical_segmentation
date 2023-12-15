@@ -10,8 +10,6 @@ from lib.Trans_CaraNet import Trans_CaraNet_L
 from lib.Discriminator_ResNet import Discriminator
 
 
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
-
 from utils.weight_methods import WeightMethods
 from utils.mtl import extract_weight_method_parameters_from_args
 
@@ -19,7 +17,6 @@ from utils.dataloader import get_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-import torchvision.models as torch_model
 from utils.smooth_cross_entropy import SmoothCrossEntropy
 
 

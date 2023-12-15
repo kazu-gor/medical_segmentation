@@ -15,10 +15,8 @@ from scipy import misc
 
 import imageio
 from torchvision import transforms
-import torchvision.models as torch_model
 
-from lib.TransFuse_l import TransFuse_L
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
 from lib.Discriminator_ResNet import Discriminator
 
