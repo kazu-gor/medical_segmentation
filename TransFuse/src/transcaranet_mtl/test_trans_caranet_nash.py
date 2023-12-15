@@ -215,10 +215,6 @@ for i in range(test_loader1.size):
         # res = 1. * (res > 0.5)  ############################
         # res = res * image
 
-        out_transcaranet[name] = res.tolist()
-        with open(save_path + 'out_transcaranet.json', 'a') as f:
-            json.dump(out_transcaranet, f)
-
         out = model2(res)
         # out = model2(res, image)
 

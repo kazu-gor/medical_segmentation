@@ -9,7 +9,6 @@ from lib.TransFuse_l import TransFuse_L
 
 from lib.Discriminator_ResNet import Discriminator
 
-
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
 from utils.weight_methods import WeightMethods
