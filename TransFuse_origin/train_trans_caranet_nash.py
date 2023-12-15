@@ -181,11 +181,11 @@ if __name__ == '__main__':
     parser.add_argument('--beta1', type=float, default=0.5, help='beta1 of adam optimizer')
     parser.add_argument('--beta2', type=float, default=0.999, help='beta2 of adam optimizer')
 
-    # parser.add_argument('--tuning', type=bool, default=True)
-    parser.add_argument('--tuning', type=bool, default=False)
+    parser.add_argument('--tuning', type=bool, default=True)
+    # parser.add_argument('--tuning', type=bool, default=False)
 
-    # parser.add_argument('--mtl', type=str, default='nashmtl')
-    parser.add_argument('--mtl', type=str, default='pcgrad')
+    parser.add_argument('--mtl', type=str, default='nashmtl')
+    # parser.add_argument('--mtl', type=str, default='pcgrad')
     # parser.add_argument('--mtl', type=str, default='cagrad')
     # parser.add_argument('--mtl', type=str, default='imtl')
     # parser.add_argument('--mtl', type=str, default='mgda')
