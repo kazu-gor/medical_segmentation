@@ -106,6 +106,9 @@ parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Di
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best2.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/discriminator_nash/TransCaraNet_discriminator/Discriminator-best.pth')
 
+parser.add_argument('--test_path1', type=str, default='./dataset/TestDataset', help='path to test dataset')
+parser.add_argument('--test_path2', type=str, default='./dataset/sekkai_TestDataset', help='path to test dataset')
+
 
 data_path1 = './dataset/TestDataset/'
 # data_path = './dataset/ValDataset/'
