@@ -110,15 +110,15 @@ parser.add_argument('--test_path1', type=str, default='./dataset/TestDataset', h
 parser.add_argument('--test_path2', type=str, default='./dataset/sekkai_TestDataset', help='path to test dataset')
 
 
-data_path1 = './dataset/TestDataset/'
+opt = parser.parse_args()
+
+data_path1 = opt.test_path1
 # data_path = './dataset/ValDataset/'
-data_path2 = './dataset/sekkai_TestDataset/'
+data_path2 = opt.test_path2
 # data_path = './dataset/sekkai_ValDataset/'
 
 
 save_path = './results/Transfuse_S/'
-opt = parser.parse_args()
-
 
 model = Trans_CaraNet_L()
 model.load_state_dict(torch.load(opt.pth_path))
@@ -291,12 +291,12 @@ if TP != 0:
 
 fpr, tpr, thresholds = roc_curve(y_true, y_score)
 
-plt.plot(fpr, tpr)
+# plt.plot(fpr, tpr)
 
-plt.xlabel('FPR: False positive rate')
-plt.ylabel('TPR: True positive rate')
-plt.grid()
-plt.savefig('./fig/roc_curve.png')
+# plt.xlabel('FPR: False positive rate')
+# plt.ylabel('TPR: True positive rate')
+# plt.grid()
+# plt.savefig('./fig/roc_curve.png')
 
 AUC = roc_auc_score(y_true, y_score)
 print("AUC:", AUC)
