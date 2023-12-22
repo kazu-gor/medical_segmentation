@@ -197,8 +197,12 @@ if __name__ == '__main__':
     # parser.add_argument('--mtl', type=str, default='stl')
 
     opt = parser.parse_args()
-    print("Tuning:", opt.tuning)
-    print('MTL:', opt.mtl)
+
+    os.makedirs('./config', exist_ok=True)
+    with open(f'./config/{opt.train_save}', 'w') as f:
+        for arg_name, value in vars(opt).items():
+            print(f'{arg_name}: {value}')
+            f.write(f'{arg_name}: {value}')
 
     # ---- build models ----
 
