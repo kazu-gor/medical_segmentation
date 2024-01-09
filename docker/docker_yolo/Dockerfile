@@ -30,6 +30,10 @@ ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /u
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
+RUN pip install pip==8.1.1
+RUN pip uninstall PyYAML -y
+RUN pip install --upgrade pip
+RUN pip install -y PyYAML
 RUN pip install --no-cache -e ".[export]" albumentations pycocotools pytest-cov
 
 # Run exports to AutoInstall packages
