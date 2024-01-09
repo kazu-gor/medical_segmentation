@@ -32,6 +32,7 @@ ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /u
 RUN python3 -m pip install --upgrade pip wheel
 RUN pip install --no-cache -e ".[export]" --ignore-installed albumentations pycocotools pytest-cov
 RUN pip install opencv-python==4.8.0.76
+RUN python3 -m pip install psutil==5.9.1
 
 # Run exports to AutoInstall packages
 RUN yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
