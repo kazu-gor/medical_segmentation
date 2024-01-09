@@ -1,0 +1,24 @@
+version: '2.3'
+services:
+  dev:
+    build: .
+    container_name: yolo
+    image: yolo/pytorch-py3:v1.0
+    command: /bin/bash
+    runtime: nvidia
+    working_dir: /home/student/git/laboratory/python/py/yolov8
+    volumes:
+        - /tmp/.X11-unix:/tmp/.X11-unix
+        - /home/student/git/laboratory/:/home/student/git/laboratory/
+    environment:
+      - DISPLAY=:1$DISPLAY
+        - TERM=xterm-256color
+        - HTTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/
+        - HTTPS_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/
+        - FTP_PROXY=http://proxy.itc.kansai-u.ac.jp:8080/
+        - NO_PROXY=localhost,127.0.0.0/8,::1
+    ulimits:
+        memlock: -1
+        stack: 67108864
+    shm_size: 1g
+    tty: true
