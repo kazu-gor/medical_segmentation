@@ -8,14 +8,6 @@ ENV http_proxy http://proxy.itc.kansai-u.ac.jp:8080
 # Specify number of CPUs can be used while building Tensorflow and OpenCV.
 ARG NUM_CPUS_FOR_BUILD=4
 
-#RUN echo -e 'Acquire::http::proxy "http://proxy.itc.kansai-u.ac.jp:8080/";\nAcquire::https::proxy "http://proxy.itc.kansai-u.ac.jp:8080/";\nAcquire::ftp::proxy "http://proxy.itc.kansai-u.ac.jp:8080/";\nAcquire::socks::proxy "socks://proxy.itc.kansai-u.ac.jp:8080/";' >> /etc/apt/apt.conf
-
-#RUN echo -e 'http_proxy="http://proxy.itc.kansai-u.ac.jp:8080/"\nhttps_proxy="http://proxy.itc.kansai-u.ac.jp:8080/"\nftp_proxy="http://proxy.itc.kansai-u.ac.jp:8080/"\nsocks_proxy="http://proxy.itc.kansai-u.ac.jp:8080/"' >> /etc/environment
-
-#RUN echo -e 'https_proxy=http://proxy.itc.kansai-u.ac.jp:8080/\nhttp_proxy=http://proxy.itc.kansai-u.ac.jp:8080/\nftp_proxy=http://proxy.itc.kansai-u.ac.jp:8080/' >>/etc/wgetrc
-
-#RUN sed -i.bak -e "s%http://archive.ubuntu.com/ubuntu/%http://ftp.jaist.ac.jp/pub/Linux/ubuntu/%g" /etc/apt/sources.list
-
 # Downloads to user config dir
 ADD https://ultralytics.com/assets/Arial.ttf https://ultralytics.com/assets/Arial.Unicode.ttf /root/.config/Ultralytics/
 
@@ -38,7 +30,7 @@ ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /u
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
-RUN pip install --no-cache -e ".[export]" albumentations comet pycocotools lancedb pytest-cov
+RUN pip install --no-cache -e ".[export]" albumentations pycocotools pytest-cov
 
 # Run exports to AutoInstall packages
 RUN yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
