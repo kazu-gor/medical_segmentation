@@ -10,7 +10,7 @@ ARG NUM_CPUS_FOR_BUILD=4
 
 RUN pip install --no-cache nvidia-tensorrt --index-url https://pypi.ngc.nvidia.com
 # Downloads to user config dir
-ADD https://ultralytics.com/assets/Arial.ttf https://ultralytics.com/assets/Arial.Unicode.ttf /root/.config/Ultralytics/
+# ADD https://ultralytics.com/assets/Arial.ttf https://ultralytics.com/assets/Arial.Unicode.ttf /root/.config/Ultralytics/
 
 # Install linux packages
 # g++ required to build 'tflite_support' and 'lap' packages, libusb-1.0-0 required for 'tflite_support' package
@@ -22,16 +22,16 @@ RUN apt update \
 RUN apt upgrade --no-install-recommends -y openssl tar
 
 # Create working directory
-WORKDIR /usr/src/ultralytics
+# WORKDIR /usr/src/ultralytics
 
-# Copy contents
-# COPY . /usr/src/ultralytics  # git permission issues inside container
-RUN git clone https://github.com/ultralytics/ultralytics -b main /usr/src/ultralytics
-ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /usr/src/ultralytics/
+# # Copy contents
+# # COPY . /usr/src/ultralytics  # git permission issues inside container
+# RUN git clone https://github.com/ultralytics/ultralytics -b main /usr/src/ultralytics
+# ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /usr/src/ultralytics/
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
-RUN pip install --no-cache -e ".[export]" --ignore-installed albumentations pycocotools pytest-cov
+RUN pip install --no-cache -e ".[export]" --ignore-installed albumentations pycocotools pytest-cov ultralytics
 RUN pip install opencv-python==4.8.0.76
 RUN python3 -m pip install psutil==5.9.1
 
@@ -60,8 +60,8 @@ ENV DISPLAY :10
 RUN groupadd -g 1002 student
 RUN useradd -g 1002 -u 1002 -m -s /bin/bash ${USER}
 #
-RUN chmod -R 777 /usr/src/ultralytics
-RUN chown -R ${USER}:${USER} /usr/src/ultralytics
+# RUN chmod -R 777 /usr/src/ultralytics
+# RUN chown -R ${USER}:${USER} /usr/src/ultralytics
 #
 RUN gpasswd -a ${USER} sudo
 #
