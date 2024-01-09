@@ -32,7 +32,7 @@ RUN apt upgrade --no-install-recommends -y openssl tar
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
 RUN pip install --ignore-installed ultralytics
-RUN pip install --no-cache -e ".[export]" --ignore-installed albumentations pycocotools pytest-cov
+RUN pip install --no-cache --ignore-installed albumentations pycocotools pytest-cov
 RUN pip install opencv-python==4.8.0.76
 RUN python3 -m pip install psutil==5.9.1
 
