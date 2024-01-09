@@ -57,10 +57,11 @@ ENV HOME /home/${USER}
 ENV SHELL /bin/bash
 ENV DISPLAY :10
 #
-RUN chmod -R 777 /usr/src/ultralytics
-RUN chown -R ${USER}:${USER} /usr/src/ultralytics
 RUN groupadd -g 1002 student
 RUN useradd -g 1002 -u 1002 -m -s /bin/bash ${USER}
+#
+RUN chmod -R 777 /usr/src/ultralytics
+RUN chown -R ${USER}:${USER} /usr/src/ultralytics
 #
 RUN gpasswd -a ${USER} sudo
 #
