@@ -22,6 +22,12 @@ RUN apt-get install -y libgl1-mesa-dev
 RUN apt-get -y clean all
 RUN rm -rf /var/lib/apt/lists/*
 
+# ultralytics
+ADD https://ultralytics.com/assets/Arial.ttf https://ultralytics.com/assets/Arial.Unicode.ttf /root/.config/Ultralytics/
+WORKDIR /usr/src/ultralytics
+RUN git clone https://github.com/ultralytics/ultralytics -b main /usr/src/ultralytics
+ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /usr/src/ultralytics/
+
 # Install some useful and machine/deep-learning-related packages for Python3.
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
@@ -39,9 +45,7 @@ RUN pip install \
 	tensorboardX \
 	ptflops \
 	mmcv==1.3.0 \
-	cvxpy \
-    ultralytics \
-    protobuf==3.20.*
+	cvxpy
         
 #
 ENV USER student 
