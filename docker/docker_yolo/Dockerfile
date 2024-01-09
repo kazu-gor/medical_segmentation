@@ -35,6 +35,7 @@ RUN pip install opencv-python==4.8.0.76
 RUN python3 -m pip install psutil==5.9.1
 
 # Run exports to AutoInstall packages
+RUN rm -rf tmp
 RUN yolo export model=tmp/yolov8n.pt format=edgetpu imgsz=32
 RUN yolo export model=tmp/yolov8n.pt format=ncnn imgsz=32
 # Requires <= Python 3.10, bug with paddlepaddle==2.5.0 https://github.com/PaddlePaddle/X2Paddle/issues/991
