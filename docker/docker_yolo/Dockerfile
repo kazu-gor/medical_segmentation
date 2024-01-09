@@ -28,7 +28,6 @@ WORKDIR /usr/src/ultralytics
 # COPY . /usr/src/ultralytics  # git permission issues inside container
 RUN git clone https://github.com/ultralytics/ultralytics -b main /usr/src/ultralytics
 ADD https://github.com/ultralytics/assets/releases/download/v0.0.0/yolov8n.pt /usr/src/ultralytics/
-RUN chmod -R 777 /usr/src/ultralytics
 
 # Install pip packages
 RUN python3 -m pip install --upgrade pip wheel
@@ -58,6 +57,7 @@ ENV HOME /home/${USER}
 ENV SHELL /bin/bash
 ENV DISPLAY :10
 #
+RUN chmod -R 777 /usr/src/ultralytics
 RUN groupadd -g 1002 student
 RUN useradd -g 1002 -u 1002 -m -s /bin/bash ${USER}
 #
