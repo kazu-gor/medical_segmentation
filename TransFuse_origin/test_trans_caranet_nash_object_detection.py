@@ -135,9 +135,9 @@ image_root1 = '{}/images/'.format(data_path1)
 gt_root1 = '{}/masks/'.format(data_path1)
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-image_root2 = '{}/images/'.format(data_path2)
-gt_root2 = '{}/masks/'.format(data_path2)
-test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
+# image_root2 = '{}/images/'.format(data_path2)
+# gt_root2 = '{}/masks/'.format(data_path2)
+# test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
 iou_bank = []
@@ -149,8 +149,6 @@ y_pred = np.array([])
 
 for i in range(test_loader1.size):
     image, gt, name = test_loader1.load_data()
-    print(name)
-    continue
     label = transforms.functional.to_tensor(gt)
     label = torch.einsum("ijk->i", label) > 0
     label = torch.where(label > 0, torch.tensor(1), torch.tensor(0))
@@ -192,32 +190,32 @@ for i in range(test_loader1.size):
             imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
 
 
-for i in range(test_loader2.size):
-    image, gt, name = test_loader2.load_data()
-    gt = np.asarray(gt, np.float32)
+# for i in range(test_loader2.size):
+#     image, gt, name = test_loader2.load_data()
+#     gt = np.asarray(gt, np.float32)
 
-    gt = 1. * (gt > 0.5)  ########################
+#     gt = 1. * (gt > 0.5)  ########################
 
-    image = image.cuda()
+#     image = image.cuda()
 
-    with torch.no_grad():
-        _, _, _, res = model(image)
+#     with torch.no_grad():
+#         _, _, _, res = model(image)
 
-    res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
-    res = res.sigmoid().data.cpu().numpy().squeeze()
-    # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
-    res = 1. * (res > 0.5)  ############################
+#     res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+#     res = res.sigmoid().data.cpu().numpy().squeeze()
+#     # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
+#     res = 1. * (res > 0.5)  ############################
 
-    dice = mean_dice_np(gt, res)
-    iou = mean_iou_np(gt, res)
-    acc = np.sum(res == gt) / (res.shape[0] * res.shape[1])
+#     dice = mean_dice_np(gt, res)
+#     iou = mean_iou_np(gt, res)
+#     acc = np.sum(res == gt) / (res.shape[0] * res.shape[1])
 
-    acc_bank.append(acc)
-    dice_bank.append(dice)
-    iou_bank.append(iou)
+#     acc_bank.append(acc)
+#     dice_bank.append(dice)
+#     iou_bank.append(iou)
 
-print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
-      format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
+# print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
+#       format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
 
 cm = confusion_matrix(y_true, y_pred)
 TN, FP, FN, TP = cm.flatten()
