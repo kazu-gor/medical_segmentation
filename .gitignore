@@ -17,6 +17,8 @@
 /mae/dataset/*
 /mae/dataset2/*
 
+ultralytics/
+
 __pycache__
 core
 .idea
