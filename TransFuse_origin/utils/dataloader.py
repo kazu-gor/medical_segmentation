@@ -61,20 +61,20 @@ class PolypDataset(data.Dataset):
         self.transform2 = get_augmentation()
         self.phase = phase
 
-        self.augmentations = [
-            albu.Rotate(limit=[-10, 10], p=1.0),
-            albu.ShiftScaleRotate(shift_limit=[-0.0625, 0.0625], scale_limit=[-0.1, 0.1], rotate_limit=[-30, 30],
-                                  interpolation=1, border_mode=4, value=None, mask_value=None, p=1.0),
-            albu.RandomBrightness(limit=0.2, p=1.0),
-            albu.RandomContrast(limit=0.2, p=1.0),
-            # albu.RandomBrightnessContrast(brightness_limit=0.5, contrast_limit=0.5, brightness_by_max=True, p=1.0),
-            albu.RandomGamma(gamma_limit=[50, 150], p=1.0),
-            # albu.RandomGridShuffle(grid=(2, 2), p=1.0),
-            # albu.CLAHE(clip_limit=4.0, tile_grid_size=(8, 8), p=1.0),
-            albu.RandomSizedCrop([300, 400], 416, 416, p=1.0),
-            # albu.CoarseDropout(max_holes=16, max_height=32, max_width=32, min_holes=1, min_height=8,
-            #                    min_width=8, fill_value=0, p=1.0)
-        ]
+        # self.augmentations = [
+        #     albu.Rotate(limit=[-10, 10], p=1.0),
+        #     albu.ShiftScaleRotate(shift_limit=[-0.0625, 0.0625], scale_limit=[-0.1, 0.1], rotate_limit=[-30, 30],
+        #                           interpolation=1, border_mode=4, value=None, mask_value=None, p=1.0),
+        #     albu.RandomBrightness(limit=0.2, p=1.0),
+        #     albu.RandomContrast(limit=0.2, p=1.0),
+        #     # albu.RandomBrightnessContrast(brightness_limit=0.5, contrast_limit=0.5, brightness_by_max=True, p=1.0),
+        #     albu.RandomGamma(gamma_limit=[50, 150], p=1.0),
+        #     # albu.RandomGridShuffle(grid=(2, 2), p=1.0),
+        #     # albu.CLAHE(clip_limit=4.0, tile_grid_size=(8, 8), p=1.0),
+        #     albu.RandomSizedCrop([300, 400], 416, 416, p=1.0),
+        #     # albu.CoarseDropout(max_holes=16, max_height=32, max_width=32, min_holes=1, min_height=8,
+        #     #                    min_width=8, fill_value=0, p=1.0)
+        # ]
 
         self.transform3 = albu.Compose(
             [
@@ -315,6 +315,45 @@ class test_dataset:
     def _get_pair_index(self, idx):
         r = list(range(0, idx)) + list(range(idx + 1, len(self.images)))
         return random.choice(r)
+
+    def rgb_loader(self, path):
+        with open(path, 'rb') as f:
+            img = Image.open(f)
+            return img.convert('RGB')
+
+    def binary_loader(self, path):
+        with open(path, 'rb') as f:
+            img = Image.open(f)
+            return img.convert('L')
+
+
+class test_dataset_crop:
+    def __init__(self, image_root, gt_root, testsize):
+        self.testsize = testsize
+        self.images = [image_root + f for f in os.listdir(image_root) if
+                       f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
+        self.gts = [gt_root + f for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
+        self.images = sorted(self.images)
+        self.gts = sorted(self.gts)
+        self.transform = transforms.Compose([
+            transforms.Resize((self.testsize, self.testsize)),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406],
+                                 [0.229, 0.224, 0.225])])
+        self.gt_transform = transforms.ToTensor()
+        self.size = len(self.images)
+        self.index = 0
+
+    def load_data(self):
+
+        image = self.rgb_loader(self.images[self.index])
+        image = self.transform(image).unsqueeze(0)
+        gt = self.binary_loader(self.gts[self.index])
+        name = self.images[self.index].split('/')[-1]
+        if name.endswith('.jpg'):
+            name = name.split('.jpg')[0] + '.png'
+        self.index += 1
+        return image, gt, name
 
     def rgb_loader(self, path):
         with open(path, 'rb') as f:

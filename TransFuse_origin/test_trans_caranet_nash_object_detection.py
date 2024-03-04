@@ -2,30 +2,19 @@ import argparse
 import glob
 import os
 
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.pyplot as plt
-
 import cv2
+import imageio
 import numpy as np
 import torch
 import torch.nn.functional as F
-import torch.nn as nn
-from scipy import misc
-
-import imageio
+from skimage import img_as_ubyte
 from torchvision import transforms
-
-# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import roc_curve, roc_auc_score
 
 from lib.Discriminator_ResNet import Discriminator
-
 from lib.Trans_CaraNet import Trans_CaraNet_L
-
-from utils.dataloader import test_dataset
-from skimage import img_as_ubyte
-import glob
-
+from utils.dataloader import test_dataset_crop as test_dataset
 #################################################
 # epoch1~20の重みを全部テストする。
 
@@ -105,15 +94,15 @@ data_path2 = opt.test_path2
 
 save_path = './results/Transfuse_S/'
 
-# model = Trans_CaraNet_L()
-# model.load_state_dict(torch.load(opt.pth_path))
-# model.cuda()
-# model.eval()
+model = Trans_CaraNet_L()
+model.load_state_dict(torch.load(opt.pth_path))
+model.cuda()
+model.eval()
 
-# model2 = Discriminator()
-# model2.load_state_dict(torch.load(opt.pth_path2))
-# model2.cuda()
-# model2.eval()
+model2 = Discriminator()
+model2.load_state_dict(torch.load(opt.pth_path2))
+model2.cuda()
+model2.eval()
 
 os.makedirs(save_path, exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/*.png'):
@@ -131,13 +120,13 @@ os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/TN/*.png'):
     os.remove(file)
 
-image_root1 = '{}/images/'.format(data_path1)
-gt_root1 = '{}/masks/'.format(data_path1)
+image_root1 = f'{data_path1}/images/'
+gt_root1 = f'{data_path1}/masks/'
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-# image_root2 = '{}/images/'.format(data_path2)
-# gt_root2 = '{}/masks/'.format(data_path2)
-# test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
+image_root2 = f'{data_path2}/images/'
+gt_root2 = f'{data_path2}/masks/'
+test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
 iou_bank = []
@@ -147,7 +136,7 @@ y_true = np.array([])
 y_score = np.array([])
 y_pred = np.array([])
 
-for i in range(test_loader1.size):
+for _ in range(test_loader1.size):
     image, gt, name = test_loader1.load_data()
     label = transforms.functional.to_tensor(gt)
     label = torch.einsum("ijk->i", label) > 0
@@ -161,7 +150,7 @@ for i in range(test_loader1.size):
 
         res1 = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
         res1 = res1.sigmoid().data.cpu().numpy().squeeze()
-        res1 = 1. * (res1 > 0.5)  ############################
+        res1 = 1. * (res1 > 0.5)
 
         imageio.imsave(save_path + name, img_as_ubyte(res1))
         res = res.repeat(1, 3, 1, 1)
@@ -189,40 +178,38 @@ for i in range(test_loader1.size):
         else:
             imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
 
+for _ in range(test_loader2.size):
+    image, gt, name = test_loader2.load_data()
+    gt = np.asarray(gt, np.float32)
 
-# for i in range(test_loader2.size):
-#     image, gt, name = test_loader2.load_data()
-#     gt = np.asarray(gt, np.float32)
+    gt = 1. * (gt > 0.5)
 
-#     gt = 1. * (gt > 0.5)  ########################
+    image = image.cuda()
 
-#     image = image.cuda()
+    with torch.no_grad():
+        _, _, _, res = model(image)
 
-#     with torch.no_grad():
-#         _, _, _, res = model(image)
+    res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+    res = res.sigmoid().data.cpu().numpy().squeeze()
+    res = 1. * (res > 0.5)
 
-#     res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
-#     res = res.sigmoid().data.cpu().numpy().squeeze()
-#     # res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
-#     res = 1. * (res > 0.5)  ############################
+    dice = mean_dice_np(gt, res)
+    iou = mean_iou_np(gt, res)
+    acc = np.sum(res == gt) / (res.shape[0] * res.shape[1])
 
-#     dice = mean_dice_np(gt, res)
-#     iou = mean_iou_np(gt, res)
-#     acc = np.sum(res == gt) / (res.shape[0] * res.shape[1])
+    acc_bank.append(acc)
+    dice_bank.append(dice)
+    iou_bank.append(iou)
 
-#     acc_bank.append(acc)
-#     dice_bank.append(dice)
-#     iou_bank.append(iou)
-
-# print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
-#       format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
+print('Dice: {:.3f}, IoU: {:.3f}, Acc: {:.3f}'.
+      format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
 
 cm = confusion_matrix(y_true, y_pred)
 TN, FP, FN, TP = cm.flatten()
 TPR = TP / (TP + FN)
 FPR = FP / (FP + TN)
 print("----------discriminator-----------")
-print("TPR-FPR:", TPR-FPR)
+print(f"TPR-FPR: {TPR-FPR:.3f}")
 print("TP:", TP)
 print("FN:", FN)
 print("FP:", FP)
@@ -235,11 +222,11 @@ if TP != 0:
     F_measure = f1_score(y_true, y_pred)
     specificity = TN / (TN + FP)
 
-    print("Accuracy:", accuracy)
-    print("F-measure:", F_measure)
-    print("precision:", precision)
-    print("recall:", recall)
-    print("specificity:", specificity)
+    print(f"Accuracy: {accuracy:.3f}")
+    print(f"F-measure: {F_measure:.3f}")
+    print(f"precision: {precision:.3f}")
+    print(f"recall: {recall:.3f}")
+    print(f"specificity: {specificity:.3f}")
 
 fpr, tpr, thresholds = roc_curve(y_true, y_score)
 
@@ -251,7 +238,7 @@ fpr, tpr, thresholds = roc_curve(y_true, y_score)
 # plt.savefig('./fig/roc_curve.png')
 
 AUC = roc_auc_score(y_true, y_score)
-print("AUC:", AUC)
+print(f"AUC: {AUC:.3f}")
 
 print("-------------cutoff--------------")
 Youden_index_candidates = tpr - fpr
@@ -261,8 +248,8 @@ y_pred_cutoff = (y_score >= cutoff).astype(int)
 
 cm = confusion_matrix(y_true, y_pred_cutoff)
 TN, FP, FN, TP = cm.flatten()
-print("TPR-FPR:", max(Youden_index_candidates))
-print("Threshold:", cutoff)
+print(f"TPR-FPR: {max(Youden_index_candidates):.3f}")
+print(f"Threshold: {cutoff:.3f}")
 print("TP:", TP)
 print("FN:", FN)
 print("FP:", FP)
@@ -275,8 +262,8 @@ if TP != 0:
     F_measure = f1_score(y_true, y_pred_cutoff)
     specificity = TN / (TN + FP)
 
-    print("Accuracy:", accuracy)
-    print("F-measure:", F_measure)
-    print("precision:", precision)
-    print("recall:", recall)
-    print("specificity:", specificity)
+    print(f"Accuracy: {accuracy:.3f}")
+    print(f"F-measure: {F_measure:.3f}")
+    print(f"precision: {precision:.3f}")
+    print(f"recall: {recall:.3f}")
+    print(f"specificity: {specificity:.3f}")

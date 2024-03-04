@@ -109,14 +109,10 @@ parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Di
 parser.add_argument('--test_path1', type=str, default='./dataset/TestDataset', help='path to test dataset')
 parser.add_argument('--test_path2', type=str, default='./dataset/sekkai_TestDataset', help='path to test dataset')
 
-
 opt = parser.parse_args()
 
 data_path1 = opt.test_path1
-# data_path = './dataset/ValDataset/'
 data_path2 = opt.test_path2
-# data_path = './dataset/sekkai_ValDataset/'
-
 
 save_path = './results/Transfuse_S/'
 
@@ -153,6 +149,7 @@ for file in glob.glob('./results/Transfuse_S/FP/*.png'):
 os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/TN/*.png'):
     os.remove(file)
+
 image_root1 = '{}/images/'.format(data_path1)
 gt_root1 = '{}/masks/'.format(data_path1)
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
@@ -169,11 +166,15 @@ y_true = np.array([])
 y_score = np.array([])
 y_pred = np.array([])
 
+debug_labels = 0
+
 for i in range(test_loader1.size):
     image, gt, name = test_loader1.load_data()
     label = transforms.functional.to_tensor(gt)
     label = torch.einsum("ijk->i", label) > 0
     label = torch.where(label > 0, torch.tensor(1), torch.tensor(0))
+    debug_labels += label
+    continue
     gt = np.asarray(gt, np.float32)
 
 
