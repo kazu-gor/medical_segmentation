@@ -71,10 +71,6 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                 top1_index = top1_index.squeeze()
                 top1_box = preds[range(preds.shape[0]), top1_index]
 
-                print(f"top1_score: {top1_score.shape}")
-                print(f"top1_index: {top1_index.shape}")
-                print(f"top1_box: {top1_box.shape}")
-
                 # cropping the image
                 for i, img_file in enumerate(img_file_list):
                     image = cv2.imread(img_file)
@@ -99,8 +95,6 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     # images, gts = pack
                     images = Variable(torch.from_numpy(image.astype(np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
                     gts = Variable(torch.from_numpy(gts.astype(np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
-                    print(f"images: {images.shape}")
-                    print(f"gts: {gts.shape}")
                     # ---- rescale ----
                     trainsize = int(round(opt.trainsize * rate / 32) * 32)
                     if rate != 1:
