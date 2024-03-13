@@ -39,7 +39,8 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         imgsz=640,
         batch=16,
         workers=4,
-        name='polyp491'
+        name='polyp491',
+        save=True,
     )
     return DetectionTrainer(overrides=args)
 
@@ -60,77 +61,68 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
         ), AvgMeter(), AvgMeter(), AvgMeter()
 
         for i, pack in enumerate(dataloaders_dict[phase], start=1):
-            for rate in size_rates:
 
-                preds, score, img_file_list, stop_flag = pretrainer.train()
+            preds, score, img_file_list, stop_flag = pretrainer.train()
 
-                # max score and its pred
-                top1_score, top1_index = score.max(dim=1)
-                # top1_score.shape: [batch_size, 1] -> [batch_size]
-                top1_score = top1_score.squeeze()
-                top1_index = top1_index.squeeze()
-                top1_box = preds[range(preds.shape[0]), top1_index]
+            if stop_flag:
+                break
 
-                # cropping the image
-                for i, img_file in enumerate(img_file_list):
-                    image = cv2.imread(img_file)
-                    x1, y1, x2, y2 = map(int, top1_box[i])
-                    x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
-                        image.shape[1], x2+5), min(image.shape[0], y2+5)
-                    image = image[y1:y2, x1:x2]
-                    image = cv2.resize(image, (352, 352))
+            # max score and its pred
+            top1_score, top1_index = score.max(dim=1)
+            # top1_score.shape: [batch_size, 1] -> [batch_size]
+            top1_score = top1_score.squeeze()
+            top1_index = top1_index.squeeze()
+            top1_box = preds[range(preds.shape[0]), top1_index]
 
-                    gts_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
-                    gts = cv2.imread(gts_path, 0)
-                    gts = gts[y1:y2, x1:x2]
-                    gts = cv2.resize(gts, (352, 352))
+            # cropping the image
+            for j, img_file in enumerate(img_file_list):
+                image = cv2.imread(img_file)
+                x1, y1, x2, y2 = map(int, top1_box[j])
+                x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
+                    image.shape[1], x2+5), min(image.shape[0], y2+5)
+                image = image[y1:y2, x1:x2]
+                image = cv2.resize(image, (352, 352))
 
-                    # cv2.imwrite(f'./debug/image/preprocessing/crop/img_{i}.png', img)
-                    # cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{i}.png', gts)
+                gts_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
+                gts = cv2.imread(gts_path, 0)
+                gts = gts[y1:y2, x1:x2]
+                gts = cv2.resize(gts, (352, 352))
 
-                    # if stop_flag:
-                    #     break
+                # cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', img)
+                # cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gts)
 
-                    optimizer.zero_grad()
-                    # images, gts = pack
-                    images = Variable(torch.from_numpy(image.astype(np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
-                    gts = Variable(torch.from_numpy(gts.astype(np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
-                    # ---- rescale ----
-                    trainsize = int(round(opt.trainsize * rate / 32) * 32)
-                    if rate != 1:
-                        images = F.upsample(images, size=(
-                            trainsize, trainsize), mode='bilinear', align_corners=True)
-                        gts = F.upsample(gts, size=(
-                            trainsize, trainsize), mode='bilinear', align_corners=True)
-                    with torch.set_grad_enabled(phase == 'train'):
-                        # ---- forward ----
-                        lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(
-                            images)
-                        # ---- loss function ----
-                        loss5 = structure_loss(lateral_map_5, gts)
-                        loss4 = structure_loss(lateral_map_4, gts)
-                        loss3 = structure_loss(lateral_map_3, gts)
-                        loss2 = structure_loss(lateral_map_2, gts)
+                # if stop_flag:
+                #     break
 
-                        loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
-                        # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
+                optimizer.zero_grad()
+                # images, gts = pack
+                images = Variable(torch.from_numpy(image.astype(
+                    np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
+                gts = Variable(torch.from_numpy(gts.astype(
+                    np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
 
-                        # loss = 0.5 * (loss2 + loss3 + loss4 + loss5) + 0.5 * (
-                        #         0.2 * loss_mapx + 0.3 * loss_map1 + 0.5 * loss_map2)
-                        # ---- backward ----
-                        if phase == 'train':
-                            loss.backward()
-                            # clip_gradient(optimizer, opt.clip)
-                            torch.nn.utils.clip_grad_norm_(
-                                model.parameters(), opt.grad_norm)
-                            optimizer.step()
+                with torch.set_grad_enabled(phase == 'train'):
+                    # ---- forward ----
+                    lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(
+                        images)
+                    # ---- loss function ----
+                    loss5 = structure_loss(lateral_map_5, gts)
+                    loss4 = structure_loss(lateral_map_4, gts)
+                    loss3 = structure_loss(lateral_map_3, gts)
+                    loss2 = structure_loss(lateral_map_2, gts)
 
-                    # ---- recording loss ----
-                    if rate == 1:
-                        loss_record2.update(loss2.data, opt.batchsize)
-                        loss_record3.update(loss3.data, opt.batchsize)
-                        loss_record4.update(loss4.data, opt.batchsize)
-                        loss_record5.update(loss5.data, opt.batchsize)
+                    loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
+                    # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
+
+                    # loss = 0.5 * (loss2 + loss3 + loss4 + loss5) + 0.5 * (
+                    #         0.2 * loss_mapx + 0.3 * loss_map1 + 0.5 * loss_map2)
+                    # ---- backward ----
+                    if phase == 'train':
+                        loss.backward()
+                        # clip_gradient(optimizer, opt.clip)
+                        torch.nn.utils.clip_grad_norm_(
+                            model.parameters(), opt.grad_norm)
+                        optimizer.step()
 
                 if (i % 20 == 0 or i == total_step) and phase == 'train':
                     print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
