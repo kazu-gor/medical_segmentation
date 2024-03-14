@@ -126,7 +126,8 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                             model.parameters(), opt.grad_norm)
                         optimizer.step()
 
-                if (i % 20 == 0 or i == total_step) and phase == 'train':
+                # if (i % 20 == 0 or i == total_step) and phase == 'train':
+                if phase == 'train':
                     print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
                           '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
                           format(datetime.now(), epoch, opt.epoch, i, total_step,
