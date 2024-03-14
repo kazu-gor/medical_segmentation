@@ -139,11 +139,12 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     loss_record4.update(loss4.data, opt.batchsize)
                     loss_record5.update(loss5.data, opt.batchsize)
 
-            if (i % 20 == 0 or i == total_step) and phase == 'train':
-                print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
-                      '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
-                      format(datetime.now(), epoch, opt.epoch, i, total_step,
-                             loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
+                if (j % 20 == 0 or j == total_step) and phase == 'train':
+                    print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
+                          '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
+                          format(datetime.now(), epoch, opt.epoch, i, total_step,
+                                 loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
+
             if phase == 'train':
                 train_loss = loss_record2.show() + loss_record3.show() + \
                     loss_record4.show() + loss_record5.show()
