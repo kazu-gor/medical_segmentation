@@ -93,8 +93,8 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                 gt = gt[y1:y2, x1:x2]
                 gt = cv2.resize(gt, (352, 352))
 
-                # cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', img)
-                # cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gts)
+                cv2.imwrite(f'./debug/image/preprocessing/crop/epoch_{i}_img_{j}.png', image)
+                cv2.imwrite(f'./debug/image/preprocessing/crop/epoch_{i}_gts_{j}.png', gt)
 
                 # if image is empty, input the original image
                 if image.shape[0] == 0 or image.shape[1] == 0:
