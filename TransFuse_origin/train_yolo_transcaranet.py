@@ -137,6 +137,11 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                             model.parameters(), opt.grad_norm)
                         optimizer.step()
 
+                    loss_record2.update(loss2.data, opt.batchsize)
+                    loss_record3.update(loss3.data, opt.batchsize)
+                    loss_record4.update(loss4.data, opt.batchsize)
+                    loss_record5.update(loss5.data, opt.batchsize)
+
                 # if (i % 20 == 0 or i == total_step) and phase == 'train':
                 if phase == 'train':
                     print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
