@@ -41,6 +41,7 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         workers=4,
         name='polyp491',
         save=True,
+        save_dir='snapshots/yolov8',
     )
     return DetectionTrainer(overrides=args)
 
@@ -143,7 +144,7 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                 if (j % 20 == 0 or j == total_step) and phase == 'train':
                     print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
                           '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
-                          format(datetime.now(), epoch, opt.epoch, i, total_step,
+                          format(datetime.now(), i, opt.epoch, j, total_step,
                                  loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
 
             if phase == 'train':
