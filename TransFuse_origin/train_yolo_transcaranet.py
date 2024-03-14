@@ -87,6 +87,7 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     image.shape[1], x2+5), min(image.shape[0], y2+5)
                 image = image[y1:y2, x1:x2]
                 image = cv2.resize(image, (352, 352))
+                print(f"image.shape: {image.shape}")
 
                 gts_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
                 gts = cv2.imread(gts_path, 0)
