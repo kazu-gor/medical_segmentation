@@ -65,6 +65,7 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
 
             if phase == 'train':
                 preds, score, img_file_list, stop_flag = pretrainer.train()
+                pretrainer.save_model()
             else: # TODO: add validation
                 validator = pretrainer.get_validator()
                 preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
