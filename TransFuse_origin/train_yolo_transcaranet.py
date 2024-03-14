@@ -87,21 +87,28 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     image.shape[1], x2+5), min(image.shape[0], y2+5)
                 image = image[y1:y2, x1:x2]
                 image = cv2.resize(image, (352, 352))
-                print(f"image.shape: {image.shape}")
 
-                gts_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
-                gts = cv2.imread(gts_path, 0)
-                gts = gts[y1:y2, x1:x2]
-                gts = cv2.resize(gts, (352, 352))
+                gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
+                gt = cv2.imread(gt_path, 0)
+                gt = gt[y1:y2, x1:x2]
+                gt = cv2.resize(gt, (352, 352))
 
                 # cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', img)
                 # cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gts)
+
+                # if image is empty, input the original image
+                if image.shape[0] == 0 or image.shape[1] == 0:
+                    original_img_path = \
+                            f"./dataset/sekkai_TrainDataset/images/{img_file.split('/')[-1]}"
+                    original_gt_path = original_img_path.replace('images', 'masks')
+                    image = cv2.imread(original_img_path)
+                    gt = cv2.imread(original_gt_path, 0)
 
                 optimizer.zero_grad()
                 # images, gts = pack
                 images = Variable(torch.from_numpy(image.astype(
                     np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
-                gts = Variable(torch.from_numpy(gts.astype(
+                gts = Variable(torch.from_numpy(gt.astype(
                     np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
 
                 with torch.set_grad_enabled(phase == 'train'):
