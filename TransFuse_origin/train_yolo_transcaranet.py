@@ -110,20 +110,17 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
                 gts = Variable(torch.from_numpy(gt.astype(
                     np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
-                print(f"images.shape: {images.shape}, gts.shape: {gts.shape}")
 
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
                     lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(
                         images)
-                    print(f"lateral_map_2.shape: {lateral_map_2.shape}, lateral_map_3.shape: {lateral_map_3.shape}, lateral_map_4.shape: {lateral_map_4.shape}, lateral_map_5.shape: {lateral_map_5.shape}")
                     # ---- loss function ----
                     loss5 = structure_loss(lateral_map_5, gts)
                     loss4 = structure_loss(lateral_map_4, gts)
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
 
-                    print(f"loss2: {loss2}, loss3: {loss3}, loss4: {loss4}, loss5: {loss5}")
                     loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
                     # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
 
