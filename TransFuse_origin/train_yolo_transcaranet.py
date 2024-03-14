@@ -50,7 +50,8 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
     pretrainer, model = model
 
     val_loss = 0
-    for phase in ['train', 'val']:
+    # for phase in ['train', 'val']:
+    for phase in ['train']:
         if phase == 'train':
             model.train()
         else:
@@ -60,9 +61,13 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
         loss_record2, loss_record3, loss_record4, loss_record5 = AvgMeter(
         ), AvgMeter(), AvgMeter(), AvgMeter()
 
-        for i, pack in enumerate(dataloaders_dict[phase], start=1):
+        for i, _ in enumerate(dataloaders_dict[phase], start=1):
 
-            preds, score, img_file_list, stop_flag = pretrainer.train()
+            if phase == 'train':
+                preds, score, img_file_list, stop_flag = pretrainer.train()
+            else: # TODO: add validation
+                validator = pretrainer.get_validator()
+                preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
 
             if stop_flag:
                 break
@@ -90,9 +95,6 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
 
                 # cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', img)
                 # cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gts)
-
-                # if stop_flag:
-                #     break
 
                 optimizer.zero_grad()
                 # images, gts = pack
