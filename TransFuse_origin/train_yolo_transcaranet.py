@@ -98,16 +98,14 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
             model.eval()
         # ---- multi-scale training ----
         size_rates = [1]
-        loss_record2, loss_record3, loss_record4 = AvgMeter(), AvgMeter(), AvgMeter()
+        loss_record2, loss_record3, loss_record4, loss_record5= AvgMeter(), AvgMeter(), AvgMeter(), AvgMeter()
 
         for i, pack in enumerate(dataloaders_dict[phase], start=1):
             for rate in size_rates:
                 optimizer.zero_grad()
-                # ---- data prepare ----
                 images, gts = pack
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
-
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
@@ -115,48 +113,54 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
-                    lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
-
+                    lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
                     # ---- loss function ----
+                    loss5 = structure_loss(lateral_map_5, gts)
                     loss4 = structure_loss(lateral_map_4, gts)
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
 
-                    loss = 0.5 * loss2 + 0.3 * loss3 + 0.2 * loss4
 
-                    # ---- backward - ---
+
+                    loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
+                    # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
+
+                    # loss = 0.5 * (loss2 + loss3 + loss4 + loss5) + 0.5 * (
+                    #         0.2 * loss_mapx + 0.3 * loss_map1 + 0.5 * loss_map2)
+                    # ---- backward ----
                     if phase == 'train':
                         loss.backward()
                         # clip_gradient(optimizer, opt.clip)
                         torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_norm)
                         optimizer.step()
 
-                # ---- recording loss ----
+                        # ---- recording loss ----
                 if rate == 1:
                     loss_record2.update(loss2.data, opt.batchsize)
                     loss_record3.update(loss3.data, opt.batchsize)
                     loss_record4.update(loss4.data, opt.batchsize)
+                    loss_record5.update(loss5.data, opt.batchsize)
 
-            # ---- train visualization ----
+
             if (i % 20 == 0 or i == total_step) and phase == 'train':
                 print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
-                      '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}]'.
+                      '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
                       format(datetime.now(), epoch, opt.epoch, i, total_step,
-                             loss_record2.show(), loss_record3.show(), loss_record4.show()))
+                             loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
         if phase == 'train':
-            train_loss = loss_record2.show() + loss_record3.show() + loss_record4.show()
+            train_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
         elif phase == 'val':
-            val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show()
+            val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
             if val_loss < best_loss:
                 best_loss = val_loss
                 save_path = 'snapshots/{}/'.format(opt.train_save)
                 os.makedirs(save_path, exist_ok=True)
-                torch.save(model.state_dict(), save_path + 'TransFuse-best.pth')
-                print('[Saving best Snapshot:]', save_path + 'TransFuse-best.pth')
+                torch.save(model.state_dict(), save_path + 'Transfuse-best.pth')
+                print('[Saving best Snapshot:]', save_path + 'Transfuse-best.pth')
 
     save_path = 'snapshots/{}/'.format(opt.train_save)
     os.makedirs(save_path, exist_ok=True)
-    if (epoch + 1) % 1 == 0:
+    if (epoch + 1) % 5 == 0:
         torch.save(model.state_dict(), save_path + 'Transfuse-%d.pth' % epoch)
         print('[Saving Snapshot:]', save_path + 'Transfuse-%d.pth' % epoch)
     print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(train_loss, val_loss))
