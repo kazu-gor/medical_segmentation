@@ -39,7 +39,7 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         imgsz=640,
         batch=16,
         workers=4,
-        name='polyp491',
+        name='polyp491_',
         save=True,
         save_dir='snapshots/yolov8',
     )
@@ -50,6 +50,7 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
 
     pretrainer, model = model
 
+    train_loss = 0
     val_loss = 0
     # for phase in ['train', 'val']:
     for phase in ['train']:
@@ -249,13 +250,13 @@ if __name__ == '__main__':
             dataloaders_dict, models, optimizer, epoch, best_loss)
         train_loss = train_loss.cpu().data.numpy()
         train_loss_list.append(train_loss)
-        val_loss = val_loss.cpu().data.numpy()
-        val_loss_list.append(val_loss)
+        # val_loss = val_loss.cpu().data.numpy()
+        # val_loss_list.append(val_loss)
         epoch_list.append(epoch)
 
     fig = plt.figure()
     plt.plot(epoch_list, train_loss_list, label='train_loss')
-    plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
+    # plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
     plt.xlabel('epochs')
     plt.ylabel('loss')
     plt.xlim(left=0)
