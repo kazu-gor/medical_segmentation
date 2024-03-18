@@ -92,7 +92,8 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
 
 def train(dataloaders_dict, model, optimizer, epoch, best_loss):
     val_loss = 0
-    for phase in ['train', 'val']:
+    # for phase in ['train', 'val']:
+    for phase in ['train']:
         if phase == 'train':
             model.train()
         else:
