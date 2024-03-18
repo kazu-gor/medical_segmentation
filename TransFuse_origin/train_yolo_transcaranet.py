@@ -15,36 +15,47 @@ from utils.utils import clip_gradient, adjust_lr, AvgMeter
 from ultralytics.models.yolo.detect import DetectionTrainer
 
 
-def train_yolo(phase):
-    if phase == 'train':
-        preds, score, img_file_list, stop_flag = pretrainer.train()
-        pretrainer.save_model()
-    else:
-        validator = pretrainer.get_validator()
-        preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
+def train_yolo(mode, pretrainer: DetectionTrainer):
+    for phase in mode:
+        if phase == 'train':
+            preds, score, img_file_list, stop_flag = pretrainer.train()
+            pretrainer.save_model()
+        else:
+            validator = pretrainer.get_validator()
+            preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
 
-    top1_score, top1_index = score.max(dim=1)
-    top1_score = top1_score.squeeze()
-    top1_index = top1_index.squeeze()
-    top1_box = preds[range(preds.shape[0]), top1_index]
+        top1_score, top1_index = score.max(dim=1)
+        top1_score = top1_score.squeeze()
+        top1_index = top1_index.squeeze()
+        top1_box = preds[range(preds.shape[0]), top1_index]
 
-    for j, img_file in enumerate(img_file_list):
-        image = cv2.imread(img_file)
-        x1, y1, x2, y2 = map(int, top1_box[j])
-        x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
-            image.shape[1], x2+5), min(image.shape[0], y2+5)
-        image = image[y1:y2, x1:x2]
-        image = cv2.resize(image, (352, 352))
+        for j, img_file in enumerate(img_file_list):
+            image = cv2.imread(img_file)
+            x1, y1, x2, y2 = map(int, top1_box[j])
+            x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
+                image.shape[1], x2+5), min(image.shape[0], y2+5)
+            image = image[y1:y2, x1:x2]
+            image = cv2.resize(image, (352, 352))
 
-        gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
-        gt = cv2.imread(gt_path, 0)
-        gt = gt[y1:y2, x1:x2]
-        gt = cv2.resize(gt, (352, 352))
+            gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
+            gt = cv2.imread(gt_path, 0)
+            gt = gt[y1:y2, x1:x2]
+            gt = cv2.resize(gt, (352, 352))
 
-        cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', image)
-        cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gt)
+            # if image is empty, save the original image
+            if image.shape[0] == 0 or image.shape[1] == 0:
+                original_img_path = \
+                    f"./dataset/sekkai_TrainDataset/images/{img_file.split('/')[-1]}"
+                original_gt_path = original_img_path.replace('images', 'masks')
+                image = cv2.imread(original_img_path)
+                gt = cv2.imread(original_gt_path, 0)
 
+            cv2.imwrite(
+                f'./dataset/preprocessing/images/{img_file.split("/")[-1]}', image)
+            cv2.imwrite(
+                f'./dataset/preprocessing/masks/{img_file.split("/")[-1]}', gt)
 
+    return stop_flag
 
 
 def structure_loss(pred, mask):
@@ -79,130 +90,78 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
 
 
 def train(dataloaders_dict, model, optimizer, epoch, best_loss):
-
-    pretrainer, model = model
-
-    train_loss = 0
     val_loss = 0
-    # for phase in ['train', 'val']:
-    for phase in ['train']:
+    for phase in ['train', 'val']:
         if phase == 'train':
             model.train()
         else:
             model.eval()
         # ---- multi-scale training ----
-        # size_rates = [1]
-        loss_record2, loss_record3, loss_record4, loss_record5 = AvgMeter(
-        ), AvgMeter(), AvgMeter(), AvgMeter()
+        size_rates = [1]
+        loss_record2, loss_record3, loss_record4 = AvgMeter(), AvgMeter(), AvgMeter()
 
-        for i, _ in enumerate(dataloaders_dict[phase], start=1):
-
-            if phase == 'train':
-                preds, score, img_file_list, stop_flag = pretrainer.train()
-                pretrainer.save_model()
-            else: # TODO: add validation
-                validator = pretrainer.get_validator()
-                preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
-
-            if stop_flag:
-                break
-
-            # max score and its pred
-            top1_score, top1_index = score.max(dim=1)
-            # top1_score.shape: [batch_size, 1] -> [batch_size]
-            top1_score = top1_score.squeeze()
-            top1_index = top1_index.squeeze()
-            top1_box = preds[range(preds.shape[0]), top1_index]
-
-            # cropping the image
-            for j, img_file in enumerate(img_file_list):
-                image = cv2.imread(img_file)
-                x1, y1, x2, y2 = map(int, top1_box[j])
-                x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
-                    image.shape[1], x2+5), min(image.shape[0], y2+5)
-                image = image[y1:y2, x1:x2]
-                image = cv2.resize(image, (352, 352))
-
-                gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
-                gt = cv2.imread(gt_path, 0)
-                gt = gt[y1:y2, x1:x2]
-                gt = cv2.resize(gt, (352, 352))
-
-                cv2.imwrite(f'./debug/image/preprocessing/crop/epoch_{i}_img_{j}.png', image)
-                cv2.imwrite(f'./debug/image/preprocessing/crop/epoch_{i}_gts_{j}.png', gt)
-
-                # if image is empty, input the original image
-                if image.shape[0] == 0 or image.shape[1] == 0:
-                    original_img_path = \
-                            f"./dataset/sekkai_TrainDataset/images/{img_file.split('/')[-1]}"
-                    original_gt_path = original_img_path.replace('images', 'masks')
-                    image = cv2.imread(original_img_path)
-                    gt = cv2.imread(original_gt_path, 0)
-
+        for i, pack in enumerate(dataloaders_dict[phase], start=1):
+            for rate in size_rates:
                 optimizer.zero_grad()
-                # images, gts = pack
-                images = Variable(torch.from_numpy(image.astype(
-                    np.float32)).clone().permute(2, 0, 1).unsqueeze(0)).to(device)
-                gts = Variable(torch.from_numpy(gt.astype(
-                    np.float32)).clone().unsqueeze(0).unsqueeze(0)).to(device)
+                # ---- data prepare ----
+                images, gts = pack
+                images = Variable(images).cuda()
+                gts = Variable(gts).cuda()
 
+                # ---- rescale ----
+                trainsize = int(round(opt.trainsize * rate / 32) * 32)
+                if rate != 1:
+                    images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
+                    gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
-                    lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(
-                        images)
+                    lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
+
                     # ---- loss function ----
-                    loss5 = structure_loss(lateral_map_5, gts)
                     loss4 = structure_loss(lateral_map_4, gts)
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
 
-                    loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
-                    # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
+                    loss = 0.5 * loss2 + 0.3 * loss3 + 0.2 * loss4
 
-                    # loss = 0.5 * (loss2 + loss3 + loss4 + loss5) + 0.5 * (
-                    #         0.2 * loss_mapx + 0.3 * loss_map1 + 0.5 * loss_map2)
-                    # ---- backward ----
+                    # ---- backward - ---
                     if phase == 'train':
                         loss.backward()
                         # clip_gradient(optimizer, opt.clip)
-                        torch.nn.utils.clip_grad_norm_(
-                            model.parameters(), opt.grad_norm)
+                        torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_norm)
                         optimizer.step()
 
+                # ---- recording loss ----
+                if rate == 1:
                     loss_record2.update(loss2.data, opt.batchsize)
                     loss_record3.update(loss3.data, opt.batchsize)
                     loss_record4.update(loss4.data, opt.batchsize)
-                    loss_record5.update(loss5.data, opt.batchsize)
 
-                if (j % 20 == 0 or j == total_step) and phase == 'train':
-                    print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
-                          '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
-                          format(datetime.now(), i, opt.epoch, j, total_step,
-                                 loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
-
-            if phase == 'train':
-                train_loss = loss_record2.show() + loss_record3.show() + \
-                    loss_record4.show() + loss_record5.show()
-            elif phase == 'val':
-                val_loss = loss_record2.show() + loss_record3.show() + \
-                    loss_record4.show() + loss_record5.show()
-                if val_loss < best_loss:
-                    best_loss = val_loss
-                    save_path = 'snapshots/{}/'.format(opt.train_save)
-                    os.makedirs(save_path, exist_ok=True)
-                    torch.save(model.state_dict(), save_path +
-                               'Transfuse-best.pth')
-                    print('[Saving best Snapshot:]',
-                          save_path + 'Transfuse-best.pth')
+            # ---- train visualization ----
+            if (i % 20 == 0 or i == total_step) and phase == 'train':
+                print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
+                      '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}]'.
+                      format(datetime.now(), epoch, opt.epoch, i, total_step,
+                             loss_record2.show(), loss_record3.show(), loss_record4.show()))
+        if phase == 'train':
+            train_loss = loss_record2.show() + loss_record3.show() + loss_record4.show()
+        elif phase == 'val':
+            val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show()
+            if val_loss < best_loss:
+                best_loss = val_loss
+                save_path = 'snapshots/{}/'.format(opt.train_save)
+                os.makedirs(save_path, exist_ok=True)
+                torch.save(model.state_dict(), save_path + 'TransFuse-best.pth')
+                print('[Saving best Snapshot:]', save_path + 'TransFuse-best.pth')
 
     save_path = 'snapshots/{}/'.format(opt.train_save)
     os.makedirs(save_path, exist_ok=True)
-    if (epoch + 1) % 5 == 0:
+    if (epoch + 1) % 1 == 0:
         torch.save(model.state_dict(), save_path + 'Transfuse-%d.pth' % epoch)
         print('[Saving Snapshot:]', save_path + 'Transfuse-%d.pth' % epoch)
-    print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(
-        train_loss, val_loss))
+    print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(train_loss, val_loss))
     return epoch, train_loss, val_loss, best_loss
+
 
 
 if __name__ == '__main__':
@@ -211,18 +170,14 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=16,
                         help='training batch size')
-    # parser.add_argument('--trainsize', type=int, default=224, help='training dataset size')
     parser.add_argument('--trainsize', type=int, default=352,
                         help='training dataset size')
-    # parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
     parser.add_argument('--grad_norm', type=float,
                         default=2.0, help='gradient clipping norm')
     parser.add_argument('--decay_rate', type=float,
                         default=0.1, help='decay rate of learning rate')
     parser.add_argument('--decay_epoch', type=int, default=50,
                         help='every n epochs decay learning rate')
-    # parser.add_argument('--train_path', type=str, default='./dataset/TrainDataset', help='path to train dataset')
-    # parser.add_argument('--val_path', type=str, default='./dataset/ValDataset', help='path to val dataset')
     parser.add_argument('--train_path', type=str,
                         default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     parser.add_argument('--val_path', type=str,
@@ -242,30 +197,15 @@ if __name__ == '__main__':
     pretrainer = get_yolo_trainer(opt)
     model = Trans_CaraNet_L(pretrained=True).to(device)
 
-    models = [pretrainer, model]
-
     # ---- flops and params ----
 
     params = model.parameters()
 
     optimizer = torch.optim.Adam(params, opt.lr, betas=(opt.beta1, opt.beta2))
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
-
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
-
-    train_loader = get_loader(
-        image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
-    # train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize, droplast=True)
-
-    total_step = len(train_loader)
-
-    val_loader = get_loader(image_root_val, gt_root_val,
-                            batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
-
-    dataloaders_dict = {"train": train_loader, "val": val_loader}
+    train_path = './dataset/preprocessing'
+    image_root = f'{train_path}/images/'
+    gt_root = f'{train_path}/masks/'
 
     print("#" * 20, "Start Training", "#" * 20)
 
@@ -274,13 +214,25 @@ if __name__ == '__main__':
     val_loss_list = []
     best_loss = 100000
 
+    train_path = './dataset/preprocessing'
+    image_root = f'{train_path}/images/'
+    gt_root = f'{train_path}/masks/'
+
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
 
-        train_yolo()
+        stop_flag = train_yolo(mode=['train'], pretrainer=pretrainer)
+        if stop_flag:
+            break
+
+        train_loader = get_loader(
+            image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+        total_step = len(train_loader)
+        dataloaders_dict = {"train": train_loader}
 
         epoch, train_loss, val_loss, best_loss = train(
-            dataloaders_dict, models, optimizer, epoch, best_loss)
+            dataloaders_dict, model, optimizer, epoch, best_loss)
+
         train_loss = train_loss.cpu().data.numpy()
         train_loss_list.append(train_loss)
         # val_loss = val_loss.cpu().data.numpy()
