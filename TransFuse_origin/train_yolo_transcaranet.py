@@ -22,7 +22,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             pretrainer.save_model()
         else:
             validator = pretrainer.get_validator()
-            preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
+            preds, score, img_file_list, stop_flag = validator(
+                trainer=pretrainer)
 
         top1_score, top1_index = score.max(dim=1)
         top1_score = top1_score.squeeze()
@@ -80,7 +81,7 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         epochs=opt.epoch,
         single_cls=True,
         imgsz=640,
-        batch=16,
+        batch=8,
         workers=4,
         name='polyp491_',
         save=True,
@@ -98,7 +99,8 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
             model.eval()
         # ---- multi-scale training ----
         size_rates = [1]
-        loss_record2, loss_record3, loss_record4, loss_record5= AvgMeter(), AvgMeter(), AvgMeter(), AvgMeter()
+        loss_record2, loss_record3, loss_record4, loss_record5 = AvgMeter(
+        ), AvgMeter(), AvgMeter(), AvgMeter()
 
         for i, pack in enumerate(dataloaders_dict[phase], start=1):
             for rate in size_rates:
@@ -109,18 +111,19 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
-                    images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
-                    gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
+                    images = F.upsample(images, size=(
+                        trainsize, trainsize), mode='bilinear', align_corners=True)
+                    gts = F.upsample(gts, size=(
+                        trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
-                    lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
+                    lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(
+                        images)
                     # ---- loss function ----
                     loss5 = structure_loss(lateral_map_5, gts)
                     loss4 = structure_loss(lateral_map_4, gts)
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
-
-
 
                     loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
                     # loss = 0.5 * loss2 + 0.3 * loss3 + 0.15 * loss4 + 0.05 * loss5
@@ -131,7 +134,8 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     if phase == 'train':
                         loss.backward()
                         # clip_gradient(optimizer, opt.clip)
-                        torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_norm)
+                        torch.nn.utils.clip_grad_norm_(
+                            model.parameters(), opt.grad_norm)
                         optimizer.step()
 
                         # ---- recording loss ----
@@ -141,38 +145,41 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     loss_record4.update(loss4.data, opt.batchsize)
                     loss_record5.update(loss5.data, opt.batchsize)
 
-
             if (i % 20 == 0 or i == total_step) and phase == 'train':
                 print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
                       '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
                       format(datetime.now(), epoch, opt.epoch, i, total_step,
                              loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
         if phase == 'train':
-            train_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
+            train_loss = loss_record2.show() + loss_record3.show() + \
+                loss_record4.show() + loss_record5.show()
         elif phase == 'val':
-            val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
+            val_loss = loss_record2.show() + loss_record3.show() + \
+                loss_record4.show() + loss_record5.show()
             if val_loss < best_loss:
                 best_loss = val_loss
                 save_path = 'snapshots/{}/'.format(opt.train_save)
                 os.makedirs(save_path, exist_ok=True)
-                torch.save(model.state_dict(), save_path + 'Transfuse-best.pth')
-                print('[Saving best Snapshot:]', save_path + 'Transfuse-best.pth')
+                torch.save(model.state_dict(), save_path +
+                           'Transfuse-best.pth')
+                print('[Saving best Snapshot:]',
+                      save_path + 'Transfuse-best.pth')
 
     save_path = 'snapshots/{}/'.format(opt.train_save)
     os.makedirs(save_path, exist_ok=True)
     if (epoch + 1) % 5 == 0:
         torch.save(model.state_dict(), save_path + 'Transfuse-%d.pth' % epoch)
         print('[Saving Snapshot:]', save_path + 'Transfuse-%d.pth' % epoch)
-    print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(train_loss, val_loss))
+    print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(
+        train_loss, val_loss))
     return epoch, train_loss, val_loss, best_loss
-
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epoch', type=int, default=100, help='epoch number')
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-    parser.add_argument('--batchsize', type=int, default=16,
+    parser.add_argument('--batchsize', type=int, default=8,
                         help='training batch size')
     parser.add_argument('--trainsize', type=int, default=352,
                         help='training dataset size')
