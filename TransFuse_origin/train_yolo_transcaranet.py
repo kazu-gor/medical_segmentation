@@ -81,7 +81,7 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         epochs=opt.epoch,
         single_cls=True,
         imgsz=640,
-        batch=16,
+        # batch=16,
         workers=4,
         name='polyp491_',
         save=True,
