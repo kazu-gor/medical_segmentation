@@ -81,7 +81,7 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         epochs=opt.epoch,
         single_cls=True,
         imgsz=640,
-        batch=8,
+        batch=16,
         workers=4,
         name='polyp491_',
         save=True,
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epoch', type=int, default=100, help='epoch number')
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-    parser.add_argument('--batchsize', type=int, default=8,
+    parser.add_argument('--batchsize', type=int, default=16,
                         help='training batch size')
     parser.add_argument('--trainsize', type=int, default=352,
                         help='training dataset size')
