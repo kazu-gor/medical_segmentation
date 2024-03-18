@@ -15,6 +15,38 @@ from utils.utils import clip_gradient, adjust_lr, AvgMeter
 from ultralytics.models.yolo.detect import DetectionTrainer
 
 
+def train_yolo(phase):
+    if phase == 'train':
+        preds, score, img_file_list, stop_flag = pretrainer.train()
+        pretrainer.save_model()
+    else:
+        validator = pretrainer.get_validator()
+        preds, score, img_file_list, stop_flag = validator(trainer=pretrainer)
+
+    top1_score, top1_index = score.max(dim=1)
+    top1_score = top1_score.squeeze()
+    top1_index = top1_index.squeeze()
+    top1_box = preds[range(preds.shape[0]), top1_index]
+
+    for j, img_file in enumerate(img_file_list):
+        image = cv2.imread(img_file)
+        x1, y1, x2, y2 = map(int, top1_box[j])
+        x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
+            image.shape[1], x2+5), min(image.shape[0], y2+5)
+        image = image[y1:y2, x1:x2]
+        image = cv2.resize(image, (352, 352))
+
+        gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
+        gt = cv2.imread(gt_path, 0)
+        gt = gt[y1:y2, x1:x2]
+        gt = cv2.resize(gt, (352, 352))
+
+        cv2.imwrite(f'./debug/image/preprocessing/crop/img_{j}.png', image)
+        cv2.imwrite(f'./debug/image/preprocessing/crop/gts_{j}.png', gt)
+
+
+
+
 def structure_loss(pred, mask):
     weit = 1 + 5 * \
         torch.abs(F.avg_pool2d(mask, kernel_size=31,
@@ -195,7 +227,7 @@ if __name__ == '__main__':
                         default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     parser.add_argument('--val_path', type=str,
                         default='./dataset/sekkai_ValDataset', help='path to val dataset')
-    parser.add_argument('--train_save', type=str, default='Transfuse_S')
+    parser.add_argument('--train_save', type=str, default='preprocessing')
     parser.add_argument('--beta1', type=float, default=0.5,
                         help='beta1 of adam optimizer')
     parser.add_argument('--beta2', type=float, default=0.999,
@@ -244,7 +276,8 @@ if __name__ == '__main__':
 
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
-        # train(train_loader, model, optimizer, epoch)
+
+        train_yolo()
 
         epoch, train_loss, val_loss, best_loss = train(
             dataloaders_dict, models, optimizer, epoch, best_loss)
