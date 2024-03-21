@@ -6,12 +6,11 @@ import cv2
 import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
-import numpy as np
 from torch.autograd import Variable
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
 from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
+from utils.utils import adjust_lr, AvgMeter
 from ultralytics.models.yolo.detect import DetectionTrainer
 
 
