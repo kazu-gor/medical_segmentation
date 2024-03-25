@@ -1,1 +1,1 @@
-python3 ./train_trans_caranet.py || python3 ../../tools/slack_bot.py
+python3 ./train_yolo_transcaranet.py || python3 ../../tools/slack_bot.py
