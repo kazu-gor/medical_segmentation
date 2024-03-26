@@ -3,7 +3,7 @@ from ultralytics.models.yolo.detect import DetectionPredictor
 
 def test_yolo_polyp491():
     args = dict(
-        model='ultralytics/runs/detect/polyp491_9/weights/last.pt',
+        model='ultralytics/runs/detect/polyp491_18/weights/last.pt',
         data='polyp491.yaml',
         single_cls=True,
         imgsz=640,
