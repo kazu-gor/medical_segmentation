@@ -55,7 +55,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             cv2.imwrite(
                 f'./dataset/preprocessing/masks/{img_file.split("/")[-1]}', gt)
 
-    return stop_flag
+        if phase == 'train':
+            return stop_flag
 
 
 def structure_loss(pred, mask):
