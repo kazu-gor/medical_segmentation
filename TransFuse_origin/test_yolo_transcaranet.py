@@ -8,7 +8,7 @@ from ultralytics.models.yolo.detect import DetectionPredictor
 
 def test_yolo_polyp491():
     args = dict(
-        model='ultralytics/runs/detect/polyp491_18/weights/last.pt',
+        model='ultralytics/runs/detect/polyp491_34/weights/last.pt',
         data='polyp491.yaml',
         single_cls=True,
         imgsz=640,
@@ -16,7 +16,7 @@ def test_yolo_polyp491():
         workers=4,
         name='polyp491_',
         save=True,
-        # max_det=1,
+        max_det=1,
         # conf=0.01,
         source='../../../dataset_v0/TestDataset/images',
         save_txt=True,
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     # test_yolo_polyp491()
 
     predict_yolo_polyp491(
-        'ultralytics/runs/detect/polyp491_18/weights/last.pt')
+        'ultralytics/runs/detect/polyp491_34/weights/last.pt')
 
     pred_path = Path('ultralytics/runs/detect/predict7')
     gt_path = Path('./dataset_v0/sekkai_TestDataset/images/')
