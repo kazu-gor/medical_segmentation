@@ -118,8 +118,8 @@ for file in glob.glob('./results/Transfuse_S/*.png'):
 # image_root = '{}/images/'.format(data_path)
 # gt_root = '{}/masks/'.format(data_path)
 
-img_path = './ultralytics/runs/detect/predict9/crops/polyp'
-gt_path = './datasets/preprocessing/images'
+img_path = './ultralytics/runs/detect/predict9/crops/polyp/'
+gt_path = './datasets/preprocessing/images/'
 test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
 dice_bank = []
