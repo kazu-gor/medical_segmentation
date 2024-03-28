@@ -1,8 +1,6 @@
 import glob
 import cv2
 from pathlib import Path
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 from ultralytics import YOLO
 from ultralytics.models.yolo.detect import DetectionPredictor
