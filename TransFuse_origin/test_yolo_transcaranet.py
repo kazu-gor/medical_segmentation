@@ -39,10 +39,11 @@ def predict_yolo_polyp491(weights):
     for img_file in img_files:
         model.predict(
             img_file,
-            single_cls=True,
             imgsz=640,
+            data='polyp491.yaml',
             max_det=1,
-            conf=0.01,
+            # conf=0.01,
+            single_cls=True,
             save=True,
             save_txt=True,
             save_conf=True,

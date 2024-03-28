@@ -31,23 +31,22 @@ def predict_yolo_polyp491(weights):
     root_path = '../../../dataset_v0/sekkai_TestDataset/images'
     img_files = glob.glob(f'{root_path}/*.png')
 
-    for img_file in img_files:
-        model.predict(
-            img_file,
-            imgsz=640,
-            data='polyp491.yaml',
-            # max_det=1,
-            # conf=0.01,
-            single_cls=True,
-            save=True,
-            save_txt=True,
-            save_conf=True,
-            save_crop=True,
-        )
+    model.predict(
+        img_files,
+        # imgsz=640,
+        data='polyp491.yaml',
+        # max_det=1,
+        # conf=0.01,
+        single_cls=True,
+        save=True,
+        save_txt=True,
+        save_conf=True,
+        save_crop=True,
+        device='cpu'
+    )
 
 
 if __name__ == '__main__':
     # test_yolo_polyp491()
 
-    predict_yolo_polyp491(
-        './runs/detect/train/weights/best.pt')
+    predict_yolo_polyp491('/home/student/git/laboratory/python/py/murano_program/yolobv8/runs/detect/train5/weights/best.pt')

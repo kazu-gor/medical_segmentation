@@ -1,5 +1,4 @@
 import cv2
-from train_yolo_transcaranet import train
 from ultralytics.models.yolo.detect import DetectionTrainer
 
 

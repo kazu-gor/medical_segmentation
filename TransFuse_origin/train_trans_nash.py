@@ -1,5 +1,5 @@
 import torch
-import torch.nn as nn
+# import torch.nn as nn
 from torch.autograd import Variable
 import os
 import argparse
@@ -9,7 +9,7 @@ from lib.TransFuse_l import TransFuse_L
 from lib.Discriminator_ResNet import Discriminator
 
 
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
 from utils.weight_methods import WeightMethods
 from utils.mtl import extract_weight_method_parameters_from_args
@@ -18,8 +18,8 @@ from utils.dataloader import get_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-from utils.pcgrad import PCGrad
-import torchvision.models as torch_model
+# from utils.pcgrad import PCGrad
+# import torchvision.models as torch_model
 from utils.smooth_cross_entropy import SmoothCrossEntropy
 
 
@@ -182,7 +182,7 @@ if __name__ == '__main__':
     parser.add_argument('--tuning', type=bool, default=True)
     # parser.add_argument('--tuning', type=bool, default=False)
 
-    # parser.add_argument('--mtl', type=str, default='nashmtl')
+    parser.add_argument('--mtl', type=str, default='nashmtl')
     # parser.add_argument('--mtl', type=str, default='pcgrad')
     # parser.add_argument('--mtl', type=str, default='cagrad')
     # parser.add_argument('--mtl', type=str, default='imtl')
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     # parser.add_argument('--mtl', type=str, default='ls')
     # parser.add_argument('--mtl', type=str, default='scaleinvls')
     # parser.add_argument('--mtl', type=str, default='rlw')
-    parser.add_argument('--mtl', type=str, default='stl')
+    # parser.add_argument('--mtl', type=str, default='stl')
 
     opt = parser.parse_args()
     print("Tuning:", opt.tuning)

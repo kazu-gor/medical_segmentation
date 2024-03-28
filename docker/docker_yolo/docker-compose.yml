@@ -3,10 +3,10 @@ services:
   dev:
     build: .
     container_name: yolo
-    image: yolo/pytorch-py3:v1.0
+    image: fuse/pytorch-py3:v1.0
     command: /bin/bash
     runtime: nvidia
-    working_dir: /home/student/git/laboratory/python/py/yolov8
+    working_dir: /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/
     volumes:
         - /tmp/.X11-unix:/tmp/.X11-unix
         - /home/student/git/laboratory/:/home/student/git/laboratory/
