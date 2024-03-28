@@ -75,10 +75,10 @@ def crop_image(img_path, label_path):
 if __name__ == '__main__':
     # test_yolo_polyp491()
 
-    predict_yolo_polyp491(
-        'ultralytics/runs/detect/polyp491_34/weights/last.pt')
+    # predict_yolo_polyp491(
+    #     'ultralytics/runs/detect/polyp491_34/weights/last.pt')
 
-    pred_path = Path('ultralytics/runs/detect/predict7')
+    pred_path = Path('ultralytics/runs/detect/predict9')
     gt_path = Path('./dataset_v0/sekkai_TestDataset/images/')
     for img_file, label_file in zip(sorted(gt_path.glob('*.png')), sorted((pred_path / 'labels').glob('*.txt'))):
         crop_image(img_file, label_file)
