@@ -92,12 +92,11 @@ opt = parser.parse_args()
 # data_path = './dataset/TestDataset/'
 # data_path = './dataset/ValDataset/'
 # data_path = './dataset/sekkai_TestDataset/'
-data_path = './ultralytics/runs/detect/predict7/crops/polyp'
 
 norm = opt.normalization
 # norm = True
 
-save_path = './results/Transfuse_S/'
+save_path = './results/preprocessing/'
 
 model = Trans_CaraNet_L()
 
@@ -114,9 +113,14 @@ model.eval()
 os.makedirs(save_path, exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/*.png'):
     os.remove(file)
-image_root = '{}/images/'.format(data_path)
-gt_root = '{}/masks/'.format(data_path)
-test_loader = test_dataset(image_root, gt_root, opt.testsize)
+
+
+# image_root = '{}/images/'.format(data_path)
+# gt_root = '{}/masks/'.format(data_path)
+
+img_path = './ultralytics/runs/detect/predict9/crops/polyp'
+gt_path = './datasets/preprocessing/images'
+test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
 dice_bank = []
 iou_bank = []
