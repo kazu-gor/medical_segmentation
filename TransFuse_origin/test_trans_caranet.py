@@ -83,29 +83,17 @@ def imwrite(filename, img, params=None):
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--epoch', type=int, default=20)
-# parser.add_argument('--test_path', type=str, default='./dataset/TestDataset/', help='path to test dataset')
 parser.add_argument('--normalization', type=bool, default=False)
 
 opt = parser.parse_args()
 
-# data_path = opt.test_path
-# data_path = './dataset/TestDataset/'
-# data_path = './dataset/ValDataset/'
-# data_path = './dataset/sekkai_TestDataset/'
-
 norm = opt.normalization
-# norm = True
 
 save_path = './results/preprocessing/'
 
 model = Trans_CaraNet_L()
 
 model.load_state_dict(torch.load('./snapshots/preprocessing/Transfuse-99.pth'))
-# model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-59.pth'))
-# model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-best.pth'))
-# model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
-# model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化なし含む/Transfuse-best.pth'))
-# model.load_state_dict(torch.load('./weights/修論/discriminator_nash/TransCaraNet_discriminator/ResNet/Transfuse-best.pth'))
 
 model.cuda()
 model.eval()
@@ -114,11 +102,7 @@ os.makedirs(save_path, exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/*.png'):
     os.remove(file)
 
-
-# image_root = '{}/images/'.format(data_path)
-# gt_root = '{}/masks/'.format(data_path)
-
-img_path = './ultralytics/runs/detect/predict9/crops/polyp/'
+img_path = './ultralytics/runs/detect/predict12/crops/polyp/'
 gt_path = './datasets/preprocessing/images/'
 test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
