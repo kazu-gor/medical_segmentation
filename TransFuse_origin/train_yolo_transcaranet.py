@@ -31,13 +31,17 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
 
         for j, img_file in enumerate(img_file_list):
             image = cv2.imread(img_file)
-            x1, y1, x2, y2 = map(int, top1_box[j])
-            x1, y1, x2, y2 = max(0, x1-5), max(0, y1-5), min(
-                image.shape[1], x2+5), min(image.shape[0], y2+5)
+            img_h, img_w, _ = image.shape
+            x, y, w, h = top1_box[j]
+            x, y, w, h = float(x), float(y), float(w), float(h)
+            x, y, w, h = int(x * img_w), int(y * img_h), int(w *
+                                                             img_w), int(h * img_h)
+            x1, y1 = x - w // 2, y - h // 2
+            x2, y2 = x + w // 2, y + h // 2
             image = image[y1:y2, x1:x2]
             image = cv2.resize(image, (352, 352))
 
-            gt_path = f"../../../dataset_v0/TrainDataset/masks/{img_file.split('/')[-1]}"
+            gt_path = f"../../../dataset_v0/sekkai_TrainDataset/masks/{img_file.split('/')[-1]}"
             gt = cv2.imread(gt_path, 0)
             gt = gt[y1:y2, x1:x2]
             gt = cv2.resize(gt, (352, 352))
