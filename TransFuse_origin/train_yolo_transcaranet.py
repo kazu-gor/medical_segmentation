@@ -25,6 +25,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             preds, score, img_file_list, stop_flag = validator(
                 trainer=pretrainer)
 
+        print(f"shape of score: {score.shape}")
+
         top1_score, top1_index = score.max(dim=1)
         top1_score = top1_score.squeeze()
         top1_index = top1_index.squeeze()
