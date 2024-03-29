@@ -30,6 +30,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
         top1_index = top1_index.squeeze()
         top1_box = preds[range(preds.shape[0]), top1_index]
 
+        non_output_count = 0
         for j, img_file in enumerate(img_file_list):
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/images', exist_ok=True)
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/masks', exist_ok=True)
@@ -54,6 +55,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
                 original_gt_path = original_img_path.replace('images', 'masks')
                 image = cv2.imread(original_img_path)
                 gt = cv2.imread(original_gt_path, 0)
+                non_output_count += 1
 
             image = cv2.resize(image, (352, 352))
             gt = cv2.resize(gt, (352, 352))
@@ -63,6 +65,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             cv2.imwrite(
                 f'./datasets/preprocessing/train/epoch_{epoch}/masks/{img_file.split("/")[-1]}', gt)
 
+        print(f"[Non-output count]: {non_output_count}")
         if phase == 'train':
             return stop_flag
 
