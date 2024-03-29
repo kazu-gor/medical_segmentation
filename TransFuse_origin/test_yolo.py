@@ -116,9 +116,9 @@ class Predictor:
                 return
             else:
                 raise ValueError('Invalid input')
-        else:
-            os.makedirs('./datasets/preprocessing/images', exist_ok=True)
-            os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
+
+        os.makedirs('./datasets/preprocessing/images', exist_ok=True)
+        os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
 
 
         gt_path_list = list(gt_path.glob('*.png'))
