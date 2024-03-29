@@ -38,6 +38,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             image = cv2.imread(img_file)
             img_h, img_w, _ = image.shape
             x, y, w, h = top1_box[j]
+            print(f"index {j}: x, y, w, h: {x, y, w, h}")
             x, y, w, h = float(x), float(y), float(w), float(h)
             x, y, w, h = int(x * img_w), int(y * img_h), int(w *
                                                              img_w), int(h * img_h)
