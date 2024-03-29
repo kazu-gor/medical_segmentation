@@ -33,13 +33,11 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             image = cv2.imread(img_file)
             img_h, img_w, _ = image.shape
             x, y, w, h = top1_box[j]
-            print(f"Before: Top1 box: {x}, {y}, {w}, {h}")
             x, y, w, h = float(x), float(y), float(w), float(h)
             x, y, w, h = int(x * img_w), int(y * img_h), int(w *
                                                              img_w), int(h * img_h)
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
-            print(f"After: Top1 box: {x1}, {y1}, {x2}, {y2}")
             image = image[y1:y2, x1:x2]
 
             gt_path = f"../../../dataset_v0/sekkai_TrainDataset/masks/{img_file.split('/')[-1]}"
@@ -53,7 +51,6 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
                 original_gt_path = original_img_path.replace('images', 'masks')
                 image = cv2.imread(original_img_path)
                 gt = cv2.imread(original_gt_path, 0)
-                print(f"Image shape: {image.shape}, GT shape: {gt.shape}")
 
             image = cv2.resize(image, (352, 352))
             gt = cv2.resize(gt, (352, 352))
