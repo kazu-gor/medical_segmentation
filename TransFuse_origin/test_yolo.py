@@ -67,7 +67,7 @@ class Predictor:
                 save_crop=True,
             )
 
-    def _crop_image(self, img_path, label_path):
+    def _crop_image(self, img_path, label_path, img_type):
 
         if isinstance(img_path, pathlib.PosixPath):
             img_path = str(img_path)
@@ -91,11 +91,11 @@ class Predictor:
             print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
             crop_img = img[y1:y2, x1:x2]
             cv2.imwrite(
-                f'./datasets/preprocessing/images/{Path(img_path).name}', crop_img)
+                f'./datasets/preprocessing/{img_type}/{Path(img_path).name}', crop_img)
             # draw bounding box
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.imwrite(
-                f'./datasets/preprocessing/plottings/{Path(img_path).name}', img)
+                f'./datasets/preprocessing/plottings_{img_type}/{Path(img_path).name}', img)
     
     def crop_images(self, img_type):
         pred_path = self.yolo_runs_root / f"{self._get_latest_predict_dir()}/labels"
@@ -110,14 +110,14 @@ class Predictor:
             flag = input('Do you want to delete the existing files? [y/n]: ')
             if flag == 'y':
                 os.system(f'rm -r ./datasets/preprocessing/{img_type}')
-                os.system('rm -r ./datasets/preprocessing/plottings')
+                os.system(f'rm -r ./datasets/preprocessing/plottings_{img_type}')
             elif flag == 'n':
                 return
             else:
                 raise ValueError('Invalid input')
 
         os.makedirs(f'./datasets/preprocessing/{img_type}', exist_ok=True)
-        os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
+        os.makedirs(f'./datasets/preprocessing/plottings_{img_type}', exist_ok=True)
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
@@ -128,7 +128,7 @@ class Predictor:
             gt_path_list.remove(img_file)
             if self.verbose:
                 print(f"{img_file = }, {label_file = }")
-            self._crop_image(img_file, label_file)
+            self._crop_image(img_file, label_file, img_type)
 
         if self.verbose:
             print(f"{num_img = }")
