@@ -14,7 +14,7 @@ from utils.utils import adjust_lr, AvgMeter
 from ultralytics.models.yolo.detect import DetectionTrainer
 
 
-def train_yolo(mode, pretrainer: DetectionTrainer):
+def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
 
     for phase in mode:
         if phase == 'train':
@@ -31,8 +31,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
         top1_box = preds[range(preds.shape[0]), top1_index]
 
         for j, img_file in enumerate(img_file_list):
-            os.makedirs(f'./datasets/preprocessing/train/epoch_{j}/images', exist_ok=True)
-            os.makedirs(f'./datasets/preprocessing/train/epoch_{j}/masks', exist_ok=True)
+            os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/images', exist_ok=True)
+            os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/masks', exist_ok=True)
 
             image = cv2.imread(img_file)
             img_h, img_w, _ = image.shape
@@ -59,9 +59,9 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             gt = cv2.resize(gt, (352, 352))
 
             cv2.imwrite(
-                f'./datasets/preprocessing/train/epoch_{j}/images/{img_file.split("/")[-1]}', image)
+                f'./datasets/preprocessing/train/epoch_{epoch}/images/{img_file.split("/")[-1]}', image)
             cv2.imwrite(
-                f'./datasets/preprocessing/train/epoch_{j}/masks/{img_file.split("/")[-1]}', gt)
+                f'./datasets/preprocessing/train/epoch_{epoch}/masks/{img_file.split("/")[-1]}', gt)
 
         if phase == 'train':
             return stop_flag
@@ -235,7 +235,10 @@ if __name__ == '__main__':
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
 
-        stop_flag = train_yolo(mode=['train'], pretrainer=pretrainer)
+        stop_flag = train_yolo(
+                mode=['train'],
+                pretrainer=pretrainer,
+                epoch=epoch,)
         if stop_flag:
             break
 
