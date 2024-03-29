@@ -28,10 +28,13 @@ class Predictor:
 
         predict_dirs = []
         for item in os.listdir(directory):
-            if item.startswith("predict") and os.path.isdir(os.path.join(directory, item)):
+            if (item.startswith("predict") \
+                    and item != "predict" \
+                    and os.path.isdir(os.path.join(directory, item))) \
+                    or item == "predict":
                 predict_dirs.append(item)
 
-        predict_dirs.sort(key=lambda x: int(x[7:]))
+        predict_dirs.sort(key=lambda x: int(x[7:]) if x != "predict" else 0)
 
         if predict_dirs:
             return predict_dirs[-1]
