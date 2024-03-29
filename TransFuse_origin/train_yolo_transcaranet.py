@@ -15,6 +15,7 @@ from ultralytics.models.yolo.detect import DetectionTrainer
 
 
 def train_yolo(mode, pretrainer: DetectionTrainer):
+
     for phase in mode:
         if phase == 'train':
             preds, score, img_file_list, stop_flag = pretrainer.train()
@@ -30,6 +31,9 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
         top1_box = preds[range(preds.shape[0]), top1_index]
 
         for j, img_file in enumerate(img_file_list):
+            os.makedirs(f'./datasets/preprocessing/train/epoch_{j}/images', exist_ok=True)
+            os.makedirs(f'./datasets/preprocessing/train/epoch_{j}/masks', exist_ok=True)
+
             image = cv2.imread(img_file)
             img_h, img_w, _ = image.shape
             x, y, w, h = top1_box[j]
@@ -40,15 +44,16 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             x2, y2 = x + w // 2, y + h // 2
             image = image[y1:y2, x1:x2]
 
-            gt_path = f"./datasets/sekkai/masks/sekkai_TrainDataset/{img_file.split('/')[-1]}"
+            gt_path = f"./datasets/dataset_v0/sekkai/masks/sekkai_TestDataset/{img_file.split('/')[-1]}"
             gt = cv2.imread(gt_path, 0)
             gt = gt[y1:y2, x1:x2]
 
-            # if image is empty, save the original image
             if image is None or image.size == 0:
                 original_img_path = \
-                    f"./datasets/sekkai/images/sekkai_TrainDataset/{img_file.split('/')[-1]}"
+                    f"./dataset/sekkai_TrainDataset/images/{img_file.split('/')[-1]}"
                 original_gt_path = original_img_path.replace('images', 'masks')
+                print(f"{original_img_path = }")
+                print(f"{original_gt_path = }")
                 image = cv2.imread(original_img_path)
                 gt = cv2.imread(original_gt_path, 0)
                 print('Empty image')
@@ -61,9 +66,9 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             gt = cv2.resize(gt, (352, 352))
 
             cv2.imwrite(
-                f'./dataset/preprocessing/images/{img_file.split("/")[-1]}', image)
+                f'./datasets/preprocessing/train/epoch_{j}/images/{img_file.split("/")[-1]}', image)
             cv2.imwrite(
-                f'./dataset/preprocessing/masks/{img_file.split("/")[-1]}', gt)
+                f'./datasets/preprocessing/train/epoch_{j}/masks/{img_file.split("/")[-1]}', gt)
 
         if phase == 'train':
             return stop_flag
@@ -225,10 +230,6 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.Adam(params, opt.lr, betas=(opt.beta1, opt.beta2))
 
-    train_path = './dataset/preprocessing'
-    image_root = f'{train_path}/images/'
-    gt_root = f'{train_path}/masks/'
-
     print("#" * 20, "Start Training", "#" * 20)
 
     epoch_list = []
@@ -236,9 +237,7 @@ if __name__ == '__main__':
     val_loss_list = []
     best_loss = 100000
 
-    train_path = './dataset/preprocessing'
-    image_root = f'{train_path}/images/'
-    gt_root = f'{train_path}/masks/'
+    train_path = './datasets/preprocessing/train'
 
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
@@ -246,6 +245,9 @@ if __name__ == '__main__':
         stop_flag = train_yolo(mode=['train'], pretrainer=pretrainer)
         if stop_flag:
             break
+
+        image_root = f'{train_path}/epoch_{epoch}/images/'
+        gt_root = f'{train_path}/epoch_{epoch}/masks/'
 
         train_loader = get_loader(
             image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
