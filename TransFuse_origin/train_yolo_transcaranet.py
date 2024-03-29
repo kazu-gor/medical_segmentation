@@ -41,6 +41,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             x, y, w, h = float(x), float(y), float(w), float(h)
             x, y, w, h = int(x * img_w), int(y * img_h), int(w *
                                                              img_w), int(h * img_h)
+            print(f"index {j}: x, y, w, h: {x, y, w, h}")
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
             print(f"index {j}: [x1, y1, x2, y2]: [{x1}, {y1}, {x2}, {y2}]")
