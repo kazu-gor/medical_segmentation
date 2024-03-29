@@ -291,7 +291,7 @@ class test_dataset:
         gt = self.binary_loader(self.gts[self.index])
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]
-        assert nane == name_gt
+        assert name == name_gt
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
