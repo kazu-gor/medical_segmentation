@@ -25,8 +25,6 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             preds, score, img_file_list, stop_flag = validator(
                 trainer=pretrainer)
 
-        print(f"shape of score: {score.shape}")
-
         top1_score, top1_index = score.max(dim=1)
         top1_score = top1_score.squeeze()
         top1_index = top1_index.squeeze()
@@ -45,6 +43,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
                                                              img_w), int(h * img_h)
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
+            print(f"index {j}: [x1, y1, x2, y2]: [{x1}, {y1}, {x2}, {y2}]")
             image = image[y1:y2, x1:x2]
 
             gt_path = f"./datasets/dataset_v0/sekkai/masks/sekkai_TrainDataset/{img_file.split('/')[-1]}"
