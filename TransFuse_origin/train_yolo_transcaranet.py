@@ -45,8 +45,6 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
             image = image[y1:y2, x1:x2]
 
             gt_path = f"./datasets/dataset_v0/sekkai/masks/sekkai_TrainDataset/{img_file.split('/')[-1]}"
-            print(f"{gt_path = }")
-            print(f"{os.path.exists(gt_path) = }")
             gt = cv2.imread(gt_path, 0)
             gt = gt[y1:y2, x1:x2]
 
@@ -54,15 +52,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
                 original_img_path = \
                     f"./dataset/images/{img_file.split('/')[-1]}"
                 original_gt_path = original_img_path.replace('images', 'masks')
-                print(f"{original_img_path = }")
-                print(f"{original_gt_path = }")
                 image = cv2.imread(original_img_path)
                 gt = cv2.imread(original_gt_path, 0)
-                print('Empty image')
-
-            print(f"{img_file}")
-            print(f"{image.shape}")
-            print(f"{gt.shape}")
 
             image = cv2.resize(image, (352, 352))
             gt = cv2.resize(gt, (352, 352))
