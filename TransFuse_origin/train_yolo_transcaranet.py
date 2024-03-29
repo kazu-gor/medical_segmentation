@@ -52,7 +52,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
 
             if image is None or image.size == 0:
                 original_img_path = \
-                    f"./dataset/sekkai_TrainDataset/images/{img_file.split('/')[-1]}"
+                    f"./dataset/images/{img_file.split('/')[-1]}"
                 original_gt_path = original_img_path.replace('images', 'masks')
                 print(f"{original_img_path = }")
                 print(f"{original_gt_path = }")
