@@ -74,20 +74,6 @@ class Predictor:
         if isinstance(label_path, pathlib.PosixPath):
             label_path = str(label_path)
 
-        if os.path.exists('./datasets/preprocessing/images') \
-                or os.path.exists('./datasets/preprocessing/plottings'):
-            flag = input('Do you want to delete the existing files? [y/n]: ')
-            if flag == 'y':
-                os.system('rm -r ./datasets/preprocessing/images')
-                os.system('rm -r ./datasets/preprocessing/plottings')
-            elif flag == 'n':
-                return
-            else:
-                raise ValueError('Invalid input')
-        else:
-            os.makedirs('./datasets/preprocessing/images', exist_ok=True)
-            os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
-
         assert Path(img_path).stem == Path(
             label_path).stem, f"{Path(img_path).stem}, {Path(label_path).stem}"
         img = cv2.imread(img_path)
@@ -119,6 +105,21 @@ class Predictor:
             gt_path = self.dataset_root / 'all/images/TestDataset'
         else:
             raise ValueError('Invalid mode')
+
+        if os.path.exists('./datasets/preprocessing/images') \
+                or os.path.exists('./datasets/preprocessing/plottings'):
+            flag = input('Do you want to delete the existing files? [y/n]: ')
+            if flag == 'y':
+                os.system('rm -r ./datasets/preprocessing/images')
+                os.system('rm -r ./datasets/preprocessing/plottings')
+            elif flag == 'n':
+                return
+            else:
+                raise ValueError('Invalid input')
+        else:
+            os.makedirs('./datasets/preprocessing/images', exist_ok=True)
+            os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
+
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
