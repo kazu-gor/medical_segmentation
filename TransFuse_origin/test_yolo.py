@@ -154,6 +154,6 @@ if __name__ == '__main__':
             verbose=True,
             )
 
-    predictor.predict_yolo_forPolyp()
+    # predictor.predict_yolo_forPolyp()
     predictor.crop_gt_images()
 
