@@ -153,6 +153,6 @@ if __name__ == '__main__':
             )
 
     predictor.predict_yolo_forPolyp()
-    predictor.crop_images(img_type='masks')
     predictor.crop_images(img_type='images')
+    predictor.crop_images(img_type='masks')
 
