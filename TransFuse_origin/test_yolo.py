@@ -149,6 +149,7 @@ class Predictor:
 
         for gt_file in gt_path_list:
             img = cv2.imread(str(gt_file))
+            img = cv2.resize(img, (352, 352))
             cv2.imwrite(f'./datasets/preprocessing/{img_type}/{gt_file.name}', img)
 
 
