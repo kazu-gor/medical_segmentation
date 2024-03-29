@@ -102,7 +102,7 @@ os.makedirs(save_path, exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/*.png'):
     os.remove(file)
 
-img_path = './ultralytics/runs/detect/predict12/crops/polyp/'
+img_path = './ultralytics/runs/detect/predict9/crops/polyp/'
 gt_path = './datasets/preprocessing/images/'
 test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
