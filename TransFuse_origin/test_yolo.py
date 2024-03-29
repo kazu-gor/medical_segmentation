@@ -1,6 +1,7 @@
 import os
 import cv2
 import pathlib
+import numpy as np
 from pathlib import Path
 
 from ultralytics import YOLO
@@ -90,6 +91,15 @@ class Predictor:
             x2, y2 = x + w // 2, y + h // 2
             print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
             crop_img = img[y1:y2, x1:x2]
+            crop_img = cv2.resize(crop_img, (352, 352))
+
+            if img_type == 'masks':
+                lower = np.array([0, 0, 0], dtype="uint8")
+                upper = np.array([255, 50, 255], dtype="uint8")
+                crop_img = cv2.inRange(crop_img, lower, upper)
+
+                crop_img = cv2.bitwise_not(crop_img)
+
             cv2.imwrite(
                 f'./datasets/preprocessing/{img_type}/{Path(img_path).name}', crop_img)
             # draw bounding box
