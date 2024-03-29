@@ -290,6 +290,8 @@ class test_dataset:
         image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
         name = self.images[self.index].split('/')[-1]
+        name_gt = self.gts[self.index].split('/')[-1]
+        assert nane == name_gt
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
