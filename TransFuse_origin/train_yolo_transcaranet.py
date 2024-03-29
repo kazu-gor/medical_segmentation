@@ -36,16 +36,9 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/masks', exist_ok=True)
 
             image = cv2.imread(img_file)
-            img_h, img_w, _ = image.shape
-            x, y, w, h = top1_box[j]
-            print(f"index {j}: x, y, w, h: {x, y, w, h}")
-            x, y, w, h = float(x), float(y), float(w), float(h)
-            x, y, w, h = int(x * img_w), int(y * img_h), int(w *
-                                                             img_w), int(h * img_h)
-            print(f"index {j}: x, y, w, h: {x, y, w, h}")
-            x1, y1 = x - w // 2, y - h // 2
-            x2, y2 = x + w // 2, y + h // 2
-            print(f"index {j}: [x1, y1, x2, y2]: [{x1}, {y1}, {x2}, {y2}]")
+            x1, y1, x2, y2 = top1_box[j]
+            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+            print(f"[x1, y1, x2, y2]: {x1, y1, x2, y2}")
             image = image[y1:y2, x1:x2]
 
             gt_path = f"./datasets/dataset_v0/sekkai/masks/sekkai_TrainDataset/{img_file.split('/')[-1]}"
