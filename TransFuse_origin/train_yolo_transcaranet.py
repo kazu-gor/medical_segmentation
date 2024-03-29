@@ -54,6 +54,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer):
                 image = cv2.imread(original_img_path)
                 gt = cv2.imread(original_gt_path, 0)
 
+            print(f"Image shape: {image.shape}, GT shape: {gt.shape}")
             image = cv2.resize(image, (352, 352))
             gt = cv2.resize(gt, (352, 352))
 
