@@ -99,10 +99,10 @@ model.cuda()
 model.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob('./results/preprocessing/*.png'):
     os.remove(file)
 
-img_path = './ultralytics/runs/detect/predict9/crops/polyp/'
+img_path = './ultralytics/runs/detect/predict11/crops/polyp/'
 gt_path = './datasets/preprocessing/images/'
 test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
