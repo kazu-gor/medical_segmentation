@@ -106,8 +106,7 @@ class Predictor:
         else:
             raise ValueError('Invalid mode')
 
-        if os.path.exists(f'./datasets/preprocessing/{img_type}') \
-                or os.path.exists('./datasets/preprocessing/plottings'):
+        if os.path.exists(f'./datasets/preprocessing/{img_type}'):
             flag = input('Do you want to delete the existing files? [y/n]: ')
             if flag == 'y':
                 os.system(f'rm -r ./datasets/preprocessing/{img_type}')
