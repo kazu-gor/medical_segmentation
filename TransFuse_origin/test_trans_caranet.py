@@ -102,8 +102,8 @@ os.makedirs(save_path, exist_ok=True)
 for file in glob.glob('./results/preprocessing/*.png'):
     os.remove(file)
 
-img_path = './ultralytics/runs/detect/predict11/crops/polyp/'
-gt_path = './datasets/preprocessing/images/'
+img_path = './datasets/preprocessing/images/'
+gt_path = './datasets/preprocessing/masks/'
 test_loader = test_dataset(img_path, gt_path, opt.testsize)
 
 dice_bank = []

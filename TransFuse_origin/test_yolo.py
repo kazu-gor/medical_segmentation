@@ -97,29 +97,28 @@ class Predictor:
             cv2.imwrite(
                 f'./datasets/preprocessing/plottings/{Path(img_path).name}', img)
     
-    def crop_gt_images(self):
+    def crop_images(self, img_type):
         pred_path = self.yolo_runs_root / f"{self._get_latest_predict_dir()}/labels"
         if self.mode == 'sekkai':
-            gt_path = self.dataset_root / 'sekkai/images/sekkai_TestDataset'
+            gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_TestDataset'
         elif self.mode == 'all':
-            gt_path = self.dataset_root / 'all/images/TestDataset'
+            gt_path = self.dataset_root / f'all/{img_type}/TestDataset'
         else:
             raise ValueError('Invalid mode')
 
-        if os.path.exists('./datasets/preprocessing/images') \
+        if os.path.exists(f'./datasets/preprocessing/{img_type}') \
                 or os.path.exists('./datasets/preprocessing/plottings'):
             flag = input('Do you want to delete the existing files? [y/n]: ')
             if flag == 'y':
-                os.system('rm -r ./datasets/preprocessing/images')
+                os.system(f'rm -r ./datasets/preprocessing/{img_type}')
                 os.system('rm -r ./datasets/preprocessing/plottings')
             elif flag == 'n':
                 return
             else:
                 raise ValueError('Invalid input')
 
-        os.makedirs('./datasets/preprocessing/images', exist_ok=True)
+        os.makedirs(f'./datasets/preprocessing/{img_type}', exist_ok=True)
         os.makedirs('./datasets/preprocessing/plottings', exist_ok=True)
-
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
@@ -141,7 +140,7 @@ class Predictor:
 
         for gt_file in gt_path_list:
             img = cv2.imread(str(gt_file))
-            cv2.imwrite(f'./datasets/preprocessing/images/{gt_file.name}', img)
+            cv2.imwrite(f'./datasets/preprocessing/{img_type}/{gt_file.name}', img)
 
 
 if __name__ == '__main__':
@@ -155,5 +154,6 @@ if __name__ == '__main__':
             )
 
     predictor.predict_yolo_forPolyp()
-    predictor.crop_gt_images()
+    predictor.crop_images(img_type='masks')
+    predictor.crop_images(img_type='images')
 
