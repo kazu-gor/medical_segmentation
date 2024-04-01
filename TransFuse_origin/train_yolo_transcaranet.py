@@ -35,8 +35,10 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
 
         # preds[...]. selects the predictions of the highest scoring boxes for each batch and anchor.
         top1_score, top1_idx = score.max(1)
-        top1_box = preds[torch.arange(b), top1_idx]
-        print(f"[Top1 Box shape]: {top1_box.shape}")
+        print(f"[Top1 Score shape]: {top1_score.shape}") # (batch_size, 1)
+        print(f"[Top1 Idx shape]: {top1_idx.shape}") # (batch_size, 1)
+        top1_box = preds[torch.arange(b, device=device), top1_idx]
+        print(f"[Top1 Box shape]: {top1_box.shape}") # (batch_size, 4)
 
         non_output_count = 0
         for j, img_file in enumerate(img_file_list):
