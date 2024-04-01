@@ -24,7 +24,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             validator = pretrainer.get_validator()
             preds, score, img_file_list, stop_flag = validator(
                 trainer=pretrainer)
-
+        
         top1_score, top1_index = score.max(dim=1)
         top1_score = top1_score.squeeze()
         top1_index = top1_index.squeeze()
@@ -36,19 +36,30 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/masks', exist_ok=True)
 
             image = cv2.imread(img_file)
-            x1, y1, x2, y2 = top1_box[j]
-            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+            # Unify image sizes
+            image = cv2.resize(image, (1037, 384))
+            height, width, _ = image.shape
 
-            if (x2 - x1) * (y2 - y1) < 1024:
-                x1, y1 = x1 - 16, y1 - 16
-                x2, y2 = x2 + 16, y2 + 16
+            # Convert the coordinates of the bounding box to the original image coordinates.
+            top1_box[j] = top1_box[j] * torch.tensor(
+                [width, height, width, height]).cuda()
+            x1, y1, x2, y2 = top1_box[j].int().tolist()
 
+            # if area is too small, expand the area 64*64
+            if (x2 - x1) * (y2 - y1) < 64 * 64:
+                x1, y1 = x1 - 32, y1 - 32
+                x2, y2 = x2 + 32, y2 + 32
+
+            # Clip the image so that it does not exceed the range of the image.
             x1, y1 = max(0, x1), max(0, y1)
-            x2, y2 = min(image.shape[1], x2), min(image.shape[0], y2)
+            x2, y2 = min(width, x2), min(height, y2)
+
             image = image[y1:y2, x1:x2]
 
+            # gt clips along the predicted label as well.
             gt_path = f"./datasets/dataset_v0/sekkai/masks/sekkai_TrainDataset/{img_file.split('/')[-1]}"
             gt = cv2.imread(gt_path, 0)
+            gt = cv2.resize(gt, (1037, 384))
             gt = gt[y1:y2, x1:x2]
 
             if image is None or image.size == 0:
