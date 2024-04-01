@@ -26,12 +26,15 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
                 trainer=pretrainer)
         
         # Get the top1 prediction
-        print(f"[Score shape]: {score.shape}")
-        print(f"[Preds shape]: {preds.shape}")
-        top1_score, top1_index = score.max(dim=1)
-        top1_score = top1_score.squeeze()
-        top1_index = top1_index.squeeze()
-        top1_box = preds[range(preds.shape[0]), top1_index]
+        print(f"[Score shape]: {score.shape}") # (batch, anchor, channel) -> torch.Size([490, 8400, 1])
+        print(f"[Preds shape]: {preds.shape}") # (batch, anchor, channel) -> torch.Size([490, 8400, 64])
+        b, a, c = preds.shape
+        preds = preds.view(b, a, 4, c // 4).softmax(3)
+        print(f"[Preds shape]: {preds.shape}") # (batch, anchor, 4, batch) -> torch.Size([490, 8400, 4, 16])
+
+        # preds[...]. selects the predictions of the highest scoring boxes for each batch and anchor.
+        _, top1_index = score.max(2)
+        top1_box = preds[torch.arange(b).view(-1, 1, 1).expand(b, a, 1), torch.arange(a).view(1, -1, 1).expand(b, a, 1), top1_index]
 
         non_output_count = 0
         for j, img_file in enumerate(img_file_list):
@@ -49,6 +52,8 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
                 [width, height, width, height]).cuda()
 
             x1, y1, x2, y2 = top1_box[j].int().tolist()
+            print(f"[Top1 Box]: {x1, y1, x2, y2}")
+
 
             # if area is too small, expand the area 64*64
             if (x2 - x1) * (y2 - y1) < 64 * 64:
