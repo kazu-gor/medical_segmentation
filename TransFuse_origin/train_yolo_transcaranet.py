@@ -52,6 +52,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             top1_box[j] = top1_box[j] * torch.tensor(
                 [width, height, width, height]).cuda()
 
+            print(f"{top1_box[j].int().tolist() = }")
             x1, y1, x2, y2 = top1_box[j].int().tolist()
             print(f"[Top1 Box]: {x1, y1, x2, y2}")
 
