@@ -41,8 +41,10 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             height, width, _ = image.shape
 
             # Convert the coordinates of the bounding box to the original image coordinates.
+            print(f"[Top1 Box shape]: {top1_box[j].shape}")
             top1_box[j] = top1_box[j] * torch.tensor(
                 [width, height, width, height]).cuda()
+
             x1, y1, x2, y2 = top1_box[j].int().tolist()
 
             # if area is too small, expand the area 64*64
