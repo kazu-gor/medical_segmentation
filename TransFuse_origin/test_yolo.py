@@ -89,7 +89,8 @@ class Predictor:
                                                              img_w), int(h * img_h)
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
-            print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
+            if self.verbose:
+                print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
             crop_img = img[y1:y2, x1:x2]
             crop_img = cv2.resize(crop_img, (352, 352))
 
@@ -156,7 +157,7 @@ class Predictor:
 if __name__ == '__main__':
     
     predictor = Predictor(
-            weights='ultralytics/runs/detect/polyp491_34/weights/last.pt',
+            weights='ultralytics/runs/detect/polyp491_62/weights/last.pt',
             mode='sekkai',
             dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',

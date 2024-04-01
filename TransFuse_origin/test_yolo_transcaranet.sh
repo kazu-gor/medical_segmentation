@@ -1,1 +1,5 @@
-yolo detect predict max_det=1 model=ultralytics/runs/detect/polyp491_9/weights/last.pt source=../../../dataset_v0/TestDataset/images conf=0.01 save_txt save_conf save_crop
+echo '--------------------- YOLOv8 Test ---------------------'
+python3 ./test_yolo.py ; python3 ../../tools/slack_bot.py --text "[process] YOLOv8 test is done."
+
+echo '--------------------- TransCaranet Test ---------------------'
+python3 ./test_trans_caranet.py ; python3 ../../tools/slack_bot.py --text "[process] TransCaranet test is done."
