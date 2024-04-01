@@ -31,7 +31,6 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
         top1_box = preds[range(preds.shape[0]), top1_index]
 
         non_output_count = 0
-        MARGIN = 10
         for j, img_file in enumerate(img_file_list):
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/images', exist_ok=True)
             os.makedirs(f'./datasets/preprocessing/train/epoch_{epoch}/masks', exist_ok=True)
@@ -39,7 +38,11 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
             image = cv2.imread(img_file)
             x1, y1, x2, y2 = top1_box[j]
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-            x1, y1, x2, y2 = x1 - MARGIN, y1 - MARGIN, x2 + MARGIN, y2 + MARGIN
+
+            if (x2 - x1) * (y2 - y1) < 1024:
+                x1, y1 = x1 - 16, y1 - 16
+                x2, y2 = x2 + 16, y2 + 16
+
             x1, y1 = max(0, x1), max(0, y1)
             x2, y2 = min(image.shape[1], x2), min(image.shape[0], y2)
             image = image[y1:y2, x1:x2]
