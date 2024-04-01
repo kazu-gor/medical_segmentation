@@ -233,6 +233,8 @@ if __name__ == '__main__':
     best_loss = 100000
 
     train_path = './datasets/preprocessing/train'
+    if os.path.exists(train_path):
+        os.system(f'rm -r {train_path}')
 
     for epoch in range(1, opt.epoch):
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
