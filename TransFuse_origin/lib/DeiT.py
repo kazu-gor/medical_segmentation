@@ -172,7 +172,8 @@ def deit_base_patch16_384(pretrained=False, **kwargs):
 
     #################################### # size = trainsize / patch_size################################
     # pe = F.interpolate(pe, size=(24, 24), mode='bilinear', align_corners=True)
-    pe = F.interpolate(pe, size=(22, 22), mode='bilinear', align_corners=True)
+    # pe = F.interpolate(pe, size=(22, 22), mode='bilinear', align_corners=True)
+    pe = F.interpolate(pe, size=(11, 11), mode='bilinear', align_corners=True)
     ###################################################################################################
 
     pe = pe.flatten(2)

@@ -7,7 +7,6 @@ import numpy as np
 import imageio
 import torch
 import torch.nn.functional as F
-from scipy import misc
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
 
@@ -82,7 +81,6 @@ def imwrite(filename, img, params=None):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--epoch', type=int, default=20)
 parser.add_argument('--normalization', type=bool, default=False)
 
 opt = parser.parse_args()

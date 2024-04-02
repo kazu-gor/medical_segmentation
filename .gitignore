@@ -17,6 +17,10 @@
 /mae/dataset/*
 /mae/dataset2/*
 
+/TransFuse_origin/dataset/*
+/TransFuse_origin/runs/*
+
+
 ultralytics/
 
 __pycache__

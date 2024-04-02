@@ -4,8 +4,6 @@ import pathlib
 import numpy as np
 from pathlib import Path
 
-from torch._dynamo.utils import checkpoint_params
-
 from ultralytics import YOLO
 
 

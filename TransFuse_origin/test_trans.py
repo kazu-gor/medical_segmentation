@@ -90,7 +90,7 @@ dice_bank = []
 iou_bank = []
 acc_bank = []
 
-for i in range(test_loader.size):
+for _ in range(test_loader.size):
     image, gt, name = test_loader.load_data()
     gt = np.asarray(gt, np.float32)
 
