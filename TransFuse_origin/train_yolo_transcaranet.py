@@ -297,8 +297,6 @@ if __name__ == '__main__':
 
         predictor = Predictor(mode='train')
         predictor.predict_yolo_forPolyp()
-        predictor.crop_images('image')
-        predictor.crop_images('mask')
         
         image_root = f'{train_path}/epoch_{epoch}/images/'
         gt_root = f'{train_path}/epoch_{epoch}/masks/'
