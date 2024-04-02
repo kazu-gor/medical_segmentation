@@ -1,1 +1,0 @@
-epoch: 100lr: 0.0001batchsize: 4trainsize: 352clip: 0.5grad_norm: 2.0decay_rate: 0.1decay_epoch: 50train_path: ./dataset/clipping_20230415/TrainDatasetval_path: ./dataset/clipping_20230415/ValDatasettrain_save: trans_caranet_nash_clip_20230415beta1: 0.5beta2: 0.999tuning: Truemtl: nashmtl

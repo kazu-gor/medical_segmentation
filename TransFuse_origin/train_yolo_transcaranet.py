@@ -11,7 +11,9 @@ from torch.autograd import Variable
 from lib.Trans_CaraNet import Trans_CaraNet_L
 from utils.dataloader import get_loader
 from utils.utils import adjust_lr, AvgMeter
-from ultralytics.models.yolo.detect import DetectionTrainer
+from ultralytics.models.yolo.detect import DetectionTrainer, DetectionPredictor
+from ultralytics import YOLO
+from test_yolo import Predictor
 
 
 def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
@@ -20,6 +22,7 @@ def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
         if phase == 'train':
             preds, score, img_file_list, stop_flag = pretrainer.train()
             pretrainer.save_model()
+
         else:
             validator = pretrainer.get_validator()
             preds, score, img_file_list, stop_flag = validator(
@@ -113,8 +116,8 @@ def structure_loss(pred, mask):
     return (wbce + wiou).mean()
 
 
-def get_yolo_trainer(opt) -> DetectionTrainer:
-
+def get_yolo_trainer(model, opt) -> DetectionTrainer:
+    
     args = dict(
         model='yolov8n.pt',
         data='polyp491.yaml',
@@ -127,7 +130,24 @@ def get_yolo_trainer(opt) -> DetectionTrainer:
         save=True,
         save_dir='snapshots/yolov8',
     )
-    return DetectionTrainer(overrides=args)
+    return model.trainer(overrides=args)
+
+
+def get_yolo_predictor(model, opt) -> DetectionPredictor:
+    
+    args = dict(
+        model='./ultralytics/runs/train/yolov8n.pt',
+        data='polyp491.yaml',
+        epochs=opt.epoch,
+        single_cls=True,
+        imgsz=640,
+        batch=8,
+        workers=4,
+        name='polyp491_',
+        save=True,
+        save_dir='snapshots/yolov8',
+    )
+    return model.predictor(overrides=args)
 
 
 def train(dataloaders_dict, model, optimizer, epoch, best_loss):
@@ -246,7 +266,8 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    pretrainer = get_yolo_trainer(opt)
+    yolo = YOLO()
+    pretrainer = get_yolo_trainer(yolo, opt)
     model = Trans_CaraNet_L(pretrained=True).to(device)
 
     # ---- flops and params ----
@@ -273,9 +294,12 @@ if __name__ == '__main__':
                 mode=['train'],
                 pretrainer=pretrainer,
                 epoch=epoch,)
-        if stop_flag:
-            break
 
+        predictor = Predictor(mode='train')
+        predictor.predict_yolo_forPolyp()
+        predictor.crop_images('image')
+        predictor.crop_images('mask')
+        
         image_root = f'{train_path}/epoch_{epoch}/images/'
         gt_root = f'{train_path}/epoch_{epoch}/masks/'
 
@@ -292,6 +316,9 @@ if __name__ == '__main__':
         # val_loss = val_loss.cpu().data.numpy()
         # val_loss_list.append(val_loss)
         epoch_list.append(epoch)
+
+        if stop_flag:
+            break
 
     fig = plt.figure()
     plt.plot(epoch_list, train_loss_list, label='train_loss')
