@@ -144,8 +144,8 @@ class Predictor:
                         save_conf=True,
                         save_crop=True,
                     )
-                self.crop_images('image', sub_dir=str(weight.stem))
-                self.crop_images('mask', sub_dir=str(weight.stem))
+                self.crop_images('images', sub_dir=str(weight.stem))
+                self.crop_images('masks', sub_dir=str(weight.stem))
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
