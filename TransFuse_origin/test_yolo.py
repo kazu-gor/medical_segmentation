@@ -115,6 +115,7 @@ class Predictor:
             raise ValueError('Invalid mode')
 
         train_weight_dir = self._get_latest_train_weight_dir()
+        print(f"latest train weight dir: {train_weight_dir}")
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
