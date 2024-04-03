@@ -241,6 +241,7 @@ class Predictor:
         num_img = 0
         for num_img, label_file in enumerate(sorted((pred_path).glob('*.txt')), start=1):
             img_file = gt_path / f"{label_file.stem}.png"
+            print(f"{img_file = }, {label_file = }")
             gt_path_list.remove(img_file) # remove the image from the list
             self._crop_image(img_file, label_file, img_type)
             if self.verbose:
@@ -267,7 +268,7 @@ if __name__ == '__main__':
         mode='train',
         dataset_root='./datasets/dataset_v0/',
         yolo_runs_root='./ultralytics/runs/detect/',
-        verbose=True,
+        verbose=False,
     )
 
     predictor.predict_yolo_forSegTrain()
