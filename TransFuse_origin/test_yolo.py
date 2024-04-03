@@ -126,12 +126,10 @@ class Predictor:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
-        print(list(train_weight_epochs))
-        print(list(train_weight_epochs)[0])
 
         for path in root_path:
             for weight in train_weight_epochs:
-                model = YOLO(weight)
+                model = YOLO(str(weight))
                 img_files = Path(path).glob('*.png')
                 for img_file in img_files:
                     model.predict(
