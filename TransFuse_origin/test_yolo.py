@@ -1,9 +1,9 @@
 import os
-from re import sub
 import cv2
 import pathlib
 import numpy as np
 from pathlib import Path
+from tqdm import tqdm
 
 from ultralytics import YOLO
 
@@ -134,7 +134,7 @@ class Predictor:
             for weight in train_weight_epochs:
                 model = YOLO(weight)
                 img_files = path.glob('*.png')
-                for img_file in img_files:
+                for img_file in tqdm(img_files):
                     model.predict(
                         img_file,
                         imgsz=640,
