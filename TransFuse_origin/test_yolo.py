@@ -131,7 +131,7 @@ class Predictor:
 
         for path in root_path:
             print(f">>>>> [path]: {path}")
-            for weight in tqdm(train_weight_epochs):
+            for weight in tqdm(list(train_weight_epochs)):
                 print(f">>>>> [weight]: {weight}")
                 model = YOLO(weight)
                 print(f">>>>> [path type]: {type(path)}")
