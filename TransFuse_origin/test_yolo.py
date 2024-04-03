@@ -229,12 +229,12 @@ class Predictor:
                 Path(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}'),
                 force=True)
             os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
-            try:
-                os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
-            except FileExistsError:
-                # if the directory already exists, increment the epoch
-                self.train_epoch += 1
-                os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
+            # try:
+                # os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
+            # except FileExistsError:
+            #     # if the directory already exists, increment the epoch
+            #     # self.train_epoch += 1
+            #     os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
