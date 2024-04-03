@@ -6,6 +6,8 @@
 /TransFuse/weights/*
 /TransFuse/results/*
 /TransFuse/dataset/*
+/TransFuse/dataset_v0/**/*.png
+/TransFuse/dataset_v0/**/*.txt
 /TransFuse/fig/*
 /TransFuse/roc_curve/*
 /TransFuse/attention_map

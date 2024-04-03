@@ -258,12 +258,11 @@ class Predictor:
 if __name__ == '__main__':
     
     predictor = Predictor(
-        weights='ultralytics/runs/detect/polyp491_62/weights/last.pt',
         mode='train',
         dataset_root='./datasets/dataset_v0/',
         yolo_runs_root='./ultralytics/runs/detect/',
         verbose=True,
     )
 
-    predictor.predict_yolo_forPolyp()
+    predictor.predict_yolo_forSegTrain()
 
