@@ -58,5 +58,5 @@ if __name__ == '__main__':
     )
 
     yolov8 = YOLO(model='yolov8n.pt', task='detect', verbose=True)
-    yolov8.train(overrides=args)
+    yolov8.train(args)
     
