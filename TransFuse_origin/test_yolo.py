@@ -115,11 +115,12 @@ class Predictor:
             raise ValueError('Invalid mode')
 
         train_weight_dir = self._get_latest_train_weight_dir()
-        print(f"latest train weight dir: {train_weight_dir}")
+        print(f">>>>> [latest train weight dir]: {train_weight_dir}")
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('epoch*.pt')
+        print(f">>>>> [Path(self.yolo_runs_root / train_weight_dir / 'weights')]: {Path(self.yolo_runs_root / train_weight_dir / 'weights')}")
 
         assert len(list(train_weight_epochs)) == 100, f"{len(list(train_weight_epochs)) = }"
 
