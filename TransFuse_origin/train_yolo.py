@@ -44,7 +44,8 @@ from ultralytics import YOLO
 
 if __name__ == '__main__':
 
-    args = dict(
+    yolov8 = YOLO(model='yolov8n.pt', task='detect', verbose=True)
+    yolov8.train(
         data='polyp491.yaml',
         epochs=100,
         imgsz=640,
@@ -56,7 +57,4 @@ if __name__ == '__main__':
         save_dir='preprocessing',
         single_cls=True,
     )
-
-    yolov8 = YOLO(model='yolov8n.pt', task='detect', verbose=True)
-    yolov8.train(args)
     
