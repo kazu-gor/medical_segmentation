@@ -103,9 +103,45 @@ class Predictor:
         if self.verbose:
             print('Mask Cropping is done.')
 
+    def predict_yolo_forSegTrain(self):
+
+        if self.mode == 'sekkai':
+            root_path = self.dataset_root / 'sekkai/images/sekkai_TestDataset'
+        elif self.mode == 'all':
+            root_path = self.dataset_root / 'all/images/TestDataset'
+        elif self.mode == 'train':
+            root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset'
+        else:
+            raise ValueError('Invalid mode')
+
+        train_weight_dir = self._get_latest_train_weight_dir()
+        if train_weight_dir is None:
+            raise ValueError('There is no trained model.')
+
+        train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('epoch*.pt')
+
+        assert len(list(train_weight_epochs)) == 100, f"{len(list(train_weight_epochs)) = }"
+
+        for weight in train_weight_epochs:
+            model = YOLO(weight)
+            img_files = root_path.glob('*.png')
+            for img_file in img_files:
+                model.predict(
+                    img_file,
+                    imgsz=640,
+                    data='polyp491.yaml',
+                    max_det=1,
+                    # conf=0.01,
+                    single_cls=True,
+                    save=True,
+                    save_txt=True,
+                    save_conf=True,
+                    save_crop=True,
+                )
+            self.crop_images('image')
+            self.crop_images('mask')
 
     def _crop_image(self, img_path, label_path, img_type):
-
         if isinstance(img_path, pathlib.PosixPath):
             img_path = str(img_path)
         if isinstance(label_path, pathlib.PosixPath):
@@ -140,17 +176,20 @@ class Predictor:
                 crop_img = cv2.bitwise_not(crop_img)
 
             cv2.imwrite(
-                f'./datasets/preprocessing/{img_type}/{Path(img_path).name}', crop_img)
+                f'./datasets/{self.output_dir}/{img_type}/{Path(img_path).name}', crop_img)
 
             # draw bounding box
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.imwrite(
-                f'./datasets/preprocessing/plottings_{img_type}/{Path(img_path).name}', img)
+                f'./datasets/{self.output_dir}/plottings_{img_type}/{Path(img_path).name}', img)
 
-    def _delete_existing_files(self, img_path):
+    def _delete_existing_files(self, img_path, force=False):
         if isinstance(img_path, pathlib.PosixPath):
             img_path = str(img_path)
         if os.path.exists(img_path):
+            if force:
+                os.system(f'rm -r {img_path}')
+                return
             flag = input(f'Do you want to delete {img_path}? [y/n]: ')
             if flag == 'y':
                 os.system(f'rm -r {img_path}')
@@ -159,8 +198,10 @@ class Predictor:
             else:
                 raise ValueError('Invalid input')
 
-    def crop_images(self, img_type):
+    def crop_images(self, img_type, output_dir='preprocessing'):
         pred_path = self.yolo_runs_root / f"{self._get_latest_predict_dir()}/labels"
+        self.output_dir = output_dir
+
         if self.mode == 'sekkai':
             gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_TestDataset'
         elif self.mode == 'all':
@@ -170,23 +211,24 @@ class Predictor:
         else:
             raise ValueError('Invalid mode')
 
-        check_path = Path(f'./datasets/preprocessing/{img_type}')
-        self._delete_existing_files(check_path)
-        check_path = Path(f'./datasets/preprocessing/plottings_{img_type}')
-        self._delete_existing_files(check_path)
-        check_path = Path('./datasets/preprocessing/train')
-        self._delete_existing_files(check_path)
-
-        if self.mode == 'train':
+        if self.mode != 'train':
+            # delete existing files
+            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/{img_type}'))
+            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/plottings_{img_type}'))
+            # create directories
+            os.makedirs(f'./datasets/{self.output_dir}/{img_type}', exist_ok=True)
+            os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
+        else:
+            self._delete_existing_files(
+                Path(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}'),
+                force=True)
+            os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}', exist_ok=True)
             try:
-                os.makedirs(f'./datasets/preprocessing/train/epoch_{self.train_epoch}/{img_type}')
+                os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}')
             except FileExistsError:
+                # if the directory already exists, increment the epoch
                 self.train_epoch += 1
-                os.makedirs(f'./datasets/preprocessing/train/epoch_{self.train_epoch}/{img_type}')
-
-        # create directories
-        os.makedirs(f'./datasets/preprocessing/{img_type}', exist_ok=True)
-        os.makedirs(f'./datasets/preprocessing/plottings_{img_type}', exist_ok=True)
+                os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
@@ -210,20 +252,18 @@ class Predictor:
         for gt_file in gt_path_list:
             img = cv2.imread(str(gt_file))
             img = cv2.resize(img, (352, 352))
-            cv2.imwrite(f'./datasets/preprocessing/{img_type}/{gt_file.name}', img)
+            cv2.imwrite(f'./datasets/{self.output_dir}/{img_type}/{gt_file.name}', img)
 
 
 if __name__ == '__main__':
     
     predictor = Predictor(
         weights='ultralytics/runs/detect/polyp491_62/weights/last.pt',
-        mode='sekkai',
+        mode='train',
         dataset_root='./datasets/dataset_v0/',
         yolo_runs_root='./ultralytics/runs/detect/',
         verbose=True,
     )
 
     predictor.predict_yolo_forPolyp()
-    predictor.crop_images(img_type='images')
-    predictor.crop_images(img_type='masks')
 
