@@ -134,6 +134,7 @@ class Predictor:
             for weight in tqdm(train_weight_epochs):
                 print(f">>>>> [weight]: {weight}")
                 model = YOLO(weight)
+                print(f">>>>> [path type]: {type(path)}")
                 img_files = Path(path).glob('*.png')
                 print(f">>>>> [length of img_files]: {len(list(img_files))}")
                 for img_file in img_files:
