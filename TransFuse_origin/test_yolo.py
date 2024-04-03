@@ -131,8 +131,10 @@ class Predictor:
 
         for path in root_path:
             print(f">>>>> [path]: {path}")
+            print(f">>>>> [weight[0] type]: {type(list(train_weight_epochs)[0])}")
             for weight in train_weight_epochs:
                 print(f">>>>> [weight]: {weight}")
+                print(f">>>>> [weight type]: {type(weight)}")
                 model = YOLO(weight)
                 print(f">>>>> [path type]: {type(path)}")
                 img_files = Path(path).glob('*.png')
