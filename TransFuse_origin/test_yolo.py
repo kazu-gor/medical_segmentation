@@ -127,7 +127,7 @@ class Predictor:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
-        print(list(train_weight_dir))
+        print(list(train_weight_epochs))
 
         for path in root_path:
             print(f">>>>> [path]: {path}")
