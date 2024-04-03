@@ -129,12 +129,13 @@ class Predictor:
         # glob epoch*.pt files
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
         print(f">>>>> [length of train_weight_epochs]: {len(list(train_weight_epochs))}")
+        print(f">>>>> [length of root_path]: {len(list(root_path))}")
 
         for path in root_path:
-            for weight in train_weight_epochs:
+            for weight in tqdm(train_weight_epochs):
                 model = YOLO(weight)
                 img_files = path.glob('*.png')
-                for img_file in tqdm(img_files):
+                for img_file in img_files:
                     model.predict(
                         img_file,
                         imgsz=640,
