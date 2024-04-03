@@ -119,8 +119,10 @@ class Predictor:
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
+        # glob epoch*.pt files
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('epoch*.pt')
         print(f">>>>> [Path(self.yolo_runs_root / train_weight_dir / 'weights')]: {Path(self.yolo_runs_root / train_weight_dir / 'weights')}")
+        print(f">>>>> [train_weight_epochs]: {train_weight_epochs}")
 
         assert len(list(train_weight_epochs)) == 100, f"{len(list(train_weight_epochs)) = }"
 
