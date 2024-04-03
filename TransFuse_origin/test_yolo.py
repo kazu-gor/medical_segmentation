@@ -95,14 +95,8 @@ class Predictor:
                 save_crop=True,
             )
 
-        if self.verbose:
-            print('Prediction is done.')
-        self.crop_images('image')
-        if self.verbose:
-            print('Image Cropping is done.')
-        self.crop_images('mask')
-        if self.verbose:
-            print('Mask Cropping is done.')
+        self.crop_images('images')
+        self.crop_images('masks')
 
     def predict_yolo_forSegTrain(self):
 
@@ -128,22 +122,22 @@ class Predictor:
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
 
         for path in root_path:
-            for weight in train_weight_epochs:
+            for weight in tqdm(list(train_weight_epochs)):
                 model = YOLO(str(weight))
                 img_files = Path(path).glob('*.png')
-                for img_file in img_files:
-                    model.predict(
-                        img_file,
-                        imgsz=640,
-                        data='polyp491.yaml',
-                        max_det=1,
-                        # conf=0.01,
-                        single_cls=True,
-                        save=True,
-                        save_txt=True,
-                        save_conf=True,
-                        save_crop=True,
-                    )
+                # for img_file in img_files:
+                model.predict(
+                    list(img_files),
+                    imgsz=640,
+                    data='polyp491.yaml',
+                    max_det=1,
+                    # conf=0.01,
+                    single_cls=True,
+                    save=True,
+                    save_txt=True,
+                    save_conf=True,
+                    save_crop=True,
+                )
                 self.crop_images('images', sub_dir=str(weight.stem))
                 self.crop_images('masks', sub_dir=str(weight.stem))
 
@@ -241,7 +235,6 @@ class Predictor:
         num_img = 0
         for num_img, label_file in enumerate(sorted((pred_path).glob('*.txt')), start=1):
             img_file = gt_path / f"{label_file.stem}.png"
-            print(f"{img_file = }, {label_file = }")
             gt_path_list.remove(img_file) # remove the image from the list
             self._crop_image(img_file, label_file, img_type)
             if self.verbose:
