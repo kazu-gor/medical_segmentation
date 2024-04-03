@@ -1,4 +1,5 @@
 import os
+from re import sub
 import cv2
 import pathlib
 import numpy as np
@@ -110,9 +111,15 @@ class Predictor:
         elif self.mode == 'all':
             root_path = self.dataset_root / 'all/images/TestDataset'
         elif self.mode == 'train':
-            root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset'
+            root_path = [
+                self.dataset_root / 'sekkai/images/sekkai_TrainDataset',
+                self.dataset_root / 'sekkai/images/sekkai_ValDataset'
+            ]
         else:
             raise ValueError('Invalid mode')
+
+        if isinstance(root_path, str):
+            root_path = [root_path]
 
         train_weight_dir = self._get_latest_train_weight_dir()
         print(f">>>>> [latest train weight dir]: {train_weight_dir}")
@@ -123,24 +130,25 @@ class Predictor:
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
         print(f">>>>> [length of train_weight_epochs]: {len(list(train_weight_epochs))}")
 
-        for weight in train_weight_epochs:
-            model = YOLO(weight)
-            img_files = root_path.glob('*.png')
-            for img_file in img_files:
-                model.predict(
-                    img_file,
-                    imgsz=640,
-                    data='polyp491.yaml',
-                    max_det=1,
-                    # conf=0.01,
-                    single_cls=True,
-                    save=True,
-                    save_txt=True,
-                    save_conf=True,
-                    save_crop=True,
-                )
-            self.crop_images('image')
-            self.crop_images('mask')
+        for path in root_path:
+            for weight in train_weight_epochs:
+                model = YOLO(weight)
+                img_files = path.glob('*.png')
+                for img_file in img_files:
+                    model.predict(
+                        img_file,
+                        imgsz=640,
+                        data='polyp491.yaml',
+                        max_det=1,
+                        # conf=0.01,
+                        single_cls=True,
+                        save=True,
+                        save_txt=True,
+                        save_conf=True,
+                        save_crop=True,
+                    )
+                self.crop_images('image', sub_dir=weight.stem)
+                self.crop_images('mask', sub_dir=weight.stem)
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -199,7 +207,7 @@ class Predictor:
             else:
                 raise ValueError('Invalid input')
 
-    def crop_images(self, img_type, output_dir='preprocessing'):
+    def crop_images(self, img_type, output_dir='preprocessing', sub_dir='.'):
         pred_path = self.yolo_runs_root / f"{self._get_latest_predict_dir()}/labels"
         self.output_dir = output_dir
 
@@ -221,15 +229,15 @@ class Predictor:
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
         else:
             self._delete_existing_files(
-                Path(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}'),
+                Path(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}'),
                 force=True)
-            os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}', exist_ok=True)
+            os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}', exist_ok=True)
             try:
-                os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}')
+                os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
             except FileExistsError:
                 # if the directory already exists, increment the epoch
                 self.train_epoch += 1
-                os.makedirs(f'./datasets/{self.output_dir}/train/epoch_{self.train_epoch}/{img_type}')
+                os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
