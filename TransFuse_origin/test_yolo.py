@@ -126,10 +126,9 @@ class Predictor:
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
-        # glob epoch*.pt files
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
         print(f">>>>> [length of train_weight_epochs]: {len(list(train_weight_epochs))}")
-        print(f">>>>> [length of root_path]: {len(list(root_path))}")
+        print(f">>>>> [root_path]: {root_path}")
 
         for path in root_path:
             for weight in tqdm(train_weight_epochs):
@@ -148,8 +147,8 @@ class Predictor:
                         save_conf=True,
                         save_crop=True,
                     )
-                self.crop_images('image', sub_dir=weight.stem)
-                self.crop_images('mask', sub_dir=weight.stem)
+                self.crop_images('image', sub_dir=str(weight.stem))
+                self.crop_images('mask', sub_dir=str(weight.stem))
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -232,7 +231,7 @@ class Predictor:
             self._delete_existing_files(
                 Path(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}'),
                 force=True)
-            os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}', exist_ok=True)
+            os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
             try:
                 os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
             except FileExistsError:
