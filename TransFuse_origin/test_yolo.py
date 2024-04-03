@@ -113,7 +113,7 @@ class Predictor:
         elif self.mode == 'train':
             root_path = [
                 self.dataset_root / 'sekkai/images/sekkai_TrainDataset',
-                self.dataset_root / 'sekkai/images/sekkai_ValDataset'
+                # self.dataset_root / 'sekkai/images/sekkai_ValDataset'
             ]
         else:
             raise ValueError('Invalid mode')
@@ -131,10 +131,13 @@ class Predictor:
         print(f">>>>> [root_path]: {root_path}")
 
         for path in root_path:
+            print(f">>>>> [path]: {path}")
             for weight in tqdm(train_weight_epochs):
+                print(f">>>>> [weight]: {weight}")
                 model = YOLO(weight)
                 img_files = path.glob('*.png')
                 for img_file in img_files:
+                    print(f">>>>> [img_file]: {img_file}")
                     model.predict(
                         img_file,
                         imgsz=640,
