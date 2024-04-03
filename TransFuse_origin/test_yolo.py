@@ -136,6 +136,7 @@ class Predictor:
                 print(f">>>>> [weight]: {weight}")
                 model = YOLO(weight)
                 img_files = path.glob('*.png')
+                print(f">>>>> [length of img_files]: {len(list(img_files))}")
                 for img_file in img_files:
                     print(f">>>>> [img_file]: {img_file}")
                     model.predict(
