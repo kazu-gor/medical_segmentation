@@ -122,25 +122,18 @@ class Predictor:
             root_path = [root_path]
 
         train_weight_dir = self._get_latest_train_weight_dir()
-        print(f">>>>> [latest train weight dir]: {train_weight_dir}")
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
         print(list(train_weight_epochs))
+        print(list(train_weight_epochs)[0])
 
         for path in root_path:
-            print(f">>>>> [path]: {path}")
-            print(f">>>>> [weight[0] type]: {type(list(train_weight_epochs)[0])}")
             for weight in train_weight_epochs:
-                print(f">>>>> [weight]: {weight}")
-                print(f">>>>> [weight type]: {type(weight)}")
                 model = YOLO(weight)
-                print(f">>>>> [path type]: {type(path)}")
                 img_files = Path(path).glob('*.png')
-                print(f">>>>> [length of img_files]: {len(list(img_files))}")
                 for img_file in img_files:
-                    print(f">>>>> [img_file]: {img_file}")
                     model.predict(
                         img_file,
                         imgsz=640,
