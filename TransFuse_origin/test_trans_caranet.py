@@ -7,15 +7,10 @@ import numpy as np
 import imageio
 import torch
 import torch.nn.functional as F
-
-from lib.Trans_CaraNet import Trans_CaraNet_L
-
-
-
-from utils.dataloader import test_dataset
-import imageio
 from skimage import img_as_ubyte
 from utils.dataloader import test_dataset
+
+from lib.Trans_CaraNet import Trans_CaraNet_L
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
