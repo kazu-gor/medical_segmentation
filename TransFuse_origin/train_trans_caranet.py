@@ -1,6 +1,7 @@
 import argparse
 import os
 from datetime import datetime
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import torch
@@ -135,20 +136,13 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.Adam(params, opt.lr, betas=(opt.beta1, opt.beta2))
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    # image_root = '{}/images/'.format(opt.train_path)
+    # gt_root = '{}/masks/'.format(opt.train_path)
+    # image_root_val = '{}/images/'.format(opt.val_path)
+    # gt_root_val = '{}/masks/'.format(opt.val_path)
 
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
-
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
     # train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize, droplast=True)
 
-    total_step = len(train_loader)
-
-    val_loader = get_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
-
-    dataloaders_dict = {"train": train_loader, "val": val_loader}
 
     print("#" * 20, "Start Training", "#" * 20)
 
@@ -157,9 +151,24 @@ if __name__ == '__main__':
     val_loss_list = []
     best_loss = 100000
 
+    root_path = Path('./datasets/preprocessing')
     for epoch in range(1, opt.epoch):
+        train_loader = get_loader(
+            root_path / 'train' / f'epoch{epoch}' / 'images',
+            root_path / 'train' / f'epoch{epoch}' / 'masks',
+            batchsize=opt.batchsize, trainsize=opt.trainsize
+        )
+        val_loader = get_loader(
+            root_path / 'val' / f'epoch{epoch}' / 'images',
+            root_path / 'val' / f'epoch{epoch}' / 'masks',
+            batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+        total_step = len(train_loader)
+        dataloaders_dict = {"train": train_loader, "val": val_loader}
+        print(f">>>>> [Epoch] \t{epoch}")
+        print(f">>>>> [Train path] \t{root_path / 'train' / f'epoch{epoch}' / 'images'}")
+        print(f">>>>> [Val path] \t{root_path / 'val' / f'epoch{epoch}' / 'images'}")
+
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
-        # train(train_loader, model, optimizer, epoch)
 
         epoch, train_loss, val_loss, best_loss = train(dataloaders_dict, model, optimizer, epoch, best_loss)
         train_loss = train_loss.cpu().data.numpy()
