@@ -178,7 +178,7 @@ class Predictor:
 
             # draw bounding box
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            if self.mode != 'train':
+            if self.mode not in ['train', 'val']:
                 cv2.imwrite(
                     f'./datasets/{self.output_dir}/plottings_{img_type}/{Path(img_path).name}', img)
 
@@ -213,20 +213,18 @@ class Predictor:
         else:
             raise ValueError('Invalid mode')
 
-        if self.mode != 'train':
+        if self.mode not in ['train', 'val']:
             # delete existing files
             self._delete_existing_files(Path(f'./datasets/{self.output_dir}/{img_type}'))
             self._delete_existing_files(Path(f'./datasets/{self.output_dir}/plottings_{img_type}'))
             # create directories
             os.makedirs(f'./datasets/{self.output_dir}/{img_type}', exist_ok=True)
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
-        elif self.mode in ['train', 'val']:
+        else:
             self._delete_existing_files(
                 Path(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}'),
                 force=True)
             os.makedirs(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}')
-        else:
-            raise ValueError('Invalid mode')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
