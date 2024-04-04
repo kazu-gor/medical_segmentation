@@ -64,7 +64,7 @@ class Predictor:
             return None
 
     def predict_yolo_forPolyp(self):
-        if self.weights is None and self.mode == 'train':
+        if self.weights is None and self.mode in ['train', 'val']:
             self.weights = self.yolo_runs_root / f"{self._get_latest_train_weight_dir()}/weights/last.pt"
         else: 
             raise ValueError('Weights is None is allowed only for training.')
@@ -75,6 +75,8 @@ class Predictor:
             root_path = self.dataset_root / 'all/images/TestDataset'
         elif self.mode == 'train':
             root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset'
+        elif self.mode == 'val':
+            root_path = self.dataset_root / 'sekkai/images/sekkai_ValDataset'
         else:
             raise ValueError('Invalid mode')
 
@@ -105,41 +107,34 @@ class Predictor:
         elif self.mode == 'all':
             root_path = self.dataset_root / 'all/images/TestDataset'
         elif self.mode == 'train':
-            root_path = [
-                self.dataset_root / 'sekkai/images/sekkai_TrainDataset',
-                # self.dataset_root / 'sekkai/images/sekkai_ValDataset'
-            ]
+            root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset',
+        elif self.mode == 'val':
+            root_path = self.dataset_root / 'sekkai/images/sekkai_ValDataset'
         else:
             raise ValueError('Invalid mode')
-
-        if isinstance(root_path, str):
-            root_path = [root_path]
 
         train_weight_dir = self._get_latest_train_weight_dir()
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
-
-        for path in root_path:
-            for weight in tqdm(list(train_weight_epochs)):
-                model = YOLO(str(weight))
-                img_files = Path(path).glob('*.png')
-                # for img_file in img_files:
-                model.predict(
-                    list(img_files),
-                    imgsz=640,
-                    data='polyp491.yaml',
-                    max_det=1,
-                    # conf=0.01,
-                    single_cls=True,
-                    save=True,
-                    save_txt=True,
-                    save_conf=True,
-                    save_crop=True,
-                )
-                self.crop_images('images', sub_dir=str(weight.stem))
-                self.crop_images('masks', sub_dir=str(weight.stem))
+        img_files = root_path.glob('*.png')
+        for weight in tqdm(list(train_weight_epochs)):
+            model = YOLO(str(weight))
+            model.predict(
+                list(img_files),
+                imgsz=640,
+                data='polyp491.yaml',
+                max_det=1,
+                # conf=0.01,
+                single_cls=True,
+                save=True,
+                save_txt=True,
+                save_conf=True,
+                save_crop=True,
+            )
+            self.crop_images('images', sub_dir=str(weight.stem))
+            self.crop_images('masks', sub_dir=str(weight.stem))
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -174,9 +169,9 @@ class Predictor:
                 crop_img = cv2.inRange(crop_img, lower, upper)
                 crop_img = cv2.bitwise_not(crop_img)
 
-            if self.mode == 'train':
+            if self.mode in ['train', 'val']:
                 cv2.imwrite(
-                    f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}/{str(Path(img_path).name)}', crop_img)
+                    f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}/{str(Path(img_path).name)}', crop_img)
             else:
                 cv2.imwrite(
                     f'./datasets/{self.output_dir}/{img_type}/{Path(img_path).name}', crop_img)
@@ -213,6 +208,8 @@ class Predictor:
             gt_path = self.dataset_root / f'all/{img_type}/TestDataset'
         elif self.mode == 'train':
             gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_TrainDataset'
+        elif self.mode == 'val':
+            gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_ValDataset'
         else:
             raise ValueError('Invalid mode')
 
@@ -223,11 +220,13 @@ class Predictor:
             # create directories
             os.makedirs(f'./datasets/{self.output_dir}/{img_type}', exist_ok=True)
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
-        else:
+        elif self.mode in ['train', 'val']:
             self._delete_existing_files(
-                Path(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}'),
+                Path(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}'),
                 force=True)
-            os.makedirs(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}')
+            os.makedirs(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}')
+        else:
+            raise ValueError('Invalid mode')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
@@ -251,8 +250,8 @@ class Predictor:
         for gt_file in gt_path_list:
             img = cv2.imread(str(gt_file))
             img = cv2.resize(img, (352, 352))
-            if self.mode == 'train':
-                cv2.imwrite(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}/{gt_file.name}', img)
+            if self.mode in ['train', 'val']:
+                cv2.imwrite(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}/{gt_file.name}', img)
             else:
                 cv2.imwrite(f'./datasets/{self.output_dir}/{img_type}/{gt_file.name}', img)
 
@@ -265,6 +264,12 @@ if __name__ == '__main__':
         yolo_runs_root='./ultralytics/runs/detect/',
         verbose=False,
     )
-
     predictor.predict_yolo_forSegTrain()
 
+    predictor = Predictor(
+        mode='val',
+        dataset_root='./datasets/dataset_v0/',
+        yolo_runs_root='./ultralytics/runs/detect/',
+        verbose=False,
+    )
+    predictor.predict_yolo_forSegTrain()
