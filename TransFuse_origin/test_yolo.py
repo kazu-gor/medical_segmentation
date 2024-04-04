@@ -172,16 +172,20 @@ class Predictor:
                 lower = np.array([0, 0, 0], dtype="uint8")
                 upper = np.array([255, 50, 255], dtype="uint8")
                 crop_img = cv2.inRange(crop_img, lower, upper)
-
                 crop_img = cv2.bitwise_not(crop_img)
 
-            cv2.imwrite(
-                f'./datasets/{self.output_dir}/{img_type}/{Path(img_path).name}', crop_img)
+            if self.mode == 'train':
+                cv2.imwrite(
+                    f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}/{str(Path(img_path).name)}', crop_img)
+            else:
+                cv2.imwrite(
+                    f'./datasets/{self.output_dir}/{img_type}/{Path(img_path).name}', crop_img)
 
             # draw bounding box
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.imwrite(
-                f'./datasets/{self.output_dir}/plottings_{img_type}/{Path(img_path).name}', img)
+            if self.mode != 'train':
+                cv2.imwrite(
+                    f'./datasets/{self.output_dir}/plottings_{img_type}/{Path(img_path).name}', img)
 
     def _delete_existing_files(self, img_path, force=False):
         if isinstance(img_path, pathlib.PosixPath):
@@ -201,6 +205,7 @@ class Predictor:
     def crop_images(self, img_type, output_dir='preprocessing', sub_dir='.'):
         pred_path = self.yolo_runs_root / f"{self._get_latest_predict_dir()}/labels"
         self.output_dir = output_dir
+        self.sub_dir = sub_dir
 
         if self.mode == 'sekkai':
             gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_TestDataset'
@@ -220,15 +225,9 @@ class Predictor:
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
         else:
             self._delete_existing_files(
-                Path(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}'),
+                Path(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}'),
                 force=True)
-            os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
-            # try:
-                # os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
-            # except FileExistsError:
-            #     # if the directory already exists, increment the epoch
-            #     # self.train_epoch += 1
-            #     os.makedirs(f'./datasets/{self.output_dir}/train/{sub_dir}/{img_type}')
+            os.makedirs(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}')
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
@@ -252,7 +251,10 @@ class Predictor:
         for gt_file in gt_path_list:
             img = cv2.imread(str(gt_file))
             img = cv2.resize(img, (352, 352))
-            cv2.imwrite(f'./datasets/{self.output_dir}/{img_type}/{gt_file.name}', img)
+            if self.mode == 'train':
+                cv2.imwrite(f'./datasets/{self.output_dir}/train/{self.sub_dir}/{img_type}/{gt_file.name}', img)
+            else:
+                cv2.imwrite(f'./datasets/{self.output_dir}/{img_type}/{gt_file.name}', img)
 
 
 if __name__ == '__main__':
