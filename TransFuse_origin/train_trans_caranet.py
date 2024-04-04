@@ -2,6 +2,7 @@ import argparse
 import os
 from datetime import datetime
 from pathlib import Path
+from re import A
 
 import matplotlib.pyplot as plt
 import torch
@@ -154,13 +155,13 @@ if __name__ == '__main__':
     root_path = Path('./datasets/preprocessing')
     for epoch in range(1, opt.epoch):
         train_loader = get_loader(
-            root_path / 'train' / f'epoch{epoch}' / 'images',
-            root_path / 'train' / f'epoch{epoch}' / 'masks',
+            root_path / f'train/epoch{epoch}/images',
+            root_path / f'train/epoch{epoch}/masks',
             batchsize=opt.batchsize, trainsize=opt.trainsize
         )
         val_loader = get_loader(
-            root_path / 'val' / f'epoch{epoch}' / 'images',
-            root_path / 'val' / f'epoch{epoch}' / 'masks',
+            root_path / f'val/epoch{epoch}/images',
+            root_path / f'val/epoch{epoch}/masks',
             batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
         total_step = len(train_loader)
         dataloaders_dict = {"train": train_loader, "val": val_loader}
