@@ -256,13 +256,13 @@ class Predictor:
 
 if __name__ == '__main__':
     
-    predictor = Predictor(
-        mode='train',
-        dataset_root='./datasets/dataset_v0/',
-        yolo_runs_root='./ultralytics/runs/detect/',
-        verbose=False,
-    )
-    predictor.predict_yolo_forSegTrain()
+    # predictor = Predictor(
+    #     mode='train',
+    #     dataset_root='./datasets/dataset_v0/',
+    #     yolo_runs_root='./ultralytics/runs/detect/',
+    #     verbose=False,
+    # )
+    # predictor.predict_yolo_forSegTrain()
 
     predictor = Predictor(
         mode='val',
