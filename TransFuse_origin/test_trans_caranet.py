@@ -12,7 +12,6 @@ from utils.dataloader import test_dataset
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
 
-
 def mean_iou_np(y_true, y_pred, **kwargs):
     """
     compute mean iou for binary segmentation map via numpy
@@ -77,6 +76,7 @@ def imwrite(filename, img, params=None):
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--normalization', type=bool, default=False)
+parser.add_argument('--epoch', type=int, default=69, help='epoch number')
 
 opt = parser.parse_args()
 
@@ -86,7 +86,7 @@ save_path = './results/preprocessing/'
 
 model = Trans_CaraNet_L()
 
-model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-69.pth'))
+model.load_state_dict(torch.load(f'./snapshots/Transfuse_S/Transfuse-{opt.epoch}.pth'))
 
 model.cuda()
 model.eval()

@@ -217,8 +217,8 @@ class Predictor:
             os.makedirs(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}')
         else:
             # delete existing files
-            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/{img_type}'))
-            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/plottings_{img_type}'))
+            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/{img_type}'), force=True)
+            self._delete_existing_files(Path(f'./datasets/{self.output_dir}/plottings_{img_type}'), force=True)
             # create directories
             os.makedirs(f'./datasets/{self.output_dir}/{img_type}', exist_ok=True)
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
@@ -253,26 +253,26 @@ class Predictor:
 
 if __name__ == '__main__':
     
-    # predictor = Predictor(
-    #     mode='train',
-    #     dataset_root='./datasets/dataset_v0/',
-    #     yolo_runs_root='./ultralytics/runs/detect/',
-    #     verbose=False,
-    # )
-    # predictor.predict_yolo_forSegTrain()
-
-    # predictor = Predictor(
-    #     mode='val',
-    #     dataset_root='./datasets/dataset_v0/',
-    #     yolo_runs_root='./ultralytics/runs/detect/',
-    #     verbose=False,
-    # )
-    # predictor.predict_yolo_forSegTrain()
+    predictor = Predictor(
+        mode='train',
+        dataset_root='./datasets/dataset_v1/',
+        yolo_runs_root='./ultralytics/runs/detect/',
+        verbose=False,
+    )
+    predictor.predict_yolo_forSegTrain()
 
     predictor = Predictor(
-        weights='./ultralytics/runs/detect/polyp491_84/weights/best.pt',
+        mode='val',
+        dataset_root='./datasets/dataset_v1/',
+        yolo_runs_root='./ultralytics/runs/detect/',
+        verbose=False,
+    )
+    predictor.predict_yolo_forSegTrain()
+
+    predictor = Predictor(
+        weights='./ultralytics/runs/detect/polyp491_85/weights/best.pt',
         mode='sekkai',
-        dataset_root='./datasets/dataset_v0/',
+        dataset_root='./datasets/dataset_v1/',
         yolo_runs_root='./ultralytics/runs/detect/',
         verbose=False,
     )
