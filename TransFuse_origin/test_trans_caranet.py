@@ -41,8 +41,8 @@ def mean_dice_np(y_true, y_pred, **kwargs):
 
 
 k = 5
-# thresh = 160
-thresh = 128
+thresh = 160
+# thresh = 128
 # lower_size = 300
 lower_size = 107
 upper_size = 352 * 352 + 1
@@ -86,7 +86,7 @@ save_path = './results/preprocessing/'
 
 model = Trans_CaraNet_L()
 
-model.load_state_dict(torch.load('./snapshots/preprocessing/Transfuse-99.pth'))
+model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-69.pth'))
 
 model.cuda()
 model.eval()

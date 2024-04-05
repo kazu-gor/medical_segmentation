@@ -270,7 +270,7 @@ if __name__ == '__main__':
     # predictor.predict_yolo_forSegTrain()
 
     predictor = Predictor(
-        weights='./ultralytics/runs/detect/polyp491_84',
+        weights='./ultralytics/runs/detect/polyp491_84/weights/best.pt',
         mode='sekkai',
         dataset_root='./datasets/dataset_v0/',
         yolo_runs_root='./ultralytics/runs/detect/',
