@@ -103,7 +103,7 @@ class Predictor:
         elif self.mode == 'all':
             root_path = self.dataset_root / 'all/images/TestDataset'
         elif self.mode == 'train':
-            root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset',
+            root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset'
         elif self.mode == 'val':
             root_path = self.dataset_root / 'sekkai/images/sekkai_ValDataset'
         else:
