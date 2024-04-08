@@ -1,13 +1,14 @@
+TRAIN_WEIGHT="polyp491_85"
+
 echo ">>> yolo.sh"
-
 echo ">>> git pull"
 git pull
 
-cd ./ultralytics/
+cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/
 echo ">>> git pull"
 git pull
 
-cd ../
+cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
 echo ">>> python3 ./train_yolo.py"
 python3 ./train_yolo.py | tee ./logs/train_yolo.log
@@ -16,6 +17,8 @@ python3 ../../tools/slack_bot.py --text "`cat ./logs/train_yolo.log`"
 echo ">>> python3 ./test_yolo.py"
 python3 ./test_yolo.py | tee ./logs/test_yolo.log
 python3 ../../tools/slack_bot.py --text "`cat ./logs/test_yolo.log`"
+
+mv ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/last.pt ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/epoch100.pt
 
 echo ">>> python3 ./train_trans_caranet.py"
 python3 ./train_trans_caranet.py | tee ./logs/train_trans_caranet.log
