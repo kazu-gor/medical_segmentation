@@ -4,6 +4,7 @@ import pathlib
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
+from PIL import Image, ImageFilter
 
 from ultralytics import YOLO
 
@@ -63,7 +64,7 @@ class Predictor:
         else:
             return None
 
-    def predict_yolo_forPolyp(self):
+    def predict_yolo_forTest(self):
 
         if self.weights is None:
             raise ValueError('Please provide the weight path')
@@ -83,7 +84,7 @@ class Predictor:
 
         model.predict(
             img_files,
-            imgsz=640,
+            # imgsz=640,
             data='polyp491.yaml',
             max_det=1,
             # conf=0.01,
@@ -161,10 +162,17 @@ class Predictor:
                 print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
 
             if img_type == 'masks':
-                lower = np.array([0, 0, 0], dtype="uint8")
-                upper = np.array([255, 50, 255], dtype="uint8")
-                crop_img = cv2.inRange(crop_img, lower, upper)
-                crop_img = cv2.bitwise_not(crop_img)
+                # lower = np.array([0, 0, 0], dtype="uint8")
+                # upper = np.array([255, 50, 255], dtype="uint8")
+                # crop_img = cv2.inRange(crop_img, lower, upper)
+                # crop_img = cv2.bitwise_not(crop_img)
+                    
+                gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+                blurred = cv2.GaussianBlur(gray, (15, 15), 0)
+                _, thresh = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY)
+                contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                crop_img = np.zeros_like(crop_img)
+                cv2.drawContours(crop_img, contours, -1, (255, 255, 255), -1)
 
             if self.mode in ['train', 'val']:
                 cv2.imwrite(
@@ -252,28 +260,28 @@ class Predictor:
 
 
 if __name__ == '__main__':
-    
-    predictor = Predictor(
-        mode='train',
-        dataset_root='./datasets/dataset_v1/',
-        yolo_runs_root='./ultralytics/runs/detect/',
-        verbose=False,
-    )
-    predictor.predict_yolo_forSegTrain()
+
+    # predictor = Predictor(
+    #     mode='train',
+    #     dataset_root='./datasets/dataset_v1/',
+    #     yolo_runs_root='./ultralytics/runs/detect/',
+    #     verbose=False,
+    # )
+    # predictor.predict_yolo_forSegTrain()
+
+    # predictor = Predictor(
+    #     mode='val',
+    #     dataset_root='./datasets/dataset_v1/',
+    #     yolo_runs_root='./ultralytics/runs/detect/',
+    #     verbose=False,
+    # )
+    # predictor.predict_yolo_forSegTrain()
 
     predictor = Predictor(
-        mode='val',
-        dataset_root='./datasets/dataset_v1/',
-        yolo_runs_root='./ultralytics/runs/detect/',
-        verbose=False,
-    )
-    predictor.predict_yolo_forSegTrain()
-
-    predictor = Predictor(
-        weights='./ultralytics/runs/detect/polyp491_85/weights/best.pt',
+        weights='./ultralytics/runs/detect/polyp491_85/weights/epoch100.pt',
         mode='sekkai',
         dataset_root='./datasets/dataset_v1/',
         yolo_runs_root='./ultralytics/runs/detect/',
         verbose=False,
     )
-    predictor.predict_yolo_forPolyp()
+    predictor.predict_yolo_forTest()
