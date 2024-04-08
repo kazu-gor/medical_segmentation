@@ -281,7 +281,7 @@ if __name__ == '__main__':
 
     if args.mode == 'sekkai':
         predictor = Predictor(
-            weights='./ultralytics/runs/detect/polyp491_85/weights/epoch100.pt',
+            weights='./ultralytics/runs/detect/polyp491_85/weights/best.pt',
             mode='sekkai',
             dataset_root='./datasets/dataset_v1/',
             yolo_runs_root='./ultralytics/runs/detect/',
