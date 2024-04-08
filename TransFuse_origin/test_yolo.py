@@ -84,7 +84,7 @@ class Predictor:
 
         model.predict(
             img_files,
-            imgsz=640,
+            # imgsz=640,
             data='polyp491.yaml',
             max_det=1,
             # conf=0.01,
@@ -121,7 +121,7 @@ class Predictor:
             model = YOLO(str(weight))
             model.predict(
                 img_files,
-                imgsz=640,
+                # imgsz=640,
                 data='polyp491.yaml',
                 max_det=1,
                 # conf=0.01,
