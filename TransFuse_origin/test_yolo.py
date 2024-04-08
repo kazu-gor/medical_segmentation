@@ -157,11 +157,13 @@ class Predictor:
             x2, y2 = x + w // 2, y + h // 2
             crop_img = img[y1:y2, x1:x2]
 
-            while crop_img.shape[0] < 32:
-                x1, x2 = x1 - (32 - crop_img.shape[0]) // 2, x2 + (32 - crop_img.shape[0]) // 2
-                crop_img = img[y1:y2, x1:x2]
             while crop_img.shape[1] < 32:
-                y1, y2 = y1 - (32 - crop_img.shape[0]) // 2, y2 + (32 - crop_img.shape[0]) // 2
+                x1 = x1 - (33 - crop_img.shape[1]) // 2
+                x2 = x2 + (33 - crop_img.shape[1]) // 2
+                crop_img = img[y1:y2, x1:x2]
+            while crop_img.shape[0] < 32:
+                y1 = y1 - (33 - crop_img.shape[0]) // 2
+                y2 = y2 + (33 - crop_img.shape[0]) // 2
                 crop_img = img[y1:y2, x1:x2]
 
             crop_img = cv2.resize(crop_img, (352, 352))
@@ -170,17 +172,17 @@ class Predictor:
                 print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
 
             if img_type == 'masks':
-                # lower = np.array([0, 0, 0], dtype="uint8")
-                # upper = np.array([255, 50, 255], dtype="uint8")
-                # crop_img = cv2.inRange(crop_img, lower, upper)
-                # crop_img = cv2.bitwise_not(crop_img)
-                    
-                gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
-                blurred = cv2.GaussianBlur(gray, (15, 15), 0)
-                _, thresh = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY)
-                contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                crop_img = np.zeros_like(crop_img)
-                cv2.drawContours(crop_img, contours, -1, (255, 255, 255), -1)
+                lower = np.array([0, 0, 0], dtype="uint8")
+                upper = np.array([255, 50, 255], dtype="uint8")
+                crop_img = cv2.inRange(crop_img, lower, upper)
+                crop_img = cv2.bitwise_not(crop_img)
+
+                # gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+                # blurred = cv2.GaussianBlur(gray, (15, 15), 0)
+                # _, thresh = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY)
+                # contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                # crop_img = np.zeros_like(crop_img)
+                # cv2.drawContours(crop_img, contours, -1, (255, 255, 255), -1)
 
             if self.mode in ['train', 'val']:
                 cv2.imwrite(
