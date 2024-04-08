@@ -76,7 +76,7 @@ def imwrite(filename, img, params=None):
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--normalization', type=bool, default=False)
-parser.add_argument('--epoch', type=int, default=69, help='epoch number')
+parser.add_argument('--epoch', type=str, default='69', help='epoch number')
 
 opt = parser.parse_args()
 
@@ -138,6 +138,7 @@ for i in range(test_loader.size):
     imageio.imsave(save_path + name, img_as_ubyte(res))
 
 time_finish = time.time()
+print(f'epoch: {opt.epoch}')
 print('timer: {:.4f} sec.'.format((time_finish - time_start) / no))
 print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
       format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
