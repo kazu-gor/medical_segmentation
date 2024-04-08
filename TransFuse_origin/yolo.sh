@@ -9,12 +9,12 @@ git pull
 
 cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
-echo ">>> python3 ./train_yolo.py"
-python3 ./train_yolo.py | tee ./logs/train_yolo.log
-python3 ../../tools/slack_bot.py --text "`cat ./logs/train_yolo.log`"
+# echo ">>> python3 ./train_yolo.py"
+# python3 ./train_yolo.py | tee ./logs/train_yolo.log
+# python3 ../../tools/slack_bot.py --text "`cat ./logs/train_yolo.log`"
 
 echo ">>> python3 ./test_yolo.py"
-python3 ./test_yolo.py --train | tee ./logs/test_yolo.log
+python3 ./test_yolo.py --mode train | tee ./logs/test_yolo.log
 python3 ../../tools/slack_bot.py --text "`cat ./logs/test_yolo.log`"
 
 mv ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/last.pt ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/epoch100.pt
@@ -24,7 +24,7 @@ python3 ./train_trans_caranet.py --train_save $TRAIN_WEIGHT | tee ./logs/train_t
 python3 ../../tools/slack_bot.py --text "`cat ./logs/train_trans_caranet.log`"
 
 echo ">>> python3 ./test_yolo.py"
-python3 ./test_yolo.py --sekkai | tee ./logs/test_yolo.log
+python3 ./test_yolo.py --mode sekkai | tee ./logs/test_yolo.log
 python3 ../../tools/slack_bot.py --text "`cat ./logs/test_yolo.log`"
 
 echo ">>> python3 ./test_trans_caranet.py --epoch best"
