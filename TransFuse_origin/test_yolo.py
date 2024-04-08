@@ -1,6 +1,7 @@
 import os
 import cv2
 import pathlib
+import argparse
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
@@ -268,30 +269,38 @@ class Predictor:
             else:
                 cv2.imwrite(f'./datasets/{self.output_dir}/{img_type}/{gt_file.name}', img)
 
+def arg_parser():
+    parser = argparse.ArgumentParser(description='Predict YOLO')
+    parser.add_argument('--mode', type=str, default='sekkai', help='Mode')
+    return parser.parse_args()
+
 
 if __name__ == '__main__':
 
-    # predictor = Predictor(
-    #     mode='train',
-    #     dataset_root='./datasets/dataset_v1/',
-    #     yolo_runs_root='./ultralytics/runs/detect/',
-    #     verbose=False,
-    # )
-    # predictor.predict_yolo_forSegTrain()
+    args = arg_parser()
 
-    # predictor = Predictor(
-    #     mode='val',
-    #     dataset_root='./datasets/dataset_v1/',
-    #     yolo_runs_root='./ultralytics/runs/detect/',
-    #     verbose=False,
-    # )
-    # predictor.predict_yolo_forSegTrain()
+    if args.mode == 'sekkai':
+        predictor = Predictor(
+            weights='./ultralytics/runs/detect/polyp491_85/weights/epoch100.pt',
+            mode='sekkai',
+            dataset_root='./datasets/dataset_v1/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forTest()
 
-    predictor = Predictor(
-        weights='./ultralytics/runs/detect/polyp491_85/weights/epoch100.pt',
-        mode='sekkai',
-        dataset_root='./datasets/dataset_v1/',
-        yolo_runs_root='./ultralytics/runs/detect/',
-        verbose=False,
-    )
-    predictor.predict_yolo_forTest()
+    elif args.mode == 'train':
+        predictor = Predictor(
+            mode='train',
+            dataset_root='./datasets/dataset_v1/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forSegTrain()
+        predictor = Predictor(
+            mode='val',
+            dataset_root='./datasets/dataset_v1/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forSegTrain()

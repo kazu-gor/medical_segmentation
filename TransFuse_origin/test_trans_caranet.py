@@ -39,14 +39,6 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     return dice
 
 
-k = 5
-thresh = 160
-# thresh = 128
-# lower_size = 300
-lower_size = 107
-upper_size = 352 * 352 + 1
-
-
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
     try:
         n = np.fromfile(filename, dtype)
@@ -77,6 +69,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 parser.add_argument('--normalization', type=bool, default=False)
 parser.add_argument('--epoch', type=str, default='69', help='epoch number')
+parser.add_argument('--train_weight', type=str, default='Transfuse_S', help='load model weight')
 
 opt = parser.parse_args()
 
@@ -86,7 +79,7 @@ save_path = './results/preprocessing/'
 
 model = Trans_CaraNet_L()
 
-model.load_state_dict(torch.load(f'./snapshots/Transfuse_S/Transfuse-{opt.epoch}.pth'))
+model.load_state_dict(torch.load(f'./snapshots/{opt.train_weight}/Transfuse-{opt.epoch}.pth'))
 
 model.cuda()
 model.eval()
