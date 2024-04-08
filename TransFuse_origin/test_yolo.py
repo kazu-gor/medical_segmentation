@@ -158,10 +158,10 @@ class Predictor:
             crop_img = img[y1:y2, x1:x2]
 
             while crop_img.shape[0] < 32:
-                x1, x2 = x1 - (32 - crop_img.shape[0]) // 2, x2 + (32 - crop_img.shape[0]) // 2
+                y1, y2 = y1 - (32 - crop_img.shape[1]) // 2, y2 + (32 - crop_img.shape[1]) // 2
                 crop_img = img[y1:y2, x1:x2]
             while crop_img.shape[1] < 32:
-                y1, y2 = y1 - (32 - crop_img.shape[1]) // 2, y2 + (32 - crop_img.shape[1]) // 2
+                x1, x2 = x1 - (32 - crop_img.shape[0]) // 2, x2 + (32 - crop_img.shape[0]) // 2
                 crop_img = img[y1:y2, x1:x2]
             print(f"{crop_img.shape = }")
 
