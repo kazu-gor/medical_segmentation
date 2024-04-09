@@ -85,7 +85,7 @@ class Predictor:
 
         model.predict(
             img_files,
-            # imgsz=640,
+            imgsz=1024,
             data='polyp491.yaml',
             max_det=1,
             # conf=0.01,
@@ -122,7 +122,7 @@ class Predictor:
             model = YOLO(str(weight))
             model.predict(
                 img_files,
-                # imgsz=640,
+                imgsz=1024,
                 data='polyp491.yaml',
                 max_det=1,
                 # conf=0.01,
@@ -158,14 +158,14 @@ class Predictor:
             x2, y2 = x + w // 2, y + h // 2
             crop_img = img[y1:y2, x1:x2]
 
-            while crop_img.shape[1] < 32:
-                x1 = x1 - (33 - crop_img.shape[1]) // 2
-                x2 = x2 + (33 - crop_img.shape[1]) // 2
-                crop_img = img[y1:y2, x1:x2]
-            while crop_img.shape[0] < 32:
-                y1 = y1 - (33 - crop_img.shape[0]) // 2
-                y2 = y2 + (33 - crop_img.shape[0]) // 2
-                crop_img = img[y1:y2, x1:x2]
+            # while crop_img.shape[1] < 32:
+            #     x1 = x1 - (33 - crop_img.shape[1]) // 2
+            #     x2 = x2 + (33 - crop_img.shape[1]) // 2
+            #     crop_img = img[y1:y2, x1:x2]
+            # while crop_img.shape[0] < 32:
+            #     y1 = y1 - (33 - crop_img.shape[0]) // 2
+            #     y2 = y2 + (33 - crop_img.shape[0]) // 2
+            #     crop_img = img[y1:y2, x1:x2]
 
             crop_img = cv2.resize(crop_img, (352, 352))
 
@@ -261,8 +261,9 @@ class Predictor:
             f"{num_img = }, {len(gt_path_list) = }, {gt_path_list_len = }"
 
         # copy the remaining images
+        preprocessed_dir = Path(f'./datasets/legacy/{img_type}')
         for gt_file in gt_path_list:
-            img = cv2.imread(str(gt_file))
+            img = cv2.imread(str(preprocessed_dir / gt_file.name))
             img = cv2.resize(img, (352, 352))
             if self.mode in ['train', 'val']:
                 cv2.imwrite(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{img_type}/{gt_file.name}', img)
@@ -272,6 +273,7 @@ class Predictor:
 def arg_parser():
     parser = argparse.ArgumentParser(description='Predict YOLO')
     parser.add_argument('--mode', type=str, default='sekkai', help='Mode')
+    parser.add_argument('--weight', type=str)
     return parser.parse_args()
 
 
@@ -281,7 +283,7 @@ if __name__ == '__main__':
 
     if args.mode == 'sekkai':
         predictor = Predictor(
-            weights='./ultralytics/runs/detect/polyp491_85/weights/best.pt',
+            weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='sekkai',
             dataset_root='./datasets/dataset_v1/',
             yolo_runs_root='./ultralytics/runs/detect/',
