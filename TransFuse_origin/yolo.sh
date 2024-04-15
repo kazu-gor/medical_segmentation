@@ -1,17 +1,43 @@
-TRAIN_WEIGHT="polyp491_88"
-SAVE_DIR="./logs/preprocess"
+# =====================================================================
+# Setting env
+# =====================================================================
 
-# If the SAVE_DIR directory exists, create a directory with 1 added.
-if [ -d $SAVE_DIR ]; then
-    i=1
-    while [ -d $SAVE_DIR"_"$i ]
-    do
-        i=$((i+1))
-    done
-    SAVE_DIR=$SAVE_DIR"_"$i
-else
-    mkdir $SAVE_DIR
-fi
+TRAIN_WEIGHT="polyp491_89"
+SAVE_DIR="./logs/preprocess"
+LATEST_WEIGHT_DIR="./ultralytics/runs/detect/polyp491"
+
+# =====================================================================
+# Create Dir part
+# =====================================================================
+
+# if [ -d $SAVE_DIR ]; then
+#     i=1
+#     while [ -d $SAVE_DIR"_"$i ]
+#     do
+#         i=$((i+1))
+#     done
+#     SAVE_DIR=$SAVE_DIR"_"$i
+# else
+#     mkdir $SAVE_DIR
+# fi
+
+# if [ -d $LATEST_WEIGHT_DIR ]; then
+#     i=1
+#     while [ -d $LATEST_WEIGHT_DIR"_"$i ]
+#     do
+#         i=$((i+1))
+#     done
+#     LATEST_WEIGHT_DIR=$LATEST_WEIGHT_DIR"_"$i
+# else
+#     mkdir $LATEST_WEIGHT_DIR
+# fi
+
+# echo "save dir: $SAVE_DIR"
+# echo "LATEST_WEIGHT_DIR: $LATEST_WEIGHT_DIR"
+
+# =====================================================================
+# Git Update part
+# =====================================================================
 
 echo ">>> git pull"
 git pull
@@ -22,23 +48,28 @@ git pull
 
 cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
-# ---------------------- training part ----------------------
+# =====================================================================
+# Training part
+# =====================================================================
 
-echo ">>> python3 ./train_yolo.py"
-python3 ./train_yolo.py | tee ./logs/train_yolo.log
-python3 ../../tools/slack_bot.py --text "YOLO Training is done"
+# echo ">>> python3 ./train_yolo.py"
+# python3 ./train_yolo.py | tee ./logs/train_yolo.log
+# python3 ../../tools/slack_bot.py --text "YOLO Training is done"
 
 echo ">>> python3 ./test_yolo.py"
 python3 ./test_yolo.py --mode train | tee ./logs/test_yolo.log
 python3 ../../tools/slack_bot.py --text "YOLO Test is done"
 
-mv ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/last.pt ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/epoch100.pt
+echo ">>> Rename file from last.pt to epoch100.pt"
+mv ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/last.pt ./ultralytics/runs/detect/$TRAIN_WEIGHT/weights/epoch100.pt || echo "Skipped file renaming process"
 
 echo ">>> python3 ./train_trans_caranet.py"
 python3 ./train_trans_caranet.py --train_save $TRAIN_WEIGHT | tee ./logs/train_trans_caranet.log
 python3 ../../tools/slack_bot.py --text "TransCaraNet Training is done"
 
-# ---------------------- test part ----------------------
+# =====================================================================
+# Test part
+# =====================================================================
 
 echo ">>> python3 ./test_yolo.py"
 python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/test_yolo.log
