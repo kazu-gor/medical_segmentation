@@ -287,23 +287,22 @@ if __name__ == '__main__':
         predictor = Predictor(
             weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='sekkai',
-            dataset_root='./datasets/dataset_v1/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forTest()
-
     elif args.mode == 'train':
         predictor = Predictor(
             mode='train',
-            dataset_root='./datasets/dataset_v1/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val',
-            dataset_root='./datasets/dataset_v1/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
