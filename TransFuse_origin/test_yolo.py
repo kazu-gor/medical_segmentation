@@ -88,7 +88,8 @@ class Predictor:
             imgsz=1024,
             data='polyp491.yaml',
             max_det=1,
-            conf=0.01,
+            # conf=0.01,
+            # nms=True,
             single_cls=True,
             save=True,
             save_txt=True,
@@ -125,7 +126,8 @@ class Predictor:
                 imgsz=1024,
                 data='polyp491.yaml',
                 max_det=1,
-                conf=0.01,
+                # conf=0.01,
+                # nms=True,
                 single_cls=True,
                 save=True,
                 save_txt=True,
@@ -158,14 +160,14 @@ class Predictor:
             x2, y2 = x + w // 2, y + h // 2
             crop_img = img[y1:y2, x1:x2]
 
-            while crop_img.shape[1] < 32:
-                x1 = x1 - (33 - crop_img.shape[1]) // 2
-                x2 = x2 + (33 - crop_img.shape[1]) // 2
-                crop_img = img[y1:y2, x1:x2]
-            while crop_img.shape[0] < 32:
-                y1 = y1 - (33 - crop_img.shape[0]) // 2
-                y2 = y2 + (33 - crop_img.shape[0]) // 2
-                crop_img = img[y1:y2, x1:x2]
+            # while crop_img.shape[1] < 32:
+            #     x1 = x1 - (33 - crop_img.shape[1]) // 2
+            #     x2 = x2 + (33 - crop_img.shape[1]) // 2
+            #     crop_img = img[y1:y2, x1:x2]
+            # while crop_img.shape[0] < 32:
+            #     y1 = y1 - (33 - crop_img.shape[0]) // 2
+            #     y2 = y2 + (33 - crop_img.shape[0]) // 2
+            #     crop_img = img[y1:y2, x1:x2]
 
             crop_img = cv2.resize(crop_img, (352, 352))
 
