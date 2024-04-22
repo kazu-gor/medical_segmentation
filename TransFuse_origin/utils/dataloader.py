@@ -227,6 +227,10 @@ class PolypDataset(data.Dataset):
             if img.size == gt.size:
                 images.append(img_path)
                 gts.append(gt_path)
+            # If gt does not contain any labels (total value is 0), do not include it in the data set
+            if np.sum(np.array(gt)) > 0:
+                images.append(img_path)
+                gts.append(gt_path)
         self.images = images
         self.gts = gts
 
