@@ -227,11 +227,8 @@ class PolypDataset(data.Dataset):
         for img_path, gt_path in zip(self.images, self.gts):
             img = Image.open(img_path)
             gt = Image.open(gt_path)
-            if img.size == gt.size:
-                images.append(img_path)
-                gts.append(gt_path)
             # If gt does not contain any labels (total value is 0), do not include it in the data set
-            if np.sum(np.array(gt)) > 0 and self.phase == 'train':
+            if img.size == gt.size and np.sum(np.array(gt)) > 0 and self.phase == 'train':
                 images.append(img_path)
                 gts.append(gt_path)
         self.images = images
