@@ -2,7 +2,6 @@ import argparse
 import os
 from datetime import datetime
 from pathlib import Path
-from re import A
 
 import matplotlib.pyplot as plt
 import torch
@@ -11,9 +10,7 @@ from torch.autograd import Variable
 
 from lib.Trans_CaraNet import Trans_CaraNet_L
 from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import numpy as np
-from adabelief_pytorch import AdaBelief
+from utils.utils import adjust_lr, AvgMeter
 
 
 def structure_loss(pred, mask):
@@ -109,20 +106,19 @@ if __name__ == '__main__':
     parser.add_argument('--epoch', type=int, default=100, help='epoch number')
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
     parser.add_argument('--batchsize', type=int, default=16, help='training batch size')
-    # parser.add_argument('--trainsize', type=int, default=224, help='training dataset size')
     parser.add_argument('--trainsize', type=int, default=352, help='training dataset size')
-    # parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
     parser.add_argument('--grad_norm', type=float, default=2.0, help='gradient clipping norm')
     parser.add_argument('--decay_rate', type=float, default=0.1, help='decay rate of learning rate')
     parser.add_argument('--decay_epoch', type=int, default=50, help='every n epochs decay learning rate')
-    # parser.add_argument('--train_path', type=str, default='./dataset/TrainDataset', help='path to train dataset')
-    # parser.add_argument('--val_path', type=str, default='./dataset/ValDataset', help='path to val dataset')
     parser.add_argument('--train_path', type=str, default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     parser.add_argument('--val_path', type=str, default='./dataset/sekkai_ValDataset', help='path to val dataset')
     parser.add_argument('--train_save', type=str, default='Transfuse_S')
     parser.add_argument('--beta1', type=float, default=0.5, help='beta1 of adam optimizer')
     parser.add_argument('--beta2', type=float, default=0.999, help='beta2 of adam optimizer')
     opt = parser.parse_args()
+
+    # print all the parameters
+    print(opt)
 
     # ---- build models ----
     # torch.cuda.set_device(0)  # set your gpu device
@@ -152,20 +148,33 @@ if __name__ == '__main__':
 
     root_path = Path('./datasets/preprocessing')
     for epoch in range(1, opt.epoch):
+        # train_loader = get_loader(
+        #     root_path / f'train/epoch{epoch}/images',
+        #     root_path / f'train/epoch{epoch}/masks',
+        #     batchsize=opt.batchsize, trainsize=opt.trainsize
+        # )
+        # val_loader = get_loader(
+        #     root_path / f'val/epoch{epoch}/images',
+        #     root_path / f'val/epoch{epoch}/masks',
+        #     batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+
         train_loader = get_loader(
-            root_path / f'train/epoch{epoch}/images',
-            root_path / f'train/epoch{epoch}/masks',
+            root_path / 'train/best/images',
+            root_path / 'train/best/masks',
             batchsize=opt.batchsize, trainsize=opt.trainsize
         )
         val_loader = get_loader(
-            root_path / f'val/epoch{epoch}/images',
-            root_path / f'val/epoch{epoch}/masks',
+            root_path / 'val/best/images',
+            root_path / 'val/best/masks',
             batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+
         total_step = len(train_loader)
         dataloaders_dict = {"train": train_loader, "val": val_loader}
         print(f">>>>> [Epoch] \t{epoch}")
-        print(f">>>>> [Train path] \t{root_path / 'train' / f'epoch{epoch}' / 'images'}")
-        print(f">>>>> [Val path] \t{root_path / 'val' / f'epoch{epoch}' / 'images'}")
+        # print(f">>>>> [Train path] \t{root_path / 'train' / f'epoch{epoch}' / 'images'}")
+        # print(f">>>>> [Val path] \t{root_path / 'val' / f'epoch{epoch}' / 'images'}")
+        print(f">>>>> [Train path] \t{root_path / 'train' / 'best' / 'images'}")
+        print(f">>>>> [Val path] \t{root_path / 'val' / 'best' / 'images'}")
 
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
 
