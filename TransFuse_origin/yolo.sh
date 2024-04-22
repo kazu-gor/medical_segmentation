@@ -12,7 +12,7 @@ git pull
 cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
 
-for i in {98..102}
+for i in {99..103}
 do
     # =====================================================================
     # Setting env
