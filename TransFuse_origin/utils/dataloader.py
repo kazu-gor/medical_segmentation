@@ -52,14 +52,17 @@ class PolypDataset(data.Dataset):
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
+        self.phase = phase
+
+        print(f">>> Number of images: {len(self.images)}")
         self.filter_files()
+        print(f">>> Number of images after filtering: {len(self.images)}")
         self.size = len(self.images)
 
         self._alpha = 0.2
 
         self.transform = ImageTransform()
         self.transform2 = get_augmentation()
-        self.phase = phase
 
         # self.augmentations = [
         #     albu.Rotate(limit=[-10, 10], p=1.0),
@@ -228,7 +231,7 @@ class PolypDataset(data.Dataset):
                 images.append(img_path)
                 gts.append(gt_path)
             # If gt does not contain any labels (total value is 0), do not include it in the data set
-            if np.sum(np.array(gt)) > 0:
+            if np.sum(np.array(gt)) > 0 and self.phase == 'train':
                 images.append(img_path)
                 gts.append(gt_path)
         self.images = images
