@@ -21,10 +21,10 @@ class Predictor:
         self.weights = weights
         self.mode = mode
         self.verbose = verbose
-        
+
         self.dataset_root = Path(dataset_root)
         self.yolo_runs_root = Path(yolo_runs_root)
-        
+
         self.train_epoch = 1
 
     def _get_latest_train_weight_dir(self):
@@ -85,10 +85,10 @@ class Predictor:
 
         model.predict(
             img_files,
-            imgsz=1024,
+            imgsz=512,
             data='polyp491.yaml',
             max_det=1,
-            # conf=0.01,
+            # conf=0.20,
             # nms=True,
             single_cls=True,
             save=True,
@@ -100,7 +100,6 @@ class Predictor:
         self.crop_images('masks')
 
     def predict_yolo_forSegTrain(self):
-
         if self.mode == 'sekkai':
             root_path = self.dataset_root / 'sekkai/images/sekkai_TestDataset'
         elif self.mode == 'all':
@@ -109,21 +108,28 @@ class Predictor:
             root_path = self.dataset_root / 'sekkai/images/sekkai_TrainDataset'
         elif self.mode == 'val':
             root_path = self.dataset_root / 'sekkai/images/sekkai_ValDataset'
+        elif self.mode == 'train_mtl':
+            root_path = self.dataset_root / 'all/images/TrainDataset'
+        elif self.mode == 'val_mtl':
+            root_path = self.dataset_root / 'all/images/ValDataset'
         else:
             raise ValueError('Invalid mode')
 
         train_weight_dir = self._get_latest_train_weight_dir()
+        print(f">>> {train_weight_dir = }")
         if train_weight_dir is None:
             raise ValueError('There is no trained model.')
 
         train_weight_epochs = Path(self.yolo_runs_root / train_weight_dir / 'weights').glob('*')
         img_files = root_path.glob('*.png')
         img_files = [str(img_file) for img_file in img_files]
+
         for weight in tqdm(list(train_weight_epochs)):
             model = YOLO(str(weight))
             model.predict(
                 img_files,
-                imgsz=1024,
+                # imgsz=1024,
+                imgsz=512,
                 data='polyp491.yaml',
                 max_det=1,
                 # conf=0.01,
@@ -150,6 +156,7 @@ class Predictor:
         with open(label_path, 'r') as f:
             lines = f.readlines()
 
+        # SPACE = 32
         for line in lines:
             line = line.strip().split(' ')
             _, x, y, w, h, _ = line
@@ -160,13 +167,13 @@ class Predictor:
             x2, y2 = x + w // 2, y + h // 2
             crop_img = img[y1:y2, x1:x2]
 
-            # while crop_img.shape[1] < 32:
-            #     x1 = x1 - (33 - crop_img.shape[1]) // 2
-            #     x2 = x2 + (33 - crop_img.shape[1]) // 2
+            # while crop_img.shape[1] < SPACE:
+            #     x1 = x1 - (SPACE + 1 - crop_img.shape[1]) // 2
+            #     x2 = x2 + (SPACE + 1 - crop_img.shape[1]) // 2
             #     crop_img = img[y1:y2, x1:x2]
-            # while crop_img.shape[0] < 32:
-            #     y1 = y1 - (33 - crop_img.shape[0]) // 2
-            #     y2 = y2 + (33 - crop_img.shape[0]) // 2
+            # while crop_img.shape[0] < SPACE:
+            #     y1 = y1 - (SPACE + 1 - crop_img.shape[0]) // 2
+            #     y2 = y2 + (SPACE + 1 - crop_img.shape[0]) // 2
             #     crop_img = img[y1:y2, x1:x2]
 
             crop_img = cv2.resize(crop_img, (352, 352))
@@ -228,6 +235,10 @@ class Predictor:
             gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_TrainDataset'
         elif self.mode == 'val':
             gt_path = self.dataset_root / f'sekkai/{img_type}/sekkai_ValDataset'
+        elif self.mode == 'train_mtl':
+            gt_path = self.dataset_root / f'all/{img_type}/TrainDataset'
+        elif self.mode == 'val_mtl':
+            gt_path = self.dataset_root / f'all/{img_type}/ValDataset'
         else:
             raise ValueError('Invalid mode')
 
@@ -292,6 +303,15 @@ if __name__ == '__main__':
             verbose=False,
         )
         predictor.predict_yolo_forTest()
+    elif args.mode == 'all':
+        predictor = Predictor(
+            weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
+            mode='all',
+            dataset_root='./datasets/dataset_v2/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forTest()
     elif args.mode == 'train':
         predictor = Predictor(
             mode='train',
@@ -302,6 +322,21 @@ if __name__ == '__main__':
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val',
+            dataset_root='./datasets/dataset_v2/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forSegTrain()
+    elif args.mode == 'mtl':
+        predictor = Predictor(
+            mode='train_mtl',
+            dataset_root='./datasets/dataset_v2/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forSegTrain()
+        predictor = Predictor(
+            mode='val_mtl',
             dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
