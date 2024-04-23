@@ -7,7 +7,7 @@ if __name__ == '__main__':
     yolov8.train(
         data='polyp491.yaml',
         epochs=100,
-        imgsz=1024,
+        imgsz=512,
         batch=16,
         workers=4,
         name='polyp491_',
