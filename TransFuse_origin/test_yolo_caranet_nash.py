@@ -130,9 +130,9 @@ os.makedirs('./results/preprocessing/TN', exist_ok=True)
 for file in glob.glob('./results/preprocessing/TN/*.png'):
     os.remove(file)
 
-image_root1 = '{}/images/'.format(data_path1)
-gt_root1 = '{}/masks/'.format(data_path1)
-test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
+img_path = './datasets/preprocessing/images/'
+gt_path = './datasets/preprocessing/masks/'
+test_loader1 = test_dataset(img_path, gt_path, opt.testsize)
 
 dice_bank = []
 iou_bank = []
