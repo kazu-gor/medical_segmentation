@@ -146,36 +146,23 @@ if __name__ == '__main__':
     val_loss_list = []
     best_loss = 100000
 
-    root_path = Path('./datasets/preprocessing')
-    train_loader = get_loader(
-        root_path / 'train/best/images',
-        root_path / 'train/best/masks',
-        batchsize=opt.batchsize, trainsize=opt.trainsize
-    )
-    val_loader = get_loader(
-        root_path / 'val/best/images',
-        root_path / 'val/best/masks',
-        batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
-
-    total_step = len(train_loader)
-    dataloaders_dict = {"train": train_loader, "val": val_loader}
-    print(f">>>>> [Train path] \t{root_path / 'train' / 'best' / 'images'}")
-    print(f">>>>> [Val path] \t{root_path / 'val' / 'best' / 'images'}")
-
     for epoch in range(1, opt.epoch):
-        # train_loader = get_loader(
-        #     root_path / f'train/epoch{epoch}/images',
-        #     root_path / f'train/epoch{epoch}/masks',
-        #     batchsize=opt.batchsize, trainsize=opt.trainsize
-        # )
-        # val_loader = get_loader(
-        #     root_path / f'val/epoch{epoch}/images',
-        #     root_path / f'val/epoch{epoch}/masks',
-        #     batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
 
+        train_loader = get_loader(
+            root_path / f'train/epoch{epoch}/images',
+            root_path / f'train/epoch{epoch}/masks',
+            batchsize=opt.batchsize, trainsize=opt.trainsize
+        )
+        val_loader = get_loader(
+            root_path / f'val/epoch{epoch}/images',
+            root_path / f'val/epoch{epoch}/masks',
+            batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+
+        total_step = len(train_loader)
+        dataloaders_dict = {"train": train_loader, "val": val_loader}
         print(f">>>>> [Epoch] \t{epoch}")
-        # print(f">>>>> [Train path] \t{root_path / 'train' / f'epoch{epoch}' / 'images'}")
-        # print(f">>>>> [Val path] \t{root_path / 'val' / f'epoch{epoch}' / 'images'}")
+        print(f">>>>> [Train path] \t{root_path / 'train' / f'epoch{epoch}' / 'images'}")
+        print(f">>>>> [Val path] \t{root_path / 'val' / f'epoch{epoch}' / 'images'}")
 
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
 
