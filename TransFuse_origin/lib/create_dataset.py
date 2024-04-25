@@ -4,6 +4,7 @@ import numpy as np
 from pathlib import Path
 from tqdm import tqdm
 
+from legacy_crop_images import legacy_prerocessing
 
 class Mask2BBox(object):
     """mask画像からbboxを生成するクラス
@@ -85,6 +86,8 @@ class CreateDataset:
         self.output_path = output_path
 
     def get_no_parameter_dataset(self):
+        os.makedirs(self.output_path / 'images', exist_ok=True)
+        os.makedirs(self.output_path / 'masks', exist_ok=True)
         for image_path, mask_path in tqdm(zip(self.image_list, self.mask_list)):
             assert image_path.stem == mask_path.stem, 'imageとmaskの名前が一致しません'
             image = cv2.imread(str(image_path))
@@ -132,9 +135,8 @@ class CreateDataset:
         test_sekkai_image_list = self._get_image_list('../../../dataset/sekkai_TestDataset/images/')
         val_sekkai_image_list = self._get_image_list('../../../dataset/sekkai_ValDataset/images/')
 
-        no_para_data_path = Path('../../../dataset/original_images/preprocessed/')
-        no_para_image_list = self._get_image_list(no_para_data_path / 'images/')
-        no_para_mask_list = self._get_image_list(no_para_data_path / 'masks/')
+        no_para_image_list = self._get_image_list(self.output_path / 'images/')
+        no_para_mask_list = self._get_image_list(self.output_path / 'masks/')
 
         for image_path, mask_path in tqdm(zip(no_para_image_list, no_para_mask_list)):
             if image_path in train_image_list:
@@ -146,8 +148,12 @@ class CreateDataset:
             else:
                 raise ValueError('modeが正しくありません')
 
-            image = cv2.imread(str(no_para_data_path / f'images/{image_path}.png'))
-            mask = cv2.imread(str(no_para_data_path / f'masks/{mask_path}.png'))
+            image = cv2.imread(str(self.output_path / f'images/{image_path}.png'))
+            mask = cv2.imread(str(self.output_path / f'masks/{mask_path}.png'))
+
+            image = cv2.resize(image, (1430, 384))
+            mask = cv2.resize(mask, (1430, 384))
+
             cv2.imwrite(str(self.output_path / f'all/images/{mode}/{image_path}.png'), image)
             cv2.imwrite(str(self.output_path / f'all/masks/{mode}/{mask_path}.png'), mask)
 
@@ -224,9 +230,11 @@ if __name__ == '__main__':
     os.makedirs(output_path / 'all', exist_ok=True)
     create_dataset = CreateDataset(root_path, output_path)
 
-#     print('>>>>>>>> no parameter dataset')
-#     create_dataset.get_no_parameter_dataset()
-#     print('>>>>>>>> divide data')
-#     create_dataset.get_divide_data()
+    # print('>>>>>>>> legacy preprocessing')
+    # legacy_prerocessing()
+    print('>>>>>>>> no parameter dataset')
+    create_dataset.get_no_parameter_dataset()
+    print('>>>>>>>> divide data')
+    create_dataset.get_divide_data()
     print('>>>>>>>> get labels')
     create_dataset.get_labels()
