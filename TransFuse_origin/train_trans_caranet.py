@@ -42,9 +42,9 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                 images, gts = pack
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
-                # ---- rescale ----
-                trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
+                    # ---- rescale ----
+                    trainsize = int(round(opt.trainsize * rate / 32) * 32)
                     images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                     gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
@@ -87,12 +87,12 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
             val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
             if val_loss < best_loss:
                 best_loss = val_loss
-                save_path = 'snapshots/{}/'.format(opt.train_save)
+                save_path = f'snapshots/{opt.train_save}/'
                 os.makedirs(save_path, exist_ok=True)
-                torch.save(model.state_dict(), save_path + 'Transfuse-best.pth')
-                print('[Saving best Snapshot:]', save_path + 'Transfuse-best.pth')
+                torch.save(model.state_dict(), f'{save_path}Transfuse-best.pth')
+                print('[Saving best Snapshot:]', f'{save_path}Transfuse-best.pth')
 
-    save_path = 'snapshots/{}/'.format(opt.train_save)
+    save_path = f'snapshots/{opt.train_save}/'
     os.makedirs(save_path, exist_ok=True)
     if (epoch + 1) % 5 == 0:
         torch.save(model.state_dict(), save_path + 'Transfuse-%d.pth' % epoch)

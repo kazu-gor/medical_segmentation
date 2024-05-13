@@ -85,7 +85,7 @@ class Predictor:
 
         model.predict(
             img_files,
-            imgsz=512,
+            imgsz=640,
             data='polyp491.yaml',
             max_det=1,
             # conf=0.20,
@@ -128,8 +128,7 @@ class Predictor:
             model = YOLO(str(weight))
             model.predict(
                 img_files,
-                # imgsz=1024,
-                imgsz=512,
+                imgsz=640,
                 data='polyp491.yaml',
                 max_det=1,
                 # conf=0.01,
@@ -298,7 +297,7 @@ if __name__ == '__main__':
         predictor = Predictor(
             weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='sekkai',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -307,7 +306,7 @@ if __name__ == '__main__':
         predictor = Predictor(
             weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='all',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -315,14 +314,14 @@ if __name__ == '__main__':
     elif args.mode == 'train':
         predictor = Predictor(
             mode='train',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -330,14 +329,14 @@ if __name__ == '__main__':
     elif args.mode == 'mtl':
         predictor = Predictor(
             mode='train_mtl',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val_mtl',
-            dataset_root='./datasets/dataset_v2/',
+            dataset_root='./datasets/dataset_v0/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )

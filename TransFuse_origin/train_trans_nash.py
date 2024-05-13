@@ -64,7 +64,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                 gts = Variable(gts).cuda()
                 labels = Variable(labels).cuda()
                 # ---- rescale ----
-                trainsize = int(round(opt.trainsize * rate / 32) * 32)
+                trainsize = int(round(args.trainsize * rate / 32) * 32)
                 if rate != 1:
                     images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                     gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
@@ -101,7 +101,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                             # representation=features,
                         )
                         # optimizer.pc_backward(losses)
-                        clip_gradient(optimizer, opt.clip)
+                        clip_gradient(optimizer, args.clip)
                         optimizer.step()
 
                         # loss.backward(retain_graph=True)
@@ -116,14 +116,14 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
 
                         # ---- recording loss ----
                 if rate == 1:
-                    d_loss_record.update(d_loss.data, opt.batchsize)
-                    loss_record2.update(loss2.data, opt.batchsize)
-                    loss_record3.update(loss3.data, opt.batchsize)
-                    loss_record4.update(loss4.data, opt.batchsize)
+                    d_loss_record.update(d_loss.data, args.batchsize)
+                    loss_record2.update(loss2.data, args.batchsize)
+                    loss_record3.update(loss3.data, args.batchsize)
+                    loss_record4.update(loss4.data, args.batchsize)
             if (i % 20 == 0 or i == total_step) and phase == 'train':
                 print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
                       '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, d_loss: {:0.4f}'.
-                      format(datetime.now(), epoch, opt.epoch, i, total_step,
+                      format(datetime.now(), epoch, args.epoch, i, total_step,
                              loss_record2.show(), loss_record3.show(), loss_record4.show(),
                              d_loss_record.show()))
         if phase == 'train':
@@ -134,20 +134,20 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
             val_d_loss = d_loss_record.show()
             if val_loss < best_loss:
                 best_loss = val_loss
-                save_path = 'snapshots/{}/'.format(opt.train_save)
+                save_path = 'snapshots/{}/'.format(args.train_save)
                 os.makedirs(save_path, exist_ok=True)
                 torch.save(models['Transfuse'].state_dict(), save_path + 'Transfuse-best.pth')
                 torch.save(models['Discriminator'].state_dict(), save_path + 'Discriminator-best.pth')
                 print('[Saving best Snapshot:]', save_path + 'TransFuse-best.pth')
             if val_d_loss < best2_loss:
                 best2_loss = val_d_loss
-                save_path = 'snapshots/{}/'.format(opt.train_save)
+                save_path = 'snapshots/{}/'.format(args.train_save)
                 os.makedirs(save_path, exist_ok=True)
                 torch.save(models['Transfuse'].state_dict(), save_path + 'Transfuse-best2.pth')
                 torch.save(models['Discriminator'].state_dict(), save_path + 'Discriminator-best2.pth')
                 print('[Saving best Snapshot:]', save_path + 'Discriminator-best2.pth')
 
-    save_path = 'snapshots/{}/'.format(opt.train_save)
+    save_path = 'snapshots/{}/'.format(args.train_save)
     os.makedirs(save_path, exist_ok=True)
     if (epoch + 1) % 5 == 0:
         torch.save(models['Transfuse'].state_dict(), save_path + 'Transfuse-%d.pth' % epoch)
@@ -194,9 +194,9 @@ if __name__ == '__main__':
     # parser.add_argument('--mtl', type=str, default='rlw')
     # parser.add_argument('--mtl', type=str, default='stl')
 
-    opt = parser.parse_args()
-    print("Tuning:", opt.tuning)
-    print('MTL:', opt.mtl)
+    args = parser.parse_args()
+    print("Tuning:", args.tuning)
+    print('MTL:', args.mtl)
     # ---- build models ----
     # torch.cuda.set_device(0)  # set your gpu device
     # model = U_PraNet().cuda()
@@ -208,10 +208,10 @@ if __name__ == '__main__':
     # model2.classifier[6] = nn.Linear(in_features=4096, out_features=2)
 
     model1 = TransFuse_L(pretrained=True)
-    if opt.tuning:
+    if args.tuning:
         model1.load_state_dict(torch.load('./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'))
 
-    if opt.tuning and opt.mtl == 'stl':
+    if args.tuning and args.mtl == 'stl':
         for param in model1.parameters():
             param.requires_grad = False
 
@@ -236,7 +236,7 @@ if __name__ == '__main__':
 
     weight_methods_parameters = extract_weight_method_parameters_from_args()
     weight_method = WeightMethods(
-        opt.mtl, n_tasks=2, device='cuda:0', **weight_methods_parameters[opt.mtl]
+        args.mtl, n_tasks=2, device='cuda:0', **weight_methods_parameters[args.mtl]
     )
 
     params = [p for v in models.values() for p in list(v.parameters())]
@@ -264,7 +264,7 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.Adam(
         [
-            dict(params=params, lr=opt.lr, betas=(opt.beta1, opt.beta2)),
+            dict(params=params, lr=args.lr, betas=(args.beta1, args.beta2)),
             dict(params=weight_method.parameters(), lr=0.025),
         ],
     )
@@ -278,16 +278,16 @@ if __name__ == '__main__':
     # criterion = nn.BCEWithLogitsLoss(reduction='mean')
     criterion = SmoothCrossEntropy()
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    image_root = '{}/images/'.format(args.train_path)
+    gt_root = '{}/masks/'.format(args.train_path)
 
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
+    image_root_val = '{}/images/'.format(args.val_path)
+    gt_root_val = '{}/masks/'.format(args.val_path)
 
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_loader(image_root, gt_root, batchsize=args.batchsize, trainsize=args.trainsize)
     total_step = len(train_loader)
 
-    val_loader = get_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_loader(image_root_val, gt_root_val, batchsize=args.batchsize, trainsize=args.trainsize, phase='val')
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 
@@ -301,8 +301,8 @@ if __name__ == '__main__':
     best_loss = 100000
     best2_loss = 100000
 
-    for epoch in range(1, opt.epoch):
-        adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)  ###################################
+    for epoch in range(1, args.epoch):
+        adjust_lr(optimizer, args.lr, epoch, args.decay_rate, args.decay_epoch)  ###################################
         # train(train_loader, model, optimizer, epoch)
         epoch, train_loss, val_loss, train_d_loss, val_d_loss, best_loss, best2_loss = train(dataloaders_dict, models,
                                                                                              optimizer,
