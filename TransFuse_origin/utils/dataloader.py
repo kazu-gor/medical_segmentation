@@ -117,6 +117,7 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
+            print(attn_map.shape)
             # 1 channels to 3 channels (H, W, 1) -> (H, W, 3)
             attn_map = np.repeat(attn_map[:, :, np.newaxis], 3, axis=2)
 
