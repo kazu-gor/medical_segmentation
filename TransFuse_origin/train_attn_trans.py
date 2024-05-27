@@ -4,11 +4,10 @@ import os
 import argparse
 from datetime import datetime
 from lib.TransFuse_l import AttnTransFuse_L
-from utils.dataloader import get_loader
+from utils.dataloader import get_attn_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
-
 
 
 def structure_loss(pred, mask):
@@ -135,10 +134,10 @@ if __name__ == '__main__':
     image_root_val = '{}/images/'.format(opt.val_path)
     gt_root_val = '{}/masks/'.format(opt.val_path)
 
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_attn_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
     total_step = len(train_loader)
 
-    val_loader = get_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_attn_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 
