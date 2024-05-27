@@ -116,6 +116,8 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
+            # 1 dim to 3 dim
+            attn_map = np.stack((attn_map, attn_map, attn_map), axis=2)
 
             # image, gt = self.augment_and_mix(image, gt)
 
@@ -129,7 +131,7 @@ class PolypAttnDataset(data.Dataset):
             attn_map = Image.fromarray(attn_map)
             image = image.convert('RGB')
             gt = gt.convert('L')
-            attn_map = attn_map.convert('L')
+            attn_map = attn_map.convert('RGB')
 
         # image, gt = self.transform(image, gt, phase=self.phase)
         image = self.img_transform(image)
