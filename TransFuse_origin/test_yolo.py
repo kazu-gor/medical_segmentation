@@ -69,8 +69,6 @@ class Predictor:
 
         if self.weights is None:
             raise ValueError('Please provide the weight path')
-        if self.mode not in ['sekkai', 'all']:
-            raise ValueError('Invalid mode')
 
         if self.mode == 'sekkai':
             root_path = self.dataset_root / 'sekkai/images/sekkai_TestDataset'
@@ -381,14 +379,15 @@ if __name__ == '__main__':
             verbose=False,
         )
         predictor.predict_yolo_forTest()
-        predictor = Predictor(
-            weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
-            mode='val',
-            dataset_root='./datasets/dataset_v2/',
-            yolo_runs_root='./ultralytics/runs/detect/',
-            verbose=False,
-        )
-        predictor.predict_yolo_forTest()
+
+        # predictor = Predictor(
+        #     weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
+        #     mode='val',
+        #     dataset_root='./datasets/dataset_v2/',
+        #     yolo_runs_root='./ultralytics/runs/detect/',
+        #     verbose=False,
+        # )
+        # predictor.predict_yolo_forTest()
 
     elif args.mode == 'train':
         predictor = Predictor(
