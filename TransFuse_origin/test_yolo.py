@@ -143,7 +143,7 @@ class Predictor:
             self.crop_images('images', sub_dir=str(weight.stem))
             self.crop_images('masks', sub_dir=str(weight.stem))
 
-    def _create_attention(self, img_path, label_path, img_type):
+    def _create_attention(self, img_path, label_path):
         if isinstance(img_path, pathlib.PosixPath):
             img_path = str(img_path)
         if isinstance(label_path, pathlib.PosixPath):
@@ -179,13 +179,23 @@ class Predictor:
         attn_map = attn_map / attn_map.max() * 255
         attn_map = attn_map.astype(np.uint8)
 
-        # save attn_map
+        # create attention map image
+        attn_map = cv2.resize(attn_map, (352, 352))
+
         if self.mode in ['train', 'val']:
-            with open(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/labels/{str(Path(img_path).stem)}.txt', 'w') as f:
-                f.write(attn_map)
+            cv2.imwrite(
+                f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/attentions/{str(Path(img_path).name)}', attn_map)
         else:
-            with open(f'./datasets/{self.output_dir}/labels/{Path(img_path).stem}.txt', 'w') as f:
-                f.write(attn_map)
+            cv2.imwrite(
+                f'./datasets/{self.output_dir}/attentions/{Path(img_path).name}', attn_map)
+
+        # # save attn_map
+        # if self.mode in ['train', 'val']:
+        #     with open(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/labels/{str(Path(img_path).stem)}.txt', 'w') as f:
+        #         f.write(attn_map)
+        # else:
+        #     with open(f'./datasets/{self.output_dir}/labels/{Path(img_path).stem}.txt', 'w') as f:
+        #         f.write(attn_map)
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -313,7 +323,7 @@ class Predictor:
             img_file = gt_path / f"{label_file.stem}.png"
             gt_path_list.remove(img_file) # remove the image from the list
             self._crop_image(img_file, label_file, img_type)
-            self._create_attention(img_file, label_file, img_type)
+            self._create_attention(img_file, label_file)
             if self.verbose:
                 print(f"{img_file = }, {label_file = }")
 
