@@ -528,11 +528,12 @@ def get_loader(image_root, gt_root, batchsize, trainsize, shuffle=True, num_work
 
 
 class test_dataset:
-    def __init__(self, image_root, gt_root, testsize):
+    def __init__(self, image_root, gt_root, attn_map_root, testsize):
         self.testsize = testsize
         self.images = [image_root + f for f in os.listdir(image_root) if
                        f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
         self.gts = [gt_root + f for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
+        self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
         self.transform = transforms.Compose([
@@ -549,13 +550,24 @@ class test_dataset:
         image = self.rgb_loader(self.images[self.index])
         image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
+
+        try:
+            attn_map = self.rgb_loader(self.attn_maps[self.index])
+        except Exception:
+            attn_map = np.zeros_like(image)
+            attn_map = Image.fromarray(attn_map)
+        attn_map = self.transform(attn_map).unsqueeze(0)
+
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]
-        assert name == name_gt
+        name_attn = self.attn_maps[self.index].split('/')[-1]
+
+        assert name == name_gt == name_attn
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
-        return image, gt, name
+
+        return image, gt, attn_map, name
 
     def load_data_mixup(self):
 
