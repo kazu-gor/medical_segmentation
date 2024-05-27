@@ -143,6 +143,50 @@ class Predictor:
             self.crop_images('images', sub_dir=str(weight.stem))
             self.crop_images('masks', sub_dir=str(weight.stem))
 
+    def _create_attention(self, img_path, label_path, img_type):
+        if isinstance(img_path, pathlib.PosixPath):
+            img_path = str(img_path)
+        if isinstance(label_path, pathlib.PosixPath):
+            label_path = str(label_path)
+        assert Path(img_path).stem == Path(label_path).stem, \
+                f"{Path(img_path).stem}, {Path(label_path).stem}"
+
+        img = cv2.imread(img_path)
+        img_h, img_w, _ = img.shape
+        img = cv2.resize(img, (352, 352))
+        with open(label_path, 'r') as f:
+            lines = f.readlines()
+
+        attn_map = np.zeros((img_h, img_w), dtype=np.uint8)
+        for _, line in enumerate(lines):
+            line = line.strip().split(' ')
+            _, x, y, w, h, _ = line
+            x, y, w, h = float(x), float(y), float(w), float(h)
+            x, y, w, h = int(x * img_w), int(y * img_h), int(w *
+                                                             img_w), int(h * img_h)
+            x1, y1 = x - w // 2, y - h // 2
+            x2, y2 = x + w // 2, y + h // 2
+
+            if x1 == x2:
+                continue
+            if y1 == y2:
+                continue
+
+            # +1 attn_map
+            attn_map[y1:y2, x1:x2] += 1
+
+        # normalize
+        attn_map = attn_map / attn_map.max() * 255
+        attn_map = attn_map.astype(np.uint8)
+
+        # save attn_map
+        if self.mode in ['train', 'val']:
+            with open(f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/labels/{str(Path(img_path).stem)}.txt', 'w') as f:
+                f.write(attn_map)
+        else:
+            with open(f'./datasets/{self.output_dir}/labels/{Path(img_path).stem}.txt', 'w') as f:
+                f.write(attn_map)
+
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
             img_path = str(img_path)
@@ -153,6 +197,7 @@ class Predictor:
 
         img = cv2.imread(img_path)
         img_h, img_w, _ = img.shape
+        img = cv2.resize(img, (352, 352))
         with open(label_path, 'r') as f:
             lines = f.readlines()
 
@@ -268,6 +313,7 @@ class Predictor:
             img_file = gt_path / f"{label_file.stem}.png"
             gt_path_list.remove(img_file) # remove the image from the list
             self._crop_image(img_file, label_file, img_type)
+            self._create_attention(img_file, label_file, img_type)
             if self.verbose:
                 print(f"{img_file = }, {label_file = }")
 

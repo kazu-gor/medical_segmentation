@@ -72,6 +72,168 @@ class BiFusion_block(nn.Module):
             return fuse
 
 
+class AttnTransFuse_L(nn.Module):
+    def __init__(self, num_classes=1, drop_rate=0.2, normal_init=True, pretrained=False):
+        super(AttnTransFuse_L, self).__init__()
+
+        # ============================================================
+        self.Resnet_attn = Resnet()
+        if pretrained:
+            self.Resnet_attn.load_state_dict(torch.load('./weights/resnet50_a1_0-14fe96d1.pth'))
+        self.Resnet_attn.fc = nn.Identity()
+        self.Resnet_attn.layer4 = nn.Identity()
+
+        self.transformer_attn = vit_large(pretrained=pretrained)
+
+        self.up1_attn = Up(in_ch1=1024, out_ch=512) # vit
+        self.up2_attn = Up(512, 256)
+        # ============================================================
+
+        self.Resnet = Resnet()
+        if pretrained:
+            self.Resnet.load_state_dict(torch.load('./weights/resnet50_a1_0-14fe96d1.pth'))
+        self.Resnet.fc = nn.Identity()
+        self.Resnet.layer4 = nn.Identity()
+
+        # self.transformer = deit_base(pretrained=pretrained)
+        self.transformer = vit_large(pretrained=pretrained)
+        # self.transformer = vit_large(pretrained=False)
+
+    #############################################################################################
+        self.up1 = Up(in_ch1=1024, out_ch=512) # vit
+        # self.up1 = Up(in_ch1=768, out_ch=512) # deit
+    #############################################################################################
+        self.up2 = Up(512, 256)
+
+        self.final_x = nn.Sequential(
+            Conv(1024, 256, 1, bn=True, relu=True),
+            Conv(256, 256, 3, bn=True, relu=True),
+            Conv(256, num_classes, 3, bn=False, relu=False)
+        )  # BiFusion
+
+        self.final_1 = nn.Sequential(
+            Conv(256, 256, 3, bn=True, relu=True),
+            Conv(256, num_classes, 3, bn=False, relu=False)
+        )  # Transformer
+
+        self.final_2 = nn.Sequential(
+            Conv(256, 256, 3, bn=True, relu=True),
+            Conv(256, num_classes, 3, bn=False, relu=False)
+        )  # Joint
+
+        #############################################################################################
+        self.up_c = BiFusion_block(ch_1=1024, ch_2=1024, r_2=4, ch_int=1024, ch_out=1024, drop_rate=drop_rate / 2)  # top # vit
+        # self.up_c = BiFusion_block(ch_1=1024, ch_2=768, r_2=4, ch_int=1024, ch_out=1024, drop_rate=drop_rate / 2)  # top # deit
+        #############################################################################################
+
+        self.up_c_1_1 = BiFusion_block(ch_1=512, ch_2=512, r_2=2, ch_int=512, ch_out=512,
+                                       drop_rate=drop_rate / 2)  # mid
+        self.up_c_1_2 = Up(in_ch1=1024, out_ch=512, in_ch2=512, attn=True)
+
+        self.up_c_2_1 = BiFusion_block(ch_1=256, ch_2=256, r_2=1, ch_int=256, ch_out=256,
+                                       drop_rate=drop_rate / 2)  # under
+        self.up_c_2_2 = Up(512, 256, 256, attn=True)
+
+        self.drop = nn.Dropout2d(drop_rate)
+
+        if normal_init:
+            self.init_weights()
+
+    def forward(self, imgs, attn_map, labels=None):
+        # ============================================================
+        # bottom-up path for Attn
+        x_b_attn = self.transformer_attn(attn_map) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
+        x_b_attn = torch.transpose(x_b_attn, 1, 2) # torch.Size([16, 1024, 196])
+        # x_b_attn = x_b_attn.view(x_b_attn.shape[0], -1, 14, 14)  # t0 # torch.Size([16, 1024, 14, 14]) # 224*224
+        x_b_attn = x_b_attn.view(x_b_attn.shape[0], -1, 22, 22)  # t0 # torch.Size([16, 1024, 14, 14]) # 352*352
+
+        x_b_attn = self.drop(x_b_attn)
+        x_b_attn_1 = self.up1_attn(x_b_attn)  # t1 # torch.Size([16, 512, 28, 28])
+        x_b_attn_1 = self.drop(x_b_attn_1)
+
+        x_b_attn_2 = self.up2_attn(x_b_attn_1)  # transformer pred supervise here #t2 # torch.Size([16, 256, 56, 56])
+        x_b_attn_2 = self.drop(x_b_attn_2)
+
+        # top-down path for Attn
+        x_u_attn = self.Resnet_attn.conv1(attn_map) # torch.Size([16, 64, 112, 112])
+        x_u_attn = self.Resnet_attn.bn1(x_u_attn)
+        x_u_attn = self.Resnet_attn.relu(x_u_attn)
+        x_u_attn = self.Resnet_attn.maxpool(x_u_attn) # torch.Size([16, 64, 56, 56])
+
+        x_u_attn_2 = self.Resnet.layer1(x_u_attn)  # g2 # torch.Size([16, 256, 56, 56])
+        x_u_attn_2 = self.drop(x_u_attn_2)
+
+        x_u_attn_1 = self.Resnet.layer2(x_u_attn_2)  # g1 # torch.Size([16, 512, 28, 28])
+        x_u_attn_1 = self.drop(x_u_attn_1)
+
+        x_u_attn = self.Resnet.layer3(x_u_attn_1)  # g0 # torch.Size([16, 1024, 14, 14])
+        x_u_attn = self.drop(x_u_attn)
+
+        # ============================================================
+
+        # bottom-up path
+        x_b = self.transformer(imgs) # torch.Size([16, 3, 224, 224]) → torch.Size([16, 196, 1024])
+        x_b = torch.transpose(x_b, 1, 2) # torch.Size([16, 1024, 196])
+        # x_b = x_b.view(x_b.shape[0], -1, 14, 14)  # t0 # torch.Size([16, 1024, 14, 14]) # 224*224
+        x_b = x_b.view(x_b.shape[0], -1, 22, 22)  # t0 # torch.Size([16, 1024, 14, 14]) # 352*352
+
+        x_b = self.drop(x_b)
+        x_b_1 = self.up1(x_b)  # t1 # torch.Size([16, 512, 28, 28])
+        x_b_1 = self.drop(x_b_1)
+
+        x_b_2 = self.up2(x_b_1)  # transformer pred supervise here #t2 # torch.Size([16, 256, 56, 56])
+        x_b_2 = self.drop(x_b_2)
+
+        # top-down path
+        x_u = self.Resnet.conv1(imgs) # torch.Size([16, 64, 112, 112])
+        x_u = self.Resnet.bn1(x_u)
+        x_u = self.Resnet.relu(x_u)
+        x_u = self.Resnet.maxpool(x_u) # torch.Size([16, 64, 56, 56])
+
+        x_u_2 = self.Resnet.layer1(x_u)  # g2 # torch.Size([16, 256, 56, 56])
+        x_u_2 = self.drop(x_u_2)
+
+        x_u_1 = self.Resnet.layer2(x_u_2)  # g1 # torch.Size([16, 512, 28, 28])
+        x_u_1 = self.drop(x_u_1)
+
+        x_u = self.Resnet.layer3(x_u_1)  # g0 # torch.Size([16, 1024, 14, 14])
+        x_u = self.drop(x_u)
+
+        # ============================================================
+        x_u = x_u + x_u_attn
+        x_u_1 = x_u_1 + x_u_attn_1
+        x_u_2 = x_u_2 + x_u_attn_2
+
+        x_b = x_b + x_b_attn
+        x_b_1 = x_b_1 + x_b_attn_1
+        x_b_2 = x_b_2 + x_b_attn_2
+        # ============================================================
+
+        # joint path
+        x_c = self.up_c(x_u, x_b)  # biFusion pred here #f0 # torch.Size([16, 1024, 14, 14])
+        x_c_1_1 = self.up_c_1_1(x_u_1, x_b_1)  # f1 # torch.Size([16, 512, 28, 28])
+        x_c_1 = self.up_c_1_2(x_c, x_c_1_1) # torch.Size([16, 512, 28, 28])
+        x_c_2_1 = self.up_c_2_1(x_u_2, x_b_2)  # f2 # torch.Size([16, 256, 56, 56])
+        x_c_2 = self.up_c_2_2(x_c_1, x_c_2_1)  # joint predict low supervise here # torch.Size([16, 256, 56, 56])
+
+        # decoder part
+        map_x = F.interpolate(self.final_x(x_c), scale_factor=16, mode='bilinear')  # BiFusion pred map
+        map_1 = F.interpolate(self.final_1(x_b_2), scale_factor=4, mode='bilinear')  # Transformer pred map
+        map_2 = F.interpolate(self.final_2(x_c_2), scale_factor=4, mode='bilinear')  # Joint pred map
+        return map_x, map_1, map_2
+
+    def init_weights(self):
+        self.up1.apply(init_weights)
+        self.up2.apply(init_weights)
+        self.final_x.apply(init_weights)
+        self.final_1.apply(init_weights)
+        self.final_2.apply(init_weights)
+        self.up_c.apply(init_weights)
+        self.up_c_1_1.apply(init_weights)
+        self.up_c_1_2.apply(init_weights)
+        self.up_c_2_1.apply(init_weights)
+        self.up_c_2_2.apply(init_weights)
+
 class TransFuse_L(nn.Module):
     def __init__(self, num_classes=1, drop_rate=0.2, normal_init=True, pretrained=False):
         super(TransFuse_L, self).__init__()
