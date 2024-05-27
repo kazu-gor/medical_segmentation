@@ -127,9 +127,12 @@ class PolypAttnDataset(data.Dataset):
 
             image, masks = augmented['image'], augmented['masks']
             gt, attn_map = masks[0], masks[1]
+
             image = Image.fromarray(image)
             gt = Image.fromarray(gt)
+            attn_map = attn_map.astype(np.uint8)
             attn_map = Image.fromarray(attn_map)
+
             image = image.convert('RGB')
             gt = gt.convert('L')
             attn_map = attn_map.convert('RGB')
