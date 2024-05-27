@@ -322,7 +322,7 @@ class Predictor:
         for num_img, label_file in enumerate(sorted((pred_path).glob('*.txt')), start=1):
             img_file = gt_path / f"{label_file.stem}.png"
             gt_path_list.remove(img_file) # remove the image from the list
-            self._crop_image(img_file, label_file, img_type)
+            # self._crop_image(img_file, label_file, img_type)
             self._create_attention(img_file, label_file)
             if self.verbose:
                 print(f"{img_file = }, {label_file = }")
