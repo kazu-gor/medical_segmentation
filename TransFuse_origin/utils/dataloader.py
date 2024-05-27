@@ -106,24 +106,14 @@ class PolypAttnDataset(data.Dataset):
             attn_map = self.rgb_loader(self.attn_maps[index])
         except Exception:
             attn_map = np.zeros_like(image)
+            attn_map = Image.fromarray(attn_map)
 
         if self.phase == 'train':
-            # if random.random() < 1.0:
-            #     image, gt = self._apply_mixup(image, gt, index)
-
-            # if random.random() < 1.0:
-            #     image, gt = self.cutmix(image, gt, index)
 
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
-            print(attn_map.shape)
-            # 1 channels to 3 channels (H, W, 1) -> (H, W, 3)
-            attn_map = np.repeat(attn_map[:, :, np.newaxis], 3, axis=2)
 
-            # image, gt = self.augment_and_mix(image, gt)
-
-            # augmented = self.transform2(image=image, mask=gt)
             augmented = self.transform3(image=image, masks=[gt, attn_map])
 
             image, masks = augmented['image'], augmented['masks']
@@ -636,3 +626,4 @@ class test_dataset_crop:
         with open(path, 'rb') as f:
             img = Image.open(f)
             return img.convert('L')
+ 
