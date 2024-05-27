@@ -28,6 +28,7 @@ do
 
     # echo ">>> python3 ./test_yolo.py"
     # python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+    # python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
     # python3 ../../tools/slack_bot.py --text "Attention mapping has been completed."
 
     echo ">>> python3 ./train_attn_trans.py"

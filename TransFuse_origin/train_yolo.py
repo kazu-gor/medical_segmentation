@@ -3,9 +3,9 @@ from ultralytics import YOLO
 
 if __name__ == '__main__':
 
-    # yolov8 = YOLO(model='yolov8n.pt', task='detect', verbose=True)
+    yolov8 = YOLO(model='yolov8n.pt', task='detect', verbose=True)
     # yolov8 = YOLO(model='yolov8x.pt', task='detect', verbose=True)
-    yolov8 = YOLO(model='yolov9e.pt', task='detect', verbose=True)
+    # yolov8 = YOLO(model='yolov9e.pt', task='detect', verbose=True)
     yolov8.train(
         data='polyp491.yaml',
         epochs=100,

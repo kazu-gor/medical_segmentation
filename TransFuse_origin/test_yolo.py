@@ -169,9 +169,7 @@ class Predictor:
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
 
-            if x1 == x2:
-                continue
-            if y1 == y2:
+            if x1 == x2 or y1 == y2:
                 continue
 
             # +1 attn_map
