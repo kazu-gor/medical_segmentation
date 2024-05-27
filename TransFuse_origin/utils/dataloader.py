@@ -101,10 +101,11 @@ class PolypAttnDataset(data.Dataset):
     def __getitem__(self, index):
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
+
         try:
             attn_map = self.rgb_loader(self.attn_maps[index])
-        except:
-            attn_map = np.zeros_like((self.trainsize, self.trainsize))
+        except Exception:
+            attn_map = np.zeros_like(image)
 
         if self.phase == 'train':
             # if random.random() < 1.0:
@@ -116,8 +117,8 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
-            # 1 dim to 3 dim
-            attn_map = np.stack((attn_map, attn_map, attn_map), axis=2)
+            # 1 channels to 3 channels (H, W, 1) -> (H, W, 3)
+            attn_map = np.repeat(attn_map[:, :, np.newaxis], 3, axis=2)
 
             # image, gt = self.augment_and_mix(image, gt)
 
