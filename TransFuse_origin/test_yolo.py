@@ -83,19 +83,20 @@ class Predictor:
         img_files = root_path.glob('*.png')
         img_files = [str(img_file) for img_file in img_files]
 
-        model.predict(
-            img_files,
-            imgsz=640,
-            data='polyp491.yaml',
-            max_det=1,
-            # conf=0.20,
-            # nms=True,
-            single_cls=True,
-            save=True,
-            save_txt=True,
-            save_conf=True,
-            save_crop=True,
-        )
+        for img_file in img_files:
+            model.predict(
+                img_file,
+                imgsz=640,
+                data='polyp491.yaml',
+                max_det=10,
+                conf=0.01,
+                # nms=True,
+                single_cls=True,
+                save=True,
+                save_txt=True,
+                save_conf=True,
+                save_crop=True,
+            )
         self.crop_images('images')
         self.crop_images('masks')
 
@@ -130,8 +131,8 @@ class Predictor:
                 img_files,
                 imgsz=640,
                 data='polyp491.yaml',
-                max_det=1,
-                # conf=0.01,
+                max_det=10,
+                conf=0.01,
                 # nms=True,
                 single_cls=True,
                 save=True,
@@ -156,7 +157,7 @@ class Predictor:
             lines = f.readlines()
 
         # SPACE = 32
-        for line in lines:
+        for idx, line in enumerate(lines):
             line = line.strip().split(' ')
             _, x, y, w, h, _ = line
             x, y, w, h = float(x), float(y), float(w), float(h)
@@ -164,7 +165,14 @@ class Predictor:
                                                              img_w), int(h * img_h)
             x1, y1 = x - w // 2, y - h // 2
             x2, y2 = x + w // 2, y + h // 2
+
+            if x1 == x2:
+                continue
+            if y1 == y2:
+                continue
+
             crop_img = img[y1:y2, x1:x2]
+            crop_img = cv2.resize(crop_img, (352, 352))
 
             # while crop_img.shape[1] < SPACE:
             #     x1 = x1 - (SPACE + 1 - crop_img.shape[1]) // 2
@@ -174,8 +182,6 @@ class Predictor:
             #     y1 = y1 - (SPACE + 1 - crop_img.shape[0]) // 2
             #     y2 = y2 + (SPACE + 1 - crop_img.shape[0]) // 2
             #     crop_img = img[y1:y2, x1:x2]
-
-            crop_img = cv2.resize(crop_img, (352, 352))
 
             if self.verbose:
                 print(f"{x1 = }, {y1 = }, {x2 = }, {y2 = }")
@@ -201,7 +207,8 @@ class Predictor:
                     f'./datasets/{self.output_dir}/{img_type}/{Path(img_path).name}', crop_img)
 
             # draw bounding box
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            color = idx * 20
+            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255 - color, color), 2)
             if self.mode not in ['train', 'val']:
                 cv2.imwrite(
                     f'./datasets/{self.output_dir}/plottings_{img_type}/{Path(img_path).name}', img)
@@ -297,7 +304,7 @@ if __name__ == '__main__':
         predictor = Predictor(
             weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='sekkai',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -306,7 +313,7 @@ if __name__ == '__main__':
         predictor = Predictor(
             weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
             mode='all',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -314,14 +321,14 @@ if __name__ == '__main__':
     elif args.mode == 'train':
         predictor = Predictor(
             mode='train',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
@@ -329,14 +336,14 @@ if __name__ == '__main__':
     elif args.mode == 'mtl':
         predictor = Predictor(
             mode='train_mtl',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
         predictor.predict_yolo_forSegTrain()
         predictor = Predictor(
             mode='val_mtl',
-            dataset_root='./datasets/dataset_v0/',
+            dataset_root='./datasets/dataset_v2/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
         )
