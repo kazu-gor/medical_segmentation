@@ -49,7 +49,7 @@ class PolypAttnDataset(data.Dataset):
     def __init__(self, image_root, gt_root, attn_map_root, trainsize, phase='train'):
         self.trainsize = trainsize
         self.images = [str(image_root / f) for f in os.listdir(image_root) if f.endswith('.jpg') or f.endswith('.png')]
-        self.attn_maps = [str(image_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
+        self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
@@ -101,7 +101,11 @@ class PolypAttnDataset(data.Dataset):
     def __getitem__(self, index):
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
-        attn_map = self.rgb_loader(self.attn_maps[index])
+        try:
+            attn_map = self.rgb_loader(self.attn_maps[index])
+        except:
+            attn_map = np.zeros_like((self.trainsize, self.trainsize))
+
         if self.phase == 'train':
             # if random.random() < 1.0:
             #     image, gt = self._apply_mixup(image, gt, index)

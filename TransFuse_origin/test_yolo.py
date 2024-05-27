@@ -186,7 +186,7 @@ class Predictor:
 
         if self.mode in ['train', 'val']:
             cv2.imwrite(
-                f'./datasets/{self.output_dir}/{self.mode}/{self.sub_dir}/{self.mode}/{str(Path(img_path).name)}', attn_map)
+                f'./datasets/{self.output_dir}/{self.mode}/{str(Path(img_path).name)}', attn_map)
         else:
             cv2.imwrite(
                 f'./datasets/{self.output_dir}/attentions/{Path(img_path).name}', attn_map)
@@ -380,14 +380,14 @@ if __name__ == '__main__':
         )
         predictor.predict_yolo_forTest()
 
-        # predictor = Predictor(
-        #     weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
-        #     mode='val',
-        #     dataset_root='./datasets/dataset_v2/',
-        #     yolo_runs_root='./ultralytics/runs/detect/',
-        #     verbose=False,
-        # )
-        # predictor.predict_yolo_forTest()
+        predictor = Predictor(
+            weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
+            mode='val',
+            dataset_root='./datasets/dataset_v2/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+        )
+        predictor.predict_yolo_forTest()
 
     elif args.mode == 'train':
         predictor = Predictor(

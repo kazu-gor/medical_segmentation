@@ -8,6 +8,7 @@ from utils.dataloader import get_attn_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 def structure_loss(pred, mask):
@@ -109,8 +110,6 @@ if __name__ == '__main__':
     parser.add_argument('--grad_norm', type=float, default=2.0, help='gradient clipping norm')
     parser.add_argument('--decay_rate', type=float, default=0.1, help='decay rate of learning rate')
     parser.add_argument('--decay_epoch', type=int, default=50, help='every n epochs decay learning rate')
-    # parser.add_argument('--train_path', type=str, default='./dataset/TrainDataset', help='path to train dataset')
-    # parser.add_argument('--val_path', type=str, default='./dataset/ValDataset', help='path to val dataset')
     parser.add_argument('--train_path', type=str, default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     parser.add_argument('--val_path', type=str, default='./dataset/sekkai_ValDataset', help='path to val dataset')
     parser.add_argument('--train_save', type=str, default='Transfuse_S')
@@ -128,16 +127,18 @@ if __name__ == '__main__':
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr, betas=(opt.beta1, opt.beta2))
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    image_root = Path(f'{opt.train_path}/images/')
+    gt_root = Path(f'{opt.train_path}/masks/')
+    attn_map_root = Path(f'{opt.train_path}/attention/')
 
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
+    image_root_val = Path(f'{opt.val_path}/images/')
+    gt_root_val = Path(f'{opt.val_path}/masks/')
+    attn_map_root_val = Path(f'{opt.val_path}/attention/')
 
-    train_loader = get_attn_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_attn_loader(image_root, gt_root, attn_map_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
     total_step = len(train_loader)
 
-    val_loader = get_attn_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_attn_loader(image_root_val, gt_root_val, attn_map_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 

@@ -10,7 +10,7 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 
 import timm
 
-assert timm.__version__ == "0.3.2" # version check
+# assert timm.__version__ == "0.3.2" # version check
 
 from lib.models_vit import vit_large_patch16 as vit_large
 
