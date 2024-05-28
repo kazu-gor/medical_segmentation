@@ -1,12 +1,14 @@
 import os
 import glob
 import argparse
-from timm.layers import attention_pool
+from pathlib import Path
+
 import torch
 import imageio
 import numpy as np
 import torch.nn.functional as F
 from skimage import img_as_ubyte
+
 from utils.dataloader import test_dataset
 from lib.TransFuse_l import AttnTransFuse_L
 
@@ -57,9 +59,9 @@ os.makedirs(save_path, exist_ok=True)
 for file in glob.glob("./results/polyp491_10/*.png"):
     os.remove(file)
 
-image_root = "{}/images/".format(data_path)
-gt_root = "{}/masks/".format(data_path)
-attn_map_root = "{}/attention/".format(data_path)
+image_root = Path(f"{data_path}/images/")
+gt_root = Path(f"{data_path}/masks/")
+attn_map_root = Path(f"{data_path}/attention/")
 test_loader = test_dataset(image_root, gt_root, attn_map_root, opt.testsize)
 
 dice_bank = []
@@ -67,9 +69,8 @@ iou_bank = []
 acc_bank = []
 
 for _ in range(test_loader.size):
-    image, gt, attn_map, name = test_loader.load_data()
-    gt = np.asarray(gt, np.float32)
-    attn_map = np.asarray(attn_map, np.float32)
+    image, gt, attn_map, name = test_loader.load_attn_data()
+    gt = np.asarray(gt.squeeze(0), np.float32)
 
     if norm:
         gt /= gt.max() + 1e-8  ##########################
@@ -77,9 +78,10 @@ for _ in range(test_loader.size):
         gt = 1.0 * (gt > 0.5)  ########################
 
     image = image.cuda()
+    attn_map = attn_map.cuda()
 
     with torch.no_grad():
-        _, _, res = model(image)
+        _, _, res = model(image, attn_map)
 
     res = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
