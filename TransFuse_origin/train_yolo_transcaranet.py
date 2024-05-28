@@ -16,13 +16,27 @@ from ultralytics import YOLO
 from test_yolo import Predictor
 
 
-def train_yolo(mode, pretrainer: DetectionTrainer, epoch):
+def train_yolo(mode, model, epoch):
 
+    args = dict(
+        model='yolov8n.pt',
+        data='polyp491.yaml',
+        epochs=opt.epoch,
+        single_cls=True,
+        imgsz=640,
+        batch=8,
+        workers=4,
+        name='polyp491_',
+        save=True,
+        save_dir='snapshots/yolov8',
+    )
     for phase in mode:
         if phase == 'train':
-            preds, score, img_file_list, stop_flag = pretrainer.train()
-            pretrainer.save_model()
-
+            if epoch == 1:
+                preds, score, img_file_list, stop_flag = model.train(overrides=args)
+                model.pretrainer.save_model()
+            else:
+                pass # TODO
         else:
             validator = pretrainer.get_validator()
             preds, score, img_file_list, stop_flag = validator(
@@ -133,21 +147,21 @@ def get_yolo_trainer(model, opt) -> DetectionTrainer:
     return model.trainer(overrides=args)
 
 
-def get_yolo_predictor(model, opt) -> DetectionPredictor:
+# def get_yolo_predictor(model, opt) -> DetectionPredictor:
     
-    args = dict(
-        model='./ultralytics/runs/train/yolov8n.pt',
-        data='polyp491.yaml',
-        epochs=opt.epoch,
-        single_cls=True,
-        imgsz=640,
-        batch=8,
-        workers=4,
-        name='polyp491_',
-        save=True,
-        save_dir='snapshots/yolov8',
-    )
-    return model.predictor(overrides=args)
+#     args = dict(
+#         model='./ultralytics/runs/train/yolov8n.pt',
+#         data='polyp491.yaml',
+#         epochs=opt.epoch,
+#         single_cls=True,
+#         imgsz=640,
+#         batch=8,
+#         workers=4,
+#         name='polyp491_',
+#         save=True,
+#         save_dir='snapshots/yolov8',
+#     )
+#     return model.predictor(overrides=args)
 
 
 def train(dataloaders_dict, model, optimizer, epoch, best_loss):
@@ -266,8 +280,8 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-    yolo = YOLO()
-    pretrainer = get_yolo_trainer(yolo, opt)
+    # pretrainer = get_yolo_trainer(yolo, opt)
+    yolov8 = YOLO('yolov8n.pt')
     model = Trans_CaraNet_L(pretrained=True).to(device)
 
     # ---- flops and params ----
@@ -291,9 +305,10 @@ if __name__ == '__main__':
         adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
 
         stop_flag = train_yolo(
-                mode=['train'],
-                pretrainer=pretrainer,
-                epoch=epoch,)
+            mode=['train'],
+            model=yolov8,
+            epoch=epoch,
+        )
 
         predictor = Predictor(mode='train')
         predictor.predict_yolo_forPolyp()
