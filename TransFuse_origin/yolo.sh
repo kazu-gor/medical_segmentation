@@ -36,7 +36,7 @@ do
     python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
     echo ">>> python3 ./train_attn_trans.py"
-    python3 ./test_attn_trans.py --train_save $TRAIN_WEIGHT | tee ./logs/test_attn_trans.log
+    python3 ./test_attn_trans.py --pth_path "./snapshots/$TRAIN_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
     python3 ../../tools/slack_bot.py --text "Attention TransFuse test is done"
 
     # =====================================================================
