@@ -1,13 +1,15 @@
 import os
+import cv2
+import copy
+import random
+
+import torch
+import numpy as np
 from PIL import Image
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import albumentations as albu
 from data_augumentation import Compose, Scale, RandomRotation, RandomMirror, Resize, Normalize_Tensor
-import numpy as np
-import cv2
-import random
-import torch
 
 
 class ImageTransform():
@@ -53,6 +55,7 @@ class PolypAttnDataset(data.Dataset):
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
+        self.attn_maps = sorted(self.attn_maps)
         self.phase = phase
 
         print(f">>> Number of images: {len(self.images)}")
@@ -98,12 +101,22 @@ class PolypAttnDataset(data.Dataset):
             transforms.Resize((self.trainsize, self.trainsize)),
             transforms.ToTensor()])
 
+        self.index_attn = 0
+
     def __getitem__(self, index):
+        self.exception_count = 0
+
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
 
+        name = self.images[index].split('/')[-1]
+        name_gt = self.gts[index].split('/')[-1]
+
         try:
-            attn_map = self.rgb_loader(self.attn_maps[index])
+            attn_map = self.rgb_loader(self.attn_maps[self.index_attn])
+            name_attn = self.attn_maps[self.index_attn].split('/')[-1]
+            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+            self.index_attn += 1
         except Exception:
             attn_map = np.zeros_like(image)
             attn_map = Image.fromarray(attn_map)
@@ -128,7 +141,6 @@ class PolypAttnDataset(data.Dataset):
             gt = gt.convert('L')
             attn_map = attn_map.convert('RGB')
 
-        # image, gt = self.transform(image, gt, phase=self.phase)
         image = self.img_transform(image)
         gt = self.gt_transform(gt)
         attn_map = self.gt_transform(attn_map)
@@ -530,9 +542,9 @@ def get_loader(image_root, gt_root, batchsize, trainsize, shuffle=True, num_work
 class test_dataset:
     def __init__(self, image_root, gt_root, attn_map_root, testsize):
         self.testsize = testsize
-        self.images = [image_root + f for f in os.listdir(image_root) if
+        self.images = [str(image_root / f) for f in os.listdir(image_root) if
                        f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
-        self.gts = [gt_root + f for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
+        self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
         self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
@@ -540,34 +552,60 @@ class test_dataset:
             transforms.Resize((self.testsize, self.testsize)),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406],
-                                 [0.229, 0.224, 0.225])])
+                                 [0.229, 0.224, 0.225])
+        ])
+        self.resize = transforms.Compose([
+            transforms.Resize((self.testsize, self.testsize)),
+            transforms.ToTensor(),
+        ])
         self.gt_transform = transforms.ToTensor()
         self.size = len(self.images)
         self.index = 0
+        self.index_attn = 0
 
     def load_data(self):
 
         image = self.rgb_loader(self.images[self.index])
         image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
-
-        try:
-            attn_map = self.rgb_loader(self.attn_maps[self.index])
-        except Exception:
-            attn_map = np.zeros_like(image)
-            attn_map = Image.fromarray(attn_map)
-        attn_map = self.transform(attn_map).unsqueeze(0)
+        gt = self.resize(gt)
 
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]
-        name_attn = self.attn_maps[self.index].split('/')[-1]
 
-        assert name == name_gt == name_attn
+        if name.endswith('.jpg'):
+            name = name.split('.jpg')[0] + '.png'
+        self.index += 1
+
+        return image, gt, name
+
+    def load_attn_data(self):
+
+        image = self.rgb_loader(self.images[self.index])
+        image_copy = copy.deepcopy(image)
+        image = self.transform(image).unsqueeze(0)
+        gt = self.binary_loader(self.gts[self.index])
+        gt = self.resize(gt)
+
+        name = self.images[self.index].split('/')[-1]
+        name_gt = self.gts[self.index].split('/')[-1]
+
+        try:
+            attn_map = self.rgb_loader(self.attn_maps[self.index_attn])
+            name_attn = self.attn_maps[self.index_attn].split('/')[-1]
+            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+            self.index_attn += 1
+        except Exception:
+            attn_map = np.zeros_like(image_copy, dtype=np.uint8)
+            attn_map = Image.fromarray(attn_map)
+        attn_map = self.transform(attn_map).unsqueeze(0)
+
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
 
         return image, gt, attn_map, name
+
 
     def load_data_mixup(self):
 
