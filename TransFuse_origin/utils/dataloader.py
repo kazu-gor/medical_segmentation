@@ -126,7 +126,7 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
-            attn_map = (attn_map - np.min(attn_map)) / (np.max(attn_map) - np.min(attn_map))
+            attn_map = self._minmax_normalize(attn_map)
 
             augmented = self.transform3(image=image, masks=[gt, attn_map])
 
@@ -146,6 +146,16 @@ class PolypAttnDataset(data.Dataset):
         gt = self.gt_transform(gt)
         attn_map = self.gt_transform(attn_map)
         return image, gt, attn_map
+
+    def _minmax_normalize(self, attention_map):
+        min_val = np.min(attention_map)
+        max_val = np.max(attention_map)
+
+        if min_val == max_val:
+            # すべての値が同じ場合、値を0.5に設定する
+            return np.ones_like(attention_map) * 0.5
+        else:
+            return (attention_map - min_val) / (max_val - min_val)
 
     def _apply_mixup(self, image1, gt1, idx1):
         image1 = np.array(image1)
