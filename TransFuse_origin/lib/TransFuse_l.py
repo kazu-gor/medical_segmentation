@@ -87,6 +87,14 @@ class AttnTransFuse_L(nn.Module):
 
         self.up1_attn = Up(in_ch1=1024, out_ch=512) # vit
         self.up2_attn = Up(512, 256)
+
+        self.conv1x1_1_vit = nn.Conv2d(2048, 1024, kernel_size=1, stride=1, padding=0)
+        self.conv1x1_1_cnn = nn.Conv2d(2048, 1024, kernel_size=1, stride=1, padding=0)
+        self.conv1x1_2_vit = nn.Conv2d(1024, 512, kernel_size=1, stride=1, padding=0)
+        self.conv1x1_2_cnn = nn.Conv2d(1024, 512, kernel_size=1, stride=1, padding=0)
+        self.conv1x1_3_vit = nn.Conv2d(512, 256, kernel_size=1, stride=1, padding=0)
+        self.conv1x1_3_cnn = nn.Conv2d(512, 256, kernel_size=1, stride=1, padding=0)
+
         # ============================================================
 
         self.Resnet = Resnet()
@@ -155,6 +163,7 @@ class AttnTransFuse_L(nn.Module):
         x_b_attn_2 = self.drop(x_b_attn_2)
 
         # top-down path for Attn
+
         x_u_attn = self.Resnet_attn.conv1(attn_map) # torch.Size([16, 64, 112, 112])
         x_u_attn = self.Resnet_attn.bn1(x_u_attn)
         x_u_attn = self.Resnet_attn.relu(x_u_attn)
@@ -200,30 +209,31 @@ class AttnTransFuse_L(nn.Module):
         x_u = self.drop(x_u)
 
         # ============================================================
+        # Attention Map Integration
 
-        # # adding
-        # x_u = x_u + x_u_attn
-        # x_u_1 = x_u_1 + x_u_attn_1
-        # x_u_2 = x_u_2 + x_u_attn_2
-        # x_b = x_b + x_b_attn
-        # x_b_1 = x_b_1 + x_b_attn_1
-        # x_b_2 = x_b_2 + x_b_attn_2
+        # # adding * 0.5
+        # x_u = x_u * 0.5 + x_u_attn * 0.5
+        # x_u_1 = x_u_1 * 0.5 + x_u_attn_1 * 0.5
+        # x_u_2 = x_u_2 * 0.5 + x_u_attn_2 * 0.5
+        # x_b = x_b * 0.5 + x_b_attn * 0.5
+        # x_b_1 = x_b_1 * 0.5 + x_b_attn_1 * 0.5
+        # x_b_2 = x_b_2 * 0.5 + x_b_attn_2 * 0.5
 
-        # # multiple
-        # x_u = x_u * x_u_attn
-        # x_u_1 = x_u_1 * x_u_attn_1
-        # x_u_2 = x_u_2 * x_u_attn_2
-        # x_b = x_b * x_b_attn
-        # x_b_1 = x_b_1 * x_b_attn_1
-        # x_b_2 = x_b_2 * x_b_attn_2
+        # concat channel dimension
+        x_u_cat = torch.cat((x_u, x_u_attn), dim=1)
+        x_u_1_cat = torch.cat((x_u_1, x_u_attn_1), dim=1)
+        x_u_2_cat = torch.cat((x_u_2, x_u_attn_2), dim=1)
+        x_b_cat = torch.cat((x_b, x_b_attn), dim=1)
+        x_b_1_cat = torch.cat((x_b_1, x_b_attn_1), dim=1)
+        x_b_2_cat = torch.cat((x_b_2, x_b_attn_2), dim=1)
 
-        # adding attn * 0.5
-        x_u = x_u + x_u_attn * 0.5
-        x_u_1 = x_u_1 + x_u_attn_1 * 0.5
-        x_u_2 = x_u_2 + x_u_attn_2 * 0.5
-        x_b = x_b + x_b_attn * 0.5
-        x_b_1 = x_b_1 + x_b_attn_1 * 0.5
-        x_b_2 = x_b_2 + x_b_attn_2 * 0.5
+        # 1x1 conv
+        x_u = self.conv1x1_1_vit(x_u_cat)
+        x_u_1 = self.conv1x1_1_vit(x_u_1_cat)
+        x_u_2 = self.conv1x1_1_vit(x_u_2_cat)
+        x_b = self.conv1x1_1_cnn(x_b_cat)
+        x_b_1 = self.conv1x1_1_cnn(x_b_1_cat)
+        x_b_2 = self.conv1x1_1_cnn(x_b_2_cat)
 
         # ============================================================
 
@@ -442,6 +452,11 @@ class Attention_block(nn.Module):
         psi = self.relu(g1 + x1)
         psi = self.psi(psi)
         return x * psi
+
+
+def conv1x1(in_planes, out_planes, stride=1):
+    """1x1 convolution"""
+    return nn.Conv2d(in_planes, out_planes, kernel_size=1, stride=stride, padding=0)
 
 
 class DoubleConv(nn.Module):
