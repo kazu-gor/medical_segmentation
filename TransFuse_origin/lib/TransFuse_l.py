@@ -200,13 +200,31 @@ class AttnTransFuse_L(nn.Module):
         x_u = self.drop(x_u)
 
         # ============================================================
-        x_u = x_u + x_u_attn
-        x_u_1 = x_u_1 + x_u_attn_1
-        x_u_2 = x_u_2 + x_u_attn_2
 
-        x_b = x_b + x_b_attn
-        x_b_1 = x_b_1 + x_b_attn_1
-        x_b_2 = x_b_2 + x_b_attn_2
+        # # adding
+        # x_u = x_u + x_u_attn
+        # x_u_1 = x_u_1 + x_u_attn_1
+        # x_u_2 = x_u_2 + x_u_attn_2
+        # x_b = x_b + x_b_attn
+        # x_b_1 = x_b_1 + x_b_attn_1
+        # x_b_2 = x_b_2 + x_b_attn_2
+
+        # # multiple
+        # x_u = x_u * x_u_attn
+        # x_u_1 = x_u_1 * x_u_attn_1
+        # x_u_2 = x_u_2 * x_u_attn_2
+        # x_b = x_b * x_b_attn
+        # x_b_1 = x_b_1 * x_b_attn_1
+        # x_b_2 = x_b_2 * x_b_attn_2
+
+        # adding attn * 0.5
+        x_u = x_u + x_u_attn * 0.5
+        x_u_1 = x_u_1 + x_u_attn_1 * 0.5
+        x_u_2 = x_u_2 + x_u_attn_2 * 0.5
+        x_b = x_b + x_b_attn * 0.5
+        x_b_1 = x_b_1 + x_b_attn_1 * 0.5
+        x_b_2 = x_b_2 + x_b_attn_2 * 0.5
+
         # ============================================================
 
         # joint path

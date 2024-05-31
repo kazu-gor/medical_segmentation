@@ -11,7 +11,7 @@ git pull
 
 cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
-for i in {10..10}
+for i in {20..20}
 do
     # =====================================================================
     # Setting env
@@ -26,18 +26,24 @@ do
     # Attention TransFuse
     # =====================================================================
 
+    # echo ">>> python3 ./train_yolo.py"
+    # python3 ./train_yolo.py | tee ./logs/train_yolo.log
+    # python3 ../../tools/slack_bot.py --text "YOLO Training is done"
+
     # echo ">>> python3 ./test_yolo.py"
     # python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
     # python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
     # python3 ../../tools/slack_bot.py --text "Attention mapping has been completed."
 
-    echo ">>> python3 ./train_attn_trans.py"
-    python3 ./train_attn_trans.py --train_save $TRAIN_WEIGHT | tee ./logs/train_attn_trans.log
-    python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+    SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
-    echo ">>> python3 ./train_attn_trans.py"
-    python3 ./test_attn_trans.py --pth_path "./snapshots/$TRAIN_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
-    python3 ../../tools/slack_bot.py --text "Attention TransFuse test is done"
+    # echo ">>> python3 ./train_attn_trans.py"
+    # python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
+    # python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+
+    echo ">>> python3 ./test_attn_trans.py"
+    python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
+    python3 ../../tools/slack_bot.py --text "`cat ./logs/test_attn_trans.log`"
 
     # =====================================================================
     # Training part mtl
@@ -128,6 +134,20 @@ do
     # echo ">>> python3 ./test_trans_caranet.py --epoch 99"
     # python3 ./test_trans_caranet.py --train_weight $TRAIN_WEIGHT --epoch 99 | tee ./logs/test_trans_caranet_99.log
     # python3 ../../tools/slack_bot.py --text "`cat ./logs/test_trans_caranet_99.log`"
+
+    # =====================================================================
+    # Original TransFuse
+    # =====================================================================
+
+    # python3 ../../tools/slack_bot.py --text ">>> Train and Test Original TransFuse"
+
+    # echo ">>> python3 ./train_trans.py"
+    # python3 ./train_trans.py --train_save "TransFuse" | tee ./logs/train_trans.log
+    # python3 ../../tools/slack_bot.py --text "TransFuse Training is done"
+
+    # echo ">>> python3 ./test_trans.py"
+    # python3 ./test_trans.py --pth_path "./snapshots/TransFuse/TransFuse-best.pth"| tee ./logs/test_trans.log
+    # python3 ../../tools/slack_bot.py --text "`cat ./logs/test_yolo.log`"
 
     # =====================================================================
     # Original TransCaraNet

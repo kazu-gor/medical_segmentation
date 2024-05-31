@@ -126,6 +126,7 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
+            attention_map = (attention_map - np.min(attention_map)) / (np.max(attention_map) - np.min(attention_map))
 
             augmented = self.transform3(image=image, masks=[gt, attn_map])
 
@@ -545,7 +546,11 @@ class test_dataset:
         self.images = [str(image_root / f) for f in os.listdir(image_root) if
                        f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
-        self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
+        try:
+            self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
+        except Exception:
+            pass
+
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
         self.transform = transforms.Compose([
@@ -568,7 +573,7 @@ class test_dataset:
         image = self.rgb_loader(self.images[self.index])
         image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
-        gt = self.resize(gt)
+        # gt = self.resize(gt)
 
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]
@@ -585,7 +590,7 @@ class test_dataset:
         image_copy = copy.deepcopy(image)
         image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
-        gt = self.resize(gt)
+        # gt = self.resize(gt)
 
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]

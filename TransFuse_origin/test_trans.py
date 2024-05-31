@@ -4,15 +4,16 @@ import numpy as np
 import os, argparse
 from scipy import misc
 import imageio
-from lib.TransFuse_s import TransFuse_S
+# from lib.TransFuse_s import TransFuse_S
 from lib.TransFuse_l import TransFuse_L
-from lib.beta_TransFuse_s import beta_TransFuse_S
-from lib.TransFuse_h import TransFuse_H
-from lib.enhanced_beta_TransFuse import enhanced_beta_TransFuse
-from lib.enhanced_TransFuse import enhanced_TransFuse
+# from lib.beta_TransFuse_s import beta_TransFuse_S
+# from lib.TransFuse_h import TransFuse_H
+# from lib.enhanced_beta_TransFuse import enhanced_beta_TransFuse
+# from lib.enhanced_TransFuse import enhanced_TransFuse
 from utils.dataloader import test_dataset
 from skimage import img_as_ubyte
 import glob
+from pathlib import Path
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
@@ -45,7 +46,6 @@ def mean_dice_np(y_true, y_pred, **kwargs):
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
 
-
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-99.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-59.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/TransFuse-best.pth')
@@ -67,7 +67,7 @@ data_path = './dataset/sekkai_TestDataset/'
 norm = opt.normalization
 # norm = True
 
-save_path = './results/Transfuse_S/'
+save_path = './results/Transfuse/'
 
 # model = TransFuse_S()
 model = TransFuse_L()
@@ -80,11 +80,14 @@ model.cuda()
 model.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob('./results/Transfuse/*.png'):
     os.remove(file)
-image_root = '{}/images/'.format(data_path)
-gt_root = '{}/masks/'.format(data_path)
-test_loader = test_dataset(image_root, gt_root, opt.testsize)
+
+image_root = Path(f"{data_path}/images/")
+gt_root = Path(f"{data_path}/masks/")
+
+test_loader = test_dataset(image_root, gt_root, '', opt.testsize)
+
 
 dice_bank = []
 iou_bank = []

@@ -46,9 +46,10 @@ parser.add_argument('--pth_path', type=str, default='./snapshots/polyp491_10/Tra
 parser.add_argument("--normalization", type=bool, default=False)
 
 opt = parser.parse_args()
-data_path = "./dataset/dataset_v2/sekkai/sekkai_TestDataset"
+data_path = "./dataset/sekkai_TestDataset"
+# data_path = "./dataset/dataset_v2/sekkai/sekkai_TestDataset"
 norm = opt.normalization
-save_path = "./results/AttnTransFuse_L/"
+save_path = "./results/AttnTransFuse_L"
 
 model = AttnTransFuse_L()
 model.load_state_dict(torch.load(opt.pth_path))
@@ -56,7 +57,7 @@ model.cuda()
 model.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob("./results/polyp491_10/*.png"):
+for file in glob.glob(f"./{save_path}/*.png"):
     os.remove(file)
 
 image_root = Path(f"{data_path}/images/")
@@ -70,7 +71,7 @@ acc_bank = []
 
 for _ in range(test_loader.size):
     image, gt, attn_map, name = test_loader.load_attn_data()
-    gt = np.asarray(gt.squeeze(0), np.float32)
+    gt = np.asarray(gt, np.float32)
 
     if norm:
         gt /= gt.max() + 1e-8  ##########################
@@ -85,7 +86,6 @@ for _ in range(test_loader.size):
 
     res = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
-    # imageio.imsave(save_path + name, img_as_ubyte(res))
 
     if norm:
         res = (res - res.min()) / (
@@ -101,7 +101,7 @@ for _ in range(test_loader.size):
     acc_bank.append(acc)
     dice_bank.append(dice)
     iou_bank.append(iou)
-    imageio.imsave(save_path + name, img_as_ubyte(res))
+    imageio.imsave(f"{save_path}/{name}", img_as_ubyte(res))
 
 print(
     "Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}".format(
