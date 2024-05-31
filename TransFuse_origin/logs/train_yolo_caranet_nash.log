@@ -1,0 +1,1 @@
+Namespace(batchsize=4, beta1=0.5, beta2=0.999, clip=0.5, decay_epoch=50, decay_rate=0.1, epoch=100, grad_norm=2.0, lr=0.0001, mtl='nashmtl', train_path='./dataset/TrainDataset', train_save='polyp491_107', trainsize=352, tuning=True, val_path='./dataset/ValDataset')

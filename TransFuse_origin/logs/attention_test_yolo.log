@@ -1,0 +1,715 @@
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD7_1123811.png: 256x640 9 polyps, 4.9ms
+Speed: 1.6ms preprocess, 4.9ms inference, 40.5ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+1 label saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_1150711.png: 256x640 10 polyps, 4.0ms
+Speed: 0.8ms preprocess, 4.0ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+2 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_0315071.png: 256x640 9 polyps, 4.0ms
+Speed: 0.8ms preprocess, 4.0ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+3 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy26.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+4 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1201381.png: 256x640 7 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+5 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_1150301.png: 256x640 10 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+6 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal81.png: 256x640 5 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+7 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1314721.png: 256x640 8 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+8 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy56.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+9 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_9427451.png: 256x640 4 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+10 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_192887.png: 256x640 2 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+11 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy54.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+12 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal54.png: 256x640 5 polyps, 3.7ms
+Speed: 0.7ms preprocess, 3.7ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+13 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_991002.png: 256x640 10 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+14 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard10.png: 256x640 5 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+15 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1320901.png: 256x640 10 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+16 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_0606171.png: 256x640 8 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+17 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal41.png: 256x640 10 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+18 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal69.png: 256x640 4 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+19 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD9_9714001.png: 256x640 4 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+20 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy30.png: 256x640 5 polyps, 3.8ms
+Speed: 1.2ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+21 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD9_9329201.png: 256x640 2 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+22 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal17.png: 288x640 6 polyps, 4.4ms
+Speed: 0.8ms preprocess, 4.4ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+23 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2021_900489.png: 256x640 9 polyps, 4.2ms
+Speed: 1.0ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+24 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1211631.png: 256x640 3 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+25 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal86.png: 256x640 4 polyps, 3.7ms
+Speed: 0.7ms preprocess, 3.7ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+26 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD10_1254191.png: 256x640 5 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+27 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard65.png: 256x640 10 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+28 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2020_020256.png: 256x640 6 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+29 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard70.png: 256x640 5 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+30 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_023169.png: 288x640 5 polyps, 4.3ms
+Speed: 1.1ms preprocess, 4.3ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+31 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy46.png: 288x640 4 polyps, 3.9ms
+Speed: 0.9ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+32 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal85.png: 256x640 3 polyps, 4.2ms
+Speed: 0.7ms preprocess, 4.2ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+33 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1208571.png: 288x640 6 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+34 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_911266.png: 256x640 10 polyps, 4.2ms
+Speed: 1.0ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+35 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD7_0705631.png: 256x640 4 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+36 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2020_141319.png: 256x640 2 polyps, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+37 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1203801.png: 256x640 6 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+38 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_1206641.png: 256x640 9 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+39 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD10_1230171.png: 288x640 5 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+40 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard67.png: 256x640 10 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+41 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2021_980314.png: 256x640 6 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+42 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_062835.png: 288x640 3 polyps, 4.2ms
+Speed: 1.1ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+43 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1200631.png: 256x640 1 polyp, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+44 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_151175.png: 256x640 10 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+45 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy53.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+46 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_1223071.png: 256x640 8 polyps, 3.7ms
+Speed: 0.8ms preprocess, 3.7ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+47 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_1024761.png: 256x640 3 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+48 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD11_1062071.png: 256x640 3 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+49 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard14.png: 256x640 7 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+50 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_134417.png: 256x640 2 polyps, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+51 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_080738.png: 192x640 1 polyp, 4.5ms
+Speed: 0.7ms preprocess, 4.5ms inference, 0.7ms postprocess per image at shape (1, 3, 192, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+52 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_062338.png: 256x640 (no detections), 4.1ms
+Speed: 1.0ms preprocess, 4.1ms inference, 0.4ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+52 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal21.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+53 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_182559.png: 256x640 7 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+54 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy50.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+55 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_0803101.png: 288x640 5 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+56 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1211331.png: 256x640 1 polyp, 4.1ms
+Speed: 0.7ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+57 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal59.png: 256x640 6 polyps, 3.7ms
+Speed: 0.7ms preprocess, 3.7ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+58 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal65.png: 288x640 10 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+59 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_1157591.png: 256x640 8 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+60 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal37.png: 256x640 5 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+61 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_0111841.png: 256x640 4 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+62 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_0512041.png: 288x640 1 polyp, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+63 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_0615221.png: 256x640 5 polyps, 4.0ms
+Speed: 0.7ms preprocess, 4.0ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+64 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_0019071.png: 256x640 6 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+65 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2021_203617.png: 256x640 5 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+66 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_971580.png: 288x640 7 polyps, 4.2ms
+Speed: 1.1ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+67 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1002941.png: 256x640 3 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+68 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_1025521.png: 256x640 7 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+69 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2021_125042.png: 256x640 3 polyps, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+70 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard63.png: 256x640 5 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+71 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_0951331.png: 256x640 7 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+72 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy42.png: 288x640 10 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+73 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD7_0718761.png: 256x640 6 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+74 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_1011281.png: 256x640 6 polyps, 3.7ms
+Speed: 0.8ms preprocess, 3.7ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+75 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_8300451.png: 256x640 5 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+76 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard60.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+77 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_062102.png: 256x640 2 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+78 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard49.png: 256x640 1 polyp, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+79 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1254411.png: 256x640 6 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+80 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_1150951.png: 288x640 7 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+81 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD9_1220781.png: 256x640 2 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+82 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy58.png: 256x640 8 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+83 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD7_1150711.png: 256x640 5 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+84 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_143319.png: 256x640 3 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+85 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_051709.png: 256x640 5 polyps, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+86 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard35.png: 256x640 10 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+87 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_9309501.png: 256x640 7 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+88 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_052580.png: 256x640 7 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+89 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_843218.png: 256x640 7 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+90 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy5.png: 256x640 10 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+91 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal85.png: 256x640 3 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+92 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1140061.png: 256x640 8 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+93 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD11_0958061.png: 256x640 3 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+94 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_972949.png: 256x640 7 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+95 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard22.png: 256x640 7 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+96 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_0313811.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+97 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_0949541.png: 256x640 4 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+98 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1014031.png: 288x640 7 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+99 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_173784.png: 256x640 5 polyps, 4.1ms
+Speed: 1.0ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+100 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_1157601.png: 256x640 5 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+101 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD10_1241291.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+102 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_7925741.png: 256x640 1 polyp, 3.7ms
+Speed: 0.7ms preprocess, 3.7ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+103 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_952082.png: 256x640 1 polyp, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+104 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1246321.png: 256x640 1 polyp, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 1.2ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+105 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal42.png: 256x640 4 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+106 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1242151.png: 256x640 7 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+107 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard82.png: 256x640 10 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+108 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_171152.png: 256x640 1 polyp, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+109 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard1.png: 288x640 7 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+110 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_091703.png: 256x640 2 polyps, 4.1ms
+Speed: 1.0ms preprocess, 4.1ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+111 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_8812961.png: 256x640 3 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+112 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2020_920744.png: 256x640 1 polyp, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+113 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy13.png: 288x640 10 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+114 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_1210761.png: 288x640 2 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+115 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard43.png: 256x640 2 polyps, 4.1ms
+Speed: 0.7ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+116 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_2020_200455.png: 256x640 4 polyps, 3.8ms
+Speed: 0.9ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+117 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2020_100322.png: 256x640 6 polyps, 3.9ms
+Speed: 1.0ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+118 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_050914.png: 288x640 10 polyps, 4.2ms
+Speed: 1.1ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+119 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_easy2.png: 256x640 4 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+120 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1230011.png: 256x640 6 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+121 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_050559.png: 256x640 3 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+122 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1230171.png: 288x640 4 polyps, 4.3ms
+Speed: 0.8ms preprocess, 4.3ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+123 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_043054.png: 288x640 7 polyps, 3.9ms
+Speed: 1.1ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+124 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_hard68.png: 256x640 2 polyps, 4.3ms
+Speed: 0.8ms preprocess, 4.3ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+125 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_hard2.png: 256x640 3 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+126 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD13_070806.png: 288x640 1 polyp, 4.2ms
+Speed: 1.1ms preprocess, 4.2ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+127 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_2021_091281.png: 256x640 7 polyps, 4.3ms
+Speed: 1.0ms preprocess, 4.3ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+128 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy70.png: 256x640 4 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+129 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_052363.png: 256x640 6 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+130 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal58.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+131 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD10_1250441.png: 256x640 6 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+132 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD11_1319141.png: 256x640 2 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+133 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD8_1204061.png: 256x640 7 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+134 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD7_9941511.png: 288x640 3 polyps, 4.1ms
+Speed: 0.8ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+135 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_normal59.png: 256x640 8 polyps, 4.1ms
+Speed: 0.7ms preprocess, 4.1ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+136 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_easy59.png: 256x640 10 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+137 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD13_062102.png: 256x640 6 polyps, 3.8ms
+Speed: 1.0ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+138 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD7_1157391.png: 256x640 2 polyps, 3.9ms
+Speed: 0.8ms preprocess, 3.9ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+139 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/right_CD8_1100361.png: 256x640 7 polyps, 3.8ms
+Speed: 0.8ms preprocess, 3.8ms inference, 0.7ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+140 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_CD10_0432741.png: 256x640 9 polyps, 3.8ms
+Speed: 0.7ms preprocess, 3.8ms inference, 0.8ms postprocess per image at shape (1, 3, 256, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+141 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
+
+image 1/1 /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/datasets/dataset_v0/sekkai/images/sekkai_TestDataset/left_normal20.png: 288x640 9 polyps, 4.2ms
+Speed: 0.8ms preprocess, 4.2ms inference, 0.8ms postprocess per image at shape (1, 3, 288, 640)
+Results saved to [1m/home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8[0m
+142 labels saved to /home/student/git/laboratory/python/py/murano_program/TransFuse_origin/ultralytics/runs/detect/predict8/labels
