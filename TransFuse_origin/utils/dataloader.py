@@ -126,7 +126,7 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
-            attention_map = (attention_map - np.min(attention_map)) / (np.max(attention_map) - np.min(attention_map))
+            attn_map = (attn_map - np.min(attn_map)) / (np.max(attn_map) - np.min(attn_map))
 
             augmented = self.transform3(image=image, masks=[gt, attn_map])
 
