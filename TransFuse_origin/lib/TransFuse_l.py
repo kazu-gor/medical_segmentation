@@ -229,11 +229,11 @@ class AttnTransFuse_L(nn.Module):
 
         # 1x1 conv
         x_u = self.conv1x1_1_vit(x_u_cat)
-        x_u_1 = self.conv1x1_1_vit(x_u_1_cat)
-        x_u_2 = self.conv1x1_1_vit(x_u_2_cat)
+        x_u_1 = self.conv1x1_2_vit(x_u_1_cat)
+        x_u_2 = self.conv1x1_3_vit(x_u_2_cat)
         x_b = self.conv1x1_1_cnn(x_b_cat)
-        x_b_1 = self.conv1x1_1_cnn(x_b_1_cat)
-        x_b_2 = self.conv1x1_1_cnn(x_b_2_cat)
+        x_b_1 = self.conv1x1_2_cnn(x_b_1_cat)
+        x_b_2 = self.conv1x1_3_cnn(x_b_2_cat)
 
         # ============================================================
 
