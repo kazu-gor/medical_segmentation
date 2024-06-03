@@ -140,7 +140,7 @@ class PolypAttnDataset(data.Dataset):
 
             image = image.convert('RGB')
             gt = gt.convert('L')
-            attn_map = attn_map.convert('L')
+            attn_map = attn_map.convert('RGB')
 
         image = self.img_transform(image)
         gt = self.gt_transform(gt)
