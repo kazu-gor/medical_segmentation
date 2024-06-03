@@ -126,7 +126,7 @@ class PolypAttnDataset(data.Dataset):
             image = np.array(image)
             gt = np.array(gt)
             attn_map = np.array(attn_map)
-            attn_map = self._minmax_normalize(attn_map)
+            # attn_map = self._minmax_normalize(attn_map)
 
             augmented = self.transform3(image=image, masks=[gt, attn_map])
 
@@ -140,7 +140,7 @@ class PolypAttnDataset(data.Dataset):
 
             image = image.convert('RGB')
             gt = gt.convert('L')
-            attn_map = attn_map.convert('RGB')
+            attn_map = attn_map.convert('L')
 
         image = self.img_transform(image)
         gt = self.gt_transform(gt)

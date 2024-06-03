@@ -37,9 +37,9 @@ do
 
     SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
-    # echo ">>> python3 ./train_attn_trans.py"
-    # python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
-    # python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+    echo ">>> python3 ./train_attn_trans.py"
+    python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
+    python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
     echo ">>> python3 ./test_attn_trans.py"
     python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
