@@ -26,14 +26,14 @@ do
     # Attention TransFuse
     # =====================================================================
 
-    # echo ">>> python3 ./train_yolo.py"
-    # python3 ./train_yolo.py | tee ./logs/train_yolo.log
-    # python3 ../../tools/slack_bot.py --text "YOLO Training is done"
+    echo ">>> python3 ./train_yolo.py"
+    python3 ./train_yolo.py | tee ./logs/train_yolo.log
+    python3 ../../tools/slack_bot.py --text "YOLO Training is done"
 
-    # echo ">>> python3 ./test_yolo.py"
-    # python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    # python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    # python3 ../../tools/slack_bot.py --text "Attention mapping has been completed."
+    echo ">>> python3 ./test_yolo.py"
+    python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+    python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+    python3 ../../tools/slack_bot.py --text "Attention mapping has been completed."
 
     SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
