@@ -46,7 +46,7 @@ parser.add_argument('--pth_path', type=str, default='./snapshots/polyp491_10/Tra
 parser.add_argument("--normalization", type=bool, default=False)
 
 opt = parser.parse_args()
-data_path = "./dataset/sekkai_TestDataset"
+data_path = "./dataset_attn/sekkai_TestDataset/"
 # data_path = "./dataset/dataset_v2/sekkai/sekkai_TestDataset"
 norm = opt.normalization
 save_path = "./results/AttnTransFuse_L"
