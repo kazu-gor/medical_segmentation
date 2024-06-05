@@ -17,10 +17,14 @@ class Predictor:
                  mode='sekkai', 
                  dataset_root='./datasets/dataset_v0/',
                  yolo_runs_root='./ultralytics/runs/detect/',
-                 verbose=True):
+                 verbose=True,
+                 args=None):
         self.weights = weights
         self.mode = mode
         self.verbose = verbose
+
+        self.max_det = args.max_det
+        self.conf = args.conf
 
         self.dataset_root = Path(dataset_root)
         self.yolo_runs_root = Path(yolo_runs_root)
@@ -90,8 +94,8 @@ class Predictor:
                 img_file,
                 imgsz=640,
                 data='polyp491.yaml',
-                max_det=10,
-                conf=0.01,
+                max_det=self.max_det,
+                conf=self.conf,
                 # nms=True,
                 single_cls=True,
                 save=True,
@@ -133,8 +137,8 @@ class Predictor:
                 img_files,
                 imgsz=640,
                 data='polyp491.yaml',
-                max_det=10,
-                conf=0.01,
+                max_det=self.max_det,
+                conf=self.conf,
                 # nms=True,
                 single_cls=True,
                 save=True,
@@ -360,6 +364,8 @@ def arg_parser():
     parser = argparse.ArgumentParser(description='Predict YOLO')
     parser.add_argument('--mode', type=str, default='sekkai', help='Mode')
     parser.add_argument('--weight', type=str)
+    parser.add_argument('--max_det', type=int, default=10, help='Maximum detections')
+    parser.add_argument('--conf', type=float, default=0.01, help='Confidence threshold')
     return parser.parse_args()
 
 
@@ -374,6 +380,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
 
@@ -384,6 +391,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
 
@@ -394,6 +402,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
 
@@ -403,6 +412,17 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
+        )
+        predictor.predict_yolo_forTest()
+
+        predictor = Predictor(
+            weights=f'./ultralytics/runs/detect/{args.weight}/weights/best.pt',
+            mode='sekkai',
+            dataset_root='./datasets/attention/',
+            yolo_runs_root='./ultralytics/runs/detect/',
+            verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
 
@@ -412,6 +432,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
         predictor = Predictor(
@@ -419,6 +440,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
     elif args.mode == 'mtl':
@@ -427,6 +449,7 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
         predictor = Predictor(
@@ -434,5 +457,6 @@ if __name__ == '__main__':
             dataset_root='./datasets/attention/',
             yolo_runs_root='./ultralytics/runs/detect/',
             verbose=False,
+            args=args,
         )
         predictor.predict_yolo_forTest()
