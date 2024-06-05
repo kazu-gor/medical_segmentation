@@ -188,13 +188,13 @@ class Predictor:
 
         if self.mode == 'train':
             cv2.imwrite(
-                f'./dataset/sekkai_TrainDataset/attention/{str(Path(img_path).name)}', attn_map)
+                f'./dataset_attn/sekkai_TrainDataset/attention/{str(Path(img_path).name)}', attn_map)
         elif self.mode == 'val':
             cv2.imwrite(
-                f'./dataset/sekkai_ValDataset/attention/{str(Path(img_path).name)}', attn_map)
+                f'./dataset_attn/sekkai_ValDataset/attention/{str(Path(img_path).name)}', attn_map)
         else:
             cv2.imwrite(
-                f'./dataset/sekkai_TestDataset/attention/{str(Path(img_path).name)}', attn_map)
+                f'./dataset_attn/sekkai_TestDataset/attention/{str(Path(img_path).name)}', attn_map)
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -317,19 +317,19 @@ class Predictor:
 
         if self.mode == 'train':
             self._delete_existing_files(
-                Path('./dataset/sekkai_TrainDataset/attention'),
+                Path('./dataset_attn/sekkai_TrainDataset/attention'),
                 force=True)
-            os.makedirs('./dataset/sekkai_TrainDataset/attention', exist_ok=True)
+            os.makedirs('./dataset_attn/sekkai_TrainDataset/attention', exist_ok=True)
         elif self.mode == 'val':
             self._delete_existing_files(
-                Path('./dataset/sekkai_ValDataset/attention'),
+                Path('./dataset_attn/sekkai_ValDataset/attention'),
                 force=True)
-            os.makedirs('./dataset/sekkai_ValDataset/attention', exist_ok=True)
+            os.makedirs('./dataset_attn/sekkai_ValDataset/attention', exist_ok=True)
         else:
             self._delete_existing_files(
-                Path('./dataset/sekkai_TestDataset/attention'),
+                Path('./dataset_attn/sekkai_TestDataset/attention'),
                 force=True)
-            os.makedirs('./dataset/sekkai_TestDataset/attention', exist_ok=True)
+            os.makedirs('./dataset_attn/sekkai_TestDataset/attention', exist_ok=True)
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
