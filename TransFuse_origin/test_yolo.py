@@ -182,12 +182,15 @@ class Predictor:
         # create attention map image
         attn_map = cv2.resize(attn_map, (352, 352))
 
-        if self.mode in ['train', 'val']:
+        if self.mode == 'train':
             cv2.imwrite(
-                f'./datasets/{self.output_dir}/{self.mode}/{str(Path(img_path).name)}', attn_map)
+                f'./dataset/sekkai_TrainDataset/attention/{str(Path(img_path).name)}', attn_map)
+        elif self.mode == 'val':
+            cv2.imwrite(
+                f'./dataset/sekkai_ValDataset/attention/{str(Path(img_path).name)}', attn_map)
         else:
             cv2.imwrite(
-                f'./datasets/{self.output_dir}/attentions/{Path(img_path).name}', attn_map)
+                f'./dataset/sekkai_TestDataset/attention/{str(Path(img_path).name)}', attn_map)
 
     def _crop_image(self, img_path, label_path, img_type):
         if isinstance(img_path, pathlib.PosixPath):
@@ -307,6 +310,22 @@ class Predictor:
             # create directories
             os.makedirs(f'./datasets/{self.output_dir}/{img_type}', exist_ok=True)
             os.makedirs(f'./datasets/{self.output_dir}/plottings_{img_type}', exist_ok=True)
+
+        if self.mode == 'train':
+            self._delete_existing_files(
+                Path('./dataset/sekkai_TrainDataset/attention'),
+                force=True)
+            os.makedirs('./dataset/sekkai_TrainDataset/attention', exist_ok=True)
+        elif self.mode == 'val':
+            self._delete_existing_files(
+                Path('./dataset/sekkai_ValDataset/attention'),
+                force=True)
+            os.makedirs('./dataset/sekkai_ValDataset/attention', exist_ok=True)
+        else:
+            self._delete_existing_files(
+                Path('./dataset/sekkai_TestDataset/attention'),
+                force=True)
+            os.makedirs('./dataset/sekkai_TestDataset/attention', exist_ok=True)
 
         gt_path_list = list(gt_path.glob('*.png'))
         gt_path_list_len = len(gt_path_list)
