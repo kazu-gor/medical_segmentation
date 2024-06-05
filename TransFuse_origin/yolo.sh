@@ -32,17 +32,17 @@ do
 
     echo ">>> python3 ./test_yolo.py"
     python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    python3 ../../tools/slack_bot.py --text "`cat ./logs/attention_test_yolo.log`"
+    python3 ../../tools/slack_bot.py --text "test_yolo.pt is done."
 
-    SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
+    # SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
-    echo ">>> python3 ./train_attn_trans.py"
-    python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
-    python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+    # echo ">>> python3 ./train_attn_trans.py"
+    # python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
+    # python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
-    echo ">>> python3 ./test_attn_trans.py"
-    python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
-    python3 ../../tools/slack_bot.py --text "`cat ./logs/test_attn_trans.log`"
+    # echo ">>> python3 ./test_attn_trans.py"
+    # python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
+    # python3 ../../tools/slack_bot.py --text "`cat ./logs/test_attn_trans.log`"
 
     # =====================================================================
     # Training part mtl
