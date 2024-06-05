@@ -11,7 +11,7 @@ git pull
 
 cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 
-for i in {20..20}
+for i in {2..2}
 do
     # =====================================================================
     # Setting env
@@ -26,14 +26,13 @@ do
     # Attention TransFuse
     # =====================================================================
 
-    echo ">>> python3 ./train_yolo.py"
-    python3 ./train_yolo.py | tee ./logs/train_yolo.log
-    python3 ../../tools/slack_bot.py --text "YOLO Training is done"
+    # echo ">>> python3 ./train_yolo.py"
+    # python3 ./train_yolo.py | tee ./logs/train_yolo.log
+    # python3 ../../tools/slack_bot.py --text "YOLO Training is done"
 
     echo ">>> python3 ./test_yolo.py"
     python3 ./test_yolo.py --mode attention --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    python3 ./test_yolo.py --mode sekkai --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    python3 ../../tools/slack_bot.py --text "Attention mapping has been completed."
+    python3 ../../tools/slack_bot.py --text "`cat ./logs/attention_test_yolo.log`"
 
     SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
