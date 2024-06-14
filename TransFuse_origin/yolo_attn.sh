@@ -15,7 +15,7 @@ cd /home/student/git/laboratory/python/py/murano_program/TransFuse_origin
 # Setting env
 # =====================================================================
 
-TRAIN_WEIGHT="polyp491_20"
+TRAIN_WEIGHT="polyp491_2"
 echo ">>> TRAIN_WEIGHT=$TRAIN_WEIGHT"
 SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 
@@ -39,9 +39,10 @@ for co in ${conf[@]}
 do
     # for md in ${max_det[@]}
     # do
+    #
     echo "conf: $co"
     # echo "max_det: $md"
-    python3 ../../tools/slack_bot.py --text ">>> conf=$co, max_det=$md"
+    python3 ../../tools/slack_bot.py --text ">>> conf=$co"
 
     echo ">>> python3 ./test_yolo.py"
     # if attention dir is not exist, make it
@@ -55,10 +56,19 @@ do
         mkdir -p ./dataset_attn/sekkai_TestDataset/attention
     fi
 
+    if [ -d "./dataset_attn/sekkai_TestDataset/attention" ]; then
+        rm -rf ./dataset_attn/sekkai_TestDataset/attention_1/*
+        rm -rf ./dataset_attn/sekkai_TrainDataset/attention_1/*
+        rm -rf ./dataset_attn/sekkai_ValDataset/attention_1/*
+        rm -rf ./dataset_attn/sekkai_TestDataset/attention_2/*
+        rm -rf ./dataset_attn/sekkai_TrainDataset/attention_2/*
+        rm -rf ./dataset_attn/sekkai_ValDataset/attention_2/*
+    fi
+
     python3 ./test_yolo.py --mode attention --max_det 10 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-    mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_1
-    mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_1
-    mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_1
+    mv ./dataset_attn/sekkai_TrainDataset/attention/* ./dataset_attn/sekkai_TrainDataset/attention_1/
+    mv ./dataset_attn/sekkai_ValDataset/attention/* ./dataset_attn/sekkai_ValDataset/attention_1/
+    mv ./dataset_attn/sekkai_TestDataset/attention/* ./dataset_attn/sekkai_TestDataset/attention_1/
     python3 ./test_yolo.py --mode attention --max_det 5 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
 
     # if attention dir is not exist, make it
@@ -72,9 +82,9 @@ do
         mkdir -p ./dataset_attn/sekkai_TestDataset/attention
     fi
 
-    mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_2
-    mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_2
-    mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_2
+    mv ./dataset_attn/sekkai_TrainDataset/attention/* ./dataset_attn/sekkai_TrainDataset/attention_2/
+    mv ./dataset_attn/sekkai_ValDataset/attention/* ./dataset_attn/sekkai_ValDataset/attention_2/
+    mv ./dataset_attn/sekkai_TestDataset/attention/* ./dataset_attn/sekkai_TestDataset/attention_2/
     python3 ../../tools/slack_bot.py --text "test_yolo.py is done."
 
     echo ">>> python3 ./train_attn_trans.py"
