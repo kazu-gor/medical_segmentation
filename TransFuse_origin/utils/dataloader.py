@@ -106,14 +106,14 @@ class PolypAttnDataset(data.Dataset):
     def __getitem__(self, index):
         self.exception_count = 0
 
-        image = self.rgb_loader(self.images[index])
+        image = self.binary_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
 
         name = self.images[index].split('/')[-1]
         name_gt = self.gts[index].split('/')[-1]
 
         try:
-            attn_map = self.rgb_loader(self.attn_maps[self.index_attn])
+            attn_map = self.binary_loader(self.attn_maps[self.index_attn])
             name_attn = self.attn_maps[self.index_attn].split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn += 1
@@ -146,6 +146,50 @@ class PolypAttnDataset(data.Dataset):
         gt = self.gt_transform(gt)
         attn_map = self.gt_transform(attn_map)
         return image, gt, attn_map
+
+    # def __getitem__(self, index):
+    #     self.exception_count = 0
+
+    #     image = self.rgb_loader(self.images[index])
+    #     gt = self.binary_loader(self.gts[index])
+
+    #     name = self.images[index].split('/')[-1]
+    #     name_gt = self.gts[index].split('/')[-1]
+
+    #     try:
+    #         attn_map = self.rgb_loader(self.attn_maps[self.index_attn])
+    #         name_attn = self.attn_maps[self.index_attn].split('/')[-1]
+    #         assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+    #         self.index_attn += 1
+    #     except Exception:
+    #         attn_map = np.zeros_like(image)
+    #         attn_map = Image.fromarray(attn_map)
+
+    #     if self.phase == 'train':
+
+    #         image = np.array(image)
+    #         gt = np.array(gt)
+    #         attn_map = np.array(attn_map)
+    #         # attn_map = self._minmax_normalize(attn_map)
+
+    #         augmented = self.transform3(image=image, masks=[gt, attn_map])
+
+    #         image, masks = augmented['image'], augmented['masks']
+    #         gt, attn_map = masks[0], masks[1]
+
+    #         image = Image.fromarray(image)
+    #         gt = Image.fromarray(gt)
+    #         attn_map = attn_map.astype(np.uint8)
+    #         attn_map = Image.fromarray(attn_map)
+
+    #         image = image.convert('RGB')
+    #         gt = gt.convert('L')
+    #         attn_map = attn_map.convert('RGB')
+
+    #     image = self.img_transform(image)
+    #     gt = self.gt_transform(gt)
+    #     attn_map = self.gt_transform(attn_map)
+    #     return image, gt, attn_map
 
     def _minmax_normalize(self, attention_map):
         min_val = np.min(attention_map)
@@ -251,11 +295,13 @@ class PolypAttnDataset(data.Dataset):
         return mixed.astype('uint8'), mixed_gt.astype('uint8')
 
     def filter_files(self):
-        assert len(self.images) == len(self.gts)
+        assert len(self.images) == len(self.gts) == len(self.attn_map)
         images = []
         gts = []
-        for img_path, gt_path in zip(self.images, self.gts):
+        attns = []
+        for img_path, gt_path, attn_path in zip(self.images, self.gts, self.attn_map):
             img = Image.open(img_path)
+            attn = Image.open(attn_path)
             gt = Image.open(gt_path)
 
             # if img.size == gt.size:
@@ -268,11 +314,13 @@ class PolypAttnDataset(data.Dataset):
             #         images.append(img_path)
             #         gts.append(gt_path)
 
-            if img.size == gt.size:
+            if img.size == gt.size == attn.size:
                 images.append(img_path)
                 gts.append(gt_path)
+                attns.append(attn_path)
         self.images = images
         self.gts = gts
+        self.
 
     def rgb_loader(self, path):
         with open(path, 'rb') as f:
