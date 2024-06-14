@@ -39,17 +39,15 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
             for rate in size_rates:
                 optimizer.zero_grad()
                 # ---- data prepare ----
-                images, gts, attn_map = pack
+                images, gts = pack
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
-                attn_map = Variable(attn_map).cuda()
 
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
                     images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                     gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
-                    attn_map = F.upsample(attn_map, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
                     lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
@@ -104,7 +102,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--epoch', type=int, default=100, help='epoch number')
     parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-    parser.add_argument('--batchsize', type=int, default=8, help='training batch size')
+    parser.add_argument('--batchsize', type=int, default=16, help='training batch size')
     parser.add_argument('--trainsize', type=int, default=352, help='training dataset size')
     # parser.add_argument('--trainsize', type=int, default=384, help='training dataset size')
     # parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
@@ -139,10 +137,10 @@ if __name__ == '__main__':
     attn_map_root_val_1 = Path(f'{opt.val_path}/attention_1/')
     attn_map_root_val_2 = Path(f'{opt.val_path}/attention_2/')
 
-    train_loader = get_attn_loader(image_root, gt_root, attn_map_root_1, attn_map_root_2, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_attn_loader(image_root, gt_root, attn_map_root_1, attn_map_root_2, batchsize=opt.batchsize, trainsize=opt.trainsize, num_workers=0)
     total_step = len(train_loader)
 
-    val_loader = get_attn_loader(image_root_val, gt_root_val, attn_map_root_val_1, attn_map_root_val_2 , batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_attn_loader(image_root_val, gt_root_val, attn_map_root_val_1, attn_map_root_val_2 , batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val', num_workers=0)
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 

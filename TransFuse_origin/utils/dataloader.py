@@ -108,7 +108,8 @@ class PolypAttnDataset(data.Dataset):
         self.index_attn_2 = 0
 
     def __getitem__(self, index):
-        # self.exception_count = 0
+        self.exception_count_1 = 0
+        self.exception_count_2 = 0
 
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
@@ -116,41 +117,43 @@ class PolypAttnDataset(data.Dataset):
         name = self.images[index].split('/')[-1]
         name_gt = self.gts[index].split('/')[-1]
 
-        def condition(x):
-            return x == name
+        def condition(x, name):
+            return x.split('/')[-1] == name
 
         try:
             # nameが一致する要素をself.attn_map_1から抽出
-            attn_path = [a for a in self.attn_maps_1 if condition(a)][0]
+            attn_path = [a for a in self.attn_maps_1 if condition(a, name)][0]
             attn_map_1 = self.binary_loader(attn_path)
+            attn_map_1 = np.stack([attn_map_1, attn_map_1, attn_map_1], axis=2)
             name_attn = attn_path.split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn_1 += 1
         except Exception:
-            print(f"Exception: {name}")
             attn_map_1 = np.zeros_like(image)
             attn_map_1 = Image.fromarray(attn_map_1)
+            self.exception_count_1 += 1
 
         try:
             # nameが一致する要素をself.attn_map_1から抽出
-            attn_path = [a for a in self.attn_maps_2 if condition(a)][0]
+            attn_path = [a for a in self.attn_maps_2 if condition(a, name)][0]
             attn_map_2 = self.binary_loader(attn_path)
+            attn_map_2 = np.stack([attn_map_2, attn_map_2, attn_map_2], axis=2)
             name_attn = attn_path.split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn_2 += 1
         except Exception:
-            print(f"Exception: {name}")
             attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
+            self.exception_count_2 += 1
 
-        # exchange image channel 2 to attn_map_1, channel 3 to attn_map_2
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
-
-        # imageの2チャネル目をattn_map_1に、3チャネル目をattn_map_2にする
         image[:, :, 1] = attn_map_1[:, :, 0]
         image[:, :, 2] = attn_map_2[:, :, 0]
+
+        image = Image.fromarray(image)
+        image = image.convert('RGB')
 
         if self.phase == 'train':
 
@@ -647,7 +650,8 @@ class test_dataset:
         self.gt_transform = transforms.ToTensor()
         self.size = len(self.images)
         self.index = 0
-        self.index_attn = 0
+        self.index_attn_1 = 0
+        self.index_attn_2 = 0
 
     def load_data(self):
 
@@ -669,45 +673,55 @@ class test_dataset:
 
         image = self.rgb_loader(self.images[self.index])
         image_copy = copy.deepcopy(image)
-        image = self.transform(image).unsqueeze(0)
         gt = self.binary_loader(self.gts[self.index])
         # gt = self.resize(gt)
 
         name = self.images[self.index].split('/')[-1]
         name_gt = self.gts[self.index].split('/')[-1]
 
-        try:
-            attn_map_1 = self.rgb_loader(self.attn_maps_1[self.index_attn])
-            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
-            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
-            self.index_attn += 1
-        except Exception:
-            attn_map_1 = np.zeros_like(image_copy, dtype=np.uint8)
-            attn_map_1 = Image.fromarray(attn_map_1)
-        attn_map_1 = self.transform(attn_map_1).unsqueeze(0)
+        def condition(x, name):
+            return x.split('/')[-1] == name
 
         try:
-            attn_map_2 = self.rgb_loader(self.attn_maps_1[self.index_attn])
-            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
+            # nameが一致する要素をself.attn_map_1から抽出
+            attn_path = [a for a in self.attn_maps_1 if condition(a, name)][0]
+            attn_map_1 = self.binary_loader(attn_path)
+            attn_map_1 = np.stack([attn_map_1, attn_map_1, attn_map_1], axis=2)
+            name_attn = attn_path.split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
-            self.index_attn += 1
+            self.index_attn_1 += 1
         except Exception:
-            attn_map_2 = np.zeros_like(image_copy, dtype=np.uint8)
+            attn_map_1 = np.zeros_like(image)
+            attn_map_1 = Image.fromarray(attn_map_1)
+            self.exception_count_1 += 1
+
+        try:
+            # nameが一致する要素をself.attn_map_1から抽出
+            attn_path = [a for a in self.attn_maps_2 if condition(a, name)][0]
+            attn_map_2 = self.binary_loader(attn_path)
+            attn_map_2 = np.stack([attn_map_2, attn_map_2, attn_map_2], axis=2)
+            name_attn = attn_path.split('/')[-1]
+            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+            self.index_attn_2 += 1
+        except Exception:
+            attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
-        attn_map_2 = self.transform(attn_map_2).unsqueeze(0)
+            self.exception_count_2 += 1
 
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
 
-        # concat image and attn_map at channel axis
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
+        image[:, :, 1] = attn_map_1[:, :, 0]
+        image[:, :, 2] = attn_map_2[:, :, 0]
 
-        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
-        if image.shape[2] != 3:
-            print(image.shape)
+        image = Image.fromarray(image)
+        image = image.convert('RGB')
+
+        image = self.transform(image).unsqueeze(0)
 
         return image, gt, name
 
