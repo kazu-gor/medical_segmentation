@@ -139,11 +139,9 @@ class PolypAttnDataset(data.Dataset):
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
 
-        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
-        if image.shape[2] != 3:
-            print(image.shape)
-
-        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
+        # imageの2チャネル目をattn_map_1に、3チャネル目をattn_map_2にする
+        image[:, :, 1] = attn_map_1[:, :, 0]
+        image[:, :, 2] = attn_map_2[:, :, 0]
 
         if self.phase == 'train':
 
