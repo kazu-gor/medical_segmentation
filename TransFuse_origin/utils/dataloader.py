@@ -110,7 +110,7 @@ class PolypAttnDataset(data.Dataset):
     def __getitem__(self, index):
         self.exception_count = 0
 
-        image = self.binary_loader(self.images[index])
+        image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
 
         name = self.images[index].split('/')[-1]
@@ -134,14 +134,16 @@ class PolypAttnDataset(data.Dataset):
             attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
 
-        # concat image and attn_map at channel axis
+        # exchange image channel 2 to attn_map_1, channel 3 to attn_map_2
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
 
-        # image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
-        # if image.shape[2] != 3:
-        #     print(image.shape)
+        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
+        if image.shape[2] != 3:
+            print(image.shape)
+
+        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
 
         if self.phase == 'train':
 
