@@ -37,22 +37,29 @@ max_det=(10)
 
 for co in ${conf[@]}
 do
-    for md in ${max_det[@]}
-    do
-        echo "conf: $co"
-        echo "conf: $md"
-        python3 ../../tools/slack_bot.py --text ">>> conf=$co, max_det=$md"
+    # for md in ${max_det[@]}
+    # do
+    echo "conf: $co"
+    echo "conf: $md"
+    python3 ../../tools/slack_bot.py --text ">>> conf=$co, max_det=$md"
 
-        echo ">>> python3 ./test_yolo.py"
-        python3 ./test_yolo.py --mode attention --max_det $md --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
-        python3 ../../tools/slack_bot.py --text "test_yolo.py is done."
+    echo ">>> python3 ./test_yolo.py"
+    python3 ./test_yolo.py --mode attention --max_det 10 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+    mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_1
+    mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_1
+    mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_1
+    python3 ./test_yolo.py --mode attention --max_det 5 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+    mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_2
+    mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_2
+    mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_2
+    python3 ../../tools/slack_bot.py --text "test_yolo.py is done."
 
-        echo ">>> python3 ./train_attn_trans.py"
-        python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
-        python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+    echo ">>> python3 ./train_attn_trans.py"
+    python3 ./train_attn_trans.py --train_save $SAVE_WEIGHT | tee ./logs/train_attn_trans.log
+    python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
-        echo ">>> python3 ./test_attn_trans.py"
-        python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
-        python3 ../../tools/slack_bot.py --text "`cat ./logs/test_attn_trans.log`"
-    done
+    echo ">>> python3 ./test_attn_trans.py"
+    python3 ./test_attn_trans.py --pth_path "./snapshots/$SAVE_WEIGHT/TransFuse-best.pth" | tee ./logs/test_attn_trans.log
+    python3 ../../tools/slack_bot.py --text "`cat ./logs/test_attn_trans.log`"
+    # done
 done
