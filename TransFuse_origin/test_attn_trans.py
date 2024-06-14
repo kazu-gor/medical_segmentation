@@ -10,7 +10,8 @@ import torch.nn.functional as F
 from skimage import img_as_ubyte
 
 from utils.dataloader import test_dataset
-from lib.TransFuse_l import AttnTransFuse_L
+# from lib.TransFuse_l import AttnTransFuse_L
+from lib.TransFuse_l import TransFuse_L
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
@@ -51,7 +52,8 @@ data_path = "./dataset_attn/sekkai_TestDataset/"
 norm = opt.normalization
 save_path = "./results/AttnTransFuse_L"
 
-model = AttnTransFuse_L()
+# model = AttnTransFuse_L()
+model = TransFuse_L()
 model.load_state_dict(torch.load(opt.pth_path))
 model.cuda()
 model.eval()
@@ -62,15 +64,16 @@ for file in glob.glob(f"./{save_path}/*.png"):
 
 image_root = Path(f"{data_path}/images/")
 gt_root = Path(f"{data_path}/masks/")
-attn_map_root = Path(f"{data_path}/attention/")
-test_loader = test_dataset(image_root, gt_root, attn_map_root, opt.testsize)
+attn_map_root_1 = Path(f"{data_path}/attention_1/")
+attn_map_root_2 = Path(f"{data_path}/attention_2/")
+test_loader = test_dataset(image_root, gt_root, attn_map_root_1, attn_map_root_2, opt.testsize)
 
 dice_bank = []
 iou_bank = []
 acc_bank = []
 
 for _ in range(test_loader.size):
-    image, gt, attn_map, name = test_loader.load_attn_data()
+    image, gt, name = test_loader.load_attn_data()
     gt = np.asarray(gt, np.float32)
 
     if norm:
@@ -79,10 +82,9 @@ for _ in range(test_loader.size):
         gt = 1.0 * (gt > 0.5)  ########################
 
     image = image.cuda()
-    attn_map = attn_map.cuda()
 
     with torch.no_grad():
-        _, _, res = model(image, attn_map)
+        _, _, res = model(image)
 
     res = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()

@@ -48,14 +48,16 @@ class PolypAttnDataset(data.Dataset):
     dataloader for polyp segmentation tasks
     """
 
-    def __init__(self, image_root, gt_root, attn_map_root, trainsize, phase='train'):
+    def __init__(self, image_root, gt_root, attn_map_root_1, attn_map_root_2, trainsize, phase='train'):
         self.trainsize = trainsize
         self.images = [str(image_root / f) for f in os.listdir(image_root) if f.endswith('.jpg') or f.endswith('.png')]
-        self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
+        self.attn_maps_1 = [str(attn_map_root_1 / f) for f in os.listdir(attn_map_root_1) if f.endswith('.jpg') or f.endswith('.png')]
+        self.attn_maps_2 = [str(attn_map_root_2 / f) for f in os.listdir(attn_map_root_2) if f.endswith('.jpg') or f.endswith('.png')]
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.png')]
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
-        self.attn_maps = sorted(self.attn_maps)
+        self.attn_maps_1 = sorted(self.attn_maps_1)
+        self.attn_maps_2 = sorted(self.attn_maps_2)
         self.phase = phase
 
         print(f">>> Number of images: {len(self.images)}")
@@ -113,39 +115,49 @@ class PolypAttnDataset(data.Dataset):
         name_gt = self.gts[index].split('/')[-1]
 
         try:
-            attn_map = self.binary_loader(self.attn_maps[self.index_attn])
-            name_attn = self.attn_maps[self.index_attn].split('/')[-1]
+            attn_map_1 = self.binary_loader(self.attn_maps_1[self.index_attn])
+            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn += 1
         except Exception:
-            attn_map = np.zeros_like(image)
-            attn_map = Image.fromarray(attn_map)
+            attn_map_1 = np.zeros_like(image)
+            attn_map_1 = Image.fromarray(attn_map_1)
+
+        try:
+            attn_map_2 = self.binary_loader(self.attn_maps_2[self.index_attn])
+            name_attn = self.attn_maps_2[self.index_attn].split('/')[-1]
+            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+            self.index_attn += 1
+        except Exception:
+            attn_map_2 = np.zeros_like(image)
+            attn_map_2 = Image.fromarray(attn_map_2)
+
+        # concat image and attn_map at channel axis
+        image = np.array(image)
+        attn_map_1 = np.array(attn_map_1)
+        attn_map_2 = np.array(attn_map_2)
+        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
+        if image.shape[2] != 3:
+            print(image.shape)
 
         if self.phase == 'train':
 
             image = np.array(image)
             gt = np.array(gt)
-            attn_map = np.array(attn_map)
-            # attn_map = self._minmax_normalize(attn_map)
 
-            augmented = self.transform3(image=image, masks=[gt, attn_map])
+            augmented = self.transform3(image=image, mask=gt)
 
-            image, masks = augmented['image'], augmented['masks']
-            gt, attn_map = masks[0], masks[1]
+            image, gt = augmented['image'], augmented['mask']
 
             image = Image.fromarray(image)
             gt = Image.fromarray(gt)
-            attn_map = attn_map.astype(np.uint8)
-            attn_map = Image.fromarray(attn_map)
 
             image = image.convert('RGB')
             gt = gt.convert('L')
-            attn_map = attn_map.convert('RGB')
 
         image = self.img_transform(image)
         gt = self.gt_transform(gt)
-        attn_map = self.gt_transform(attn_map)
-        return image, gt, attn_map
+        return image, gt
 
     # def __getitem__(self, index):
     #     self.exception_count = 0
@@ -295,14 +307,16 @@ class PolypAttnDataset(data.Dataset):
         return mixed.astype('uint8'), mixed_gt.astype('uint8')
 
     def filter_files(self):
-        assert len(self.images) == len(self.gts) == len(self.attn_map)
+        assert len(self.images) == len(self.gts) == len(self.attn_maps_1) == len(self.attn_maps_2)
         images = []
         gts = []
-        attns = []
-        for img_path, gt_path, attn_path in zip(self.images, self.gts, self.attn_map):
+        attns_1 = []
+        attns_2 = []
+        for img_path, gt_path, attn_path_1, attn_path_2 in zip(self.images, self.gts, self.attn_maps_1, self.attn_maps_2):
             img = Image.open(img_path)
-            attn = Image.open(attn_path)
             gt = Image.open(gt_path)
+            attn_1 = Image.open(attn_path_1)
+            attn_2 = Image.open(attn_path_2)
 
             # if img.size == gt.size:
             #     # If gt does not contain any labels (total value is 0), do not include it in the data set
@@ -314,13 +328,15 @@ class PolypAttnDataset(data.Dataset):
             #         images.append(img_path)
             #         gts.append(gt_path)
 
-            if img.size == gt.size == attn.size:
+            if img.size == gt.size == attn_1.size == attn_2.size:
                 images.append(img_path)
                 gts.append(gt_path)
-                attns.append(attn_path)
+                attns_1.append(attn_path_1)
+                attns_2.append(attn_path_2)
         self.images = images
         self.gts = gts
-        self.
+        self.attn_maps_1 = attns_1
+        self.attn_maps_2 = attns_2
 
     def rgb_loader(self, path):
         with open(path, 'rb') as f:
@@ -574,9 +590,9 @@ class PolypDataset(data.Dataset):
         return self.size
 
 
-def get_attn_loader(image_root, gt_root, attn_map_root, batchsize, trainsize, shuffle=True, num_workers=4, pin_memory=True, phase='train',
+def get_attn_loader(image_root, gt_root, attn_map_root_1, attn_map_root_2, batchsize, trainsize, shuffle=True, num_workers=4, pin_memory=True, phase='train',
                droplast=False):
-    dataset = PolypAttnDataset(image_root, gt_root, attn_map_root, trainsize, phase=phase)
+    dataset = PolypAttnDataset(image_root, gt_root, attn_map_root_1, attn_map_root_2, trainsize, phase=phase)
     data_loader = data.DataLoader(dataset=dataset,
                                   batch_size=batchsize,
                                   shuffle=shuffle,
@@ -599,13 +615,15 @@ def get_loader(image_root, gt_root, batchsize, trainsize, shuffle=True, num_work
 
 
 class test_dataset:
-    def __init__(self, image_root, gt_root, attn_map_root, testsize):
+    def __init__(self, image_root, gt_root, attn_map_root_1, attn_map_root_2, testsize):
         self.testsize = testsize
         self.images = [str(image_root / f) for f in os.listdir(image_root) if
                        f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
         self.gts = [str(gt_root / f) for f in os.listdir(gt_root) if f.endswith('.tif') or f.endswith('.png')]
+
         try:
-            self.attn_maps = [str(attn_map_root / f) for f in os.listdir(attn_map_root) if f.endswith('.jpg') or f.endswith('.png')]
+            self.attn_maps_1 = [str(attn_map_root_1 / f) for f in os.listdir(attn_map_root_1) if f.endswith('.jpg') or f.endswith('.png')]
+            self.attn_maps_2 = [str(attn_map_root_2 / f) for f in os.listdir(attn_map_root_2) if f.endswith('.jpg') or f.endswith('.png')]
         except Exception:
             pass
 
@@ -654,20 +672,38 @@ class test_dataset:
         name_gt = self.gts[self.index].split('/')[-1]
 
         try:
-            attn_map = self.rgb_loader(self.attn_maps[self.index_attn])
-            name_attn = self.attn_maps[self.index_attn].split('/')[-1]
+            attn_map_1 = self.rgb_loader(self.attn_maps_1[self.index_attn])
+            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn += 1
         except Exception:
-            attn_map = np.zeros_like(image_copy, dtype=np.uint8)
-            attn_map = Image.fromarray(attn_map)
-        attn_map = self.transform(attn_map).unsqueeze(0)
+            attn_map_1 = np.zeros_like(image_copy, dtype=np.uint8)
+            attn_map_1 = Image.fromarray(attn_map_1)
+        attn_map_1 = self.transform(attn_map_1).unsqueeze(0)
+
+        try:
+            attn_map_2 = self.rgb_loader(self.attn_maps_1[self.index_attn])
+            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
+            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+            self.index_attn += 1
+        except Exception:
+            attn_map_2 = np.zeros_like(image_copy, dtype=np.uint8)
+            attn_map_2 = Image.fromarray(attn_map_2)
+        attn_map_2 = self.transform(attn_map_2).unsqueeze(0)
 
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
         self.index += 1
 
-        return image, gt, attn_map, name
+        # concat image and attn_map at channel axis
+        image = np.array(image)
+        attn_map_1 = np.array(attn_map_1)
+        attn_map_2 = np.array(attn_map_2)
+        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
+        if image.shape[2] != 3:
+            print(image.shape)
+
+        return image, gt, name
 
 
     def load_data_mixup(self):

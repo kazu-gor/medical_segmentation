@@ -3,7 +3,8 @@ from torch.autograd import Variable
 import os
 import argparse
 from datetime import datetime
-from lib.TransFuse_l import AttnTransFuse_L
+from lib.TransFuse_l import TransFuse_L
+# from lib.TransFuse_l import AttnTransFuse_L
 from utils.dataloader import get_attn_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
 import torch.nn.functional as F
@@ -51,7 +52,7 @@ def train(dataloaders_dict, model, optimizer, epoch, best_loss):
                     attn_map = F.upsample(attn_map, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
                 with torch.set_grad_enabled(phase == 'train'):
                     # ---- forward ----
-                    lateral_map_4, lateral_map_3, lateral_map_2 = model(images, attn_map)
+                    lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
 
                     # ---- loss function ----
                     loss4 = structure_loss(lateral_map_4, gts)
@@ -120,7 +121,8 @@ if __name__ == '__main__':
     # ---- build models ----
     # torch.cuda.set_device(0)  # set your gpu device
 
-    model = AttnTransFuse_L(pretrained=True).cuda()
+    # model = AttnTransFuse_L(pretrained=True).cuda()
+    model = TransFuse_L(pretrained=True).cuda()
 
     # ---- flops and params ----
 
@@ -129,16 +131,18 @@ if __name__ == '__main__':
 
     image_root = Path(f'{opt.train_path}/images/')
     gt_root = Path(f'{opt.train_path}/masks/')
-    attn_map_root = Path(f'{opt.train_path}/attention/')
+    attn_map_root_1 = Path(f'{opt.train_path}/attention_1/')
+    attn_map_root_2 = Path(f'{opt.train_path}/attention_2/')
 
     image_root_val = Path(f'{opt.val_path}/images/')
     gt_root_val = Path(f'{opt.val_path}/masks/')
-    attn_map_root_val = Path(f'{opt.val_path}/attention/')
+    attn_map_root_val_1 = Path(f'{opt.val_path}/attention_1/')
+    attn_map_root_val_2 = Path(f'{opt.val_path}/attention_2/')
 
-    train_loader = get_attn_loader(image_root, gt_root, attn_map_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_attn_loader(image_root, gt_root, attn_map_root_1, attn_map_root_2, batchsize=opt.batchsize, trainsize=opt.trainsize)
     total_step = len(train_loader)
 
-    val_loader = get_attn_loader(image_root_val, gt_root_val, attn_map_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_attn_loader(image_root_val, gt_root_val, attn_map_root_val_1, attn_map_root_val_2 , batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 
