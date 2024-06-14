@@ -108,7 +108,7 @@ class PolypAttnDataset(data.Dataset):
         self.index_attn_2 = 0
 
     def __getitem__(self, index):
-        self.exception_count = 0
+        # self.exception_count = 0
 
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
@@ -116,21 +116,30 @@ class PolypAttnDataset(data.Dataset):
         name = self.images[index].split('/')[-1]
         name_gt = self.gts[index].split('/')[-1]
 
+        def condition(x):
+            return x == name
+
         try:
-            attn_map_1 = self.binary_loader(self.attn_maps_1[self.index_attn_1])
-            name_attn = self.attn_maps_1[self.index_attn_1].split('/')[-1]
+            # nameが一致する要素をself.attn_map_1から抽出
+            attn_path = [a for a in self.attn_maps_1 if condition(a)][0]
+            attn_map_1 = self.binary_loader(attn_path)
+            name_attn = attn_path.split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn_1 += 1
         except Exception:
+            print(f"Exception: {name}")
             attn_map_1 = np.zeros_like(image)
             attn_map_1 = Image.fromarray(attn_map_1)
 
         try:
-            attn_map_2 = self.binary_loader(self.attn_maps_2[self.index_attn_2])
-            name_attn = self.attn_maps_2[self.index_attn_2].split('/')[-1]
+            # nameが一致する要素をself.attn_map_1から抽出
+            attn_path = [a for a in self.attn_maps_2 if condition(a)][0]
+            attn_map_2 = self.binary_loader(attn_path)
+            name_attn = attn_path.split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
             self.index_attn_2 += 1
         except Exception:
+            print(f"Exception: {name}")
             attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
 
