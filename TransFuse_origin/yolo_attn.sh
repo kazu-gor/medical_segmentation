@@ -40,15 +40,38 @@ do
     # for md in ${max_det[@]}
     # do
     echo "conf: $co"
-    echo "conf: $md"
+    # echo "max_det: $md"
     python3 ../../tools/slack_bot.py --text ">>> conf=$co, max_det=$md"
 
     echo ">>> python3 ./test_yolo.py"
+    # if attention dir is not exist, make it
+    if [ ! -d "./dataset_attn/sekkai_TrainDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_TrainDataset/attention
+    fi
+    if [ ! -d "./dataset_attn/sekkai_ValDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_ValDataset/attention
+    fi
+    if [ ! -d "./dataset_attn/sekkai_TestDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_TestDataset/attention
+    fi
+
     python3 ./test_yolo.py --mode attention --max_det 10 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
     mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_1
     mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_1
     mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_1
     python3 ./test_yolo.py --mode attention --max_det 5 --conf $co --weight $TRAIN_WEIGHT | tee ./logs/attention_test_yolo.log
+
+    # if attention dir is not exist, make it
+    if [ ! -d "./dataset_attn/sekkai_TrainDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_TrainDataset/attention
+    fi
+    if [ ! -d "./dataset_attn/sekkai_ValDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_ValDataset/attention
+    fi
+    if [ ! -d "./dataset_attn/sekkai_TestDataset/attention" ]; then
+        mkdir -p ./dataset_attn/sekkai_TestDataset/attention
+    fi
+
     mv ./dataset_attn/sekkai_TrainDataset/attention/ ./dataset_attn/sekkai_TrainDataset/attention_2
     mv ./dataset_attn/sekkai_ValDataset/attention/ ./dataset_attn/sekkai_ValDataset/attention_2
     mv ./dataset_attn/sekkai_TestDataset/attention/ ./dataset_attn/sekkai_TestDataset/attention_2
