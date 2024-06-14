@@ -63,6 +63,7 @@ class PolypAttnDataset(data.Dataset):
         print(f">>> Number of images: {len(self.images)}")
         self.filter_files()
         print(f">>> Number of images after filtering: {len(self.images)}")
+
         self.size = len(self.images)
 
         self._alpha = 0.2
@@ -103,7 +104,8 @@ class PolypAttnDataset(data.Dataset):
             transforms.Resize((self.trainsize, self.trainsize)),
             transforms.ToTensor()])
 
-        self.index_attn = 0
+        self.index_attn_1 = 0
+        self.index_attn_2 = 0
 
     def __getitem__(self, index):
         self.exception_count = 0
@@ -115,19 +117,19 @@ class PolypAttnDataset(data.Dataset):
         name_gt = self.gts[index].split('/')[-1]
 
         try:
-            attn_map_1 = self.binary_loader(self.attn_maps_1[self.index_attn])
-            name_attn = self.attn_maps_1[self.index_attn].split('/')[-1]
+            attn_map_1 = self.binary_loader(self.attn_maps_1[self.index_attn_1])
+            name_attn = self.attn_maps_1[self.index_attn_1].split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
-            self.index_attn += 1
+            self.index_attn_1 += 1
         except Exception:
             attn_map_1 = np.zeros_like(image)
             attn_map_1 = Image.fromarray(attn_map_1)
 
         try:
-            attn_map_2 = self.binary_loader(self.attn_maps_2[self.index_attn])
-            name_attn = self.attn_maps_2[self.index_attn].split('/')[-1]
+            attn_map_2 = self.binary_loader(self.attn_maps_2[self.index_attn_2])
+            name_attn = self.attn_maps_2[self.index_attn_2].split('/')[-1]
             assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
-            self.index_attn += 1
+            self.index_attn_2 += 1
         except Exception:
             attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
@@ -136,9 +138,10 @@ class PolypAttnDataset(data.Dataset):
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
-        image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
-        if image.shape[2] != 3:
-            print(image.shape)
+
+        # image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
+        # if image.shape[2] != 3:
+        #     print(image.shape)
 
         if self.phase == 'train':
 
@@ -307,16 +310,12 @@ class PolypAttnDataset(data.Dataset):
         return mixed.astype('uint8'), mixed_gt.astype('uint8')
 
     def filter_files(self):
-        assert len(self.images) == len(self.gts) == len(self.attn_maps_1) == len(self.attn_maps_2)
+        assert len(self.images) == len(self.gts)
         images = []
         gts = []
-        attns_1 = []
-        attns_2 = []
-        for img_path, gt_path, attn_path_1, attn_path_2 in zip(self.images, self.gts, self.attn_maps_1, self.attn_maps_2):
+        for img_path, gt_path in zip(self.images, self.gts):
             img = Image.open(img_path)
             gt = Image.open(gt_path)
-            attn_1 = Image.open(attn_path_1)
-            attn_2 = Image.open(attn_path_2)
 
             # if img.size == gt.size:
             #     # If gt does not contain any labels (total value is 0), do not include it in the data set
@@ -328,15 +327,12 @@ class PolypAttnDataset(data.Dataset):
             #         images.append(img_path)
             #         gts.append(gt_path)
 
-            if img.size == gt.size == attn_1.size == attn_2.size:
+            if img.size == gt.size:
                 images.append(img_path)
                 gts.append(gt_path)
-                attns_1.append(attn_path_1)
-                attns_2.append(attn_path_2)
         self.images = images
         self.gts = gts
-        self.attn_maps_1 = attns_1
-        self.attn_maps_2 = attns_2
+
 
     def rgb_loader(self, path):
         with open(path, 'rb') as f:
@@ -699,6 +695,7 @@ class test_dataset:
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
+
         image = np.concatenate([image, attn_map_1, attn_map_2], axis=2)
         if image.shape[2] != 3:
             print(image.shape)
