@@ -1,14 +1,16 @@
-import torch
-from torch.autograd import Variable
 import os
 import argparse
 from datetime import datetime
+from pathlib import Path
+
+import torch
+import torch.nn.functional as F
+import matplotlib.pyplot as plt
+from torch.autograd import Variable
+
 from lib.TransFuse_l import TransFuse_L
 from utils.dataloader import get_loader
 from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
-import matplotlib.pyplot as plt
-
 
 
 def structure_loss(pred, mask):
@@ -127,11 +129,11 @@ if __name__ == '__main__':
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr, betas=(opt.beta1, opt.beta2))
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    image_root = Path(f'{opt.train_path}/images/')
+    gt_root = Path(f'{opt.train_path}/masks/')
 
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
+    image_root_val = Path(f'{opt.val_path}/images/')
+    gt_root_val = Path(f'{opt.val_path}/masks/')
 
     train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
     total_step = len(train_loader)
@@ -158,11 +160,11 @@ if __name__ == '__main__':
         val_loss_list.append(val_loss)
         epoch_list.append(epoch)
 
-    fig = plt.figure()
-    plt.plot(epoch_list, train_loss_list, label='train_loss')
-    plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
-    plt.xlabel('epochs')
-    plt.ylabel('loss')
-    plt.xlim(left=0)
-    plt.legend(loc='upper right')
-    fig.savefig("fig/loss.png")
+        fig = plt.figure()
+        plt.plot(epoch_list, train_loss_list, label='train_loss')
+        plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
+        plt.xlabel('epochs')
+        plt.ylabel('loss')
+        plt.xlim(left=0)
+        plt.legend(loc='upper right')
+        fig.savefig("fig/TransFuse_loss.png")

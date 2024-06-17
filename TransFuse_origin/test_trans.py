@@ -86,8 +86,11 @@ for file in glob.glob('./results/Transfuse/*.png'):
 image_root = Path(f"{data_path}/images/")
 gt_root = Path(f"{data_path}/masks/")
 
-test_loader = test_dataset(image_root, gt_root, '', opt.testsize)
-
+test_loader = test_dataset(
+        image_root=image_root, 
+        gt_root=gt_root, 
+        testsize=opt.testsize,
+)
 
 dice_bank = []
 iou_bank = []

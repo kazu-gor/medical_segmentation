@@ -66,7 +66,13 @@ image_root = Path(f"{data_path}/images/")
 gt_root = Path(f"{data_path}/masks/")
 attn_map_root_1 = Path(f"{data_path}/attention_1/")
 attn_map_root_2 = Path(f"{data_path}/attention_2/")
-test_loader = test_dataset(image_root, gt_root, attn_map_root_1, attn_map_root_2, opt.testsize)
+test_loader = test_dataset(
+        image_root=image_root, 
+        gt_root=gt_root, 
+        testsize=opt.testsize,
+        attn_map_root_1=attn_map_root_1,
+        attn_map_root_2=attn_map_root_2
+    )
 
 dice_bank = []
 iou_bank = []

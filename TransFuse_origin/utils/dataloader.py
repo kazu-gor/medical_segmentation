@@ -149,8 +149,10 @@ class PolypAttnDataset(data.Dataset):
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
-        image[:, :, 1] = attn_map_1[:, :, 0]
-        image[:, :, 2] = attn_map_2[:, :, 0]
+        # image[:, :, 1] = attn_map_1[:, :, 0]
+        # image[:, :, 2] = attn_map_2[:, :, 0]
+
+        image[:, :, 2] = attn_map_1[:, :, 0]
 
         image = Image.fromarray(image)
         image = image.convert('RGB')
@@ -430,6 +432,7 @@ class PolypDataset(data.Dataset):
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
         if self.phase == 'train':
+
             # if random.random() < 1.0:
             #     image, gt = self._apply_mixup(image, gt, index)
 
@@ -440,7 +443,6 @@ class PolypDataset(data.Dataset):
             gt = np.array(gt)
 
             # image, gt = self.augment_and_mix(image, gt)
-
             # augmented = self.transform2(image=image, mask=gt)
             augmented = self.transform3(image=image, mask=gt)
 
@@ -452,7 +454,6 @@ class PolypDataset(data.Dataset):
 
         # image, gt = self.transform(image, gt, phase=self.phase)
         image = self.img_transform(image)
-
         gt = self.gt_transform(gt)
         return image, gt
 
@@ -623,7 +624,7 @@ def get_loader(image_root, gt_root, batchsize, trainsize, shuffle=True, num_work
 
 
 class test_dataset:
-    def __init__(self, image_root, gt_root, attn_map_root_1, attn_map_root_2, testsize):
+    def __init__(self, image_root, gt_root, testsize, attn_map_root_1=None, attn_map_root_2=None):
         self.testsize = testsize
         self.images = [str(image_root / f) for f in os.listdir(image_root) if
                        f.endswith('.jpg') or f.endswith('.png') or f.endswith('.tif')]
@@ -693,7 +694,6 @@ class test_dataset:
         except Exception:
             attn_map_1 = np.zeros_like(image)
             attn_map_1 = Image.fromarray(attn_map_1)
-            self.exception_count_1 += 1
 
         try:
             # nameが一致する要素をself.attn_map_1から抽出
@@ -706,7 +706,6 @@ class test_dataset:
         except Exception:
             attn_map_2 = np.zeros_like(image)
             attn_map_2 = Image.fromarray(attn_map_2)
-            self.exception_count_2 += 1
 
         if name.endswith('.jpg'):
             name = name.split('.jpg')[0] + '.png'
