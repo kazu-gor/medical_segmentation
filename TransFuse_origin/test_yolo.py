@@ -166,7 +166,8 @@ class Predictor:
         attn_map = np.zeros((img_h, img_w), dtype=np.uint8)
         for _, line in enumerate(lines):
             line = line.strip().split(' ')
-            _, x, y, w, h, _ = line
+            _, x, y, w, h, conf = line
+            print(f"conf = {conf}")
             x, y, w, h = float(x), float(y), float(w), float(h)
             x, y, w, h = int(x * img_w), int(y * img_h), int(w *
                                                              img_w), int(h * img_h)
