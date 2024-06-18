@@ -57,7 +57,7 @@ class PolypAttnDataset(data.Dataset):
         self.images = sorted(self.images)
         self.gts = sorted(self.gts)
         self.attn_maps_1 = sorted(self.attn_maps_1)
-        self.attn_maps_2 = sorted(self.attn_maps_2)
+        # self.attn_maps_2 = sorted(self.attn_maps_2)
         self.phase = phase
 
         print(f">>> Number of images: {len(self.images)}")
@@ -133,22 +133,22 @@ class PolypAttnDataset(data.Dataset):
             attn_map_1 = Image.fromarray(attn_map_1)
             self.exception_count_1 += 1
 
-        try:
-            # nameが一致する要素をself.attn_map_1から抽出
-            attn_path = [a for a in self.attn_maps_2 if condition(a, name)][0]
-            attn_map_2 = self.binary_loader(attn_path)
-            attn_map_2 = np.stack([attn_map_2, attn_map_2, attn_map_2], axis=2)
-            name_attn = attn_path.split('/')[-1]
-            assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
-            self.index_attn_2 += 1
-        except Exception:
-            attn_map_2 = np.zeros_like(image)
-            attn_map_2 = Image.fromarray(attn_map_2)
-            self.exception_count_2 += 1
+        # try:
+        #     # nameが一致する要素をself.attn_map_1から抽出
+        #     attn_path = [a for a in self.attn_maps_2 if condition(a, name)][0]
+        #     attn_map_2 = self.binary_loader(attn_path)
+        #     attn_map_2 = np.stack([attn_map_2, attn_map_2, attn_map_2], axis=2)
+        #     name_attn = attn_path.split('/')[-1]
+        #     assert name == name_gt == name_attn, f"{name} == {name_gt} == {name_attn}"
+        #     self.index_attn_2 += 1
+        # except Exception:
+        #     attn_map_2 = np.zeros_like(image)
+        #     attn_map_2 = Image.fromarray(attn_map_2)
+        #     self.exception_count_2 += 1
 
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
-        attn_map_2 = np.array(attn_map_2)
+        # attn_map_2 = np.array(attn_map_2)
         # image[:, :, 1] = attn_map_1[:, :, 0]
         # image[:, :, 2] = attn_map_2[:, :, 0]
 
