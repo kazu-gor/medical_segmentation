@@ -714,8 +714,10 @@ class test_dataset:
         image = np.array(image)
         attn_map_1 = np.array(attn_map_1)
         attn_map_2 = np.array(attn_map_2)
-        image[:, :, 1] = attn_map_1[:, :, 0]
-        image[:, :, 2] = attn_map_2[:, :, 0]
+        # image[:, :, 1] = attn_map_1[:, :, 0]
+        # image[:, :, 2] = attn_map_2[:, :, 0]
+
+        image[:, :, 2] = attn_map_1[:, :, 0]
 
         image = Image.fromarray(image)
         image = image.convert('RGB')
