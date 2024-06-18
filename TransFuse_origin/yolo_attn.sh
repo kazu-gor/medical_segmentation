@@ -21,7 +21,7 @@ SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 python3 ../../tools/slack_bot.py --text ">>> TRAIN_WEIGHT=$TRAIN_WEIGHT"
 
 conf=(0.01 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50)
-max_det=(10, 7, 5, 3, 1)
+max_det=(10 7 5 3 1)
 
 for co in ${conf[@]}
 do
@@ -82,8 +82,12 @@ do
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/TransFuse-best.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-59.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-99.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
-        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
-        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
+
+        if [ $? -ne 0 ]; then
+            python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
+        else
+            python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        fi
     done
 done
 
@@ -113,6 +117,9 @@ python3 ../../tools/slack_bot.py --text "TransCaraNet Training is done"
 
 echo ">>> python3 ./test_trans_caranet_origin.py --epoch best"
 python3 ./test_trans_caranet_origin.py  --epoch best 1> >(tee ./logs/test_trans_caranet_origin_best_stdout.log >&1 ) 2> >(tee ./logs/test_trans_caranet_origin_best_stderr.log >&2)
-python3 ../../tools/slack_bot.py --text "`cat ./logs/test_trans_caranet_origin_best_stdout.log`"
-python3 ../../tools/slack_bot.py --text "`cat ./logs/test_trans_caranet_origin_best_stderr.log`"
 
+if [ $? -ne 0 ]; then
+    python3 ../../tools/slack_bot.py --text "`cat ./logs/test_trans_caranet_origin_best_stderr.log`"
+else
+    python3 ../../tools/slack_bot.py --text "`cat ./logs/test_trans_caranet_origin_best_stdout.log`"
+fi
