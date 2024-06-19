@@ -21,7 +21,7 @@ SAVE_WEIGHT="${TRAIN_WEIGHT}_AttnTransFuse"
 python3 ../../tools/slack_bot.py --text ">>> TRAIN_WEIGHT=$TRAIN_WEIGHT"
 
 conf=(0.01 0.05 0.10 0.15 0.20 0.25 0.30 0.35 0.40 0.45 0.50)
-max_det=(10, 7, 5, 3, 1)
+max_det=(10 7 5 3 1)
 
 for co in ${conf[@]}
 do
@@ -74,13 +74,19 @@ do
         # mv ./dataset_attn/sekkai_TestDataset/attention/* ./dataset_attn/sekkai_TestDataset/attention_2/
         python3 ../../tools/slack_bot.py --text "test_yolo.py is done."
 
-        # echo ">>> python3 ./train_attn_trans.py"
-        # python3 ./train_attn_trans.py --train_save "${SAVE_WEIGHT}_${co}" | tee ./logs/train_attn_trans.log
-        # python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+        echo ">>> python3 ./train_attn_trans.py"
+        python3 ./train_attn_trans.py --train_save "${SAVE_WEIGHT}_${co}" | tee ./logs/train_attn_trans.log
+        python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
         echo ">>> python3 ./test_attn_trans.py"
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/TransFuse-best.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
+
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-59.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
+
         python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-99.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
         python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
         python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
