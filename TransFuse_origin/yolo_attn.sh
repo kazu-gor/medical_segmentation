@@ -74,20 +74,22 @@ do
         # mv ./dataset_attn/sekkai_TestDataset/attention/* ./dataset_attn/sekkai_TestDataset/attention_2/
         python3 ../../tools/slack_bot.py --text "test_yolo.py is done."
 
-        # echo ">>> python3 ./train_attn_trans.py"
-        # python3 ./train_attn_trans.py --train_save "${SAVE_WEIGHT}_${co}" | tee ./logs/train_attn_trans.log
-        # python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
+        echo ">>> python3 ./train_attn_trans.py"
+        python3 ./train_attn_trans.py --train_save "${SAVE_WEIGHT}_${co}" | tee ./logs/train_attn_trans.log
+        python3 ../../tools/slack_bot.py --text "Attention TransFuse training is done"
 
         echo ">>> python3 ./test_attn_trans.py"
-        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/TransFuse-best.pth"  1> >(tee ./logs/train_attn_trans_stdout_${co}_${md}.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr_${co}_${md}_best.log >&2)
-        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-59.pth"  1> >(tee ./logs/train_attn_trans_stdout_${co}_${md}.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr_${co}_${md}_59.log >&2)
-        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-99.pth"  1> >(tee ./logs/train_attn_trans_stdout_${co}_${md}.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr_${co}_${md}_99.log >&2)
+        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/TransFuse-best.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
 
-        if [ $? -ne 0 ]; then
-            python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
-        else
-            python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
-        fi
+        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-59.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
+
+        python3 ./test_attn_trans.py --pth_path "./snapshots/${SAVE_WEIGHT}_${co}/Transfuse-99.pth"  1> >(tee ./logs/train_attn_trans_stdout.log >&1 ) 2> >(tee ./logs/train_attn_trans_stderr.log >&2)
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stdout.log`"
+        python3 ../../tools/slack_bot.py --text "`cat ./logs/train_attn_trans_stderr.log`"
     done
 done
 

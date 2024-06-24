@@ -163,11 +163,10 @@ class Predictor:
         with open(label_path, 'r') as f:
             lines = f.readlines()
 
-        attn_map = np.zeros((img_h, img_w), dtype=np.uint8)
+        attn_map = np.zeros((img_h, img_w), dtype=np.float64)
         for _, line in enumerate(lines):
             line = line.strip().split(' ')
-            _, x, y, w, h, conf = line
-            print(f"conf = {conf}")
+            _, x, y, w, h, c = line
             x, y, w, h = float(x), float(y), float(w), float(h)
             x, y, w, h = int(x * img_w), int(y * img_h), int(w *
                                                              img_w), int(h * img_h)
@@ -178,7 +177,7 @@ class Predictor:
                 continue
 
             # +1 attn_map
-            attn_map[y1:y2, x1:x2] += 1
+            attn_map[y1:y2, x1:x2] += float(c)
 
         # normalize
         attn_map = attn_map / attn_map.max() * 255
