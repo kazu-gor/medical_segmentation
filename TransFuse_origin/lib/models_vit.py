@@ -126,7 +126,7 @@ def vit_large_patch16(pretrained=False, **kwargs):
     # pe = F.interpolate(pe, size=(14, 14), mode='bilinear', align_corners=True)
     pe = F.interpolate(pe, size=(22, 22), mode='bilinear', align_corners=True)
 
-    ###################################################################################################
+    ##################################################################################################
     pe = pe.flatten(2)  # torch.Size([1, 1024, 196])
     pe = pe.transpose(-1, -2)  # torch.Size([1, 196, 1024])
     model.pos_embed = nn.Parameter(pe)

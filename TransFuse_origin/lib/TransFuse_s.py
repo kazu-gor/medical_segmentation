@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models import resnet34 as resnet
-from lib.DeiT import deit_small_patch16_224 as deit
+from lib.DeiT import deit_small_patch16_224 as deit  ###画像サイズ352の時DeiT2に変更###
 from torch.nn import CrossEntropyLoss, Dropout, Softmax, Linear, Conv2d, LayerNorm
 import torch.nn.functional as F
 import numpy as np
@@ -44,13 +44,13 @@ class BiFusion_block(nn.Module):
         # bilinear pooling
         W_g = self.W_g(g)
         W_x = self.W_x(x)
-        bp = self.W(W_g * W_x)  # ^bi
+        bp = self.W(W_g * W_x)  # bi
 
         # spatial attention for cnn branch
         g_in = g
         g = self.compress(g)
         g = self.spatial(g)
-        g = self.sigmoid(g) * g_in  # ^gi
+        g = self.sigmoid(g) * g_in  # g^i
 
         # channel attetion for transformer branch
         x_in = x
@@ -58,7 +58,7 @@ class BiFusion_block(nn.Module):
         x = self.fc1(x)
         x = self.relu(x)
         x = self.fc2(x)
-        x = self.sigmoid(x) * x_in  # ^ti
+        x = self.sigmoid(x) * x_in  # t^i
         fuse = self.residual(torch.cat([g, x, bp], 1))  # fi
 
         if self.drop_rate > 0:
@@ -73,7 +73,7 @@ class TransFuse_S(nn.Module):
 
         self.resnet = resnet()
         if pretrained:
-            self.resnet.load_state_dict(torch.load('resnet34-43635321.pth'))
+            self.resnet.load_state_dict(torch.load('./weights/resnet34-43635321.pth'))
         self.resnet.fc = nn.Identity()
         self.resnet.layer4 = nn.Identity()
 
@@ -114,38 +114,42 @@ class TransFuse_S(nn.Module):
 
     def forward(self, imgs, labels=None):
         # bottom-up path
-        x_b = self.transformer(imgs)  # torch.Size([1, 3, 224, 224]) → torch.Size([1, 196, 384])
-        x_b = torch.transpose(x_b, 1, 2)  # torch.Size([1, 384, 196])
-        x_b = x_b.view(x_b.shape[0], -1, 14, 14)  # t0  #torch.Size([1, 384, 14, 14])
+        x_b = self.transformer(imgs)
+        # print(x_b.shape)
+        x_b = torch.transpose(x_b, 1, 2)
+        x_b = x_b.view(x_b.shape[0], -1, 14, 14)  # t0 (x_b.shape[0], -1, 14, 14) --> 224の時
+        # x_b = x_b.view(x_b.shape[0], -1, 22, 22) 
         x_b = self.drop(x_b)
-        x_b_1 = self.up1(x_b)  # t1 torch.Size([1, 128, 28, 28])
-        x_b_1 = self.drop(x_b_1) # torch.Size([1, 128, 28, 28])
-        x_b_2 = self.up2(x_b_1)  # transformer pred supervise here # t2 # torch.Size([1, 64, 56, 56])
+
+        x_b_1 = self.up1(x_b)  # t1
+        x_b_1 = self.drop(x_b_1)
+
+        x_b_2 = self.up2(x_b_1)  # transformer pred supervise here # t2
         x_b_2 = self.drop(x_b_2)
 
         # top-down path
-        x_u = self.resnet.conv1(imgs) # torch.Size([1, 3, 224, 224]) → torch.Size([1, 64, 112, 112])
+        x_u = self.resnet.conv1(imgs)
         x_u = self.resnet.bn1(x_u)
         x_u = self.resnet.relu(x_u)
-        x_u = self.resnet.maxpool(x_u) # torch.Size([1, 64, 56, 56])
+        x_u = self.resnet.maxpool(x_u)
 
-        x_u_2 = self.resnet.layer1(x_u)  # g2 # torch.Size([1, 64, 56, 56])
+        x_u_2 = self.resnet.layer1(x_u)  # g2
         x_u_2 = self.drop(x_u_2)
 
-        x_u_1 = self.resnet.layer2(x_u_2)  # g1 # torch.Size([1, 128, 28, 28])
+        x_u_1 = self.resnet.layer2(x_u_2)  # g1
         x_u_1 = self.drop(x_u_1)
 
-        x_u = self.resnet.layer3(x_u_1)  # g0 # torch.Size([1, 256, 14, 14])
+        x_u = self.resnet.layer3(x_u_1)  # g0
         x_u = self.drop(x_u)
 
         # joint path
         x_c = self.up_c(x_u, x_b)  # biFusion pred here # f0
 
         x_c_1_1 = self.up_c_1_1(x_u_1, x_b_1)  # f1
-        x_c_1 = self.up_c_1_2(x_c, x_c_1_1)
+        x_c_1 = self.up_c_1_2(x_c, x_c_1_1)  # f^1
 
         x_c_2_1 = self.up_c_2_1(x_u_2, x_b_2)  # f2
-        x_c_2 = self.up_c_2_2(x_c_1, x_c_2_1)  # joint predict low supervise here
+        x_c_2 = self.up_c_2_2(x_c_1, x_c_2_1)  # joint predict low supervise here # f^2
 
         # decoder part
         map_x = F.interpolate(self.final_x(x_c), scale_factor=16, mode='bilinear')  # BiFusion pred map
@@ -269,24 +273,6 @@ class DoubleConv(nn.Module):
         return self.relu(self.double_conv(x) + self.identity(x))
 
 
-# class SELayer(nn.Module):
-#     def __init__(self, channel):
-#         super(SELayer, self).__init__()
-#         self.avg_pool = nn.AdaptiveAvgPool2d(1)
-#         self.fc = nn.Sequential(
-#             nn.Linear(channel, channel // 8, bias=False),
-#             nn.ReLU(inplace=True),
-#             nn.Linear(channel // 8, channel, bias=False),
-#             nn.Sigmoid()
-#         )
-#
-#     def forward(self, x):
-#         b, c, _, _ = x.size()
-#         y = self.avg_pool(x).view(b, c)
-#         y = self.fc(y).view(b, c, 1, 1)
-#         return x * y.expand_as(x)
-
-
 class Residual(nn.Module):
     def __init__(self, inp_dim, out_dim):
         super(Residual, self).__init__()
@@ -350,3 +336,4 @@ if __name__ == '__main__':
     input_tensor = torch.randn(1, 3, 352, 352).cuda()
     out = ras(input_tensor)
     print(out.shape())
+

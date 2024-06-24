@@ -74,7 +74,7 @@ def deit_small_patch16_224(pretrained=False, **kwargs):
         norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     model.default_cfg = _cfg()
     if pretrained:
-        ckpt = torch.load('deit_small_patch16_224-cd65a155.pth')
+        ckpt = torch.load('./weights/deit_small_patch16_224-cd65a155.pth')
         model.load_state_dict(ckpt['model'], strict=False)
 
     pe = model.pos_embed[:, 1:, :].detach()  # torch.Size([1, 196, 384])
