@@ -80,8 +80,8 @@ def imwrite(filename, img, params=None):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--epoch', type=str, default="20")
-# parser.add_argument('--test_path', type=str, default='./dataset/TestDataset/', help='path to test dataset')
+parser.add_argument('--epoch', type=int, default=20)
+parser.add_argument('--test_path', type=str, default='./dataset/TestDataset/', help='path to test dataset')
 parser.add_argument('--normalization', type=bool, default=False)
 
 opt = parser.parse_args()
