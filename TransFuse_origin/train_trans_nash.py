@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 # from utils.pcgrad import PCGrad
 # import torchvision.models as torch_model
 from utils.smooth_cross_entropy import SmoothCrossEntropy
+from pathlib import Path
 
 
 def structure_loss(pred, mask):
@@ -54,6 +55,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                 optimizer.zero_grad()
                 # d_optimizer.zero_grad()
                 images, gts = pack
+                # deepcopy images
                 labels = torch.einsum("ijkl->i", gts) > 0
 
                 labels = torch.where(labels > 0, torch.tensor(1), torch.tensor(0))
@@ -63,6 +65,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
                 labels = Variable(labels).cuda()
+                images_cp = images.clone()
                 # ---- rescale ----
                 trainsize = int(round(args.trainsize * rate / 32) * 32)
                 if rate != 1:
@@ -84,7 +87,12 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     # lateral_map_2 = lateral_map_2.sigmoid()#########################
                     # lateral_map_2 = 1. * (lateral_map_2 > 0.5)
                     # lateral_map_2 = images * lateral_map_2
-                    lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
+                    # lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
+
+                    ####################################################
+                    lateral_map_2 = lateral_map_2.repeat(1, 2, 1, 1)
+                    lateral_map_2 = torch.cat((lateral_map_2, images_cp[:, 0, :, :].unsqueeze(1)), dim=1)
+                    ####################################################
 
                     d_out = models['Discriminator'](lateral_map_2)
                     # d_out = models['Discriminator'](lateral_map_2, images)
@@ -278,11 +286,11 @@ if __name__ == '__main__':
     # criterion = nn.BCEWithLogitsLoss(reduction='mean')
     criterion = SmoothCrossEntropy()
 
-    image_root = '{}/images/'.format(args.train_path)
-    gt_root = '{}/masks/'.format(args.train_path)
+    image_root = Path(f"{args.train_path}/images/")
+    gt_root = Path(f"{args.train_path}/masks/")
 
-    image_root_val = '{}/images/'.format(args.val_path)
-    gt_root_val = '{}/masks/'.format(args.val_path)
+    image_root_val = Path(f"{args.val_path}/images/")
+    gt_root_val = Path(f"{args.val_path}/masks/")
 
     train_loader = get_loader(image_root, gt_root, batchsize=args.batchsize, trainsize=args.trainsize)
     total_step = len(train_loader)

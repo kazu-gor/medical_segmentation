@@ -11,12 +11,12 @@ import cv2
 import numpy as np
 import torch
 import torch.nn.functional as F
-import torch.nn as nn
-from scipy import misc
+# import torch.nn as nn
+# from scipy import misc
 
 import imageio
 from torchvision import transforms
-import torchvision.models as torch_model
+# import torchvision.models as torch_model
 
 from lib.TransFuse_l import TransFuse_L
 
@@ -26,11 +26,12 @@ from lib.TransFuse_l import TransFuse_L
 
 from lib.Discriminator_ResNet import Discriminator
 
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+# from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
 from utils.dataloader import test_dataset
 from skimage import img_as_ubyte
-import glob
+
+from pathlib import Path
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -154,12 +155,13 @@ for file in glob.glob('./results/Transfuse_S/FP/*.png'):
 os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
 for file in glob.glob('./results/Transfuse_S/TN/*.png'):
     os.remove(file)
-image_root1 = '{}/images/'.format(data_path1)
-gt_root1 = '{}/masks/'.format(data_path1)
+
+image_root1 = Path(f'{data_path1}/images/')
+gt_root1 = Path(f'{data_path1}/masks/')
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-image_root2 = '{}/images/'.format(data_path2)
-gt_root2 = '{}/masks/'.format(data_path2)
+image_root2 = Path(f'{data_path2}/images/')
+gt_root2 = Path(f'{data_path2}/masks/')
 test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
@@ -180,6 +182,7 @@ for i in range(test_loader1.size):
     # gt /= (gt.max() + 1e-8)  ##########################
 
     image = image.cuda()
+    image_cp = image.clone()
 
     with torch.no_grad():
         _, _, res = model(image)
@@ -194,7 +197,10 @@ for i in range(test_loader1.size):
         # print(res1.max(),res1.min(),res1.mean())
 
         imageio.imsave(save_path + name, img_as_ubyte(res1))
-        res = res.repeat(1, 3, 1, 1)
+        # res = res.repeat(1, 3, 1, 1)
+
+        res = res.repeat(1, 2, 1, 1)
+        res = torch.cat((res, image_cp[:, 0, :, :].unsqueeze(1)), dim=1)
 
         # res = res.sigmoid()  #########################
         # res = 1. * (res > 0.5)  ############################

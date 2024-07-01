@@ -11,6 +11,7 @@
 /TransFuse/fig/*
 /TransFuse/roc_curve/*
 /TransFuse/attention_map
+/TransFuse/src/**/*
 
 /PraNet-master/dataset/*
 /PraNet-master/**/*.jpg
@@ -21,6 +22,8 @@
 
 /TransFuse_origin/dataset/*
 /TransFuse_origin/runs/*
+/TransFuse_origin/logs/*
+/TransFuse_origin/config/*
 
 
 ultralytics/
