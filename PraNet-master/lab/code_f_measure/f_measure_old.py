@@ -1,7 +1,8 @@
-import numpy as np
-import cv2
 import glob
 import os
+
+import cv2
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -20,7 +21,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -30,20 +31,19 @@ def imwrite(filename, img, params=None):
         return False
 
 
-
-for file in glob.glob('./bbox_result/*.png'):
+for file in glob.glob("./bbox_result/*.png"):
     os.remove(file)
-os.makedirs('./bbox_result/TP', exist_ok=True)
-for file in glob.glob('./bbox_result/TP/*.png'):
+os.makedirs("./bbox_result/TP", exist_ok=True)
+for file in glob.glob("./bbox_result/TP/*.png"):
     os.remove(file)
-os.makedirs('./bbox_result/FN', exist_ok=True)
-for file in glob.glob('./bbox_result/FN/*.png'):
+os.makedirs("./bbox_result/FN", exist_ok=True)
+for file in glob.glob("./bbox_result/FN/*.png"):
     os.remove(file)
-os.makedirs('./bbox_result/FP', exist_ok=True)
-for file in glob.glob('./bbox_result/FP/*.png'):
+os.makedirs("./bbox_result/FP", exist_ok=True)
+for file in glob.glob("./bbox_result/FP/*.png"):
     os.remove(file)
-os.makedirs('./bbox_result/TN', exist_ok=True)
-for file in glob.glob('./bbox_result/TN/*.png'):
+os.makedirs("./bbox_result/TN", exist_ok=True)
+for file in glob.glob("./bbox_result/TN/*.png"):
     os.remove(file)
 
 
@@ -80,7 +80,7 @@ for i in files:
     output = np.zeros((height, width))
     for s in top2_idx2:
         output += np.where(labels2 == s, 255, 0)
-    output = output.astype('uint8')
+    output = output.astype("uint8")
 
     ##################この間をコメントアウトすると、bboxなしのlower,threshで加工した出力が得られる#########################
 
@@ -96,7 +96,7 @@ for i in files:
     # for u in bbox1:
     #     cv2.rectangle(output, (u[0], u[1]), (u[2], u[3]), (0, 0, 255), thickness=1)
     ##################################################################################################################
-    cv2.imwrite('./bbox_result/' + basename, output)
+    cv2.imwrite("./bbox_result/" + basename, output)
 
     flag = False
     count = 0
@@ -110,21 +110,21 @@ for i in files:
                     TP += 1
                     count = 1
                     flag = True
-                    cv2.imwrite('./bbox_result/TP/' + basename, output)
+                    cv2.imwrite("./bbox_result/TP/" + basename, output)
                     break
             if flag:
                 break
         if count == 0:
             FN += 1
-            cv2.imwrite('./bbox_result/FN/' + basename, output)
+            cv2.imwrite("./bbox_result/FN/" + basename, output)
     if nlabels1 == 1:
         if len(top2_idx2) != 0:
             FP += 1
-            cv2.imwrite('./bbox_result/FP/' + basename, output)
+            cv2.imwrite("./bbox_result/FP/" + basename, output)
 
         else:
             TN += 1
-            cv2.imwrite('./bbox_result/TN/' + basename, output)
+            cv2.imwrite("./bbox_result/TN/" + basename, output)
 
 print("TP:", TP)
 print("FN:", FN)

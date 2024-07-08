@@ -8,7 +8,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from scipy.optimize import minimize
-
 from utils.min_norm_solvers import MinNormSolver, gradient_normalizers
 
 
@@ -44,8 +43,7 @@ class WeightMethod:
         last_shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
-        representation: Union[List[torch.nn.parameter.Parameter],
-                              torch.Tensor] = None,
+        representation: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
         **kwargs,
     ) -> Tuple[Union[torch.Tensor, None], Union[dict, None]]:
         """
@@ -124,8 +122,7 @@ class NashMTL(WeightMethod):
             (self.alpha_param.value is None)
             or (np.linalg.norm(gtg @ alpha_t - 1 / (alpha_t + 1e-10)) < 1e-3)
             or (
-                np.linalg.norm(self.alpha_param.value -
-                               self.prvs_alpha_param.value)
+                np.linalg.norm(self.alpha_param.value - self.prvs_alpha_param.value)
                 < 1e-6
             )
         )
@@ -156,8 +153,7 @@ class NashMTL(WeightMethod):
 
     def _calc_phi_alpha_linearization(self):
         G_prvs_alpha = self.G_param @ self.prvs_alpha_param
-        prvs_phi_tag = 1 / self.prvs_alpha_param + \
-            (1 / G_prvs_alpha) @ self.G_param
+        prvs_phi_tag = 1 / self.prvs_alpha_param + (1 / G_prvs_alpha) @ self.G_param
         phi_alpha = prvs_phi_tag @ (self.alpha_param - self.prvs_alpha_param)
         return phi_alpha
 
@@ -215,10 +211,7 @@ class NashMTL(WeightMethod):
             for i, loss in enumerate(losses):
                 g = list(
                     torch.autograd.grad(
-                        loss,
-                        shared_parameters,
-                        retain_graph=True,
-                        allow_unused=True
+                        loss, shared_parameters, retain_graph=True, allow_unused=True
                     )
                 )
 
@@ -280,8 +273,7 @@ class NashMTL(WeightMethod):
         last_shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
-        representation: Union[List[torch.nn.parameter.Parameter],
-                              torch.Tensor] = None,
+        representation: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
         **kwargs,
     ) -> Tuple[Union[torch.Tensor, None], Union[Dict, None]]:
         loss, extra_outputs = self.get_weighted_loss(
@@ -445,8 +437,7 @@ class Uncertainty(WeightMethod):
 
     def __init__(self, n_tasks, device: torch.device):
         super().__init__(n_tasks, device=device)
-        self.logsigma = torch.tensor(
-            [0.0] * n_tasks, device=device, requires_grad=True)
+        self.logsigma = torch.tensor([0.0] * n_tasks, device=device, requires_grad=True)
 
     def get_weighted_loss(self, losses: torch.Tensor, **kwargs):
         loss = sum(
@@ -529,8 +520,7 @@ class PCGrad(WeightMethod):
                 )
                 if g_i_g_j < 0:
                     g_j_norm_square = (
-                        torch.norm(torch.cat([torch.flatten(g)
-                                   for g in g_j])) ** 2
+                        torch.norm(torch.cat([torch.flatten(g) for g in g_j])) ** 2
                     )
                     for grad_i, grad_j in zip(g_i, g_j):
                         grad_i -= g_i_g_j * grad_j / g_j_norm_square
@@ -544,8 +534,7 @@ class PCGrad(WeightMethod):
     def backward(
         self,
         losses: torch.Tensor,
-        parameters: Union[List[torch.nn.parameter.Parameter],
-                          torch.Tensor] = None,
+        parameters: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
         shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
@@ -610,12 +599,10 @@ class CAGrad(WeightMethod):
 
         def objfn(x):
             return (
-                x.reshape(1, self.n_tasks).dot(
-                    A).dot(b.reshape(self.n_tasks, 1))
+                x.reshape(1, self.n_tasks).dot(A).dot(b.reshape(self.n_tasks, 1))
                 + c
                 * np.sqrt(
-                    x.reshape(1, self.n_tasks).dot(
-                        A).dot(x.reshape(self.n_tasks, 1))
+                    x.reshape(1, self.n_tasks).dot(A).dot(x.reshape(self.n_tasks, 1))
                     + 1e-8
                 )
             ).sum()
@@ -630,7 +617,7 @@ class CAGrad(WeightMethod):
         if rescale == 0:
             return g
         elif rescale == 1:
-            return g / (1 + alpha ** 2)
+            return g / (1 + alpha**2)
         else:
             return g / (1 + alpha)
 
@@ -667,8 +654,7 @@ class CAGrad(WeightMethod):
     def backward(
         self,
         losses: torch.Tensor,
-        parameters: Union[List[torch.nn.parameter.Parameter],
-                          torch.Tensor] = None,
+        parameters: Union[List[torch.nn.parameter.Parameter], torch.Tensor] = None,
         shared_parameters: Union[
             List[torch.nn.parameter.Parameter], torch.Tensor
         ] = None,
@@ -725,28 +711,12 @@ class IMTLG(WeightMethod):
             norm_grads[i] = grad / norm_term
 
         G = torch.stack(tuple(v for v in grads.values()))
-        D = (
-            G[
-                0,
-            ]
-            - G[
-                1:,
-            ]
-        )
+        D = G[0,] - G[1:,]
 
         U = torch.stack(tuple(v for v in norm_grads.values()))
-        U = (
-            U[
-                0,
-            ]
-            - U[
-                1:,
-            ]
-        )
+        U = U[0,] - U[1:,]
         first_element = torch.matmul(
-            G[
-                0,
-            ],
+            G[0,],
             U.t(),
         )
         try:
@@ -799,7 +769,7 @@ class DynamicWeightAverage(WeightMethod):
         self.costs[-1, :] = cost
 
         if self.running_iterations > self.iteration_window:
-            ws = self.costs[self.iteration_window:, :].mean(0) / self.costs[
+            ws = self.costs[self.iteration_window :, :].mean(0) / self.costs[
                 : self.iteration_window, :
             ].mean(0)
             self.weights = (self.n_tasks * np.exp(ws / self.temp)) / (

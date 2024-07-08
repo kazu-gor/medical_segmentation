@@ -1,11 +1,10 @@
-import numpy as np
-
-import cv2
 import glob
 import os
-
-from sklearn.model_selection import train_test_split
 import shutil
+
+import cv2
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -24,7 +23,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -34,12 +33,23 @@ def imwrite(filename, img, params=None):
         return False
 
 
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/1/easy_val.txt", "w", encoding='utf-8') as a:
-    with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/1/val.txt", "r", encoding='utf-8') as f:
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/1/easy_val.txt",
+    "w",
+    encoding="utf-8",
+) as a:
+    with open(
+        "/home/student/src2/藤林/プログラム/PraNet-master/lab/1/val.txt",
+        "r",
+        encoding="utf-8",
+    ) as f:
         datalist1 = f.readlines()
         for data1 in datalist1:
-            with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_txt/train_easy_nrlr_05.txt", "r",
-                      encoding='utf-8') as f2:
+            with open(
+                "/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_txt/train_easy_nrlr_05.txt",
+                "r",
+                encoding="utf-8",
+            ) as f2:
                 datalist2 = f2.readlines()
                 k = 0
                 for data2 in datalist2:

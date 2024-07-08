@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -21,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -36,7 +37,9 @@ def all_area(files1, files2):  #############正解画像ではなく出力画像
     for i in files1:
         basename = os.path.basename(i)
         img = imread(files2 + basename)
-        t, img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)#######################計算量削減、これを消したらすべての輝度値の面積を求めることになり時間がかかる
+        t, img = cv2.threshold(
+            img, 128, 255, cv2.THRESH_BINARY
+        )  #######################計算量削減、これを消したらすべての輝度値の面積を求めることになり時間がかかる
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         nlabels, labels, stats, centroids = cv2.connectedComponentsWithStats(gray)
@@ -151,12 +154,12 @@ for i in range(n):
 i = len(ML_list)
 ML = ML_list[i // 2]
 
-print('------------------------------')
-print('---------Youden index---------')
+print("------------------------------")
+print("---------Youden index---------")
 print("Threshold:", ML)
 TPR = MTP / (MTP + MFN)
 FPR = MFP / (MFP + MTN)
-print("TPR-FPR:", TPR-FPR)
+print("TPR-FPR:", TPR - FPR)
 print("TP:", MTP)
 print("FN:", MFN)
 print("FP:", MFP)

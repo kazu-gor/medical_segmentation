@@ -1,19 +1,22 @@
-import torch
-from torch.autograd import Variable
-import os
 import argparse
+import os
 from datetime import datetime
-from lib.PraNet_Res2Net import PraNet
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
-from torch_optimizer.radam import RAdam
+
 import matplotlib.pyplot as plt
+import torch
+import torch.nn.functional as F
+from lib.PraNet_Res2Net import PraNet
+from torch.autograd import Variable
+from torch_optimizer.radam import RAdam
+from utils.dataloader import get_loader
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
 
 
 def structure_loss(pred, mask):
-    weit = 1 + 5 * torch.abs(F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15) - mask)
-    wbce = F.binary_cross_entropy_with_logits(pred, mask, reduce='none')
+    weit = 1 + 5 * torch.abs(
+        F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15) - mask
+    )
+    wbce = F.binary_cross_entropy_with_logits(pred, mask, reduce="none")
     wbce = (weit * wbce).sum(dim=(2, 3)) / weit.sum(dim=(2, 3))
 
     pred = torch.sigmoid(pred)
@@ -27,7 +30,12 @@ def train(train_loader, model, optimizer, epoch):
     model.train()
     # ---- multi-scale training ----
     size_rates = [0.75, 1, 1.25]
-    loss_record2, loss_record3, loss_record4, loss_record5 = AvgMeter(), AvgMeter(), AvgMeter(), AvgMeter()
+    loss_record2, loss_record3, loss_record4, loss_record5 = (
+        AvgMeter(),
+        AvgMeter(),
+        AvgMeter(),
+        AvgMeter(),
+    )
     for i, pack in enumerate(train_loader, start=1):
         for rate in size_rates:
             optimizer.zero_grad()
@@ -38,8 +46,18 @@ def train(train_loader, model, optimizer, epoch):
             # ---- rescale ----
             trainsize = int(round(opt.trainsize * rate / 32) * 32)
             if rate != 1:
-                images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
-                gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
+                images = F.upsample(
+                    images,
+                    size=(trainsize, trainsize),
+                    mode="bilinear",
+                    align_corners=True,
+                )
+                gts = F.upsample(
+                    gts,
+                    size=(trainsize, trainsize),
+                    mode="bilinear",
+                    align_corners=True,
+                )
             # ---- forward ----
             lateral_map_5, lateral_map_4, lateral_map_3, lateral_map_2 = model(images)
             # ---- loss function ----
@@ -60,42 +78,61 @@ def train(train_loader, model, optimizer, epoch):
                 loss_record5.update(loss5.data, opt.batchsize)
         # ---- train visualization ----
         if i % 20 == 0 or i == total_step:
-            print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
-                  '[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]'.
-                  format(datetime.now(), epoch, opt.epoch, i, total_step,
-                         loss_record2.show(), loss_record3.show(), loss_record4.show(), loss_record5.show()))
-    save_path = 'snapshots/{}/'.format(opt.train_save)
+            print(
+                "{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], "
+                "[lateral-2: {:.4f}, lateral-3: {:0.4f}, lateral-4: {:0.4f}, lateral-5: {:0.4f}]".format(
+                    datetime.now(),
+                    epoch,
+                    opt.epoch,
+                    i,
+                    total_step,
+                    loss_record2.show(),
+                    loss_record3.show(),
+                    loss_record4.show(),
+                    loss_record5.show(),
+                )
+            )
+    save_path = "snapshots/{}/".format(opt.train_save)
     os.makedirs(save_path, exist_ok=True)
     if (epoch + 1) % 1 == 0:
-        torch.save(model.state_dict(), save_path + 'PraNet-%d.pth' % epoch)
-        print('[Saving Snapshot:]', save_path + 'PraNet-%d.pth' % epoch)
-    train_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
+        torch.save(model.state_dict(), save_path + "PraNet-%d.pth" % epoch)
+        print("[Saving Snapshot:]", save_path + "PraNet-%d.pth" % epoch)
+    train_loss = (
+        loss_record2.show()
+        + loss_record3.show()
+        + loss_record4.show()
+        + loss_record5.show()
+    )
     print("train_loss: {0:.4f}".format(train_loss))
     return epoch, train_loss
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epoch', type=int,
-                        default=101, help='epoch number')
-    parser.add_argument('--lr', type=float,
-                        default=1e-4, help='learning rate')
-    parser.add_argument('--batchsize', type=int,
-                        default=16, help='training batch size')
-    parser.add_argument('--trainsize', type=int,
-                        default=352, help='training dataset size')
-    parser.add_argument('--clip', type=float,
-                        default=0.5, help='gradient clipping margin')
-    parser.add_argument('--decay_rate', type=float,
-                        default=0.1, help='decay rate of learning rate')
-    parser.add_argument('--decay_epoch', type=int,
-                        default=50, help='every n epochs decay learning rate')
-    parser.add_argument('--train_path', type=str,
-                        default='./dataset/TrainDataset', help='path to train dataset')
+    parser.add_argument("--epoch", type=int, default=101, help="epoch number")
+    parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
+    parser.add_argument("--batchsize", type=int, default=16, help="training batch size")
+    parser.add_argument(
+        "--trainsize", type=int, default=352, help="training dataset size"
+    )
+    parser.add_argument(
+        "--clip", type=float, default=0.5, help="gradient clipping margin"
+    )
+    parser.add_argument(
+        "--decay_rate", type=float, default=0.1, help="decay rate of learning rate"
+    )
+    parser.add_argument(
+        "--decay_epoch", type=int, default=50, help="every n epochs decay learning rate"
+    )
+    parser.add_argument(
+        "--train_path",
+        type=str,
+        default="./dataset/TrainDataset",
+        help="path to train dataset",
+    )
     # parser.add_argument('--train_path', type=str,
     #                     default='./dataset/sekkai_TrainDataset', help='path to train dataset')
-    parser.add_argument('--train_save', type=str,
-                        default='PraNet_Res2Net')
+    parser.add_argument("--train_save", type=str, default="PraNet_Res2Net")
     opt = parser.parse_args()
 
     # ---- build models ----
@@ -111,10 +148,12 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(params, opt.lr)
     # optimizer = RAdam(params, lr=opt.lr)
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    image_root = "{}/images/".format(opt.train_path)
+    gt_root = "{}/masks/".format(opt.train_path)
 
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_loader(
+        image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize
+    )
     total_step = len(train_loader)
 
     print("#" * 20, "Start Training", "#" * 20)
@@ -131,10 +170,10 @@ if __name__ == '__main__':
         epoch_list.append(epoch)
 
     fig = plt.figure()
-    plt.plot(epoch_list, train_loss_list, label='loss_record2')
-    plt.xlabel('epochs')
-    plt.ylabel('loss')
+    plt.plot(epoch_list, train_loss_list, label="loss_record2")
+    plt.xlabel("epochs")
+    plt.ylabel("loss")
     plt.xlim(left=0)
-    plt.legend(loc='upper right')
+    plt.legend(loc="upper right")
     plt.show()
     fig.savefig("fig/img.png")

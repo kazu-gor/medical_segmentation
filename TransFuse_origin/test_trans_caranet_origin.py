@@ -2,19 +2,17 @@ import argparse
 import glob
 import os
 import time
+from pathlib import Path
+
 import cv2
-import numpy as np
 import imageio
+import numpy as np
 import torch
 import torch.nn.functional as F
-from scipy import misc
-
 from lib.Trans_CaraNet import Trans_CaraNet_L
-
-from utils.dataloader import test_dataset
-import imageio
+from scipy import misc
 from skimage import img_as_ubyte
-from pathlib import Path
+from utils.dataloader import test_dataset
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
@@ -26,7 +24,7 @@ def mean_iou_np(y_true, y_pred, **kwargs):
     mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
     union = mask_sum - intersection
 
-    smooth = .001
+    smooth = 0.001
     iou = (intersection + smooth) / (union + smooth)
     return iou
 
@@ -39,7 +37,7 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
     mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
 
-    smooth = .001
+    smooth = 0.001
     dice = 2 * (intersection + smooth) / (mask_sum + smooth)
     return dice
 
@@ -68,7 +66,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -79,25 +77,30 @@ def imwrite(filename, img, params=None):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--epoch', type=str, default='99', help='epoch to test')
-parser.add_argument('--test_path', type=str, default='./dataset/TestDataset/', help='path to test dataset')
-parser.add_argument('--normalization', type=bool, default=False)
-parser.add_argument('--conf', type=float, default=0.01, help='YOLO confidence')
-parser.add_argument('--max_det', type=int, default=10, help='YOLO max detection')
+parser.add_argument("--testsize", type=int, default=352, help="testing size")
+parser.add_argument("--epoch", type=str, default="99", help="epoch to test")
+parser.add_argument(
+    "--test_path",
+    type=str,
+    default="./dataset/TestDataset/",
+    help="path to test dataset",
+)
+parser.add_argument("--normalization", type=bool, default=False)
+parser.add_argument("--conf", type=float, default=0.01, help="YOLO confidence")
+parser.add_argument("--max_det", type=int, default=10, help="YOLO max detection")
 
 opt = parser.parse_args()
 
 # data_path = opt.test_path
 # data_path = './dataset/TestDataset/'
 # data_path = './dataset/ValDataset/'
-data_path = './dataset/sekkai_TestDataset/'
+data_path = "./dataset/sekkai_TestDataset/"
 # data_path = './dataset/sekkai_ValDataset/'
 
 norm = opt.normalization
 # norm = True
 
-save_path = './results/TransCaraNet_origin/'
+save_path = "./results/TransCaraNet_origin/"
 # save_path = './results/TransCaraNet/'
 
 model = Trans_CaraNet_L()
@@ -105,7 +108,11 @@ model = Trans_CaraNet_L()
 # model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-99.pth'))
 # model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-59.pth'))
 # model.load_state_dict(torch.load(f'./snapshots/Transfuse_S/Transfuse-{opt.epoch}.pth'))
-model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
+model.load_state_dict(
+    torch.load(
+        "./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth"
+    )
+)
 # model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化なし含む/Transfuse-best.pth'))
 # model.load_state_dict(torch.load('./weights/修論/discriminator_nash/TransCaraNet_discriminator/ResNet/Transfuse-best.pth'))
 
@@ -113,16 +120,18 @@ model.cuda()
 model.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob("./results/Transfuse_S/*.png"):
     os.remove(file)
 
 image_root = Path(f"{data_path}/images/")
 gt_root = Path(f"{data_path}/masks/")
-attn_map_root_1 = Path(f"./dataset_attn/TestDataset/attention_{opt.conf}_{opt.max_det}/")
+attn_map_root_1 = Path(
+    f"./dataset_attn/TestDataset/attention_{opt.conf}_{opt.max_det}/"
+)
 test_loader = test_dataset(
-        image_root=image_root, 
-        gt_root=gt_root, 
-        testsize=opt.testsize,
+    image_root=image_root,
+    gt_root=gt_root,
+    testsize=opt.testsize,
 )
 
 dice_bank = []
@@ -147,9 +156,9 @@ for i in range(test_loader.size):
     gt = np.asarray(gt, np.float32)
 
     if norm:
-        gt /= (gt.max() + 1e-8)  ##########################
+        gt /= gt.max() + 1e-8  ##########################
     else:
-        gt = 1. * (gt > 0.5)  ########################
+        gt = 1.0 * (gt > 0.5)  ########################
 
     image = image.cuda()
     with torch.no_grad():
@@ -157,16 +166,18 @@ for i in range(test_loader.size):
     res = res2
     # res = res5
 
-    res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+    res = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
 
     # res = res * (1. + attn_map)
     # res = res / (res.max() + 1e-8)  # 処理内容: 画像の最大値で割る=正規化
 
     if norm:
-        res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################
+        res = (res - res.min()) / (
+            res.max() - res.min() + 1e-8
+        )  ############################
     else:
-        res = 1. * (res > 0.5)  ############################
+        res = 1.0 * (res > 0.5)  ############################
 
     dice = mean_dice_np(gt, res)
     iou = mean_iou_np(gt, res)
@@ -178,6 +189,9 @@ for i in range(test_loader.size):
     imageio.imsave(save_path + name, img_as_ubyte(res))
 
 time_finish = time.time()
-print('timer: {:.4f} sec.'.format((time_finish - time_start) / no))
-print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
-      format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
+print("timer: {:.4f} sec.".format((time_finish - time_start) / no))
+print(
+    "Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}".format(
+        np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)
+    )
+)

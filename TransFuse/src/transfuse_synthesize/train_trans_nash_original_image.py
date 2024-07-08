@@ -1,24 +1,24 @@
-import os
 import argparse
-import time
+import os
 import sys
+import time
 from datetime import datetime
 
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as transforms
-import matplotlib.pyplot as plt
 from torch.autograd import Variable
 
 sys.path.append('../../')
-from lib.TransFuse_l_conv1x1 import TransFuse_L
 from lib.Discriminator_ResNet import Discriminator
-from utils.weight_methods import WeightMethods
-from utils.mtl import extract_weight_method_parameters_from_args
+from lib.TransFuse_l_conv1x1 import TransFuse_L
 from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
+from utils.mtl import extract_weight_method_parameters_from_args
 from utils.smooth_cross_entropy import SmoothCrossEntropy
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
+from utils.weight_methods import WeightMethods
 
 
 def nash_analytic_v1(losses, shared_parameters, task_specific_parameters):

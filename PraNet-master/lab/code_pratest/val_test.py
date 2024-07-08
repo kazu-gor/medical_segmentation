@@ -1,9 +1,8 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
 
 ##予測結果のマスク画像からbounding_boxの座標を出して正解画像のマスク画像と重なっているか判定する
 ##最適なthreshとlowerを求める
@@ -25,7 +24,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -41,7 +40,9 @@ upper_size = 100000
 thresh = [155, 160, 165, 175, 190, 200]
 true_F = 0
 
-files = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/masks/*.png")
+files = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/masks/*.png"
+)
 for low in lower_size:
     for thr in thresh:
         TP = 0
@@ -69,7 +70,10 @@ for low in lower_size:
                 y1 = min(data[i][1] + data[i][3] + k, 415)
                 bbox1.append([x0, y0, x1, y1])
 
-            img2 = imread("/home/student/src2/藤林/プログラム/PraNet-master/results/PraNet/" + basename)
+            img2 = imread(
+                "/home/student/src2/藤林/プログラム/PraNet-master/results/PraNet/"
+                + basename
+            )
             t2, img2 = cv2.threshold(img2, thr, 255, cv2.THRESH_BINARY)
             gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
 
@@ -98,7 +102,9 @@ for low in lower_size:
             for i in bbox1:
                 k = 0
                 for j in bbox2:
-                    if (max(i[0], j[0]) <= min(i[2], j[2])) and (max(i[1], j[1]) <= min(i[3], j[3])):
+                    if (max(i[0], j[0]) <= min(i[2], j[2])) and (
+                        max(i[1], j[1]) <= min(i[3], j[3])
+                    ):
                         TP += 1
                         k += 1
                         break
@@ -107,7 +113,9 @@ for low in lower_size:
             for i in bbox2:
                 k = 0
                 for j in bbox1:
-                    if (max(i[0], j[0]) <= min(i[2], j[2])) and (max(i[1], j[1]) <= min(i[3], j[3])):
+                    if (max(i[0], j[0]) <= min(i[2], j[2])) and (
+                        max(i[1], j[1]) <= min(i[3], j[3])
+                    ):
                         k += 1
                         break
                 if k == 0:

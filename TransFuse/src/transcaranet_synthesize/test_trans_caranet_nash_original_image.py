@@ -1,33 +1,31 @@
 import argparse
 import glob
-import os
 import json
-
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.pyplot as plt
+import os
 
 import cv2
+import imageio
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
-from scipy import misc
-
-import imageio
-from torchvision import transforms
+import torch.nn.functional as F
 import torchvision.models as torch_model
-
+from lib.Discriminator_ResNet import Discriminator
+from lib.Trans_CaraNet import Trans_CaraNet_L
 from lib.TransFuse_l import TransFuse_L
+from scipy import misc
+from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
+from torchvision import transforms
+from utils.dataloader import test_dataset
+
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
-from lib.Discriminator_ResNet import Discriminator
 
-from lib.Trans_CaraNet import Trans_CaraNet_L
 
-from utils.dataloader import test_dataset
-from skimage import img_as_ubyte
-import glob
 
 # import sys
 # sys.path.append('../../git/laboratory/python/py/tools/')

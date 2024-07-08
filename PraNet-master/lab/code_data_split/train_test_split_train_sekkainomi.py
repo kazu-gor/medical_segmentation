@@ -1,11 +1,10 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 import shutil
-from sklearn.model_selection import train_test_split
 
+import cv2
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 ###valなしでtrain,testのみを分ける
 ###ただしtrainは石灰化が含まれる画像のみ
@@ -27,7 +26,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -37,25 +36,45 @@ def imwrite(filename, img, params=None):
         return False
 
 
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/test_img/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/test_img/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/train_img/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/train_img/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/test_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/test_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/train_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/train_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/images/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/images/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/masks/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/masks/*.png"
+):
     os.remove(file)
 
 x = 0  # random_state
@@ -66,10 +85,20 @@ train, test = train_test_split(files1, train_size=0.8, random_state=x)
 
 for i in test:
     img = imread(i)
-    imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images", os.path.basename(i)),
-            img)
-    imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/test_img", os.path.basename(i)),
-            img)
+    imwrite(
+        os.path.join(
+            r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images",
+            os.path.basename(i),
+        ),
+        img,
+    )
+    imwrite(
+        os.path.join(
+            r"/home/student/src2/藤林/プログラム/PraNet-master/lab/test_img",
+            os.path.basename(i),
+        ),
+        img,
+    )
 
 files2 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/masks/*.png")
 # files2 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_masks/*.png")
@@ -77,10 +106,20 @@ train, test = train_test_split(files2, train_size=0.8, random_state=x)
 
 for i in test:
     img = imread(i)
-    imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks", os.path.basename(i)),
-            img)
-    imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/test_mask", os.path.basename(i)),
-            img)
+    imwrite(
+        os.path.join(
+            r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks",
+            os.path.basename(i),
+        ),
+        img,
+    )
+    imwrite(
+        os.path.join(
+            r"/home/student/src2/藤林/プログラム/PraNet-master/lab/test_mask",
+            os.path.basename(i),
+        ),
+        img,
+    )
 
 for i in train:
     img = imread(i)
@@ -91,15 +130,36 @@ for i in train:
     nlabels = label[0]
     if nlabels > 1:
         imwrite(
-            os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks", os.path.basename(i)),
-            img)
-        imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train_mask", os.path.basename(i)),
-                img)
-        shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/images",
-                                 os.path.splitext(os.path.basename(i))[0] + ".png")
-                    , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images",
-                                   os.path.splitext(os.path.basename(i))[0] + ".png"))
-        shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/images",
-                                 os.path.splitext(os.path.basename(i))[0] + ".png")
-                    , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train_img",
-                                   os.path.splitext(os.path.basename(i))[0] + ".png"))
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks",
+                os.path.basename(i),
+            ),
+            img,
+        )
+        imwrite(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train_mask",
+                os.path.basename(i),
+            ),
+            img,
+        )
+        shutil.copy(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/images",
+                os.path.splitext(os.path.basename(i))[0] + ".png",
+            ),
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images",
+                os.path.splitext(os.path.basename(i))[0] + ".png",
+            ),
+        )
+        shutil.copy(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/images",
+                os.path.splitext(os.path.basename(i))[0] + ".png",
+            ),
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train_img",
+                os.path.splitext(os.path.basename(i))[0] + ".png",
+            ),
+        )

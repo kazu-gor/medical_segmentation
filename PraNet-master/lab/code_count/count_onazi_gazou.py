@@ -1,9 +1,8 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
 from sklearn.model_selection import train_test_split
 
 
@@ -23,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -33,14 +32,24 @@ def imwrite(filename, img, params=None):
         return False
 
 
-files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test/*.png")
-files2 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train/*.png")
-files3 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val/*.png")
-files4 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7/*.png")
-files5 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3/*.png")
-count=0
+files1 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test/*.png"
+)
+files2 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train/*.png"
+)
+files3 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val/*.png"
+)
+files4 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7/*.png"
+)
+files5 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3/*.png"
+)
+count = 0
 for i in files2:
     for j in files3:
         if os.path.basename(i) == os.path.basename(j):
-            count+=1
+            count += 1
 print(count)

@@ -1,8 +1,7 @@
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import numpy as np
 import torchvision.models as models
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
@@ -92,21 +91,29 @@ class Squeeze_Excite_block(nn.Module):
     def __init__(self, out_channels):
         super(Squeeze_Excite_block, self).__init__()
 
-        self.conv1 = nn.Conv2d(out_channels, out_channels,
-                               kernel_size=1, stride=1,
-                               padding=0, dilation=1, bias=False)
+        self.conv1 = nn.Conv2d(
+            out_channels,
+            out_channels,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            dilation=1,
+            bias=False,
+        )
         self.av1 = nn.AdaptiveAvgPool2d(1)
-        self.l1 = nn.Linear(in_features=out_channels,
-                            out_features=out_channels // 8, bias=False)
+        self.l1 = nn.Linear(
+            in_features=out_channels, out_features=out_channels // 8, bias=False
+        )
         self.relu_a = nn.ReLU(inplace=True)
-        self.l2 = nn.Linear(in_features=out_channels // 8,
-                            out_features=out_channels, bias=False)
+        self.l2 = nn.Linear(
+            in_features=out_channels // 8, out_features=out_channels, bias=False
+        )
         self.sigmoid1 = nn.Sigmoid()
 
         # nn.init.xavier_uniform_(self.l2.weight.data)
 
-        torch.nn.init.kaiming_normal_(self.l1.weight, nonlinearity='relu')
-        torch.nn.init.kaiming_normal_(self.l2.weight, nonlinearity='sigmoid')
+        torch.nn.init.kaiming_normal_(self.l1.weight, nonlinearity="relu")
+        torch.nn.init.kaiming_normal_(self.l2.weight, nonlinearity="sigmoid")
 
     def forward(self, x):
         batch_size = x.shape[0]
@@ -123,17 +130,25 @@ class Squeeze_Excite_block(nn.Module):
 
 
 class BasicConv2drelu(nn.Module):
-    def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1):
+    def __init__(
+        self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1
+    ):
         super(BasicConv2drelu, self).__init__()
-        self.conv = nn.Conv2d(in_planes, out_planes,
-                              kernel_size=kernel_size, stride=stride,
-                              padding=padding, dilation=dilation, bias=False)
+        self.conv = nn.Conv2d(
+            in_planes,
+            out_planes,
+            kernel_size=kernel_size,
+            stride=stride,
+            padding=padding,
+            dilation=dilation,
+            bias=False,
+        )
         self.bn = nn.BatchNorm2d(out_planes)
         # self.bn = nn.LayerNorm(out_planes, elementwise_affine=False)
         self.relu = nn.ReLU(inplace=True)
         # self.relu = FReLU(out_planes)
 
-        torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity='relu')
+        torch.nn.init.kaiming_normal_(self.conv.weight, nonlinearity="relu")
         torch.nn.init.constant_(self.bn.weight, 1)
         torch.nn.init.zeros_(self.bn.bias)
 
@@ -145,11 +160,19 @@ class BasicConv2drelu(nn.Module):
 
 
 class Conv2d_bn(nn.Module):
-    def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1):
+    def __init__(
+        self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1
+    ):
         super(Conv2d_bn, self).__init__()
-        self.conv = nn.Conv2d(in_planes, out_planes,
-                              kernel_size=kernel_size, stride=stride,
-                              padding=padding, dilation=dilation, bias=False)
+        self.conv = nn.Conv2d(
+            in_planes,
+            out_planes,
+            kernel_size=kernel_size,
+            stride=stride,
+            padding=padding,
+            dilation=dilation,
+            bias=False,
+        )
         self.bn = nn.BatchNorm2d(out_planes)
 
     def forward(self, x):
@@ -163,11 +186,12 @@ class ResidualConv(nn.Module):
         super(ResidualConv, self).__init__()
 
         self.cbri = BasicConv2drelu(
-            input_dim, output_dim, kernel_size=3, stride=1, padding=1)
-        self.cbrii = BasicConv2drelu(
-            output_dim, output_dim, kernel_size=3, padding=1)
+            input_dim, output_dim, kernel_size=3, stride=1, padding=1
+        )
+        self.cbrii = BasicConv2drelu(output_dim, output_dim, kernel_size=3, padding=1)
         self.conv_skip = Conv2d_bn(
-            input_dim, output_dim, kernel_size=1, stride=1, padding=0)
+            input_dim, output_dim, kernel_size=1, stride=1, padding=0
+        )
         self.se = Squeeze_Excite_block(output_dim)
 
     def forward(self, x):

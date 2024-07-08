@@ -1,26 +1,26 @@
+import argparse
+import os
+import time
+from datetime import datetime
+
+import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
-
-import time
-import os
-import argparse
-from datetime import datetime
-import numpy as np
-
-from lib.Trans_CaraNet import Trans_CaraNet_L
+import torch.nn.functional as F
+import torchvision.models as torch_model
 from lib.Discriminator_ResNet import Discriminator
+from lib.Trans_CaraNet import Trans_CaraNet_L
+from torch.autograd import Variable
+from utils.dataloader import get_loader
+from utils.mtl import extract_weight_method_parameters_from_args
+from utils.smooth_cross_entropy import SmoothCrossEntropy
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
+from utils.weight_methods import WeightMethods
+
 # TODO Add pre-processing model import
 
-from utils.weight_methods import WeightMethods
-from utils.mtl import extract_weight_method_parameters_from_args
 
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
-import matplotlib.pyplot as plt
-import torchvision.models as torch_model
-from utils.smooth_cross_entropy import SmoothCrossEntropy
 
 
 def nash_analytic_v1(losses, shared_parameters, task_specific_parameters):

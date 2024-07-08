@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -21,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -44,6 +45,7 @@ def all_area(files1, files2):  #############正解画像ではなく出力画像
     all_area_list.append(416 * 416)
     all_area_list = sorted(list(set(all_area_list)))
     return all_area_list
+
 
 ######面積を動かしてAUCを求める###############
 def test(files1, files2, thresh, lower_size, upper_size=43264):
@@ -112,10 +114,12 @@ MTN = 0
 MF = 0
 ML = 0
 MU = 0
-thresh = 254 #####################################################################
+thresh = 254  #####################################################################
 thresh_max = 0
 
-files1 = glob.glob("/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png")  ###正解画像
+files1 = glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png"
+)  ###正解画像
 files2 = "/home/student/src2/藤林/プログラム/PraNet-master/results/PraNet/"
 areas = all_area(files1, files2)
 # areas = [s for s in areas if s < 300]
@@ -155,8 +159,8 @@ for i in range(n):
             ML = lower_list[i]
             MU = upper_list[i]
 
-print('-----------------------')
-print('----------MAX----------')
+print("-----------------------")
+print("----------MAX----------")
 print("lower_size:", ML)
 print("upper_size:", MU)
 print("TP:", MTP)
@@ -185,7 +189,10 @@ n1 = 0
 match_list = []
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n1 != 0:
-        if [fpr, tpr] == [False_Positive_Rate_list[n1 - 1], True_Positive_Rate_list[n1 - 1]]:
+        if [fpr, tpr] == [
+            False_Positive_Rate_list[n1 - 1],
+            True_Positive_Rate_list[n1 - 1],
+        ]:
             match_list.append(n1)
     n1 += 1
 False_Positive_Rate_list = list(False_Positive_Rate_list)
@@ -212,18 +219,26 @@ n3 = 0
 auc = 0
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n3 != 0:
-        auc += (fpr - False_Positive_Rate_list[n3 - 1]) * (tpr + True_Positive_Rate_list[n3 - 1]) / 2
+        auc += (
+            (fpr - False_Positive_Rate_list[n3 - 1])
+            * (tpr + True_Positive_Rate_list[n3 - 1])
+            / 2
+        )
     n3 += 1
 
 print("AUC:", auc)
 fig = plt.figure()
-plt.plot(False_Positive_Rate_list, True_Positive_Rate_list, label='ROC curve (area = %.3f)' % auc)
+plt.plot(
+    False_Positive_Rate_list,
+    True_Positive_Rate_list,
+    label="ROC curve (area = %.3f)" % auc,
+)
 plt.legend()
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.title('ROC curve')
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
+plt.title("ROC curve")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
 plt.grid(True)
 plt.show()
 fig.savefig("fig/img.png")

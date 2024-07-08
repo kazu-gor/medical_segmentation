@@ -1,30 +1,28 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
+import argparse
 import os
 import sys
-import argparse
 from datetime import datetime
 
-from lib.Trans_CaraNet import Trans_CaraNet_L
-
+import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torchvision.models as torch_model
 from lib.Discriminator_ResNet import Discriminator
-
+from lib.Trans_CaraNet import Trans_CaraNet_L
+# detr
+from models import build_model
+from torch.autograd import Variable
+from utils.dataloader import get_loader
+from utils.mtl import extract_weight_method_parameters_from_args
+from utils.smooth_cross_entropy import SmoothCrossEntropy
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
+from utils.weight_methods import WeightMethods
 
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
-from utils.weight_methods import WeightMethods
-from utils.mtl import extract_weight_method_parameters_from_args
 
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
-import matplotlib.pyplot as plt
-import torchvision.models as torch_model
-from utils.smooth_cross_entropy import SmoothCrossEntropy
 
-# detr
-from models import build_model
 
 
 def structure_loss(pred, mask):

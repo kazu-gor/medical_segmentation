@@ -1,13 +1,13 @@
-import numpy as np
-from matplotlib import pyplot as plt
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
 from PIL import Image
 
-
 ###石灰化の個数を数える
+
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
     try:
@@ -25,7 +25,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -35,7 +35,9 @@ def imwrite(filename, img, params=None):
         return False
 
 
-files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks/*.png")
+files1 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/masks/*.png"
+)
 # files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png")
 # files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/masks/*.png")
 cnt1 = 0

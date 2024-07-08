@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -21,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -36,7 +37,9 @@ def all_area(files1, files2):  #############正解画像ではなく出力画像
     for i in files1:
         basename = os.path.basename(i)
         img = imread(files2 + basename)
-        t, img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)#######################計算量削減、これを消したらすべての輝度値の面積を求めることになり時間がかかる
+        t, img = cv2.threshold(
+            img, 128, 255, cv2.THRESH_BINARY
+        )  #######################計算量削減、これを消したらすべての輝度値の面積を求めることになり時間がかかる
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         nlabels, labels, stats, centroids = cv2.connectedComponentsWithStats(gray)
@@ -125,8 +128,31 @@ areas = all_area(files1, files2)
 # for thresh in range(-1, 256):
 # for thresh in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 128, 130, 140, 150,
 #                160, 170, 180, 190, 200, 210, 220, 230, 240, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]:
-for thresh in [128, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 245, 246, 247, 248, 249, 250, 251, 252, 253,
-               254, 255]:
+for thresh in [
+    128,
+    140,
+    150,
+    160,
+    170,
+    180,
+    190,
+    200,
+    210,
+    220,
+    230,
+    240,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
+]:
     for lower_size in areas:
         TP, FN, FP, TN = val_test(files1, files2, thresh, lower_size)
         TP_list.append(TP)
@@ -171,8 +197,8 @@ i = len(thresh_max_list)
 thresh_max = thresh_max_list[i // 2]
 ML = ML_list[i // 2]
 
-print('-----------------------')
-print('----------MAX----------')
+print("-----------------------")
+print("----------MAX----------")
 print("threshhold:", thresh_max)
 print("lower_size:", ML)
 print("TP:", MTP)

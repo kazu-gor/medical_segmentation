@@ -2,36 +2,32 @@ import argparse
 import glob
 import os
 
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-
-import matplotlib.pyplot as plt
-
 import cv2
+import imageio
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
-from scipy import misc
-
-import imageio
-from torchvision import transforms
+import torch.nn.functional as F
 import torchvision.models as torch_model
-
+from lib.Discriminator_ResNet import Discriminator
 # from lib.TransFuse_l import TransFuse_L
 from lib.pvt import PolypPVT
+from scipy import misc
+from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
+from torchvision import transforms
+from utils.dataloader import test_dataset
 
 # from lib.Discriminator_v1 import Discriminator
 # from lib.Discriminator_v2 import Discriminator
 # from lib.Discriminator_v3 import Discriminator
 
-from lib.Discriminator_ResNet import Discriminator
 
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
-from utils.dataloader import test_dataset
-from skimage import img_as_ubyte
-import glob
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -50,11 +46,10 @@ def mean_iou_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
-        np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
     union = mask_sum - intersection
 
-    smooth = .001
+    smooth = 0.001
     iou = (intersection + smooth) / (union + smooth)
     return iou
 
@@ -65,10 +60,9 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)  # W,H axes of each image
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
-        np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
 
-    smooth = .001
+    smooth = 0.001
     dice = 2 * (intersection + smooth) / (mask_sum + smooth)
     return dice
 
@@ -89,7 +83,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -100,28 +94,36 @@ def imwrite(filename, img, params=None):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--testsize', type=int, default=352, help='testing size')
+parser.add_argument("--testsize", type=int, default=352, help="testing size")
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-99.pth')
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-59.pth')
-parser.add_argument('--pth_path', type=str,
-                    default='./snapshots/Transfuse_S/Transfuse-best.pth')
+parser.add_argument(
+    "--pth_path", type=str, default="./snapshots/Transfuse_S/Transfuse-best.pth"
+)
 # parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-best2.pth')
 # parser.add_argument('--pth_path', type=str, default='./weights/修論/mtl/nash/NoTuning/TransFuse_discriminator/Transfuse-best.pth')
 # parser.add_argument('--pth_path', type=str, default='./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth')
 
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-99.pth')
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-59.pth')
-parser.add_argument('--pth_path2', type=str,
-                    default='./snapshots/Transfuse_S/Discriminator-best.pth')
+parser.add_argument(
+    "--pth_path2", type=str, default="./snapshots/Transfuse_S/Discriminator-best.pth"
+)
 # parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-best2.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/mtl/nash/NoTuning/TransFuse_discriminator/Discriminator-best.pth')
 # parser.add_argument('--pth_path2', type=str, default='./weights/修論/discriminator_nash/TransFuse_discriminator/ResNet/Discriminator-59.pth')
-parser.add_argument('--save_path', type=str,
-                    default='./results/Transfuse_S/', help='path to result')
-parser.add_argument('--data_path1', type=str,
-                    default='./dataset/TestDataset/', help='path to dataset')
-parser.add_argument('--data_path2', type=str,
-                    default='./dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
+parser.add_argument(
+    "--save_path", type=str, default="./results/Transfuse_S/", help="path to result"
+)
+parser.add_argument(
+    "--data_path1", type=str, default="./dataset/TestDataset/", help="path to dataset"
+)
+parser.add_argument(
+    "--data_path2",
+    type=str,
+    default="./dataset/sekkai_TestDataset/",
+    help="path to only sekkai dataset",
+)
 
 
 opt = parser.parse_args()
@@ -130,7 +132,7 @@ data_path1 = opt.data_path1
 data_path2 = opt.data_path2
 
 for arg_name, value in vars(opt).items():
-    print(f'{arg_name}: {value}')
+    print(f"{arg_name}: {value}")
 
 # model = TransFuse_L()
 model = PolypPVT()
@@ -146,32 +148,32 @@ model2.cuda()
 model2.eval()
 
 os.makedirs(save_path, exist_ok=True)
-os.makedirs(save_path + 'TP', exist_ok=True)
-os.makedirs(save_path + 'FN', exist_ok=True)
-os.makedirs(save_path + 'FP', exist_ok=True)
-os.makedirs(save_path + 'TN', exist_ok=True)
+os.makedirs(save_path + "TP", exist_ok=True)
+os.makedirs(save_path + "FN", exist_ok=True)
+os.makedirs(save_path + "FP", exist_ok=True)
+os.makedirs(save_path + "TN", exist_ok=True)
 
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob("./results/Transfuse_S/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TP/*.png'):
+os.makedirs("./results/Transfuse_S/TP", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/TP/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FN/*.png'):
+os.makedirs("./results/Transfuse_S/FN", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/FN/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FP/*.png'):
+os.makedirs("./results/Transfuse_S/FP", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/FP/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TN/*.png'):
+os.makedirs("./results/Transfuse_S/TN", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/TN/*.png"):
     os.remove(file)
 
-image_root1 = '{}/images/'.format(data_path1)
-gt_root1 = '{}/masks/'.format(data_path1)
+image_root1 = "{}/images/".format(data_path1)
+gt_root1 = "{}/masks/".format(data_path1)
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-image_root2 = '{}/images/'.format(data_path2)
-gt_root2 = '{}/masks/'.format(data_path2)
+image_root2 = "{}/images/".format(data_path2)
+gt_root2 = "{}/masks/".format(data_path2)
 test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
@@ -196,8 +198,9 @@ for i in range(test_loader1.size):
     with torch.no_grad():
         res, res1 = model(image)
 
-        _res = F.upsample(res + res1, size=gt.shape,
-                          mode='bilinear', align_corners=False)
+        _res = F.upsample(
+            res + res1, size=gt.shape, mode="bilinear", align_corners=False
+        )
         _res = _res.sigmoid().data.cpu().numpy().squeeze()
 
         _res = (_res - _res.min()) / (_res.max() - _res.min() + 1e-8)
@@ -219,31 +222,30 @@ for i in range(test_loader1.size):
 
     if label == 1:
         if predicted == 1:
-            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(_res))
+            imageio.imsave(save_path + "TP/" + name, img_as_ubyte(_res))
 
         else:
-            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(_res))
+            imageio.imsave(save_path + "FN/" + name, img_as_ubyte(_res))
 
     else:
         if predicted == 1:
-            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(_res))
+            imageio.imsave(save_path + "FP/" + name, img_as_ubyte(_res))
 
         else:
-            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(_res))
+            imageio.imsave(save_path + "TN/" + name, img_as_ubyte(_res))
 
 for i in range(test_loader2.size):
     image, gt, name = test_loader2.load_data()
     gt = np.asarray(gt, np.float32)
 
-    gt = 1. * (gt > 0.5)
+    gt = 1.0 * (gt > 0.5)
 
     image = image.cuda()
 
     with torch.no_grad():
         res, res1 = model(image)
 
-    res = F.upsample(res + res1, size=gt.shape,
-                     mode='bilinear', align_corners=False)
+    res = F.upsample(res + res1, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
     res = (res - res.min()) / (res.max() - res.min() + 1e-8)
     # res = 1. * (res > 0.5)
@@ -256,15 +258,18 @@ for i in range(test_loader2.size):
     dice_bank.append(dice)
     iou_bank.append(iou)
 
-print('Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}'.
-      format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
+print(
+    "Dice: {:.4f}, IoU: {:.4f}, Acc: {:.4f}".format(
+        np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)
+    )
+)
 
 cm = confusion_matrix(y_true, y_pred)
 TN, FP, FN, TP = cm.flatten()
 TPR = TP / (TP + FN)
 FPR = FP / (FP + TN)
 print("----------discriminator-----------")
-print("TPR-FPR:", TPR-FPR)
+print("TPR-FPR:", TPR - FPR)
 print("TP:", TP)
 print("FN:", FN)
 print("FP:", FP)
@@ -289,10 +294,10 @@ try:
     fig = plt.figure()
     plt.ioff()
     plt.plot(fpr, tpr)
-    plt.xlabel('FPR: False positive rate')
-    plt.ylabel('TPR: True positive rate')
+    plt.xlabel("FPR: False positive rate")
+    plt.ylabel("TPR: True positive rate")
     plt.grid()
-    plt.savefig('./fig/roc_curve.png')
+    plt.savefig("./fig/roc_curve.png")
 
 except Exception as e:
     print(e)
