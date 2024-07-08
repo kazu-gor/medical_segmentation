@@ -19,6 +19,8 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from utils.smooth_cross_entropy import SmoothCrossEntropy
 from pathlib import Path
+import numpy as np
+import imageio
 
 
 def structure_loss(pred, mask):
@@ -50,18 +52,35 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
         for i, pack in enumerate(dataloaders_dict[phase], start=1):
             for rate in size_rates:
                 optimizer.zero_grad()
-                # d_optimizer.zero_grad()
-                images, gts = pack
+
+                # ---- data prepare ----
+                images, gts, names = pack
                 labels = torch.einsum("ijkl->i", gts) > 0
 
+                # ---- label prepare ----
                 labels = torch.where(labels > 0, torch.tensor(1), torch.tensor(0))
-                # labels = labels.view(-1, 1)
-                # labels = F.one_hot(labels, num_classes=2)
 
+                # ---- attention prepare ----
+                attn_maps = []
+                for name in names:
+                    try:
+                        if phase == 'train':
+                            attn_map = np.array(imageio.imread(train_attn_root / f"{name}"))
+                        else:
+                            attn_map = np.array(imageio.imread(val_attn_root / f"{name}"))
+                    except Exception as e:
+                        print(f">>> {e}")
+                        attn_map = np.zeros_like(gts[0].squeeze())
+                    attn_map = attn_map / 255.0
+                    attn_maps.append(attn_map)
+                attn_maps = torch.tensor(attn_maps, dtype=torch.float32)
+
+                # ---- cuda prepare ----
                 images = Variable(images).cuda()
                 gts = Variable(gts).cuda()
                 labels = Variable(labels).cuda()
-                images_cp = images.clone()
+                attn_maps = Variable(attn_maps).cuda()
+
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
@@ -76,27 +95,19 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                     loss4 = structure_loss(lateral_map_4, gts)
                     loss3 = structure_loss(lateral_map_3, gts)
                     loss2 = structure_loss(lateral_map_2, gts)
-                    # d_loss = criterion(d_out, labels)
                     loss = loss2 + loss3 + loss4 + loss5  # TODO: try different weights for loss
 
-                    # TODO: try different weights for loss
-                    # loss = loss1 + loss2 + loss3 + loss4 + loss5
-
-                    # lateral_map_2 = lateral_map_2.sigmoid()#########################
-                    # lateral_map_2 = 1. * (lateral_map_2 > 0.5)
-                    # lateral_map_2 = images * lateral_map_2
-
+                    # ---- attention map ----
+                    lateral_map_2 = torch.sigmoid(lateral_map_2)
+                    lateral_map_2 = lateral_map_2 * (1. + attn_maps.unsqueeze(1))
                     lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
 
-                    #####################################################
+                    # ---- ROI ----
                     #lateral_map_2 = lateral_map_2.repeat(1, 2, 1, 1)
                     #lateral_map_2 = torch.cat((lateral_map_2, images_cp[:, 0, :, :].unsqueeze(1)), dim=1)
-                    #####################################################
 
                     d_out = models['Discriminator'](lateral_map_2)
-                    # d_out = models['Discriminator'](lateral_map_2, images)
                     d_loss = criterion(d_out, labels)
-                    # losses = [loss, d_loss]
                     losses = torch.stack((loss, d_loss))
                     # ---- backward ----
                     if phase == 'train':
@@ -107,28 +118,16 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                             # last_shared_parameters=list(model.last_shared_parameters()),
                             # representation=features,
                         )
-                        # optimizer.pc_backward(losses)
                         clip_gradient(optimizer, opt.clip)
                         optimizer.step()
 
-                        # loss.backward(retain_graph=True)
-                        # clip_gradient(optimizer, opt.clip)
-                        # optimizer.step()
-                        # # optimizer.zero_grad()
-                        # d_loss.backward()
-                        # clip_gradient(optimizer, opt.clip)
-                        # clip_gradient(d_optimizer, opt.clip)
-                        # optimizer.step()
-                        # d_optimizer.step()
-
-                        # ---- recording loss ----
+                # ---- recording loss ----
                 if rate == 1:
                     d_loss_record.update(d_loss.data, opt.batchsize)
                     loss_record2.update(loss2.data, opt.batchsize)
                     loss_record3.update(loss3.data, opt.batchsize)
                     loss_record4.update(loss4.data, opt.batchsize)
                     loss_record5.update(loss5.data, opt.batchsize)
-
 
             if (i % 20 == 0 or i == total_step) and phase == 'train':
                 print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], '
@@ -142,6 +141,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
         elif phase == 'val':
             val_loss = loss_record2.show() + loss_record3.show() + loss_record4.show() + loss_record5.show()
             val_d_loss = d_loss_record.show()
+
             if val_loss < best_loss:
                 best_loss = val_loss
                 save_path = 'snapshots/{}/'.format(opt.train_save)
@@ -149,6 +149,7 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss, best
                 torch.save(models['Transfuse'].state_dict(), save_path + 'Transfuse-best.pth')
                 torch.save(models['Discriminator'].state_dict(), save_path + 'Discriminator-best.pth')
                 print('[Saving best Snapshot:]', save_path + 'TransFuse-best.pth')
+
             if val_d_loss < best2_loss:
                 best2_loss = val_d_loss
                 save_path = 'snapshots/{}/'.format(opt.train_save)
@@ -193,16 +194,10 @@ if __name__ == '__main__':
     # parser.add_argument('--tuning', type=bool, default=False)
 
     parser.add_argument('--mtl', type=str, default='nashmtl')
-    # parser.add_argument('--mtl', type=str, default='pcgrad')
-    # parser.add_argument('--mtl', type=str, default='cagrad')
-    # parser.add_argument('--mtl', type=str, default='imtl')
-    # parser.add_argument('--mtl', type=str, default='mgda')
-    # parser.add_argument('--mtl', type=str, default='dwa')
-    # parser.add_argument('--mtl', type=str, default='uw')
-    # parser.add_argument('--mtl', type=str, default='ls')
-    # parser.add_argument('--mtl', type=str, default='scaleinvls')
-    # parser.add_argument('--mtl', type=str, default='rlw')
-    # parser.add_argument('--mtl', type=str, default='stl')
+
+    parser.add_argument('--conf', type=float, default=0.01, help='YOLO confidence')
+    parser.add_argument('--max_det', type=int, default=10,
+                        help='YOLO max detection')
 
     opt = parser.parse_args()
 
@@ -248,14 +243,6 @@ if __name__ == '__main__':
         # if ("final_x" or 'final_1') in n:
         task_specific_parameters.append(p)
 
-
-    # no=1
-    # for n, p in model1.named_parameters():
-    #     print(no)
-    #     print(n)
-    #     no+=1
-
-
     optimizer = torch.optim.Adam(
         [
             dict(params=params, lr=opt.lr, betas=(opt.beta1, opt.beta2)),
@@ -264,6 +251,11 @@ if __name__ == '__main__':
     )
 
     criterion = SmoothCrossEntropy()
+
+    train_attn_root = Path(
+        f"./dataset_attn/TrainDataset/attention_{opt.conf}_{opt.max_det}/")
+    val_attn_root = Path(
+        f"./dataset_attn/ValDataset/attention_{opt.conf}_{opt.max_det}/")
 
     image_root = Path(f"{opt.train_path}/images/")
     gt_root = Path(f"{opt.train_path}/masks/")

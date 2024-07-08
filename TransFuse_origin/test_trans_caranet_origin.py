@@ -80,9 +80,11 @@ def imwrite(filename, img, params=None):
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--epoch', type=int, default=20)
+parser.add_argument('--epoch', type=str, default='99', help='epoch to test')
 parser.add_argument('--test_path', type=str, default='./dataset/TestDataset/', help='path to test dataset')
 parser.add_argument('--normalization', type=bool, default=False)
+parser.add_argument('--conf', type=float, default=0.01, help='YOLO confidence')
+parser.add_argument('--max_det', type=int, default=10, help='YOLO max detection')
 
 opt = parser.parse_args()
 
@@ -95,14 +97,15 @@ data_path = './dataset/sekkai_TestDataset/'
 norm = opt.normalization
 # norm = True
 
-save_path = './results/TransCaraNet/'
+save_path = './results/TransCaraNet_origin/'
+# save_path = './results/TransCaraNet/'
 
 model = Trans_CaraNet_L()
 
 # model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-99.pth'))
 # model.load_state_dict(torch.load('./snapshots/Transfuse_S/Transfuse-59.pth'))
-model.load_state_dict(torch.load(f'./snapshots/Transfuse_S/Transfuse-{opt.epoch}.pth'))
-# model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
+# model.load_state_dict(torch.load(f'./snapshots/Transfuse_S/Transfuse-{opt.epoch}.pth'))
+model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化ありのみ/Transfuse-best.pth'))
 # model.load_state_dict(torch.load('./weights/修論/segmentation/TransCaraNet+MAE_calsification/石灰化なし含む/Transfuse-best.pth'))
 # model.load_state_dict(torch.load('./weights/修論/discriminator_nash/TransCaraNet_discriminator/ResNet/Transfuse-best.pth'))
 
@@ -115,6 +118,7 @@ for file in glob.glob('./results/Transfuse_S/*.png'):
 
 image_root = Path(f"{data_path}/images/")
 gt_root = Path(f"{data_path}/masks/")
+attn_map_root_1 = Path(f"./dataset_attn/TestDataset/attention_{opt.conf}_{opt.max_det}/")
 test_loader = test_dataset(
         image_root=image_root, 
         gt_root=gt_root, 
@@ -130,6 +134,16 @@ time_start = time.time()
 for i in range(test_loader.size):
     no += 1
     image, gt, name = test_loader.load_data()
+
+    try:
+        attn_map = imageio.imread(attn_map_root_1 / f"{name}")
+    except Exception as e:
+        print(f">>> {e}")
+        attn_map = np.zeros_like(gt)
+    attn_map = attn_map / 255.0
+    # attn_map = torch.tensor(attn_map, dtype=torch.float32).cuda()
+    attn_map = np.asarray(attn_map, np.float32)
+
     gt = np.asarray(gt, np.float32)
 
     if norm:
@@ -142,8 +156,12 @@ for i in range(test_loader.size):
         res5, res4, res3, res2 = model(image)
     res = res2
     # res = res5
+
     res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
+
+    # res = res * (1. + attn_map)
+    # res = res / (res.max() + 1e-8)  # 処理内容: 画像の最大値で割る=正規化
 
     if norm:
         res = (res - res.min()) / (res.max() - res.min() + 1e-8)  ############################

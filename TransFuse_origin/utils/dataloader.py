@@ -431,6 +431,7 @@ class PolypDataset(data.Dataset):
     def __getitem__(self, index):
         image = self.rgb_loader(self.images[index])
         gt = self.binary_loader(self.gts[index])
+        name = self.images[index].split('/')[-1]
         if self.phase == 'train':
 
             # if random.random() < 1.0:
@@ -455,7 +456,7 @@ class PolypDataset(data.Dataset):
         # image, gt = self.transform(image, gt, phase=self.phase)
         image = self.img_transform(image)
         gt = self.gt_transform(gt)
-        return image, gt
+        return image, gt, name
 
     def _apply_mixup(self, image1, gt1, idx1):
         image1 = np.array(image1)
