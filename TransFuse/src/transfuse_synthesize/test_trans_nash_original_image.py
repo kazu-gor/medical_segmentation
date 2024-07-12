@@ -1,22 +1,23 @@
-import os
-import sys
 import argparse
 import glob
+import os
+import sys
 
 import cv2
 import imageio
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn.functional as F
 from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
 from torchvision import transforms
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
 
 sys.path.append('../../')
-from lib.TransFuse_l_conv1x1 import TransFuse_L
 from lib.Discriminator_ResNet import Discriminator
+from lib.TransFuse_l_conv1x1 import TransFuse_L
 from utils.dataloader import test_dataset
 
 #################################################

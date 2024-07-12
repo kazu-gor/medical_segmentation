@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -21,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -33,6 +34,7 @@ def imwrite(filename, img, params=None):
 
 ###############実験結果のaucはこれを用いている###################
 ###############しきい値を動かしてAUCを求める#####################
+
 
 def all_area(files1, files2):  #############正解画像ではなく出力画像のフォルダ##########
     all_area_list = []
@@ -128,8 +130,8 @@ files1 = glob.glob("./dataset/TestDataset/masks/*.png")  ###正解画像
 files2 = "./results/PraNet/"
 areas = all_area(files1, files2)
 for thresh in range(-1, 256):
-# for thresh in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 128, 130, 140,
-#                150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]:
+    # for thresh in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 128, 130, 140,
+    #                150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]:
     TP, FN, FP, TN = test(files1, files2, thresh, lower_size)
     TP_list.append(TP)
     FN_list.append(FN)
@@ -156,8 +158,8 @@ if (TP + FP) != 0 and (TP + FN) != 0 and TP != 0:
     recall = TP / (TP + FN)
     F_measure = (2 * precision * recall) / (precision + recall)
     specificity = TN / (TN + FP)
-    print('-----------------------')
-    print('----------MAX----------')
+    print("-----------------------")
+    print("----------MAX----------")
     print("Threshhold:", cutoff)
     print("TP:", TP)
     print("FN:", FN)
@@ -178,7 +180,10 @@ n1 = 0
 match_list = []
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n1 != 0:
-        if [fpr, tpr] == [False_Positive_Rate_list[n1 - 1], True_Positive_Rate_list[n1 - 1]]:
+        if [fpr, tpr] == [
+            False_Positive_Rate_list[n1 - 1],
+            True_Positive_Rate_list[n1 - 1],
+        ]:
             match_list.append(n1)
     n1 += 1
 False_Positive_Rate_list = list(False_Positive_Rate_list)
@@ -207,17 +212,21 @@ n3 = 0
 auc = 0
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n3 != 0:
-        auc += (fpr - False_Positive_Rate_list[n3 - 1]) * (tpr + True_Positive_Rate_list[n3 - 1]) / 2
+        auc += (
+            (fpr - False_Positive_Rate_list[n3 - 1])
+            * (tpr + True_Positive_Rate_list[n3 - 1])
+            / 2
+        )
     n3 += 1
 
 print("AUC:", auc)
 fig = plt.figure()
 
 plt.plot(False_Positive_Rate_list, True_Positive_Rate_list)
-plt.xlabel('FPR: False positive rate')
-plt.ylabel('TPR: True positive rate')
+plt.xlabel("FPR: False positive rate")
+plt.ylabel("TPR: True positive rate")
 plt.grid()
-plt.savefig('./fig/roc_curve.png')
+plt.savefig("./fig/roc_curve.png")
 
 # plt.plot(False_Positive_Rate_list, True_Positive_Rate_list, label='ROC curve (area = %.3f)' % auc)
 # plt.legend()

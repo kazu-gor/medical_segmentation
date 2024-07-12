@@ -1,10 +1,10 @@
-import numpy as np
-import cv2
 import glob
-import os
-from tqdm import tqdm
-
 import math
+import os
+
+import cv2
+import numpy as np
+from tqdm import tqdm
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -23,7 +23,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -45,22 +45,22 @@ def imwrite(filename, img, params=None):
 
 
 def legacy_prerocessing():
-    files = glob.glob('../../../dataset/original_images/images/*.jpg')
+    files = glob.glob("../../../dataset/original_images/images/*.jpg")
     print(f"Number of files: {len(files)}")
 
-    os.makedirs('../../../dataset/original_images/preprocessed/images', exist_ok=True)
-    os.makedirs('../../../dataset/original_images/preprocessed/masks', exist_ok=True)
+    os.makedirs("../../../dataset/original_images/preprocessed/images", exist_ok=True)
+    os.makedirs("../../../dataset/original_images/preprocessed/masks", exist_ok=True)
 
     for i in tqdm(files):
         img = imread(i)
         basename = os.path.splitext(os.path.basename(i))[0]
-        mask = imread(f'../../../dataset/original_images/masks/{basename}.png')
+        mask = imread(f"../../../dataset/original_images/masks/{basename}.png")
         # mask = img
 
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         h, w = img.shape
-        img = img[math.floor(h * 3 / 4) - 1:, :]
-        mask = mask[math.floor(h * 3 / 4) - 1:, :]  #############################
+        img = img[math.floor(h * 3 / 4) - 1 :, :]
+        mask = mask[math.floor(h * 3 / 4) - 1 :, :]  #############################
         h, w = img.shape
         img_w = []
 
@@ -71,8 +71,13 @@ def legacy_prerocessing():
         h_list = []
         for height in range(h):
             img_h = img[height, :]
-            img_list = [img_h[:w // 5], img_h[w // 5:int(w / 5 * 2)], img_h[int(w / 5 * 2):int(w / 5 * 3)],
-                        img_h[int(w / 5 * 3):int(w / 5 * 4)], img_h[int(w / 5 * 4):]]
+            img_list = [
+                img_h[: w // 5],
+                img_h[w // 5 : int(w / 5 * 2)],
+                img_h[int(w / 5 * 2) : int(w / 5 * 3)],
+                img_h[int(w / 5 * 3) : int(w / 5 * 4)],
+                img_h[int(w / 5 * 4) :],
+            ]
             count = 0
             for img_w in img_list:
                 if np.std(img_w) < 5:
@@ -92,19 +97,65 @@ def legacy_prerocessing():
         height, width = img.shape
         for h in range(1, height - 1):
             for w in range(1, width - 1):
-                if abs(int(img[h, w]) - int(img[h, w - 1])) >= 50 and abs(int(img[h, w]) - int(img[h, w + 1])) >= 50:
-                    img[h, w] = ((img[h, w - 1].astype('uint16') + img[h, w + 1].astype('uint16')) // 2).astype('uint8')
-                if abs(int(img[h, w]) - int(img[h - 1, w])) >= 50 and abs(int(img[h, w]) - int(img[h + 1, w])) >= 50:
-                    img[h, w] = ((img[h - 1, w].astype('uint16') + img[h + 1, w].astype('uint16')) // 2).astype('uint8')
+                if (
+                    abs(int(img[h, w]) - int(img[h, w - 1])) >= 50
+                    and abs(int(img[h, w]) - int(img[h, w + 1])) >= 50
+                ):
+                    img[h, w] = (
+                        (
+                            img[h, w - 1].astype("uint16")
+                            + img[h, w + 1].astype("uint16")
+                        )
+                        // 2
+                    ).astype("uint8")
+                if (
+                    abs(int(img[h, w]) - int(img[h - 1, w])) >= 50
+                    and abs(int(img[h, w]) - int(img[h + 1, w])) >= 50
+                ):
+                    img[h, w] = (
+                        (
+                            img[h - 1, w].astype("uint16")
+                            + img[h + 1, w].astype("uint16")
+                        )
+                        // 2
+                    ).astype("uint8")
         for h in range(2, height - 2):
             for w in range(2, width - 2):
-                if abs(int(img[h, w]) - int(img[h, w - 2])) >= 50 and abs(int(img[h, w]) - int(img[h, w + 2])) >= 50:
-                    img[h, w] = ((img[h, w - 2].astype('uint16') + img[h, w + 2].astype('uint16')) // 2).astype('uint8')
-                if abs(int(img[h, w]) - int(img[h - 2, w])) >= 50 and abs(int(img[h, w]) - int(img[h + 2, w])) >= 50:
-                    img[h, w] = ((img[h - 2, w].astype('uint16') + img[h + 2, w].astype('uint16')) // 2).astype('uint8')
+                if (
+                    abs(int(img[h, w]) - int(img[h, w - 2])) >= 50
+                    and abs(int(img[h, w]) - int(img[h, w + 2])) >= 50
+                ):
+                    img[h, w] = (
+                        (
+                            img[h, w - 2].astype("uint16")
+                            + img[h, w + 2].astype("uint16")
+                        )
+                        // 2
+                    ).astype("uint8")
+                if (
+                    abs(int(img[h, w]) - int(img[h - 2, w])) >= 50
+                    and abs(int(img[h, w]) - int(img[h + 2, w])) >= 50
+                ):
+                    img[h, w] = (
+                        (
+                            img[h - 2, w].astype("uint16")
+                            + img[h + 2, w].astype("uint16")
+                        )
+                        // 2
+                    ).astype("uint8")
 
         img = cv2.GaussianBlur(img, (7, 7), 0.5)
 
         ## 前処理1のimage,maskフォルダに下部1/4の画像を出力 ##
-        imwrite(os.path.join(f"../../../dataset/original_images/preprocessed/images/{basename}.png"), img)
-        imwrite(os.path.join(f"../../../dataset/original_images/preprocessed/masks/{basename}.png"), mask)
+        imwrite(
+            os.path.join(
+                f"../../../dataset/original_images/preprocessed/images/{basename}.png"
+            ),
+            img,
+        )
+        imwrite(
+            os.path.join(
+                f"../../../dataset/original_images/preprocessed/masks/{basename}.png"
+            ),
+            mask,
+        )

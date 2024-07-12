@@ -1,18 +1,20 @@
+import argparse
+import glob
+import os
+
+import imageio
+import numpy as np
 import torch
 import torch.nn.functional as F
-import numpy as np
-import os, argparse
-from scipy import misc
-import imageio
-from lib.TransFuse_s import TransFuse_S
-from lib.TransFuse_l import TransFuse_L
 from lib.beta_TransFuse_s import beta_TransFuse_S
-from lib.TransFuse_h import TransFuse_H
 from lib.enhanced_beta_TransFuse import enhanced_beta_TransFuse
 from lib.enhanced_TransFuse import enhanced_TransFuse
-from utils.dataloader import test_dataset
+from lib.TransFuse_h import TransFuse_H
+from lib.TransFuse_l import TransFuse_L
+from lib.TransFuse_s import TransFuse_S
+from scipy import misc
 from skimage import img_as_ubyte
-import glob
+from utils.dataloader import test_dataset
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):

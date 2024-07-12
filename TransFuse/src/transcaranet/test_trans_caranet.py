@@ -2,19 +2,14 @@ import argparse
 import glob
 import os
 import time
+
 import cv2
-import numpy as np
 import imageio
+import numpy as np
 import torch
 import torch.nn.functional as F
-from scipy import misc
-
 from lib.Trans_CaraNet import Trans_CaraNet_L
-
-
-
-from utils.dataloader import test_dataset
-import imageio
+from scipy import misc
 from skimage import img_as_ubyte
 from utils.dataloader import test_dataset
 

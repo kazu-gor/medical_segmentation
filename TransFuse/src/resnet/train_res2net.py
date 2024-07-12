@@ -1,22 +1,20 @@
-from lib.Trans_CaraNet import Trans_CaraNet_L
-from lib.Discriminator_ResNet import Discriminator
+import argparse
+import os
+import time
+from datetime import datetime
 
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
+import matplotlib
 import matplotlib.pyplot as plt
-from utils.smooth_cross_entropy import SmoothCrossEntropy
-
+import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+from lib.Discriminator_ResNet import Discriminator
+from lib.Trans_CaraNet import Trans_CaraNet_L
 from torch.autograd import Variable
-
-import os
-import argparse
-import time
-import numpy as np
-import matplotlib
-from datetime import datetime
+from utils.dataloader import get_loader
+from utils.smooth_cross_entropy import SmoothCrossEntropy
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
 
 matplotlib.use('Agg')
 

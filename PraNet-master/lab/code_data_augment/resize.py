@@ -1,9 +1,8 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
 from PIL import Image
 
 
@@ -23,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -33,11 +32,19 @@ def imwrite(filename, img, params=None):
         return False
 
 
-files = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset_matome/dataset_ver6/CD12_前処理済み(リサイズあり)/mask/*.png")
+files = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset_matome/dataset_ver6/CD12_前処理済み(リサイズあり)/mask/*.png"
+)
 for i in files:
     img = imread(i)
     basename = os.path.basename(i)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.resize(img, (352, 352))
     # 画像の拡張
-    imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset_matome/dataset_ver5/CD12_前処理済み(リサイズあり)/mask", os.path.basename(i)), img)
+    imwrite(
+        os.path.join(
+            r"/home/student/src2/藤林/プログラム/PraNet-master/dataset_matome/dataset_ver5/CD12_前処理済み(リサイズあり)/mask",
+            os.path.basename(i),
+        ),
+        img,
+    )

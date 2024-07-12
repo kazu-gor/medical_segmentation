@@ -7,14 +7,15 @@ import imageio
 import numpy as np
 import torch
 import torch.nn.functional as F
-from skimage import img_as_ubyte
-from torchvision import transforms
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-
 from lib.Discriminator_ResNet import Discriminator
 from lib.Trans_CaraNet import Trans_CaraNet_L
+from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
+from torchvision import transforms
 from utils.dataloader import test_dataset_crop as test_dataset
+
 #################################################
 # epoch1~20の重みを全部テストする。
 
@@ -35,7 +36,7 @@ def mean_iou_np(y_true, y_pred, **kwargs):
     mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
     union = mask_sum - intersection
 
-    smooth = .001
+    smooth = 0.001
     iou = (intersection + smooth) / (union + smooth)
     return iou
 
@@ -48,7 +49,7 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
     mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
 
-    smooth = .001
+    smooth = 0.001
     dice = 2 * (intersection + smooth) / (mask_sum + smooth)
     return dice
 
@@ -69,7 +70,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -80,11 +81,25 @@ def imwrite(filename, img, params=None):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--pth_path', type=str, default='./snapshots/Transfuse_S/Transfuse-24.pth')
-parser.add_argument('--pth_path2', type=str, default='./snapshots/Transfuse_S/Discriminator-24.pth')
-parser.add_argument('--test_path1', type=str, default='../../../dataset/crop_TestDataset/', help='path to test dataset')
-parser.add_argument('--test_path2', type=str, default='../../../dataset/crop_TestDataset/', help='path to test dataset')
+parser.add_argument("--testsize", type=int, default=352, help="testing size")
+parser.add_argument(
+    "--pth_path", type=str, default="./snapshots/Transfuse_S/Transfuse-24.pth"
+)
+parser.add_argument(
+    "--pth_path2", type=str, default="./snapshots/Transfuse_S/Discriminator-24.pth"
+)
+parser.add_argument(
+    "--test_path1",
+    type=str,
+    default="../../../dataset/crop_TestDataset/",
+    help="path to test dataset",
+)
+parser.add_argument(
+    "--test_path2",
+    type=str,
+    default="../../../dataset/crop_TestDataset/",
+    help="path to test dataset",
+)
 
 
 opt = parser.parse_args()
@@ -92,7 +107,7 @@ opt = parser.parse_args()
 data_path1 = opt.test_path1
 data_path2 = opt.test_path2
 
-save_path = './results/Transfuse_S/'
+save_path = "./results/Transfuse_S/"
 
 model = Trans_CaraNet_L()
 model.load_state_dict(torch.load(opt.pth_path))
@@ -105,27 +120,27 @@ model2.cuda()
 model2.eval()
 
 os.makedirs(save_path, exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/*.png'):
+for file in glob.glob("./results/Transfuse_S/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TP/*.png'):
+os.makedirs("./results/Transfuse_S/TP", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/TP/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FN/*.png'):
+os.makedirs("./results/Transfuse_S/FN", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/FN/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/FP', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/FP/*.png'):
+os.makedirs("./results/Transfuse_S/FP", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/FP/*.png"):
     os.remove(file)
-os.makedirs('./results/Transfuse_S/TN', exist_ok=True)
-for file in glob.glob('./results/Transfuse_S/TN/*.png'):
+os.makedirs("./results/Transfuse_S/TN", exist_ok=True)
+for file in glob.glob("./results/Transfuse_S/TN/*.png"):
     os.remove(file)
 
-image_root1 = f'{data_path1}/images/'
-gt_root1 = f'{data_path1}/masks/'
+image_root1 = f"{data_path1}/images/"
+gt_root1 = f"{data_path1}/masks/"
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-image_root2 = f'{data_path2}/images/'
-gt_root2 = f'{data_path2}/masks/'
+image_root2 = f"{data_path2}/images/"
+gt_root2 = f"{data_path2}/masks/"
 test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
@@ -148,9 +163,9 @@ for _ in range(test_loader1.size):
     with torch.no_grad():
         _, _, _, res = model(image)
 
-        res1 = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+        res1 = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
         res1 = res1.sigmoid().data.cpu().numpy().squeeze()
-        res1 = 1. * (res1 > 0.5)
+        res1 = 1.0 * (res1 > 0.5)
 
         imageio.imsave(save_path + name, img_as_ubyte(res1))
         res = res.repeat(1, 3, 1, 1)
@@ -169,29 +184,29 @@ for _ in range(test_loader1.size):
 
     if label == 1:
         if predicted == 1:
-            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "TP/" + name, img_as_ubyte(res1))
         else:
-            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "FN/" + name, img_as_ubyte(res1))
     else:
         if predicted == 1:
-            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "FP/" + name, img_as_ubyte(res1))
         else:
-            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "TN/" + name, img_as_ubyte(res1))
 
 for _ in range(test_loader2.size):
     image, gt, name = test_loader2.load_data()
     gt = np.asarray(gt, np.float32)
 
-    gt = 1. * (gt > 0.5)
+    gt = 1.0 * (gt > 0.5)
 
     image = image.cuda()
 
     with torch.no_grad():
         _, _, _, res = model(image)
 
-    res = F.upsample(res, size=gt.shape, mode='bilinear', align_corners=False)
+    res = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
     res = res.sigmoid().data.cpu().numpy().squeeze()
-    res = 1. * (res > 0.5)
+    res = 1.0 * (res > 0.5)
 
     dice = mean_dice_np(gt, res)
     iou = mean_iou_np(gt, res)
@@ -201,8 +216,11 @@ for _ in range(test_loader2.size):
     dice_bank.append(dice)
     iou_bank.append(iou)
 
-print('Dice: {:.3f}, IoU: {:.3f}, Acc: {:.3f}'.
-      format(np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)))
+print(
+    "Dice: {:.3f}, IoU: {:.3f}, Acc: {:.3f}".format(
+        np.mean(dice_bank), np.mean(iou_bank), np.mean(acc_bank)
+    )
+)
 
 cm = confusion_matrix(y_true, y_pred)
 TN, FP, FN, TP = cm.flatten()

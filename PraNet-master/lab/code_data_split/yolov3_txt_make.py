@@ -1,13 +1,12 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
 from sklearn.model_selection import train_test_split
 
-
 ###yolov3を学習するためのtxtファイルをlab/yolov3_txt/に保存
+
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
     try:
@@ -25,7 +24,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -35,35 +34,90 @@ def imwrite(filename, img, params=None):
         return False
 
 
-files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images/*.png")
+files1 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TrainDataset/images/*.png"
+)
 
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/train.txt", "w", encoding="utf-8") as f:
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/train.txt",
+    "w",
+    encoding="utf-8",
+) as f:
     for i in files1:
-        f.write(os.path.join(r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
-                             os.path.splitext(os.path.basename(i))[0] + ".jpg") + '\n')
+        f.write(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
+                os.path.splitext(os.path.basename(i))[0] + ".jpg",
+            )
+            + "\n"
+        )
 
-files2 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/images/*.png")
+files2 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/ValDataset/images/*.png"
+)
 
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/val.txt", "w", encoding="utf-8") as f:
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/val.txt",
+    "w",
+    encoding="utf-8",
+) as f:
     for i in files2:
-        f.write(os.path.join(r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
-                             os.path.splitext(os.path.basename(i))[0] + ".jpg") + '\n')
+        f.write(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
+                os.path.splitext(os.path.basename(i))[0] + ".jpg",
+            )
+            + "\n"
+        )
 
-files3 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train73/3/images/*.png")
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test3.txt", "w", encoding="utf-8") as f:
+files3 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train73/3/images/*.png"
+)
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test3.txt",
+    "w",
+    encoding="utf-8",
+) as f:
     for i in files3:
-        f.write(os.path.join(r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
-                             os.path.splitext(os.path.basename(i))[0] + ".jpg") + '\n')
+        f.write(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
+                os.path.splitext(os.path.basename(i))[0] + ".jpg",
+            )
+            + "\n"
+        )
 
-files4 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train73/7/images/*.png")
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test7.txt", "w", encoding="utf-8") as f:
+files4 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/train73/7/images/*.png"
+)
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test7.txt",
+    "w",
+    encoding="utf-8",
+) as f:
     for i in files4:
-        f.write(os.path.join(r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
-                             os.path.splitext(os.path.basename(i))[0] + ".jpg") + '\n')
+        f.write(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
+                os.path.splitext(os.path.basename(i))[0] + ".jpg",
+            )
+            + "\n"
+        )
 
-files5 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images/*.png")
+files5 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/images/*.png"
+)
 
-with open("/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test.txt", "w", encoding="utf-8") as f:
+with open(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/yolov3_txt/test.txt",
+    "w",
+    encoding="utf-8",
+) as f:
     for i in files5:
-        f.write(os.path.join(r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
-                             os.path.splitext(os.path.basename(i))[0] + ".jpg") + '\n')
+        f.write(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/darknet/cfg/task/datasets",
+                os.path.splitext(os.path.basename(i))[0] + ".jpg",
+            )
+            + "\n"
+        )

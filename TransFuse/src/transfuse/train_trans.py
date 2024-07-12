@@ -1,13 +1,14 @@
-import torch
-from torch.autograd import Variable
-import os
 import argparse
+import os
 from datetime import datetime
-from lib.TransFuse_l import TransFuse_L
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
+
 import matplotlib.pyplot as plt
+import torch
+import torch.nn.functional as F
+from lib.TransFuse_l import TransFuse_L
+from torch.autograd import Variable
+from utils.dataloader import get_loader
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
 
 
 def structure_loss(pred, mask):

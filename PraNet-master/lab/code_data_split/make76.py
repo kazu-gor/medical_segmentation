@@ -1,10 +1,10 @@
-import numpy as np
-import cv2
 import glob
 import os
 import shutil
-from sklearn.model_selection import train_test_split
 
+import cv2
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 ###石灰化76か所を/nana_roku/にtrain val testをそれぞれ分ける
 
@@ -25,7 +25,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -35,28 +35,50 @@ def imwrite(filename, img, params=None):
         return False
 
 
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train_mask/*.png"
+):
     os.remove(file)
-for file in glob.glob('/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val_mask/*.png'):
+for file in glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val_mask/*.png"
+):
     os.remove(file)
 
-files1 = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_masks/*.png")
+files1 = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_masks/*.png"
+)
 
 while True:
     train0, test = train_test_split(files1, test_size=65)
@@ -77,7 +99,9 @@ while True:
 
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-                nlabels1, labels1, stats1, centroids1 = cv2.connectedComponentsWithStats(gray)
+                nlabels1, labels1, stats1, centroids1 = (
+                    cv2.connectedComponentsWithStats(gray)
+                )
                 cnt2 += nlabels1 - 1
             if cnt2 == 76:
                 while True:
@@ -88,51 +112,108 @@ while True:
 
                         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-                        nlabels1, labels1, stats1, centroids1 = cv2.connectedComponentsWithStats(gray)
+                        nlabels1, labels1, stats1, centroids1 = (
+                            cv2.connectedComponentsWithStats(gray)
+                        )
                         cnt3 += nlabels1 - 1
 
                     if cnt3 == 23:
                         for i in train:
                             img = imread(i)
-                            imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train_mask",
-                                                 os.path.basename(i)), img)
-                            shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
-                                                     os.path.splitext(os.path.basename(i))[0] + ".png")
-                                        , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train",
-                                                       os.path.splitext(os.path.basename(i))[0] + ".png"))
+                            imwrite(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train_mask",
+                                    os.path.basename(i),
+                                ),
+                                img,
+                            )
+                            shutil.copy(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/train",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                            )
                         for i in val:
                             img = imread(i)
-                            imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val_mask",
-                                                 os.path.basename(i)), img)
-                            shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
-                                                     os.path.splitext(os.path.basename(i))[0] + ".png")
-                                        , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val",
-                                                       os.path.splitext(os.path.basename(i))[0] + ".png"))
+                            imwrite(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val_mask",
+                                    os.path.basename(i),
+                                ),
+                                img,
+                            )
+                            shutil.copy(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/val",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                            )
 
                         for i in test:
                             img = imread(i)
-                            imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test_mask",
-                                                 os.path.basename(i)), img)
-                            shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
-                                                     os.path.splitext(os.path.basename(i))[0] + ".png")
-                                        , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test",
-                                                       os.path.splitext(os.path.basename(i))[0] + ".png"))
+                            imwrite(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test_mask",
+                                    os.path.basename(i),
+                                ),
+                                img,
+                            )
+                            shutil.copy(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                            )
                         for i in test3:
                             img = imread(i)
-                            imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3_mask",
-                                                 os.path.basename(i)), img)
-                            shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
-                                                     os.path.splitext(os.path.basename(i))[0] + ".png")
-                                        , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3",
-                                                       os.path.splitext(os.path.basename(i))[0] + ".png"))
+                            imwrite(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3_mask",
+                                    os.path.basename(i),
+                                ),
+                                img,
+                            )
+                            shutil.copy(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test3",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                            )
                         for i in test7:
                             img = imread(i)
-                            imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7_mask",
-                                                 os.path.basename(i)), img)
-                            shutil.copy(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
-                                                     os.path.splitext(os.path.basename(i))[0] + ".png")
-                                        , os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7",
-                                                       os.path.splitext(os.path.basename(i))[0] + ".png"))
+                            imwrite(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7_mask",
+                                    os.path.basename(i),
+                                ),
+                                img,
+                            )
+                            shutil.copy(
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                                os.path.join(
+                                    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/nana_roku/test7",
+                                    os.path.splitext(os.path.basename(i))[0] + ".png",
+                                ),
+                            )
                         break
                 break
         break

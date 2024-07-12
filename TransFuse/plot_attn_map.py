@@ -1,26 +1,21 @@
 import argparse
 import os
 
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-
+import cv2
+import imageio
 import matplotlib
 import matplotlib.pyplot as plt
-
-import cv2
 import numpy as np
 import torch
 import torch.nn.functional as F
-
-import imageio
-from torchvision import transforms
-
-from lib.TransFuse_l_map import TransFuse_L
-
 from lib.Discriminator_ResNet import Discriminator
-
-from utils.dataloader import test_dataset
+from lib.TransFuse_l_map import TransFuse_L
 from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
+from torchvision import transforms
+from utils.dataloader import test_dataset
 
 matplotlib.use("Agg")
 
@@ -43,11 +38,10 @@ def mean_iou_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
-        np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
     union = mask_sum - intersection
 
-    smooth = .001
+    smooth = 0.001
     iou = (intersection + smooth) / (union + smooth)
     return iou
 
@@ -58,10 +52,9 @@ def mean_dice_np(y_true, y_pred, **kwargs):
     """
     axes = (0, 1)  # W,H axes of each image
     intersection = np.sum(np.abs(y_pred * y_true), axis=axes)
-    mask_sum = np.sum(np.abs(y_true), axis=axes) + \
-        np.sum(np.abs(y_pred), axis=axes)
+    mask_sum = np.sum(np.abs(y_true), axis=axes) + np.sum(np.abs(y_pred), axis=axes)
 
-    smooth = .001
+    smooth = 0.001
     dice = 2 * (intersection + smooth) / (mask_sum + smooth)
     return dice
 
@@ -82,7 +75,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -93,17 +86,27 @@ def imwrite(filename, img, params=None):
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--testsize', type=int, default=352, help='testing size')
-parser.add_argument('--pth_path', type=str,
-                    default='./snapshots/TransFuse_nash_mtl_b8/Transfuse-99.pth')
-parser.add_argument('--pth_path2', type=str,
-                    default='./snapshots/TransFuse_nash_mtl_b8/Discriminator-99.pth')
-parser.add_argument('--save_path', type=str,
-                    default='./results/Transfuse_S/', help='path to result')
-parser.add_argument('--data_path1', type=str,
-                    default='./dataset/TestDataset/', help='path to dataset')
-parser.add_argument('--data_path2', type=str,
-                    default='./dataset/sekkai_TestDataset/', help='path to only sekkai dataset')
+parser.add_argument("--testsize", type=int, default=352, help="testing size")
+parser.add_argument(
+    "--pth_path", type=str, default="./snapshots/TransFuse_nash_mtl_b8/Transfuse-99.pth"
+)
+parser.add_argument(
+    "--pth_path2",
+    type=str,
+    default="./snapshots/TransFuse_nash_mtl_b8/Discriminator-99.pth",
+)
+parser.add_argument(
+    "--save_path", type=str, default="./results/Transfuse_S/", help="path to result"
+)
+parser.add_argument(
+    "--data_path1", type=str, default="./dataset/TestDataset/", help="path to dataset"
+)
+parser.add_argument(
+    "--data_path2",
+    type=str,
+    default="./dataset/sekkai_TestDataset/",
+    help="path to only sekkai dataset",
+)
 
 
 opt = parser.parse_args()
@@ -112,7 +115,7 @@ data_path1 = opt.data_path1
 data_path2 = opt.data_path2
 
 for arg_name, value in vars(opt).items():
-    print(f'{arg_name}: {value}')
+    print(f"{arg_name}: {value}")
 
 model = TransFuse_L()
 model.load_state_dict(torch.load(opt.pth_path))
@@ -126,12 +129,12 @@ model2.load_state_dict(torch.load(opt.pth_path2))
 model2.cuda()
 model2.eval()
 
-image_root1 = '{}/images/'.format(data_path1)
-gt_root1 = '{}/masks/'.format(data_path1)
+image_root1 = "{}/images/".format(data_path1)
+gt_root1 = "{}/masks/".format(data_path1)
 test_loader1 = test_dataset(image_root1, gt_root1, opt.testsize)
 
-image_root2 = '{}/images/'.format(data_path2)
-gt_root2 = '{}/masks/'.format(data_path2)
+image_root2 = "{}/images/".format(data_path2)
+gt_root2 = "{}/masks/".format(data_path2)
 test_loader2 = test_dataset(image_root2, gt_root2, opt.testsize)
 
 dice_bank = []
@@ -151,10 +154,8 @@ for i in range(test_loader1.size):
 
     # gt /= (gt.max() + 1e-8)  ##########################
 
-    _image = image.mul(torch.FloatTensor(
-        IMAGENET_STD).view(3, 1, 1))
-    _image = _image.add(torch.FloatTensor(
-        IMAGENET_MEAN).view(3, 1, 1)).detach()
+    _image = image.mul(torch.FloatTensor(IMAGENET_STD).view(3, 1, 1))
+    _image = _image.add(torch.FloatTensor(IMAGENET_MEAN).view(3, 1, 1)).detach()
 
     image = image.cuda()
 
@@ -173,7 +174,7 @@ for i in range(test_loader1.size):
         joint_attentions[0] = aug_att_mat[0]
 
         for n in range(1, aug_att_mat.size(0)):
-            joint_attentions[n] = torch.matmul(aug_att_mat[n], joint_attentions[n-1])
+            joint_attentions[n] = torch.matmul(aug_att_mat[n], joint_attentions[n - 1])
 
         v = joint_attentions[-1]
         grid_size = int(np.sqrt(aug_att_mat.size(-1)))
@@ -187,16 +188,17 @@ for i in range(test_loader1.size):
         result = (mask * 255).astype(np.uint8)
 
         fig, (ax1, ax2) = plt.subplots(ncols=2, figsize=(16, 16))
-        ax1.set_title('Original')
-        ax2.set_title('Attention Map')
-        _ = ax1.imshow(((_image.numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8))
+        ax1.set_title("Original")
+        ax2.set_title("Attention Map")
+        _ = ax1.imshow(
+            ((_image.numpy().transpose(0, 2, 3, 1)[0]) * 255).astype(np.uint8)
+        )
         _ = ax2.imshow(result, cmap="hot")
         #########################################
 
-        res1 = F.upsample(res, size=gt.shape,
-                          mode='bilinear', align_corners=False)
+        res1 = F.upsample(res, size=gt.shape, mode="bilinear", align_corners=False)
         res1 = res1.sigmoid().data.cpu().numpy().squeeze()
-        res1 = 1. * (res1 > 0.5)
+        res1 = 1.0 * (res1 > 0.5)
 
         imageio.imsave(save_path + name, img_as_ubyte(res1))
         res = res.repeat(1, 3, 1, 1)
@@ -214,27 +216,27 @@ for i in range(test_loader1.size):
 
     if label == 1:
         if predicted == 1:
-            imageio.imsave(save_path + 'TP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "TP/" + name, img_as_ubyte(res1))
             #########################################
-            plt.savefig(f'./attention_map/TP/attention_map_{name}.png')
+            plt.savefig(f"./attention_map/TP/attention_map_{name}.png")
             #########################################
         else:
-            imageio.imsave(save_path + 'FN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "FN/" + name, img_as_ubyte(res1))
             #########################################
-            plt.savefig(f'./attention_map/FN/attention_map_{name}.png')
+            plt.savefig(f"./attention_map/FN/attention_map_{name}.png")
             #########################################
 
     else:
         if predicted == 1:
-            imageio.imsave(save_path + 'FP/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "FP/" + name, img_as_ubyte(res1))
             #########################################
-            plt.savefig(f'./attention_map/FP/attention_map_{name}.png')
+            plt.savefig(f"./attention_map/FP/attention_map_{name}.png")
             #########################################
 
         else:
-            imageio.imsave(save_path + 'TN/' + name, img_as_ubyte(res1))
+            imageio.imsave(save_path + "TN/" + name, img_as_ubyte(res1))
             #########################################
-            plt.savefig(f'./attention_map/TN/attention_map_{name}.png')
+            plt.savefig(f"./attention_map/TN/attention_map_{name}.png")
     plt.close()
     #########################################
 
@@ -270,7 +272,7 @@ TN, FP, FN, TP = cm.flatten()
 TPR = TP / (TP + FN)
 FPR = FP / (FP + TN)
 print("----------discriminator-----------")
-print("TPR-FPR:", TPR-FPR)
+print("TPR-FPR:", TPR - FPR)
 print("TP:", TP)
 print("FN:", FN)
 print("FP:", FP)
@@ -295,10 +297,10 @@ try:
     fig = plt.figure()
     plt.ioff()
     plt.plot(fpr, tpr)
-    plt.xlabel('FPR: False positive rate')
-    plt.ylabel('TPR: True positive rate')
+    plt.xlabel("FPR: False positive rate")
+    plt.ylabel("TPR: True positive rate")
     plt.grid()
-    plt.savefig('./fig/roc_curve.png')
+    plt.savefig("./fig/roc_curve.png")
 
 except Exception as e:
     print(e)

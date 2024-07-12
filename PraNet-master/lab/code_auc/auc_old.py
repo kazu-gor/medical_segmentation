@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
 import glob
 import os
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
@@ -21,7 +22,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -45,9 +46,10 @@ def all_area(files1, files2):  #############正解画像ではなく出力画像
     all_area_list = sorted(list(set(all_area_list)))
     return all_area_list
 
+
 ######################################################################
 ####################面積としきい値両方動かしてAUCを求める###############
-def test(files1, files2, thresh, lower_size, upper_size=416*416+1):
+def test(files1, files2, thresh, lower_size, upper_size=416 * 416 + 1):
     TP = 0
     FN = 0
     FP = 0
@@ -115,12 +117,61 @@ ML = 0
 MU = 0
 thresh_max = 0
 
-files1 = glob.glob("/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png")  ###正解画像
+files1 = glob.glob(
+    "/home/student/src2/藤林/プログラム/PraNet-master/dataset/TestDataset/masks/*.png"
+)  ###正解画像
 files2 = "/home/student/src2/藤林/プログラム/PraNet-master/results/PraNet/"
 areas = all_area(files1, files2)
 # for thresh in range(-1, 256):
-for thresh in [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 128, 130, 140, 150, 160,
-               170, 180, 190, 200, 210, 220, 230, 240, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]:
+for thresh in [
+    -1,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100,
+    110,
+    120,
+    128,
+    130,
+    140,
+    150,
+    160,
+    170,
+    180,
+    190,
+    200,
+    210,
+    220,
+    230,
+    240,
+    245,
+    246,
+    247,
+    248,
+    249,
+    250,
+    251,
+    252,
+    253,
+    254,
+    255,
+]:
     for lower_size in areas:
         for upper_size in areas:
             if lower_size < upper_size:
@@ -158,8 +209,8 @@ for i in range(n):
             MU = upper_list[i]
             thresh_max = thresh_list[i]
 
-print('-----------------------')
-print('----------MAX----------')
+print("-----------------------")
+print("----------MAX----------")
 print("threshhold:", thresh_max)
 print("lower_size:", ML)
 print("upper_size:", MU)
@@ -170,7 +221,7 @@ print("TN:", MTN)
 accuracy = (MTP + MTN) / (MTP + MFN + MFP + MTN)
 print("Accuracy:", accuracy)
 
-if  (MTN + MFP) != 0 and MTP != 0:
+if (MTN + MFP) != 0 and MTP != 0:
     precision = MTP / (MTP + MFP)
     recall = MTP / (MTP + MFN)
     F_measure = (2 * precision * recall) / (precision + recall)
@@ -189,7 +240,10 @@ n1 = 0
 match_list = []
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n1 != 0:
-        if [fpr, tpr] == [False_Positive_Rate_list[n1 - 1], True_Positive_Rate_list[n1 - 1]]:
+        if [fpr, tpr] == [
+            False_Positive_Rate_list[n1 - 1],
+            True_Positive_Rate_list[n1 - 1],
+        ]:
             match_list.append(n1)
     n1 += 1
 False_Positive_Rate_list = list(False_Positive_Rate_list)
@@ -218,18 +272,26 @@ n3 = 0
 auc = 0
 for fpr, tpr in zip(False_Positive_Rate_list, True_Positive_Rate_list):
     if n3 != 0:
-        auc += (fpr - False_Positive_Rate_list[n3 - 1]) * (tpr + True_Positive_Rate_list[n3 - 1]) / 2
+        auc += (
+            (fpr - False_Positive_Rate_list[n3 - 1])
+            * (tpr + True_Positive_Rate_list[n3 - 1])
+            / 2
+        )
     n3 += 1
 
 print("AUC:", auc)
 fig = plt.figure()
-plt.plot(False_Positive_Rate_list, True_Positive_Rate_list, label='ROC curve (area = %.3f)' % auc)
+plt.plot(
+    False_Positive_Rate_list,
+    True_Positive_Rate_list,
+    label="ROC curve (area = %.3f)" % auc,
+)
 plt.legend()
 plt.xlim([0, 1])
 plt.ylim([0, 1])
-plt.title('ROC curve')
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
+plt.title("ROC curve")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
 plt.grid(True)
 plt.show()
 fig.savefig("fig/img.png")

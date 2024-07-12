@@ -2,31 +2,28 @@ import argparse
 import glob
 import os
 
-from PIL import Image
-
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-from sklearn.metrics import roc_curve, roc_auc_score
-import matplotlib.pyplot as plt
-
 import cv2
+import imageio
+import matplotlib.pyplot as plt
 import numpy as np
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import imageio
-from torchvision import transforms
-
+from lib.Discriminator_ResNet import Discriminator
+from lib.Trans_CaraNet import Trans_CaraNet_L
 from lib.TransFuse_l import TransFuse_L
+from PIL import Image
+from skimage import img_as_ubyte
+from sklearn.metrics import (accuracy_score, confusion_matrix, f1_score,
+                             precision_score, recall_score, roc_auc_score,
+                             roc_curve)
+from torchvision import transforms
+from utils.dataloader import test_dataset
+
 # from lib.models_vit_discriminator import vit_large_patch16 as vit_large
 
-from lib.Discriminator_ResNet import Discriminator
 
-from lib.Trans_CaraNet import Trans_CaraNet_L
 
-from utils.dataloader import test_dataset
-from skimage import img_as_ubyte
 
 #################################################
 # epoch1~20の重みを全部テストする。
@@ -143,6 +140,7 @@ model.eval()
 # model2.classifier[6] = nn.Linear(in_features=4096, out_features=2)
 
 from torchvision.models import resnet50 as Resnet
+
 model2 = Resnet()
 # model2.fc = nn.Linear(2048, 2, bias=False)
 model2.fc = nn.Linear(2048, 2)

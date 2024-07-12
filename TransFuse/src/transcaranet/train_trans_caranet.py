@@ -3,15 +3,14 @@ import os
 from datetime import datetime
 
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn.functional as F
-from torch.autograd import Variable
-
-from lib.Trans_CaraNet import Trans_CaraNet_L
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import numpy as np
 from adabelief_pytorch import AdaBelief
+from lib.Trans_CaraNet import Trans_CaraNet_L
+from torch.autograd import Variable
+from utils.dataloader import get_loader
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
 
 
 def structure_loss(pred, mask):

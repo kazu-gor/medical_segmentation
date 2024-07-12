@@ -1,11 +1,11 @@
-import numpy as np
-
-import cv2
 import glob
 import os
 
+import cv2
+import numpy as np
 
 #########easyの画像を/lab/easy_imagesに保存する
+
 
 def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
     try:
@@ -23,7 +23,7 @@ def imwrite(filename, img, params=None):
         result, n = cv2.imencode(ext, img, params)
 
         if result:
-            with open(filename, mode='w+b') as f:
+            with open(filename, mode="w+b") as f:
                 n.tofile(f)
             return True
         else:
@@ -33,15 +33,28 @@ def imwrite(filename, img, params=None):
         return False
 
 
-
-files = glob.glob(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images/*.png")  ###正解画像
+files = glob.glob(
+    r"/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_images/*.png"
+)  ###正解画像
 for i in files:
     basename = os.path.basename(i)
     img = imread(i)
-    if 'easy' in basename:
-        imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_images",
-                             os.path.basename(i)), img)
-        img2 = imread("/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_masks/" + basename)
-        imwrite(os.path.join(r"/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_masks",
-                             os.path.basename(i)), img2)
-
+    if "easy" in basename:
+        imwrite(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_images",
+                os.path.basename(i),
+            ),
+            img,
+        )
+        img2 = imread(
+            "/home/student/src2/藤林/プログラム/PraNet-master/lab/sekkai_masks/"
+            + basename
+        )
+        imwrite(
+            os.path.join(
+                r"/home/student/src2/藤林/プログラム/PraNet-master/lab/easy_masks",
+                os.path.basename(i),
+            ),
+            img2,
+        )

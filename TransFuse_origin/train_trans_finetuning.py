@@ -1,32 +1,29 @@
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-import os
 import argparse
+import os
 from datetime import datetime
 
-from lib.TransFuse_l import TransFuse_L
-
-from lib.Discriminator_ResNet import Discriminator
-
-
-from lib.models_vit_discriminator import vit_large_patch16 as vit_large
-
-from utils.weight_methods import WeightMethods
-from utils.mtl import extract_weight_method_parameters_from_args
-
-from utils.dataloader import get_loader
-from utils.utils import clip_gradient, adjust_lr, AvgMeter
-import torch.nn.functional as F
 import matplotlib.pyplot as plt
-from utils.pcgrad import PCGrad
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 import torchvision.models as torch_model
+from lib.Discriminator_ResNet import Discriminator
+from lib.models_vit_discriminator import vit_large_patch16 as vit_large
+from lib.TransFuse_l import TransFuse_L
+from torch.autograd import Variable
+from utils.dataloader import get_loader
+from utils.mtl import extract_weight_method_parameters_from_args
+from utils.pcgrad import PCGrad
 from utils.smooth_cross_entropy import SmoothCrossEntropy
+from utils.utils import AvgMeter, adjust_lr, clip_gradient
+from utils.weight_methods import WeightMethods
 
 
 def structure_loss(pred, mask):
-    weit = 1 + 5 * torch.abs(F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15) - mask)
-    wbce = F.binary_cross_entropy_with_logits(pred, mask, reduce='none')
+    weit = 1 + 5 * torch.abs(
+        F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15) - mask
+    )
+    wbce = F.binary_cross_entropy_with_logits(pred, mask, reduce="none")
     wbce = (weit * wbce).sum(dim=(2, 3)) / weit.sum(dim=(2, 3))
 
     pred = torch.sigmoid(pred)
@@ -38,8 +35,8 @@ def structure_loss(pred, mask):
 
 def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss):
     val_loss = 0
-    for phase in ['train', 'val']:
-        if phase == 'train':
+    for phase in ["train", "val"]:
+        if phase == "train":
             for model in models.values():
                 model.train()
         else:
@@ -67,20 +64,32 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss):
                 # ---- rescale ----
                 trainsize = int(round(opt.trainsize * rate / 32) * 32)
                 if rate != 1:
-                    images = F.upsample(images, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
-                    gts = F.upsample(gts, size=(trainsize, trainsize), mode='bilinear', align_corners=True)
-                with torch.set_grad_enabled(phase == 'train'):
+                    images = F.upsample(
+                        images,
+                        size=(trainsize, trainsize),
+                        mode="bilinear",
+                        align_corners=True,
+                    )
+                    gts = F.upsample(
+                        gts,
+                        size=(trainsize, trainsize),
+                        mode="bilinear",
+                        align_corners=True,
+                    )
+                with torch.set_grad_enabled(phase == "train"):
                     # ---- forward ----
-                    lateral_map_4, lateral_map_3, lateral_map_2 = models['Segmentation'](images)
+                    lateral_map_4, lateral_map_3, lateral_map_2 = models[
+                        "Segmentation"
+                    ](images)
 
                     # TODO: try different weights for loss
                     lateral_map_2 = lateral_map_2.repeat(1, 3, 1, 1)
 
-                    d_out = models['Discriminator'](lateral_map_2)
+                    d_out = models["Discriminator"](lateral_map_2)
                     # d_out = models['Discriminator'](lateral_map_2, images)
                     loss = criterion(d_out, labels)
                     # ---- backward ----
-                    if phase == 'train':
+                    if phase == "train":
                         loss.backward()
                         # clip_gradient(optimizer, opt.clip)
                         clip_gradient(optimizer, opt.clip)
@@ -90,55 +99,91 @@ def train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss):
                 if rate == 1:
                     loss_record.update(loss.data, opt.batchsize)
 
-
-            if (i % 20 == 0 or i == total_step) and phase == 'train':
-                print('{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], loss: {:0.4f}'.
-                      format(datetime.now(), epoch, opt.epoch, i, total_step, loss_record.show()))
-        if phase == 'train':
+            if (i % 20 == 0 or i == total_step) and phase == "train":
+                print(
+                    "{} Epoch [{:03d}/{:03d}], Step [{:04d}/{:04d}], loss: {:0.4f}".format(
+                        datetime.now(),
+                        epoch,
+                        opt.epoch,
+                        i,
+                        total_step,
+                        loss_record.show(),
+                    )
+                )
+        if phase == "train":
             train_loss = loss_record.show()
-        elif phase == 'val':
+        elif phase == "val":
             val_loss = loss_record.show()
             if val_loss < best_loss:
                 best_loss = val_loss
-                save_path = 'snapshots/{}/'.format(opt.train_save)
+                save_path = "snapshots/{}/".format(opt.train_save)
                 os.makedirs(save_path, exist_ok=True)
-                torch.save(models['Discriminator'].state_dict(), save_path + 'Discriminator-best.pth')
-                print('[Saving best Snapshot:]', save_path + 'Discriminator-best.pth')
+                torch.save(
+                    models["Discriminator"].state_dict(),
+                    save_path + "Discriminator-best.pth",
+                )
+                print("[Saving best Snapshot:]", save_path + "Discriminator-best.pth")
 
-    save_path = 'snapshots/{}/'.format(opt.train_save)
+    save_path = "snapshots/{}/".format(opt.train_save)
     os.makedirs(save_path, exist_ok=True)
     if (epoch + 1) % 5 == 0:
-        torch.save(models['Discriminator'].state_dict(), save_path + 'Discriminator-%d.pth' % epoch)
+        torch.save(
+            models["Discriminator"].state_dict(),
+            save_path + "Discriminator-%d.pth" % epoch,
+        )
 
-        print('[Saving Snapshot:]', save_path + 'Discriminator-%d.pth' % epoch)
+        print("[Saving Snapshot:]", save_path + "Discriminator-%d.pth" % epoch)
     print("train_loss: {0:.4f}, val_loss: {1:.4f}".format(train_loss, val_loss))
 
     return epoch, train_loss, val_loss, best_loss
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--epoch', type=int, default=100, help='epoch number')
-    parser.add_argument('--lr', type=float, default=1e-4, help='learning rate')
-    parser.add_argument('--batchsize', type=int, default=4, help='training batch size')
-    parser.add_argument('--trainsize', type=int, default=352, help='training dataset size')
+    parser.add_argument("--epoch", type=int, default=100, help="epoch number")
+    parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
+    parser.add_argument("--batchsize", type=int, default=4, help="training batch size")
+    parser.add_argument(
+        "--trainsize", type=int, default=352, help="training dataset size"
+    )
     # parser.add_argument('--trainsize', type=int, default=384, help='training dataset size')
-    parser.add_argument('--clip', type=float, default=0.5, help='gradient clipping margin')
-    parser.add_argument('--grad_norm', type=float, default=2.0, help='gradient clipping norm')
-    parser.add_argument('--decay_rate', type=float, default=0.1, help='decay rate of learning rate')
-    parser.add_argument('--decay_epoch', type=int, default=50, help='every n epochs decay learning rate')
-    parser.add_argument('--train_path', type=str, default='./dataset/TrainDataset', help='path to train dataset')
-    parser.add_argument('--val_path', type=str, default='./dataset/ValDataset', help='path to val dataset')
+    parser.add_argument(
+        "--clip", type=float, default=0.5, help="gradient clipping margin"
+    )
+    parser.add_argument(
+        "--grad_norm", type=float, default=2.0, help="gradient clipping norm"
+    )
+    parser.add_argument(
+        "--decay_rate", type=float, default=0.1, help="decay rate of learning rate"
+    )
+    parser.add_argument(
+        "--decay_epoch", type=int, default=50, help="every n epochs decay learning rate"
+    )
+    parser.add_argument(
+        "--train_path",
+        type=str,
+        default="./dataset/TrainDataset",
+        help="path to train dataset",
+    )
+    parser.add_argument(
+        "--val_path",
+        type=str,
+        default="./dataset/ValDataset",
+        help="path to val dataset",
+    )
     # parser.add_argument('--train_path', type=str, default='./dataset/sekkai_TrainDataset', help='path to train dataset')
     # parser.add_argument('--val_path', type=str, default='./dataset/sekkai_ValDataset', help='path to val dataset')
-    parser.add_argument('--train_save', type=str, default='Transfuse_S')
-    parser.add_argument('--beta1', type=float, default=0.5, help='beta1 of adam optimizer')
-    parser.add_argument('--beta2', type=float, default=0.999, help='beta2 of adam optimizer')
+    parser.add_argument("--train_save", type=str, default="Transfuse_S")
+    parser.add_argument(
+        "--beta1", type=float, default=0.5, help="beta1 of adam optimizer"
+    )
+    parser.add_argument(
+        "--beta2", type=float, default=0.999, help="beta2 of adam optimizer"
+    )
 
-    parser.add_argument('--tuning_calcification', type=bool, default=True)
+    parser.add_argument("--tuning_calcification", type=bool, default=True)
 
-    parser.add_argument('--segmentation_grad', type=bool, default=False)
-
+    parser.add_argument("--segmentation_grad", type=bool, default=False)
 
     opt = parser.parse_args()
 
@@ -159,9 +204,17 @@ if __name__ == '__main__':
 
     model1 = TransFuse_L()
     if opt.tuning_calcification:
-        model1.load_state_dict(torch.load('./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth'))
+        model1.load_state_dict(
+            torch.load(
+                "./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化ありのみ/Transfuse-best.pth"
+            )
+        )
     else:
-        model1.load_state_dict(torch.load('./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化なし含む/Transfuse-best.pth'))
+        model1.load_state_dict(
+            torch.load(
+                "./weights/修論/segmentation/TransFuse-L+MAE/vit-l_352/石灰化なし含む/Transfuse-best.pth"
+            )
+        )
 
     #########################################################################
     if opt.segmentation_grad == False:
@@ -175,11 +228,9 @@ if __name__ == '__main__':
 
     model2 = model2.cuda()
 
-    models = {'Segmentation': model1,
-              'Discriminator': model2}
+    models = {"Segmentation": model1, "Discriminator": model2}
 
     params = [p for v in models.values() for p in list(v.parameters())]
-
 
     # no=1
     # for n, p in model1.named_parameters():
@@ -198,16 +249,24 @@ if __name__ == '__main__':
     # criterion = nn.BCEWithLogitsLoss(reduction='mean')
     criterion = SmoothCrossEntropy()
 
-    image_root = '{}/images/'.format(opt.train_path)
-    gt_root = '{}/masks/'.format(opt.train_path)
+    image_root = "{}/images/".format(opt.train_path)
+    gt_root = "{}/masks/".format(opt.train_path)
 
-    image_root_val = '{}/images/'.format(opt.val_path)
-    gt_root_val = '{}/masks/'.format(opt.val_path)
+    image_root_val = "{}/images/".format(opt.val_path)
+    gt_root_val = "{}/masks/".format(opt.val_path)
 
-    train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize)
+    train_loader = get_loader(
+        image_root, gt_root, batchsize=opt.batchsize, trainsize=opt.trainsize
+    )
     total_step = len(train_loader)
 
-    val_loader = get_loader(image_root_val, gt_root_val, batchsize=opt.batchsize, trainsize=opt.trainsize, phase='val')
+    val_loader = get_loader(
+        image_root_val,
+        gt_root_val,
+        batchsize=opt.batchsize,
+        trainsize=opt.trainsize,
+        phase="val",
+    )
 
     dataloaders_dict = {"train": train_loader, "val": val_loader}
 
@@ -219,21 +278,24 @@ if __name__ == '__main__':
     best_loss = 100000
 
     for epoch in range(1, opt.epoch):
-        adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)  ###################################
-        epoch, train_loss, val_loss, best_loss = train(dataloaders_dict, models, optimizer, criterion, epoch, best_loss)
+        adjust_lr(
+            optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch
+        )  ###################################
+        epoch, train_loss, val_loss, best_loss = train(
+            dataloaders_dict, models, optimizer, criterion, epoch, best_loss
+        )
         epoch_list.append(epoch)
         train_loss = train_loss.cpu().data.numpy()
         train_loss_list.append(train_loss)
         val_loss = val_loss.cpu().data.numpy()
         val_loss_list.append(val_loss)
 
-
     fig = plt.figure()
-    plt.plot(epoch_list, train_loss_list, label='train_loss')
-    plt.plot(epoch_list, val_loss_list, label='val_loss', linestyle="--")
-    plt.xlabel('epochs')
-    plt.ylabel('loss')
+    plt.plot(epoch_list, train_loss_list, label="train_loss")
+    plt.plot(epoch_list, val_loss_list, label="val_loss", linestyle="--")
+    plt.xlabel("epochs")
+    plt.ylabel("loss")
     plt.xlim(left=0)
-    plt.legend(loc='upper right')
+    plt.legend(loc="upper right")
 
     fig.savefig("fig/loss.png")

@@ -1,17 +1,16 @@
-import os
-import glob
 import argparse
+import glob
+import os
 from pathlib import Path
 
-import torch
 import imageio
 import numpy as np
+import torch
 import torch.nn.functional as F
-from skimage import img_as_ubyte
-
-from utils.dataloader import test_dataset
 # from lib.TransFuse_l import AttnTransFuse_L
 from lib.TransFuse_l import TransFuse_L
+from skimage import img_as_ubyte
+from utils.dataloader import test_dataset
 
 
 def mean_iou_np(y_true, y_pred, **kwargs):
@@ -43,7 +42,9 @@ def mean_dice_np(y_true, y_pred, **kwargs):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--testsize", type=int, default=352, help="testing size")
-parser.add_argument('--pth_path', type=str, default='./snapshots/polyp491_10/TransFuse-best.pth')
+parser.add_argument(
+    "--pth_path", type=str, default="./snapshots/polyp491_10/TransFuse-best.pth"
+)
 parser.add_argument("--normalization", type=bool, default=False)
 
 opt = parser.parse_args()
@@ -67,12 +68,12 @@ gt_root = Path(f"{data_path}/masks/")
 attn_map_root_1 = Path(f"{data_path}/attention_1/")
 attn_map_root_2 = Path(f"{data_path}/attention_2/")
 test_loader = test_dataset(
-        image_root=image_root, 
-        gt_root=gt_root, 
-        testsize=opt.testsize,
-        attn_map_root_1=attn_map_root_1,
-        attn_map_root_2=attn_map_root_2
-    )
+    image_root=image_root,
+    gt_root=gt_root,
+    testsize=opt.testsize,
+    attn_map_root_1=attn_map_root_1,
+    attn_map_root_2=attn_map_root_2,
+)
 
 dice_bank = []
 iou_bank = []
